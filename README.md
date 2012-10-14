@@ -3,25 +3,10 @@ Ubiety XMPP Library
 
 Ubiety is an extensible XMPP library written in C# to be easy and powerful.
 
-Example
--------
+Fork Notes
+===================
 
-```c#
-using ubiety;
-using ubiety.common;
+* Changed to work with Windows 8 
+* Changed it to a more event driven model 
 
-public class Test {
-    public static void Main() {
-        UbietySettings.ID = new JID("test@ubiety.ca");
-        UbietySettings.Password = "test";
 
-        XMPP ubiety = new XMPP();
-        ubiety.Connect();
-    }
-}
-```
-
-Support
--------
-
-* Mailing List: <xmppnet-devel@googlegroups.com>
