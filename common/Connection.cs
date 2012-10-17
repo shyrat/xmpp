@@ -214,11 +214,11 @@ namespace XMPP.common
                     }
                     catch
                     {
-                        if (_socketWriter.Status == AsyncStatus.Started)
-                        {
-                            ConnectionError(ErrorType.WriteStateMismatch, ErrorPolicyType.Reconnect);
-                            return;
-                        }
+                        //if (_socketWriter.Status == AsyncStatus.Started)
+                        //{
+                        //    ConnectionError(ErrorType.WriteStateMismatch, ErrorPolicyType.Reconnect);
+                        //    return;
+                        //}
                     }
                 }
 
