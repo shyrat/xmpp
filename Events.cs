@@ -72,6 +72,7 @@ namespace XMPP
         UnregisterControlChannel,                  // Reconnect
         WaitForPushEnabled,                        // Reconnect
         BackgroundTaskCreate,                      // Reconnect
+        InvalidSettings,                           // Deactivate
         InvalidJID,                                // Deactivate
         InvalidHostname,                           // Deactivate
         InvalidConnectionId,                       // Deactivate

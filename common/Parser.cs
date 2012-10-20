@@ -47,7 +47,7 @@ namespace XMPP.common
                 fragment = Dequeue();
 
                 if (string.IsNullOrEmpty(fragment))
-                    return;
+                    continue;
 
                 if (fragment == "</stream:stream>") // Disconnect
                 {

@@ -87,7 +87,7 @@ namespace XMPP.common
 
         private readonly Manager _manager;
 
-        private const int               _bufferSize = 4 * 1024;
+        private const int               _bufferSize = 64*1024; // This is the maximal TCP packet size
 		private HostName                _hostname = null;
 		private readonly UTF8Encoding   _encoding = new UTF8Encoding();
 		private ICompression            _compression = null;
