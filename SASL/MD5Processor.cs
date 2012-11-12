@@ -60,7 +60,9 @@ namespace XMPP.SASL
 			{
 				var succ = tag;
 				PopulateDirectives(succ);
+#if DEBUG
 				Manager.Events.LogMessage(this, LogType.Debug, "rspauth = {0}", this["rspauth"]);
+#endif
 
 
 				return succ;
@@ -70,7 +72,9 @@ namespace XMPP.SASL
 				return tag;
 
 			var chall = tag;
+#if DEBUG
 			Manager.Events.LogMessage(this, LogType.Debug, _enc.GetString(tag.Bytes, 0, tag.Bytes.Length));
+#endif
 			PopulateDirectives(chall);
             Tag res = new tags.xmpp_sasl.response() as Tag;
 			if (this["rspauth"] == null)
@@ -126,7 +130,9 @@ namespace XMPP.SASL
             sb.Append("charset=");
             sb.Append(this["charset"]);
             var temp = sb.ToString();
+#if DEBUG
             Manager.Events.LogMessage(this, LogType.Debug, temp);
+#endif
             return _enc.GetBytes(temp);
 		}
 

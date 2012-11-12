@@ -51,7 +51,9 @@ namespace XMPP.common
 
                 if (fragment == "</stream:stream>") // Disconnect
                 {
+#if DEBUG
                     _manager.Events.LogMessage(this, LogType.Info, "End of stream received from server");
+#endif
                     return;
                 }
 

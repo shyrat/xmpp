@@ -153,13 +153,17 @@ namespace XMPP.common
         {
             if (IsConnected)
             {
+#if DEBUG
                 _manager.Events.LogMessage(this, LogType.Warn, "Already connected");
+#endif
                 return;
             }
 
             if (_socketConnector != null && _socketConnector.Status == AsyncStatus.Started)
             {
+#if DEBUG
                 _manager.Events.LogMessage(this, LogType.Warn, "Already connecting");
+#endif
                 return;
             }
 
@@ -176,9 +180,15 @@ namespace XMPP.common
         private void SocketDisconnect()
         {
             if (IsConnected)
+            {
                 SocketSend("</stream:stream>", true);
+            }
+#if DEBUG
             else
+            {
                 _manager.Events.LogMessage(this, LogType.Warn, "Already disconnected");
+            }
+#endif
 
             CleanupState();
 
@@ -374,7 +384,9 @@ namespace XMPP.common
                     string data = _encoding.GetString(readBytes, 0, readBytes.Length);
 
                     // Add to parser
+#if DEBUG
                     _manager.Events.LogMessage(this, LogType.Debug, "Incoming data: {0}", data);
+#endif
 
                     _manager.Parser.Parse(data);
                 }
@@ -394,7 +406,9 @@ namespace XMPP.common
         {
             if (asyncStatus == AsyncStatus.Completed)
             {
+#if DEBUG
                 _manager.Events.LogMessage(this, LogType.Debug, "Outgoing Message: {0}", _socketWriteMessage);
+#endif
                 _socketWriteMessage = "";
             }
             else if (asyncStatus == AsyncStatus.Error)

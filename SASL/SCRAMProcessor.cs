@@ -47,18 +47,24 @@ namespace XMPP.SASL
 		public override Tag Initialize()
 		{
 			base.Initialize();
+#if DEBUG
 			Manager.Events.LogMessage(this, LogType.Debug, "Initializing SCRAM Processor");
-
 			Manager.Events.LogMessage(this, LogType.Debug, "Generating nonce");
+#endif
 			_nonce = NextInt64().ToString();
+#if DEBUG
 			Manager.Events.LogMessage(this, LogType.Debug, "Nonce: {0}", _nonce);
 			Manager.Events.LogMessage(this, LogType.Debug, "Building Initial Message");
+#endif
 			var msg = new StringBuilder();
 			msg.Append("n,,n=");
 			msg.Append(Id.User);
 			msg.Append(",r=");
 			msg.Append(_nonce);
+
+#if DEBUG
 			Manager.Events.LogMessage(this, LogType.Debug, "Message: {0}", msg.ToString());
+#endif
 
 			_clientFirst = msg.ToString().Substring(3);
 
@@ -77,7 +83,9 @@ namespace XMPP.SASL
 						_serverFirst = tag.Bytes;
 						var response = _utf.GetString(tag.Bytes, 0, tag.Bytes.Length );
 
+#if DEBUG
 						Manager.Events.LogMessage(this, LogType.Debug, "Challenge: {0}", response);
+#endif
 
 						// Split challenge into pieces
 						var tokens = response.Split(',');
@@ -87,17 +95,24 @@ namespace XMPP.SASL
 						var r = _snonce.Substring(0, _nonce.Length);
 						if (0 != String.Compare(r, _nonce))
 						{
+#if DEBUG
 							Manager.Events.LogMessage(this, LogType.Debug, "{0} does not match {1}", r, _nonce);
+#endif
 						}
 
+#if DEBUG
 						Manager.Events.LogMessage(this, LogType.Debug, "Getting Salt");
+#endif
 						var a = tokens[1].Substring(2);
 						_salt = Convert.FromBase64String(a);
-
+#if DEBUG
 						Manager.Events.LogMessage(this, LogType.Debug, "Getting Iterations");
+#endif
 						var i = tokens[2].Substring(2);
 						_i = int.Parse(i);
+#if DEBUG
 						Manager.Events.LogMessage(this, LogType.Debug, "Iterations: {0}", _i);
+#endif
 
 						var final = new StringBuilder();
 						final.Append("c=biws,r=");
@@ -110,7 +125,9 @@ namespace XMPP.SASL
 						final.Append(",p=");
 						final.Append(_clientProof);
 
+#if DEBUG
 						Manager.Events.LogMessage(this, LogType.Debug, "Final Message: {0}", final.ToString());
+#endif
 
                         Tag resp = new tags.xmpp_sasl.response() as Tag;
 						resp.Bytes = _utf.GetBytes(final.ToString());

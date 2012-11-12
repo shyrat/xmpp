@@ -110,7 +110,9 @@ namespace XMPP.common
                 Events.Error(this, ErrorType.MissingHost, ErrorPolicyType.Deactivate);
             else
             {
+#if DEBUG
                 Events.LogMessage(this, LogType.Info, "Connecting to {0}", Connection.Hostname);
+#endif
 
                 // Set the current state to connecting and start the process.
                 State = new ConnectingState(this);
@@ -134,7 +136,9 @@ namespace XMPP.common
 
         private void OnError(object sender, ErrorEventArgs e)
         {
-            Events.LogMessage(this, LogType.Error, "Error from {0}: {1}", sender.GetType().ToString(), e.message);
+#if DEBUG
+            Events.LogMessage(this, LogType.Error, "Error from {0}: {1}", sender.GetType().ToString(), e.type.ToString());
+#endif
 
             if( e.policy != ErrorPolicyType.Informative )
                 Events.Disconnect(this);

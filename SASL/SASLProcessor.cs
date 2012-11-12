@@ -44,7 +44,9 @@ namespace XMPP.SASL
 
 		public virtual Tag Initialize()
 		{
+#if DEBUG
 			Manager.Events.LogMessage(this, LogType.Debug, "Initializing Base Processor");
+#endif
 
             Id = Manager.Settings.Id;
             Password = Manager.Settings.Password;

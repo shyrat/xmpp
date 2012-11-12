@@ -67,7 +67,9 @@ namespace XMPP.states
                         Manager.Settings.Id = jid.JID;
                 }
 
+#if DEBUG
                 Manager.Events.LogMessage(this, LogType.Info, "Bind success, JID is now: {0}", Manager.Settings.Id);
+#endif
                 Manager.Events.Receive(this, data); 
                 Manager.Events.ResourceBound(this, Manager.Settings.Id.ToString());
 

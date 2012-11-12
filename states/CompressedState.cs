@@ -30,7 +30,9 @@ namespace XMPP.states
 			if (data != null && data.Name.LocalName != "compressed") 
                 return;
 
+#if DEBUG
             Manager.Events.LogMessage(this, LogType.Debug, "Starting compression of the socket");
+#endif
 			Manager.Connection.EnableCompression(Manager.CompressionAlgorithm);
 			Manager.IsCompressed = true;
 			Manager.State = new ConnectedState(Manager);

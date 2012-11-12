@@ -29,13 +29,17 @@ namespace XMPP.states
 
 		public override void Execute(Tag data = null)
 		{
+#if DEBUG
             Manager.Events.LogMessage(this, LogType.Debug, "Processing next SASL step");
+#endif
 			var res = Manager.SASLProcessor.Step(data);
 			switch (res.Name.LocalName)
 			{
                 case "success":
                     {
+#if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Success, sending start stream again");
+#endif
                         Manager.IsAuthenticated = true;
                         Manager.State = new ConnectedState(Manager);
                         Manager.State.Execute();

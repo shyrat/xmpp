@@ -82,30 +82,41 @@ namespace XMPP.states
 
 				if (!Manager.IsAuthenticated)
 				{
+#if DEBUG
                     Manager.Events.LogMessage(this, LogType.Debug, "Creating SASL Processor");
-
+#endif
                     if ((features.mechanisms.Types & MechanismType.XOAUTH2 & Manager.Settings.AuthenticationTypes) == MechanismType.XOAUTH2)
                     {
+#if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Creating XOAUTH2 processor");
+#endif
                         Manager.SASLProcessor = new XOAUTH2Processor(Manager);
                     }
                     else if ((features.mechanisms.Types & MechanismType.SCRAM & Manager.Settings.AuthenticationTypes) == MechanismType.SCRAM)
                     {
+#if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Creating SCRAM-SHA-1 Processor");
+#endif
                         Manager.SASLProcessor = new SCRAMProcessor(Manager);
                     }
                     else if ((features.mechanisms.Types & MechanismType.DigestMD5 & Manager.Settings.AuthenticationTypes) == MechanismType.DigestMD5)
                     {
+#if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Creating DIGEST-MD5 Processor");
+#endif
                         Manager.SASLProcessor = new MD5Processor(Manager);
                     }
                     else if ((features.mechanisms.Types & MechanismType.External & Manager.Settings.AuthenticationTypes) == MechanismType.External)
                     {
+#if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "External Not Supported");
+#endif
                     }
                     else if ((features.mechanisms.Types & MechanismType.Plain & Manager.Settings.AuthenticationTypes) == MechanismType.Plain)
                     {
+#if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Creating PLAIN SASL processor");
+#endif
                         Manager.SASLProcessor = new PlainProcessor(Manager);
                     }
                     else 
@@ -124,8 +135,9 @@ namespace XMPP.states
                         Manager.Events.Error(this, ErrorType.NoSupportedAuthenticationMethod, ErrorPolicyType.Deactivate, supported);
 						return;
 					}
-
+#if DEBUG
                     Manager.Events.LogMessage(this, LogType.Debug, "Sending auth with mechanism type");
+#endif
 					Manager.Connection.Send(Manager.SASLProcessor.Initialize());
 
 					Manager.State = new SASLState(Manager);
@@ -135,12 +147,16 @@ namespace XMPP.states
 				// Takes place after authentication according to XEP-0170
                 if (!Manager.IsCompressed && Static.CompressionRegistry.AlgorithmsAvailable && !Manager.Settings.SSL && features.compression != null)
 				{
+#if DEBUG
                     Manager.Events.LogMessage(this, LogType.Info, "Starting compression");
+#endif
 					// Do we have a stream for any of the compressions supported by the server?
 					foreach (var algorithm in
                         features.compression.methods.Where(Static.CompressionRegistry.SupportsAlgorithm))
 					{
+#if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Using {0} for compression", algorithm);
+#endif
                         var c = new tags.jabber.protocol.compress.compress();
                         var m = new tags.jabber.protocol.compress.method();
 
@@ -151,8 +167,9 @@ namespace XMPP.states
 						return;
 					}
 				}
-
+#if DEBUG
                 Manager.Events.LogMessage(this, LogType.Debug, "Authenticated");
+#endif
                 Manager.State = new BindingState(Manager);
                 Manager.State.Execute();
 			}

@@ -30,16 +30,22 @@ namespace XMPP.SASL
 
         public override Tag Step(Tag tag)
 		{
-            if (tag.Name.LocalName== "success")
+            if (tag.Name.LocalName == "success")
+            {
+#if DEBUG
                 Manager.Events.LogMessage(this, LogType.Debug, "Plan login successful");
+#endif
+            }
 
             return tag;
 		}
 
 		public override Tag Initialize()
 		{
+#if DEBUG
 			Manager.Events.LogMessage(this, LogType.Debug, "Initializing XOAUTH2 Processor");
 			Manager.Events.LogMessage(this, LogType.Debug, "ID User: {0}", Manager.Settings.Id);
+#endif
 
             string token = "";
 
