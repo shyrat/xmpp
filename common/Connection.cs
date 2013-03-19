@@ -169,7 +169,16 @@ namespace XMPP.common
 
             CleanupState();
 
-            _hostname = new HostName(_manager.Settings.Hostname);
+            try
+            {
+                _hostname = new HostName(_manager.Settings.Hostname);
+            }
+            catch
+            {
+                ConnectionError(ErrorType.InvalidHostName, ErrorPolicyType.Deactivate);
+                return;
+            }
+
             _manager.Socket.Control.KeepAlive = false;
 
             var protection = _manager.Settings.OldSSL ? SocketProtectionLevel.SslAllowNullEncryption : SocketProtectionLevel.PlainSocket;

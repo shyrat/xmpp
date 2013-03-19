@@ -44,6 +44,7 @@ namespace XMPP
 
         public StreamSocket Socket { get { return Manager.Socket; } set { Manager.Socket = value; } }
         public ManualResetEvent ProcessComplete { get { return Manager.ProcessComplete; } }
+
         #endregion
 
         #region events
@@ -60,15 +61,14 @@ namespace XMPP
 
         public event Events.ExternalReceive OnReceive { add { Manager.Events.OnReceive += value; } remove { Manager.Events.OnReceive -= value; } }
 
-
         #endregion
 
         #region actions
 
-        public void Connect(object sender, EventArgs e = default(EventArgs)) { Manager.Events.Connect(sender, e); }
-        public void Disconnect(object sender, EventArgs e = default(EventArgs)) { Manager.Events.Disconnect(sender, e); }
-        public void Send(object sender, Tag tag) { Send(sender, new TagEventArgs(tag)); }
-        public void Send(object sender, TagEventArgs e) { Manager.Events.Send(sender, e); }
+        public void Connect() { Manager.Events.Connect(null, default(EventArgs)); }
+        public void Disconnect()  { Manager.Events.Disconnect(null, default(EventArgs)); }
+        public void Send(Tag tag) { Send(new TagEventArgs(tag)); }
+        public void Send(TagEventArgs e) { Manager.Events.Send(null, e); }
 
         #endregion
 

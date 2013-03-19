@@ -55,6 +55,7 @@ namespace XMPP
         OAUTH2AuthError,                           // Deactivate
         SCRAMAuthError,                            // Deactivate
         PLAINAuthError,                            // Deactivate
+        InvalidHostName,                           // Deactivate
         WriteStateMismatch,                        // Reconnect
         ConnectToServerFailed,                     // Reconnect
         ServerDisconnected,                        // Reconnect
