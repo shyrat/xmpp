@@ -64,12 +64,12 @@ For basic usage you only need to create an instance of the Client interface
 
 	XMPP.Client Client = new XMPP.Client();
 
-	Client.Settings.Hostname = "Servername";
+	Client.Settings.Hostname = "example.com";
 	Client.Settings.SSL = false;
 	Client.Settings.OldSSL = false;
 	Client.Settings.Port = 5222;
-	Client.Settings.Id = "testuser@lvl3.org";
-	Client.Settings.Password = "333333";
+	Client.Settings.Id = "user@example.com";
+	Client.Settings.Password = "userpassword";
 	
 	Client.Connect();
 
