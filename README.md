@@ -39,7 +39,7 @@ For basic usage you only need to create an instance of the Client interface
 	Socket				// You can overwrite the internally created socket with your own
 	ProcessComplete		// ManualResetEvent to wait for the client to process all received data
 
-### Actions ### 
+### Actions ###
 
 	Connect()			// Connect with the already supplied settings
 	Disconnect()		// Disconnect
