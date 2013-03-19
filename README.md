@@ -19,17 +19,17 @@ For basic usage you only need to create an instance of the Client interface
 
 ### Events ###
 
-  OnError				// An error occured 
-  OnLogMessage			// Debugging output ( most messages only work in debug configuration)
-
-  OnDisconnected		// The client is disconnected
-  OnConnected			// The client is connected
-
-  OnResourceBound		// The client received a resource ID from the server
-  OnReady				// The client is now logged in and ready 
-  
-  OnReceive				// The client received a tag with user relevant data
-  OnNewTag				// The client received a tag ( connection relevant and user relevant )
+	OnError				// An error occured 
+	OnLogMessage			// Debugging output ( most messages only work in debug configuration)
+	
+	OnDisconnected		// The client is disconnected
+	OnConnected			// The client is connected
+	
+	OnResourceBound		// The client received a resource ID from the server
+	OnReady				// The client is now logged in and ready 
+	
+	OnReceive				// The client received a tag with user relevant data
+	OnNewTag				// The client received a tag ( connection relevant and user relevant )
   
 ### Properties ###
 
