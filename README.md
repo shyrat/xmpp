@@ -20,7 +20,7 @@ For basic usage you only need to create an instance of the Client interface
 ### Events ###
 
 	OnError				// An error occured 
-	OnLogMessage			// Debugging output ( most messages only work in debug configuration)
+	OnLogMessage		// Debugging output ( most messages only work in debug configuration)
 	
 	OnDisconnected		// The client is disconnected
 	OnConnected			// The client is connected
@@ -28,8 +28,8 @@ For basic usage you only need to create an instance of the Client interface
 	OnResourceBound		// The client received a resource ID from the server
 	OnReady				// The client is now logged in and ready 
 	
-	OnReceive				// The client received a tag with user relevant data
-	OnNewTag				// The client received a tag ( connection relevant and user relevant )
+	OnReceive			// The client received a tag with user relevant data
+	OnNewTag			// The client received a tag ( connection relevant and user relevant )
   
 ### Properties ###
 
@@ -41,10 +41,9 @@ For basic usage you only need to create an instance of the Client interface
 
 ### Actions ### 
 
-   Connect()			// Connect with the already supplied settings
-   Disconnect()			// Disconnect
-   Send(Tag tag)		// Send a tag
-   Send(TagEventArgs e)	// Send a tag as args object
+	Connect()			// Connect with the already supplied settings
+	Disconnect()		// Disconnect
+	Send(Tag tag)		// Send a tag
 
 ## Settings ##
 
