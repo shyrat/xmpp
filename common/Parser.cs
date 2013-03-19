@@ -59,6 +59,9 @@ namespace XMPP.common
 
                 Tag newElement = Tag.Get(fragment);
 
+                if (newElement == null)
+                    newElement = Tag.Get(fragment);
+
                 if (newElement != null)
                 {
                     newElement.Timestamp = DateTime.Now;
@@ -67,7 +70,10 @@ namespace XMPP.common
                 }
                 else
                 {
-                    _manager.Events.Error(this, ErrorType.InvalidXMLFragment, ErrorPolicyType.Informative, "Parsing a fragment failed");
+                    if( _manager.State.GetType() == typeof(states.RunningState) )
+                        _manager.Events.Error(this, ErrorType.InvalidXMLFragment, ErrorPolicyType.Informative, "Parsing a fragment failed");
+                    else
+                        _manager.Events.Error(this, ErrorType.InvalidXMLFragment, ErrorPolicyType.Reconnect, "Parsing a fragment failed in a critical situation");
                 }
             }
             while (!string.IsNullOrEmpty(fragment));

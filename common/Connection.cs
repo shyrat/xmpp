@@ -210,7 +210,7 @@ namespace XMPP.common
 
             if (synchronized) // Wait for completion
             {
-                _elevateMutex.WaitOne();
+                _elevateMutex.WaitOne(10000);
                 _manager.Socket.OutputStream.WriteAsync(sendBuffer).AsTask().Wait(10000);
             }
             else // wait for last task and start new one
@@ -232,7 +232,7 @@ namespace XMPP.common
                     }
                 }
 
-                _elevateMutex.WaitOne();
+                _elevateMutex.WaitOne(10000);
 
                 if (IsConnected)
                 {
@@ -244,11 +244,19 @@ namespace XMPP.common
 
         private void SocketRead()
 		{
-            if (!IsConnected) return;
-            _elevateMutex.WaitOne();
+            try
+            {
 
-            _socketReader = _manager.Socket.InputStream.ReadAsync(_socketReadBuffer, _bufferSize, InputStreamOptions.Partial);
-            _socketReader.Completed = OnSocketReaderCompleted;
+                if (!IsConnected) return;
+                _elevateMutex.WaitOne(10000);
+
+                _socketReader = _manager.Socket.InputStream.ReadAsync(_socketReadBuffer, _bufferSize, InputStreamOptions.Partial);
+                _socketReader.Completed = OnSocketReaderCompleted;
+            }
+            catch
+            {
+                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect);
+            }
 		}
 
         private void SocketElevate()
@@ -288,6 +296,8 @@ namespace XMPP.common
             _manager.ProcessComplete.Set();
 
             _elevateMutex.Set();
+
+            _manager.Parser.Clear();
 
             if (_socketConnector != null) _socketConnector.Cancel();
             if (_socketElevator != null) _socketElevator.Cancel();

@@ -27,6 +27,7 @@ namespace XMPP.states
 
 		public override void Execute(Tag data = null)
 		{
+            Manager.Parser.Clear();
 			Manager.Connection.Connect();
 		}
 	}

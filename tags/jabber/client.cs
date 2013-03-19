@@ -99,8 +99,6 @@ namespace XMPP.tags.jabber.client
 		public string parent { get { return (string)GetAttributeValue("parent"); } set { SetAttributeValue("parent", value); } }
     }
 
-
-    [XMPPTag(typeof(tags.vcard_temp.Namespace), typeof(presence))] // I know this is bad but it happens :(
     [XMPPTag(typeof(Namespace), typeof(presence))]
     public class presence : Tag
     {

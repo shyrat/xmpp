@@ -115,7 +115,24 @@ namespace XMPP.registries
             try
             {
                 Type type;
-                if (RegisteredItems.TryGetValue(ele.Name, out type))
+
+                bool gotType = RegisteredItems.TryGetValue(ele.Name, out type);
+
+                if (!gotType)
+                {
+                    if (
+                        ele.Name.LocalName == "iq" ||
+                        ele.Name.LocalName == "presence" ||
+                        ele.Name.LocalName == "message" ||
+                        ele.Name.LocalName == "error"
+                    )
+                    {
+                        ele.Name = XName.Get(ele.Name.LocalName, "jabber:client");
+                        gotType = RegisteredItems.TryGetValue(ele.Name, out type);
+                    }
+                }
+
+                if (gotType)
                 {
                     ConstructorInfo ctorName = GetConstructor(type, new Type[] { ele.GetType() });
                     if (ctorName != null)

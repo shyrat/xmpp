@@ -26,7 +26,6 @@ namespace XMPP.tags.vcard_temp
         public static string Name = "vcard-temp";
         public static XName iq = XName.Get("iq", Name);
         public static XName vCard = XName.Get("vCard", Name);
-        public static XName presence = XName.Get("presence", Name);
     }
 
 
