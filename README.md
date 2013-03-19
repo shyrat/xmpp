@@ -59,7 +59,9 @@ For basic usage you only need to create an instance of the Client interface
 	UseKeepAlive		// Enable keepalives ( not tested )
 	KeepAliveTime		// Keepalive interval
 
-## Example ##
+## Examples ##
+
+### Connecting ###
 
 	XMPP.Client Client = new XMPP.Client();
 
@@ -72,4 +74,56 @@ For basic usage you only need to create an instance of the Client interface
 	
 	Client.Connect();
 
+### Sending a message ###
 
+	var message = new XMPP.tags.jabber.client.message();
+	message.to = "user2@example.com";
+	message.from = "user@example.com";
+	message.type = XMPP.tags.jabber.client.message.typeEnum.chat;
+
+	var body = new XMPP.tags.jabber.client.body();
+	body.Value = "Hi!";
+	message.Add(body);
+
+	Client.Send(message);
+
+### Receiving tags ###
+
+#### Manual ####
+
+	// OnReceive handler
+	private void OnReceive(object sender, TagEventArgs e)
+	{
+		if( e.tag is XMPP.tags.jabber.client.message )
+		{
+			// Further processing
+			ProcessMessage(e.tag as XMPP.tags.jabber.client.message);
+		}
+	}
+
+#### Using TagHandler ####
+
+	// Definition of TagHandler ( bool defines return type of Process functions ).
+	// When Process is called from outside, TagHandler  automatically 
+	// calls the Process function with the matching tag type ( if available).
+	public class Interpreter : XMPP.tags.TagHandler<bool>
+	{
+		private bool Process(XMPP.tags.jabber.client.message message)
+		{
+			return ProcessMessage(message); // Further processing
+		}
+
+		private bool Process(XMPP.tags.jabber.client.presence presence)
+		{
+			return ProcessPresence(presence); // Further processing
+		}	
+	}
+        	
+	// Interpreter creation 
+	Interpreter myInterpreter = new Interpreter();
+
+	// OnReceive handler
+	private void OnReceive(object sender, TagEventArgs e)
+	{
+		myInterpreter.Process(e.tag);
+	}
