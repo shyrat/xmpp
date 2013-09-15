@@ -96,6 +96,13 @@ namespace XMPP.common
                 _streamStarted = true;
             }
 
+            if (_dataQueue.Length == 0 && !data.StartsWith("<"))
+            {
+                _manager.Events.Error(this, ErrorType.InvalidXMLFragment, ErrorPolicyType.Reconnect, "Parsing a fragment failed in a critical situation");
+                //data = "<" + data;
+                return;
+            }
+
             // Add opened stream
             if (_streamStarted)
                 _dataQueue += data;
