@@ -65,7 +65,7 @@ namespace XMPP.common
                 if (newElement != null)
                 {
                     newElement.Timestamp = DateTime.Now;
-                    newElement.Account = _manager.Settings.Id.Bare;
+                    newElement.Account = _manager.Settings.Account;
                     _manager.Events.NewTag(this, newElement);
                 }
                 else
@@ -90,6 +90,7 @@ namespace XMPP.common
             // Stream gets opened
             if (data.Contains("<stream:stream"))
             {
+                _dataQueue = string.Empty;
                 data = data.Substring(data.IndexOf("<stream:stream"));
                 int posStreamTagEnd = FirstOfUnEscaped(data, '>');
                 data = data.Insert(posStreamTagEnd + 1, "</stream:stream>");
@@ -99,7 +100,6 @@ namespace XMPP.common
             if (_dataQueue.Length == 0 && !data.StartsWith("<"))
             {
                 _manager.Events.Error(this, ErrorType.InvalidXMLFragment, ErrorPolicyType.Reconnect, "Parsing a fragment failed in a critical situation");
-                //data = "<" + data;
                 return;
             }
 

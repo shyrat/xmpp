@@ -37,6 +37,7 @@ namespace XMPP.common
 {
 	public class Settings
     {
+        public string Account;
         public JID Id;
         public string Password;
         public string Hostname;

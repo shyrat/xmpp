@@ -384,7 +384,7 @@ namespace XMPP.common
                 dataReader.DetachBuffer();
 
                 // Check if it is a keepalive
-                if (readBytes.Length != 1 && readBytes[0] != 0)
+                if (!(readBytes.Length == 1 && readBytes[0] == 0))
                 {
                     // Trim
                     readBytes = readBytes.TrimNull();

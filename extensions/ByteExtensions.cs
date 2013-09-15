@@ -29,7 +29,12 @@ namespace XMPP.extensions
 				return r;
 			}
 
-			return null;
+            if (message[0] == 0x00)
+                return null;
+
+            var rsingle = new byte[1];
+            rsingle[0] = message[0];
+            return rsingle;
 		}
 
 		/// <summary>
