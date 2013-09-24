@@ -219,8 +219,8 @@ namespace XMPP.common
 
             if (synchronized) // Wait for completion
             {
-                _elevateMutex.WaitOne(10000);
-                _manager.Socket.OutputStream.WriteAsync(sendBuffer).AsTask().Wait(10000);
+                _elevateMutex.WaitOne(4000);
+                _manager.Socket.OutputStream.WriteAsync(sendBuffer).AsTask().Wait(4000);
             }
             else // wait for last task and start new one
             {
@@ -229,7 +229,7 @@ namespace XMPP.common
                 {
                     try
                     {
-                        _socketWriter.AsTask().Wait(10000);
+                        _socketWriter.AsTask().Wait(4000);
                     }
                     catch
                     {
@@ -241,7 +241,7 @@ namespace XMPP.common
                     }
                 }
 
-                _elevateMutex.WaitOne(10000);
+                _elevateMutex.WaitOne(4000);
 
                 if (IsConnected)
                 {
@@ -257,7 +257,7 @@ namespace XMPP.common
             {
 
                 if (!IsConnected) return;
-                _elevateMutex.WaitOne(10000);
+                _elevateMutex.WaitOne(4000);
 
                 _socketReader = _manager.Socket.InputStream.ReadAsync(_socketReadBuffer, _bufferSize, InputStreamOptions.Partial);
                 _socketReader.Completed = OnSocketReaderCompleted;
@@ -282,7 +282,7 @@ namespace XMPP.common
             {
                 try
                 {
-                    _socketWriter.AsTask().Wait(10000);
+                    _socketWriter.AsTask().Wait(4000);
                 }
                 catch
                 {
@@ -384,7 +384,7 @@ namespace XMPP.common
                 dataReader.DetachBuffer();
 
                 // Check if it is a keepalive
-                if (!(readBytes.Length == 1 && readBytes[0] == 0))
+                if ( !(readBytes.Length == 1 && (readBytes[0] == 0 || readBytes[0] == ' ') ) )
                 {
                     // Trim
                     readBytes = readBytes.TrimNull();
