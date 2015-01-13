@@ -138,9 +138,10 @@ namespace XMPP.states
 #if DEBUG
                     Manager.Events.LogMessage(this, LogType.Debug, "Sending auth with mechanism type");
 #endif
+                    Manager.State = new SASLState(Manager);
+
 					Manager.Connection.Send(Manager.SASLProcessor.Initialize());
 
-					Manager.State = new SASLState(Manager);
 					return;
 				}
 

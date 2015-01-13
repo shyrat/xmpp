@@ -41,8 +41,16 @@ namespace XMPP.states
                         Manager.Events.LogMessage(this, LogType.Debug, "Success, sending start stream again");
 #endif
                         Manager.IsAuthenticated = true;
-                        Manager.State = new ConnectedState(Manager);
-                        Manager.State.Execute();
+
+                        if (Manager.Transport == Transport.Socket)
+                        {
+                            Manager.State = new ConnectedState(Manager);
+                            Manager.State.Execute();
+                        }
+                        else
+                        {
+                            (Manager.Connection as BoSH).Restart();
+                        }
                         break;
                     }
                 case "failure":

@@ -41,10 +41,10 @@ namespace XMPP.states
 			}
 			else
 			{
+                Manager.State = new RunningState(Manager);
+
                 tags.jabber.client.presence presence = new tags.jabber.client.presence();
                 Manager.Connection.Send(presence);
-
-				Manager.State = new RunningState(Manager);
 			}
 		}
 	}

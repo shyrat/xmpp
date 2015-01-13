@@ -64,7 +64,7 @@ namespace XMPP.common
 
     #endregion
 
-    public class Connection : IDisposable
+    public class Connection : IConnection
     {
         public Connection(Manager manager) { _manager = manager; }
 
@@ -95,6 +95,8 @@ namespace XMPP.common
 
         private string _socketWriteMessage = string.Empty;
         private IBuffer _socketReadBuffer = new Windows.Storage.Streams.Buffer(_bufferSize);
+
+        private readonly StreamSocket _socket = new StreamSocket();
 
         IAsyncAction _socketConnector = null;
         IAsyncAction _socketElevator = null;
@@ -179,10 +181,10 @@ namespace XMPP.common
                 return;
             }
 
-            _manager.Socket.Control.KeepAlive = false;
+            _socket.Control.KeepAlive = false;
 
             var protection = _manager.Settings.OldSSL ? SocketProtectionLevel.SslAllowNullEncryption : SocketProtectionLevel.PlainSocket;
-            _socketConnector = _manager.Socket.ConnectAsync(_hostname, _manager.Settings.Port.ToString(), protection);
+            _socketConnector = _socket.ConnectAsync(_hostname, _manager.Settings.Port.ToString(), protection);
             _socketConnector.Completed = OnSocketConnectorCompleted;
         }
 
@@ -220,7 +222,7 @@ namespace XMPP.common
             if (synchronized) // Wait for completion
             {
                 _elevateMutex.WaitOne(4000);
-                _manager.Socket.OutputStream.WriteAsync(sendBuffer).AsTask().Wait(4000);
+                _socket.OutputStream.WriteAsync(sendBuffer).AsTask().Wait(4000);
             }
             else // wait for last task and start new one
             {
@@ -245,7 +247,7 @@ namespace XMPP.common
 
                 if (IsConnected)
                 {
-                    _socketWriter = _manager.Socket.OutputStream.WriteAsync(sendBuffer);
+                    _socketWriter = _socket.OutputStream.WriteAsync(sendBuffer);
                     _socketWriter.Completed = OnSocketWriterCompleted;
                 }
             }
@@ -259,7 +261,7 @@ namespace XMPP.common
                 if (!IsConnected) return;
                 _elevateMutex.WaitOne(4000);
 
-                _socketReader = _manager.Socket.InputStream.ReadAsync(_socketReadBuffer, _bufferSize, InputStreamOptions.Partial);
+                _socketReader = _socket.InputStream.ReadAsync(_socketReadBuffer, _bufferSize, InputStreamOptions.Partial);
                 _socketReader.Completed = OnSocketReaderCompleted;
             }
             catch
@@ -294,7 +296,7 @@ namespace XMPP.common
                 }
             }
 
-            _socketElevator = _manager.Socket.UpgradeToSslAsync(SocketProtectionLevel.SslAllowNullEncryption, _hostname);
+            _socketElevator = _socket.UpgradeToSslAsync(SocketProtectionLevel.SslAllowNullEncryption, _hostname);
             _socketElevator.Completed = OnSocketElevatorCompleted;                
         }
 
@@ -312,6 +314,8 @@ namespace XMPP.common
             if (_socketElevator != null) _socketElevator.Cancel();
             if (_socketReader != null) _socketReader.Cancel();
             if (_socketWriter != null) _socketWriter.Cancel();
+
+            _socket.Dispose();
         }
 
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")

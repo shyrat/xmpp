@@ -110,6 +110,38 @@ namespace XMPP.tags
                 return default(object);
         }
 
+        public int? GetAttributeValueAsInt(XName name)
+        {
+            var value = GetAttributeValue(name);
+
+            if (null != value)
+            {
+                int result;
+                if (int.TryParse(value.ToString(), out result))
+                {
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
+        public bool? GetAttributeValueAsBool(XName name)
+        {
+            var value = GetAttributeValue(name);
+
+            if (null != value)
+            {
+                bool result;
+                if (bool.TryParse(value.ToString(), out result))
+                {
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
         public T GetAttributeEnum<T>(XName name)
         {
             string attr = (string)GetAttributeValue(name);

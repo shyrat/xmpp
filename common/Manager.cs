@@ -18,7 +18,6 @@
 
 using System;
 using System.Threading;
-using Windows.Networking.Sockets;
 using XMPP.SASL;
 using XMPP.states;
 
@@ -46,7 +45,7 @@ namespace XMPP.common
         public readonly Settings Settings = new Settings();
         public readonly Events Events = new Events();
 
-        public readonly Connection Connection;
+        public readonly IConnection Connection;
         public readonly Parser Parser;
 
         public bool IsConnected { get { return State.GetType() != typeof(ClosedState); } }
@@ -56,38 +55,25 @@ namespace XMPP.common
         public string CompressionAlgorithm { get; set; }
         public SASLProcessor SASLProcessor { get; set; }
 
-        private StreamSocket _socket = new StreamSocket();
-        public StreamSocket Socket
-        {
-            get
-            {
-                return _socket;
-            }
-            set
-            {
-                if (!IsConnected && value != null)
-                    _socket = value;
-                else
-                    Events.Error(this, ErrorType.SocketChangeFailed, ErrorPolicyType.Reconnect);
-            }
-        }
-
+        public Transport Transport { get; private set; }
         #endregion
 
         public void Dispose() { Dispose(true); }
         virtual protected void Dispose(bool managed)
         {
             Connection.Dispose();
-            Socket.Dispose();
+
             this.Events.OnNewTag -= OnNewTag;
             this.Events.OnError -= OnError;
             this.Events.OnConnect -= OnConnect;
             this.Events.OnDisconnect -= OnDisconnect;
         }
 
-        public Manager()
-		{
-            this.Connection = new Connection(this);
+        public Manager(Transport transport)
+        {
+            Transport = transport;
+
+            this.Connection = transport == Transport.Socket ? new Connection(this) as IConnection : new BoSH(this) as IConnection;
             this.Parser = new Parser(this);
             this.State = new ClosedState(this);
 

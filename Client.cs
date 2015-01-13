@@ -19,15 +19,31 @@
 using System;
 using System.Reflection;
 using System.Threading;
-using Windows.Networking.Sockets;
 using XMPP.common;
 using XMPP.tags;
 
 namespace XMPP
 {
+    public enum Transport
+    {
+        Socket,
+        BoSH
+    }
+
 	public class Client : IDisposable
 	{
-        private readonly Manager Manager = new Manager();
+        private readonly Manager Manager;
+
+	    public Client() : this(Transport.Socket)
+	    {
+	    }
+
+	    public Client(Transport transport)
+        {
+            Transport = transport;
+
+            Manager = new Manager(transport);
+        }
 
         public void Dispose() { Dispose(true); }
 
@@ -36,13 +52,14 @@ namespace XMPP
             Manager.Dispose();
         }
 
+        public Transport Transport { get; private set; }
+
         #region properties
 
         public readonly string Version = typeof(Client).GetTypeInfo().Assembly.GetName().Version.ToString();
         public Settings Settings { get { return Manager.Settings; } }
         public bool Connected { get { return Manager.IsConnected; } }
 
-        public StreamSocket Socket { get { return Manager.Socket; } set { Manager.Socket = value; } }
         public ManualResetEvent ProcessComplete { get { return Manager.ProcessComplete; } }
 
         #endregion

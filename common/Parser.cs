@@ -87,25 +87,32 @@ namespace XMPP.common
 
         public void Enqueue(string data)
         {
-            // Stream gets opened
-            if (data.Contains("<stream:stream"))
+            if (_manager.Transport == Transport.Socket)
             {
-                _dataQueue = string.Empty;
-                data = data.Substring(data.IndexOf("<stream:stream"));
-                int posStreamTagEnd = FirstOfUnEscaped(data, '>');
-                data = data.Insert(posStreamTagEnd + 1, "</stream:stream>");
-                _streamStarted = true;
-            }
+                // Stream gets opened
+                if (data.Contains("<stream:stream"))
+                {
+                    _dataQueue = string.Empty;
+                    data = data.Substring(data.IndexOf("<stream:stream"));
+                    int posStreamTagEnd = FirstOfUnEscaped(data, '>');
+                    data = data.Insert(posStreamTagEnd + 1, "</stream:stream>");
+                    _streamStarted = true;
+                }
 
-            if (_dataQueue.Length == 0 && !data.StartsWith("<"))
+                if (_dataQueue.Length == 0 && !data.StartsWith("<"))
+                {
+                    _manager.Events.Error(this, ErrorType.InvalidXMLFragment, ErrorPolicyType.Reconnect, "Parsing a fragment failed in a critical situation");
+                    return;
+                }
+
+                // Add opened stream
+                if (_streamStarted)
+                    _dataQueue += data;
+            }
+            else
             {
-                _manager.Events.Error(this, ErrorType.InvalidXMLFragment, ErrorPolicyType.Reconnect, "Parsing a fragment failed in a critical situation");
-                return;
-            }
-
-            // Add opened stream
-            if (_streamStarted)
                 _dataQueue += data;
+            }
         }
 
         public string Dequeue()

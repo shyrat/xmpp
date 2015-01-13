@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using XMPP.registries;
+
+namespace XMPP.tags.bosh
+{
+    public class Namespace
+    {
+        public static string Name = "http://jabber.org/protocol/httpbind";
+        public static string Xmpp = "urn:xmpp:xbosh";
+        public static XName body = XName.Get("body", Name);
+
+
+        /*
+         * xml:lang='en'
+      xmpp:version='1.0'
+      xmlns='http://jabber.org/protocol/httpbind'
+      xmlns:xmpp='urn:xmpp:xbosh'/>
+         * */
+    }
+
+    [XMPPTag(typeof(XMPP.tags.bosh.Namespace), typeof(XMPP.tags.bosh.body))]
+    public class body : Tag
+    {
+        public body() : base(XMPP.tags.bosh.Namespace.body) { }
+        public body(XElement other) : base(other) { }
+
+        public int? wait { get { return GetAttributeValueAsInt("wait"); } set { SetAttributeValue("wait", value); } }
+        public int? inactivity { get { return GetAttributeValueAsInt("inactivity"); } set { SetAttributeValue("inactivity", value); } }
+        public int? polling { get { return GetAttributeValueAsInt("polling"); } set { SetAttributeValue("polling", value); } }
+        public int? requests { get { return GetAttributeValueAsInt("requests"); } set { SetAttributeValue("requests", value); } }
+        public int? hold { get { return GetAttributeValueAsInt("hold"); } set { SetAttributeValue("hold", value); } }
+        public string sid { get { return (string)GetAttributeValue("sid"); } set { SetAttributeValue("sid", value); } }
+        public int? rid { get { return GetAttributeValueAsInt("rid"); } set { SetAttributeValue("rid", value); } }
+        public string from { get { return (string)GetAttributeValue("from"); } set { SetAttributeValue("from", value); } }
+        public string to { get { return (string)GetAttributeValue("to"); } set { SetAttributeValue("to", value); } }
+        public bool? restart { get { return GetAttributeValueAsBool(XName.Get("restart", XMPP.tags.bosh.Namespace.Xmpp)); } set { SetAttributeValue(XName.Get("restart", XMPP.tags.bosh.Namespace.Xmpp), value); } }
+
+        public string version { get { return (string)GetAttributeValue(XName.Get("version", XMPP.tags.bosh.Namespace.Xmpp)); } set { SetAttributeValue(XName.Get("version", XMPP.tags.bosh.Namespace.Xmpp), value); } }
+        public string lang { get { return (string)GetAttributeValue("lang"); } set { SetAttributeValue("lang", value); } }
+    }
+}
