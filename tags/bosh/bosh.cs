@@ -22,9 +22,10 @@ namespace XMPP.tags.bosh
         public int? requests { get { return GetAttributeValueAsInt("requests"); } set { SetAttributeValue("requests", value); } }
         public int? hold { get { return GetAttributeValueAsInt("hold"); } set { SetAttributeValue("hold", value); } }
         public string sid { get { return (string)GetAttributeValue("sid"); } set { SetAttributeValue("sid", value); } }
-        public int? rid { get { return GetAttributeValueAsInt("rid"); } set { SetAttributeValue("rid", value); } }
+        public long? rid { get { return GetAttributeValueAsLong("rid"); } set { SetAttributeValue("rid", value); } }
         public string from { get { return (string)GetAttributeValue("from"); } set { SetAttributeValue("from", value); } }
         public string to { get { return (string)GetAttributeValue("to"); } set { SetAttributeValue("to", value); } }
+        public string type { get { return (string)GetAttributeValue("type"); } set { SetAttributeValue("type", value); } }
         public bool? restart { get { return GetAttributeValueAsBool(XName.Get("restart", XMPP.tags.bosh.Namespace.Xmpp)); } set { SetAttributeValue(XName.Get("restart", XMPP.tags.bosh.Namespace.Xmpp), value); } }
 
         public string version { get { return (string)GetAttributeValue(XName.Get("version", XMPP.tags.bosh.Namespace.Xmpp)); } set { SetAttributeValue(XName.Get("version", XMPP.tags.bosh.Namespace.Xmpp), value); } }

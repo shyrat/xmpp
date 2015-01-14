@@ -55,14 +55,31 @@ namespace XMPP.common
                 BaseAddress = new Uri(_manager.Settings.Hostname)
             };
 
-            _rid = new Random().Next(1000000, 9999999);
+            _rid = new Random().Next(1000000, 99999999);
 
             SendSessionCreationRequest();
         }
 
         public void Disconnect()
         {
-            throw new NotImplementedException();
+            StopInactivityTimer();
+
+            // TODO: cancel all active queries here
+
+            _connectionsCounter.Wait();
+
+            var body = new body { sid = _sid, rid = Interlocked.Increment(ref _rid), type = "terminate" };
+
+            while (!_tags.IsEmpty)
+            {
+                XElement tag;
+                if (_tags.TryDequeue(out tag))
+                {
+                    body.Add(tag);
+                }
+            }
+
+            SendRequest(body);
         }
 
         public void Restart()
@@ -126,8 +143,8 @@ namespace XMPP.common
         private XElement RemoveComments(Tag tag)
         {
             var copy = new XElement(tag);
-            var descendants = copy.DescendantNodesAndSelf();
-            var comments = descendants.Where(node => node.NodeType == System.Xml.XmlNodeType.Comment);
+            var comments = copy.DescendantNodesAndSelf()
+                               .Where(node => node.NodeType == System.Xml.XmlNodeType.Comment);
             while (comments.Any())
             {
                 comments.First().Remove();
@@ -354,7 +371,7 @@ namespace XMPP.common
         private HttpClient _client;
 
         private string _sid;
-        private int _rid;
+        private long _rid;
         private int? _requests;
         private int? _inactivity;
         private int? _polling;

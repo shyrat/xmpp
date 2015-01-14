@@ -126,6 +126,22 @@ namespace XMPP.tags
             return null;
         }
 
+        public long? GetAttributeValueAsLong(XName name)
+        {
+            var value = GetAttributeValue(name);
+
+            if (null != value)
+            {
+                long result;
+                if (long.TryParse(value.ToString(), out result))
+                {
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
         public bool? GetAttributeValueAsBool(XName name)
         {
             var value = GetAttributeValue(name);
