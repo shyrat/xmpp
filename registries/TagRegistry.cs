@@ -22,6 +22,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using XMPP.tags;
+using XMPP.tags.bosh;
 
 namespace XMPP.registries
 {
@@ -110,37 +111,38 @@ namespace XMPP.registries
 			}
 		}
 
-        public Tag GetTag(XElement ele)
+        public Tag GetTag(XElement element)
         {
             try
             {
                 Type type;
 
-                bool gotType = RegisteredItems.TryGetValue(ele.Name, out type);
+                bool gotType = RegisteredItems.TryGetValue(element.Name, out type);
 
                 if (!gotType)
                 {
                     if (
-                        ele.Name.LocalName == "iq" ||
-                        ele.Name.LocalName == "presence" ||
-                        ele.Name.LocalName == "message" ||
-                        ele.Name.LocalName == "error"
+                        element.Name.LocalName == "iq" ||
+                        element.Name.LocalName == "presence" ||
+                        element.Name.LocalName == "message" ||
+                        element.Name.LocalName == "error"
                     )
                     {
-                        ele.Name = XName.Get(ele.Name.LocalName, "jabber:client");
-                        gotType = RegisteredItems.TryGetValue(ele.Name, out type);
+                        FixNs(element);
+
+                        gotType = RegisteredItems.TryGetValue(element.Name, out type);
                     }
                 }
 
                 if (gotType)
                 {
-                    ConstructorInfo ctorName = GetConstructor(type, new Type[] { ele.GetType() });
+                    ConstructorInfo ctorName = GetConstructor(type, new Type[] { element.GetType() });
                     if (ctorName != null)
-                        return ctorName.Invoke(new object[] { ele }) as Tag;
+                        return ctorName.Invoke(new object[] { element }) as Tag;
 
-                    ConstructorInfo ctorDefault = GetConstructor(ele.GetType(), new Type[] { typeof(Tag) });
+                    ConstructorInfo ctorDefault = GetConstructor(element.GetType(), new Type[] { typeof(Tag) });
                     if (ctorDefault != null)
-                        return ctorDefault.Invoke(new object[] { ele }) as Tag;
+                        return ctorDefault.Invoke(new object[] { element }) as Tag;
                 }
 
                 return null;
@@ -148,6 +150,22 @@ namespace XMPP.registries
             catch
             {
                 return null;
+            }
+        }
+
+        protected void FixNs(XElement element)
+        {
+            element.Name = XName.Get(element.Name.LocalName, "jabber:client");
+
+            if (element.HasElements)
+            {
+                foreach (var chield in element.Descendants())
+                {
+                    if (chield.Name.Namespace == "http://jabber.org/protocol/httpbind")
+                    {
+                        FixNs(chield);
+                    }
+                }
             }
         }
 
