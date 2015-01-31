@@ -84,9 +84,9 @@ namespace XMPP.common
 
         public void Restart()
         {
-            SendRestartRequest();
-
             InitPolling();
+
+            SendRestartRequest();
         }
 
         public void Send(tags.Tag tag)
@@ -314,7 +314,7 @@ namespace XMPP.common
                     {
                         Flush();
                     }
-                    else if (2 == _connectionsCounter.CurrentCount)
+                    else if (_requests == _connectionsCounter.CurrentCount)
                     {
                         StartInactivityTimer();
                     }
@@ -348,7 +348,7 @@ namespace XMPP.common
                 {
                     _connectionsCounter.Release();
 
-                    if (2 == _connectionsCounter.CurrentCount)
+                    if (_requests == _connectionsCounter.CurrentCount)
                     {
                         StartInactivityTimer();
                     }
@@ -358,12 +358,18 @@ namespace XMPP.common
 
         private void StartInactivityTimer()
         {
-            _inactivityTimer.Change(_inactivity.Value * 1000, _inactivity.Value * 1000);
+            if (null != _inactivityTimer)
+            {
+                _inactivityTimer.Change(_inactivity.Value*1000, _inactivity.Value*1000);
+            }
         }
 
         private void StopInactivityTimer()
         {
-            _inactivityTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            if (null != _inactivityTimer)
+            {
+                _inactivityTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            }
         }
 
         private readonly Manager _manager;

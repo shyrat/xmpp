@@ -45,7 +45,7 @@ namespace XMPP
             Resource = string.IsNullOrEmpty(resource) ? "" : resource;
 		}
 
-		#region {{ Properties }}
+		#region Properties
 
 		/// <summary>
 		/// String representation of the id.
