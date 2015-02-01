@@ -74,6 +74,8 @@ namespace XMPP.common
             SendRequest(body);
 
             CleanupState();
+
+            _manager.Events.Connected(this);
         }
 
         public void Restart()
@@ -252,6 +254,10 @@ namespace XMPP.common
 
             if (null != resp)
             {
+                IsConnected = true;
+
+                _manager.Events.Connected(this);
+
                 _sid = resp.sid;
                 _polling = resp.polling;
                 _inactivity = resp.inactivity;
