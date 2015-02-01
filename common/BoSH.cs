@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Http;
@@ -50,53 +51,38 @@ namespace XMPP.common
                 return;
             }
 
-            _client = new HttpClient
-            {
-                BaseAddress = new Uri(_manager.Settings.Hostname)
-            };
-
-            _rid = new Random().Next(1000000, 99999999);
+            Init();
 
             SendSessionCreationRequest();
         }
 
         public void Disconnect()
         {
+            _disconnecting.Set();
+
             StopInactivityTimer();
 
-            // TODO: cancel all active queries here
-
-            _connectionsCounter.Wait();
-
-            var body = new body { sid = _sid, rid = Interlocked.Increment(ref _rid), type = "terminate" };
-
-            while (!_tags.IsEmpty)
+            var body = new body
             {
-                XElement tag;
-                if (_tags.TryDequeue(out tag))
-                {
-                    body.Add(tag);
-                }
-            }
+                sid = _sid,
+                rid = Interlocked.Increment(ref _rid),
+                type = "terminate"
+            };
+
+            CombineBody(body);
 
             SendRequest(body);
+
+            CleanupState();
         }
 
         public void Restart()
         {
-            InitPolling();
-
             SendRestartRequest();
         }
 
         public void Send(tags.Tag tag)
         {
-            if (tag is tags.xmpp_sasl.auth)
-            {
-                SendAuthRequest(tag as tags.xmpp_sasl.auth);
-                return;
-            }
-
             _tags.Enqueue(RemoveComments(tag));
 
             Flush();
@@ -119,25 +105,22 @@ namespace XMPP.common
 
         public void Dispose()
         {
-            if (null != _client)
-            {
-                _client.Dispose();
-                _client = null;
-            }
-
-            if (null != _inactivityTimer)
-            {
-                _inactivityTimer.Dispose();
-                _inactivityTimer = null;
-            }
+            CleanupState();
         }
 
-        private void InitPolling()
+        private void Init()
         {
+            _client = new HttpClient
+            {
+                BaseAddress = new Uri(_manager.Settings.Hostname)
+            };
+
             TimerCallback cb = obj => InactivityCallback();
             _inactivityTimer = new Timer(cb, null, Timeout.Infinite, Timeout.Infinite);
 
-            _connectionsCounter = new SemaphoreSlim(_requests.Value, _requests.Value);
+            _disconnecting = new ManualResetEventSlim(false);
+            _tags = new ConcurrentQueue<XElement>();
+            _rid = new Random().Next(1000000, 99999999);
         }
 
         private XElement RemoveComments(Tag tag)
@@ -156,6 +139,7 @@ namespace XMPP.common
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
         {
             CleanupState();
+
             _manager.Events.Error(this, type, policy, cause);
         }
 
@@ -163,25 +147,45 @@ namespace XMPP.common
         {
             IsConnected = false;
 
+            if (null != _client)
+            {
+                _client.Dispose();
+                _client = null;
+            }
+
+            if (null != _inactivityTimer)
+            {
+                _inactivityTimer.Dispose();
+                _inactivityTimer = null;
+            }
+
+            _tags = null;
+            _disconnecting = null;
+            _connectionsCounter = null;
+
             _manager.ProcessComplete.Set();
             _manager.Parser.Clear();
         }
 
         private void SendAuthRequest(tags.xmpp_sasl.auth tag)
         {
-            var body = new body { sid = _sid, rid = ++_rid, from = _manager.Settings.Id.Bare, to = _manager.Settings.Id.Server };
+            var body = new body
+            {
+                sid = _sid,
+                rid = Interlocked.Increment(ref _rid),
+                from = _manager.Settings.Id.Bare,
+                to = _manager.Settings.Id.Server
+            };
+
             body.Add(tag);
 
             var resp = SendRequest(body);
-
-            if (null == resp)
+            if (null != resp)
             {
-                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, "Empty data.");
+                var payload = resp.Elements().FirstOrDefault();
+
+                _manager.Parser.Parse(payload.ToString());
             }
-
-            var payload = resp.Elements().FirstOrDefault();
-
-            _manager.Parser.Parse(payload.ToString());
         }
 
         private void SendRestartRequest()
@@ -189,22 +193,19 @@ namespace XMPP.common
             var body = new body
             {
                 sid = _sid,
-                rid = ++_rid,
+                rid = Interlocked.Increment(ref _rid),
                 restart = true,
                 to = _manager.Settings.Id.Server
             };
 
             var resp = SendRequest(body);
-
-            if (null == resp)
+            if (null != resp)
             {
-                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, "Empty data.");
+                var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
+
+                _manager.State = new ServerFeaturesState(_manager);
+                _manager.State.Execute(payload);
             }
-
-            var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
-
-            _manager.State = new ServerFeaturesState(_manager);
-            _manager.State.Execute(payload);
         }
 
         private body SendRequest(body body)
@@ -228,7 +229,7 @@ namespace XMPP.common
 
                 ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, string.Format("{0} {1}", resp.StatusCode, resp.ReasonPhrase));
             }
-            catch (AggregateException e)
+            catch (Exception e)
             {
                 ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, e.Message);
             }
@@ -249,20 +250,20 @@ namespace XMPP.common
 
             var resp = SendRequest(body);
 
-            if (null == resp)
+            if (null != resp)
             {
-                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, "Empty data.");
+                _sid = resp.sid;
+                _polling = resp.polling;
+                _inactivity = resp.inactivity;
+                _requests = resp.requests;
+
+                _connectionsCounter = new SemaphoreSlim(_requests.Value, _requests.Value);
+
+                var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
+
+                _manager.State = new ServerFeaturesState(_manager);
+                _manager.State.Execute(payload);
             }
-
-            _sid = resp.sid;
-            _polling = resp.polling;
-            _inactivity = resp.inactivity;
-            _requests = resp.requests;
-
-            var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
-
-            _manager.State = new ServerFeaturesState(_manager);
-            _manager.State.Execute(payload);
         }
 
         private void Flush()
@@ -272,6 +273,11 @@ namespace XMPP.common
 
         private void FlushInternal()
         {
+            if (_disconnecting.IsSet)
+            {
+                return;
+            }
+
             if (_connectionsCounter.Wait(TimeSpan.FromMilliseconds(1d)))
             {
                 StopInactivityTimer();
@@ -283,28 +289,9 @@ namespace XMPP.common
                         return;
                     }
 
-                    var body = new body { sid = _sid, rid = Interlocked.Increment(ref _rid), from = _manager.Settings.Id, to = _manager.Settings.Id.Server };
+                    var resp = SendRequest(CombineBody());
 
-                    while (!_tags.IsEmpty)
-                    {
-                        XElement tag;
-                        if (_tags.TryDequeue(out tag))
-                        {
-                            body.Add(tag);
-                        }
-                    }
-
-                    var resp = SendRequest(body);
-
-                    if (null == resp)
-                    {
-                        ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, "Empty data.");
-                    }
-
-                    foreach (var element in resp.Elements())
-                    {
-                        _manager.Parser.Parse(element.ToString());
-                    }
+                    ExtractBody(resp);
                 }
                 finally
                 {
@@ -322,6 +309,44 @@ namespace XMPP.common
             }
         }
 
+        private void CombineBody(body body)
+        {
+            while (!_tags.IsEmpty)
+            {
+                XElement tag;
+                if (_tags.TryDequeue(out tag))
+                {
+                    body.Add(tag);
+                }
+            }
+        }
+
+        private body CombineBody()
+        {
+            var body = new body
+            {
+                sid = _sid,
+                rid = Interlocked.Increment(ref _rid),
+                from = _manager.Settings.Id,
+                to = _manager.Settings.Id.Server
+            };
+
+            CombineBody(body);
+
+            return body;
+        }
+
+        private void ExtractBody(body resp)
+        {
+            if (null != resp)
+            {
+                foreach (var element in resp.Elements())
+                {
+                    _manager.Parser.Parse(element.ToString());
+                }
+            }
+        }
+
         private void InactivityCallback()
         {
             if (_connectionsCounter.Wait(TimeSpan.FromMilliseconds(1d)))
@@ -330,19 +355,9 @@ namespace XMPP.common
 
                 try
                 {
-                    var body = new body { sid = _sid, rid = Interlocked.Increment(ref _rid), from = _manager.Settings.Id, to = _manager.Settings.Id.Server };
+                    var resp = SendRequest(CombineBody());
 
-                    var resp = SendRequest(body);
-
-                    if (null == resp)
-                    {
-                        ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, "Empty data.");
-                    }
-
-                    foreach (var element in resp.Elements())
-                    {
-                        _manager.Parser.Parse(element.ToString());
-                    }
+                    ExtractBody(resp);
                 }
                 finally
                 {
@@ -358,6 +373,11 @@ namespace XMPP.common
 
         private void StartInactivityTimer()
         {
+            if (_disconnecting.IsSet)
+            {
+                return;
+            }
+
             if (null != _inactivityTimer)
             {
                 _inactivityTimer.Change(_inactivity.Value*1000, _inactivity.Value*1000);
@@ -374,17 +394,16 @@ namespace XMPP.common
 
         private readonly Manager _manager;
 
-        private HttpClient _client;
-
         private string _sid;
         private long _rid;
         private int? _requests;
         private int? _inactivity;
         private int? _polling;
 
+        private HttpClient _client;
         private Timer _inactivityTimer;
         private SemaphoreSlim _connectionsCounter;
-
-        private readonly ConcurrentQueue<XElement> _tags = new ConcurrentQueue<XElement>();
+        private ManualResetEventSlim _disconnecting;
+        private ConcurrentQueue<XElement> _tags;
     }
 }
