@@ -10,10 +10,10 @@ namespace XMPP.tags.bosh
         public static XName body = XName.Get("body", Name);
     }
 
-    [XMPPTag(typeof(XMPP.tags.bosh.Namespace), typeof(XMPP.tags.bosh.body))]
+    [XMPPTag(typeof(Namespace), typeof(body))]
     public class body : Tag
     {
-        public body() : base(XMPP.tags.bosh.Namespace.body) { }
+        public body() : base(Namespace.body) { }
         public body(XElement other) : base(other) { }
 
         public int? wait { get { return GetAttributeValueAsInt("wait"); } set { SetAttributeValue("wait", value); } }
@@ -26,9 +26,9 @@ namespace XMPP.tags.bosh
         public string from { get { return (string)GetAttributeValue("from"); } set { SetAttributeValue("from", value); } }
         public string to { get { return (string)GetAttributeValue("to"); } set { SetAttributeValue("to", value); } }
         public string type { get { return (string)GetAttributeValue("type"); } set { SetAttributeValue("type", value); } }
-        public bool? restart { get { return GetAttributeValueAsBool(XName.Get("restart", XMPP.tags.bosh.Namespace.Xmpp)); } set { SetAttributeValue(XName.Get("restart", XMPP.tags.bosh.Namespace.Xmpp), value); } }
+        public bool? restart { get { return GetAttributeValueAsBool(XName.Get("restart", Namespace.Xmpp)); } set { SetAttributeValue(XName.Get("restart", Namespace.Xmpp), value); } }
 
-        public string version { get { return (string)GetAttributeValue(XName.Get("version", XMPP.tags.bosh.Namespace.Xmpp)); } set { SetAttributeValue(XName.Get("version", XMPP.tags.bosh.Namespace.Xmpp), value); } }
+        public string version { get { return (string)GetAttributeValue(XName.Get("version", Namespace.Xmpp)); } set { SetAttributeValue(XName.Get("version", Namespace.Xmpp), value); } }
         public string lang { get { return (string)GetAttributeValue("lang"); } set { SetAttributeValue("lang", value); } }
     }
 }
