@@ -1,18 +1,17 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <id>XMPP</id>
+    <version>0.7.0.0</version>
+    <title>XMPP Library</title>
+    <authors>Dieter Lunn,Paul Freund,Dmitry Chabanin</authors>
+    <owners>Dmitry Chabanin</owners>
+    <licenseUrl>https://github.com/DmitryChabanin/xmpp/blob/master/lgpl-3.0.txt</licenseUrl>
+    <projectUrl>https://github.com/DmitryChabanin/xmpp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <description>C# XMPP Core and IM Implementation</description>
+    <releaseNotes>BOSH support implemented</releaseNotes>
     <copyright>Copyright 2015</copyright>
-    <tags>Tag1 Tag2</tags>
+    <tags>XMPP BOSH</tags>
   </metadata>
 </package>
