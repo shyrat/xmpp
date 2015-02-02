@@ -62,20 +62,11 @@ namespace XMPP.common
 
             StopInactivityTimer();
 
-            var body = new body
-            {
-                sid = _sid,
-                rid = Interlocked.Increment(ref _rid),
-                type = "terminate"
-            };
-
-            CombineBody(body);
-
-            SendRequest(body);
+            SendSessionTerminationRequest();
 
             CleanupState();
 
-            _manager.Events.Connected(this);
+            _manager.Events.Disconnected(this);
         }
 
         public void Restart()
@@ -272,6 +263,20 @@ namespace XMPP.common
             }
         }
 
+        private void SendSessionTerminationRequest()
+        {
+            var body = new body
+            {
+                sid = _sid,
+                rid = Interlocked.Increment(ref _rid),
+                type = "terminate"
+            };
+
+            CombineBody(body);
+
+            SendRequest(body);
+        }
+
         private void Flush()
         {
             Task.Run(() => FlushInternal());
@@ -384,18 +389,12 @@ namespace XMPP.common
                 return;
             }
 
-            if (null != _inactivityTimer)
-            {
-                _inactivityTimer.Change(_inactivity.Value*1000, _inactivity.Value*1000);
-            }
+            _inactivityTimer.Change(_inactivity.Value*1000, _inactivity.Value*1000);
         }
 
         private void StopInactivityTimer()
         {
-            if (null != _inactivityTimer)
-            {
-                _inactivityTimer.Change(Timeout.Infinite, Timeout.Infinite);
-            }
+            _inactivityTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         private readonly Manager _manager;
