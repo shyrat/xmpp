@@ -45,3 +45,5 @@ ubiety-xmpp-cert.crt
 ubiety-xmpp-priv.key
 ubiety-xmpp.key
 ubiety.sln.docstates
+
+packages/
