@@ -161,27 +161,6 @@ namespace XMPP.common
             _manager.Parser.Clear();
         }
 
-        private void SendAuthRequest(tags.xmpp_sasl.auth tag)
-        {
-            var body = new body
-            {
-                sid = _sid,
-                rid = Interlocked.Increment(ref _rid),
-                from = _manager.Settings.Id.Bare,
-                to = _manager.Settings.Id.Server
-            };
-
-            body.Add(tag);
-
-            var resp = SendRequest(body);
-            if (null != resp)
-            {
-                var payload = resp.Elements().FirstOrDefault();
-
-                _manager.Parser.Parse(payload.ToString());
-            }
-        }
-
         private void SendRestartRequest()
         {
             var body = new body

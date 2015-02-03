@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/DmitryChabanin/xmpp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>C# XMPP Core and IM Implementation</description>
-    <releaseNotes>BOSH support implemented</releaseNotes>
+    <releaseNotes>XEP-0297, XEP-0059, XEP-0313 first cut</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>XMPP BOSH</tags>
   </metadata>
