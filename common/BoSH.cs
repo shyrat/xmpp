@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Http;
@@ -131,6 +130,8 @@ namespace XMPP.common
 
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
         {
+            StopInactivityTimer();
+
             CleanupState();
 
             _manager.Events.Error(this, type, policy, cause);
