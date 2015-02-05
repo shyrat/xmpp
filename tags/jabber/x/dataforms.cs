@@ -24,6 +24,8 @@ namespace XMPP.tags.jabber.x.dataforms
 
         public static XName x = XName.Get("x", Name);
         public static XName title = XName.Get("title", Name);
+        public static XName item = XName.Get("item", Name);
+        public static XName reported = XName.Get("reported", Name);
         public static XName field = XName.Get("field", Name);
         public static XName desc = XName.Get("desc", Name);
         public static XName value = XName.Get("value", Name);
@@ -34,7 +36,6 @@ namespace XMPP.tags.jabber.x.dataforms
     [XMPPTag(typeof(Namespace), typeof(x))]
     public class x : Tag
     {
-
         public enum typeEnum
         {
             cancel,
@@ -51,6 +52,11 @@ namespace XMPP.tags.jabber.x.dataforms
             get { return Elements<field>(Namespace.field); }
         }
 
+        public IEnumerable<item> itemElements
+        {
+            get { return Elements<item>(Namespace.item); }
+        }
+
         public typeEnum type
         {
             get { return GetAttributeEnum<typeEnum>("type"); }
@@ -65,6 +71,30 @@ namespace XMPP.tags.jabber.x.dataforms
         public title(XElement other) : base(other) { }
     }
 
+    [XMPPTag(typeof(Namespace), typeof(item))]
+    public class item : Tag
+    {
+        public item() : base(Namespace.item) { }
+        public item(XElement other) : base(other) { }
+
+        public IEnumerable<field> fieldElements
+        {
+            get { return Elements<field>(Namespace.field); }
+        }
+    }
+
+    [XMPPTag(typeof(Namespace), typeof(reported))]
+    public class reported : Tag
+    {
+        public reported() : base(Namespace.item) { }
+        public reported(XElement other) : base(other) { }
+
+        public IEnumerable<field> fieldElements
+        {
+            get { return Elements<field>(Namespace.field); }
+        }
+    }
+
     [XMPPTag(typeof(Namespace), typeof(field))]
     public class field : Tag
     {
@@ -73,19 +103,19 @@ namespace XMPP.tags.jabber.x.dataforms
             boolean,
             @fixed,
             hidden,
-            [EnumMember(Value = "jid multi")]
+            [EnumMember(Value = "jid-multi")]
             jid_multi,
-            [EnumMember(Value = "jid single")]
+            [EnumMember(Value = "jid-single")]
             jid_single,
-            [EnumMember(Value = "list multi")]
+            [EnumMember(Value = "list-multi")]
             list_multi,
-            [EnumMember(Value = "list single")]
+            [EnumMember(Value = "list-single")]
             list_single,
-            [EnumMember(Value = "text multi")]
+            [EnumMember(Value = "text-multi")]
             text_multi,
-            [EnumMember(Value = "text private")]
+            [EnumMember(Value = "text-private")]
             text_private,
-            [EnumMember(Value = "text single")]
+            [EnumMember(Value = "text-single")]
             text_single
         }
 

@@ -111,6 +111,7 @@ namespace XMPP.common
             _inactivityTimer = new Timer(cb, null, Timeout.Infinite, Timeout.Infinite);
 
             _disconnecting = new ManualResetEventSlim(false);
+            _canFetch = new AutoResetEvent(true);
             _tags = new ConcurrentQueue<XElement>();
             _rid = new Random().Next(1000000, 99999999);
         }
@@ -132,7 +133,7 @@ namespace XMPP.common
         {
             StopInactivityTimer();
 
-            CleanupState();
+            //CleanupState();
 
             _manager.Events.Error(this, type, policy, cause);
         }
@@ -275,14 +276,23 @@ namespace XMPP.common
 
                 try
                 {
-                    if (_tags.IsEmpty)
+                    _canFetch.WaitOne();
+
+                    tags.bosh.body body = null;
+
+                    if (!_tags.IsEmpty)
                     {
-                        return;
+                        body = CombineBody();
                     }
 
-                    var resp = SendRequest(CombineBody());
+                    _canFetch.Set();
 
-                    ExtractBody(resp);
+                    if (null != body)
+                    {
+                        var resp = SendRequest(body);
+
+                        ExtractBody(resp);
+                    }
                 }
                 finally
                 {
@@ -302,13 +312,10 @@ namespace XMPP.common
 
         private void CombineBody(body body)
         {
-            while (!_tags.IsEmpty)
+            XElement tag;
+            while (_tags.TryDequeue(out tag))
             {
-                XElement tag;
-                if (_tags.TryDequeue(out tag))
-                {
-                    body.Add(tag);
-                }
+                body.Add(tag);
             }
         }
 
@@ -340,15 +347,22 @@ namespace XMPP.common
 
         private void InactivityCallback()
         {
+            StopInactivityTimer();
+
             if (_connectionsCounter.Wait(TimeSpan.FromMilliseconds(1d)))
             {
-                StopInactivityTimer();
-
                 try
                 {
-                    var resp = SendRequest(CombineBody());
+                    if (_canFetch.WaitOne(TimeSpan.FromMilliseconds(1d)))
+                    {
+                        var body = CombineBody();
 
-                    ExtractBody(resp);
+                        _canFetch.Set();
+
+                        var resp = SendRequest(body);
+
+                        ExtractBody(resp);
+                    }
                 }
                 finally
                 {
@@ -369,7 +383,8 @@ namespace XMPP.common
                 return;
             }
 
-            _inactivityTimer.Change(_inactivity.Value*1000, _inactivity.Value*1000);
+            _inactivityTimer.Change(5 * 1000, 5 * 1000);
+            //_inactivityTimer.Change(_inactivity.Value*1000, _inactivity.Value*1000);
         }
 
         private void StopInactivityTimer()
@@ -389,6 +404,7 @@ namespace XMPP.common
         private Timer _inactivityTimer;
         private SemaphoreSlim _connectionsCounter;
         private ManualResetEventSlim _disconnecting;
+        private AutoResetEvent _canFetch;
         private ConcurrentQueue<XElement> _tags;
     }
 }
