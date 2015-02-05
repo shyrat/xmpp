@@ -195,6 +195,7 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA
     <Compile Include="tags\jabber\protocol\resultset.cs" />
     <Compile Include="tags\jabber\protocol\xhtml_im.cs" />
     <Compile Include="tags\jabber\x\conference.cs" />
+    <Compile Include="tags\jabber\x\dataforms.cs" />
     <Compile Include="tags\jabber\x\delay.cs" />
     <Compile Include="tags\common\TagHandler.cs" />
     <Compile Include="tags\vcard_temp\vcard-temp.cs" />

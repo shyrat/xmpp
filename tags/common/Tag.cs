@@ -25,6 +25,7 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using XMPP.registries;
+using System.Runtime.Serialization;
 
 namespace XMPP.tags
 {
@@ -160,15 +161,52 @@ namespace XMPP.tags
 
         public T GetAttributeEnum<T>(XName name)
         {
-            string attr = (string)GetAttributeValue(name);
+            var attr = (string)GetAttributeValue(name);
             if (attr != null)
-                return (T)Enum.Parse(typeof(T), attr, true);
-            else
-                return default(T);
+            {
+                var enumType = typeof(T);
+                foreach (var item in Enum.GetNames(enumType))
+                {
+                    var enumMember = ((EnumMemberAttribute[])enumType.GetRuntimeField(item).GetCustomAttributes(typeof(EnumMemberAttribute), true)).SingleOrDefault();
+                    if (enumMember != null && enumMember.Value == attr)
+                    {
+                        return (T)Enum.Parse(enumType, item);
+                    }
+                }
+
+                return (T) Enum.Parse(typeof(T), attr, true);
+            }
+
+            return default(T);
         }
 
         public void SetAttributeEnum<T>(XName name, object value)
         {
+            object obj = Enum.ToObject(typeof(T), value);
+
+            IDictionary<string, MemberInfo> members = obj.GetType().GetTypeInfo().DeclaredMembers.ToDictionary(c => c.Name);
+
+            MemberInfo member;
+            if (!members.TryGetValue(obj.ToString(), out member))
+            {
+                throw new InvalidOperationException();
+            }
+
+            IDictionary<Type, CustomAttributeData> customAttributes = member.CustomAttributes.ToDictionary(c => c.AttributeType);
+
+            CustomAttributeData enumMemberAttribute;
+            if (customAttributes.TryGetValue(typeof(EnumMemberAttribute), out enumMemberAttribute))
+            {
+                IDictionary<string, CustomAttributeNamedArgument> args = enumMemberAttribute.NamedArguments.ToDictionary(c => c.MemberName);
+
+                CustomAttributeNamedArgument arg;
+                if (args.TryGetValue("Value", out arg))
+                {
+                    SetAttributeValue(name, arg.TypedValue.Value);
+                    return;
+                }
+            }
+
             SetAttributeValue(name, ((T)value).ToString());
         }
 
