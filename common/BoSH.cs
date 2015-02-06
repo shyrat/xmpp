@@ -57,11 +57,14 @@ namespace XMPP.common
 
         public void Disconnect()
         {
-            _disconnecting.Set();
-
             StopInactivityTimer();
 
-            SendSessionTerminationRequest();
+            _disconnecting.Set();
+
+            if (!_connectionError.IsSet)
+            {
+                SendSessionTerminationRequest();
+            }
 
             CleanupState();
 
@@ -111,6 +114,7 @@ namespace XMPP.common
             _inactivityTimer = new Timer(cb, null, Timeout.Infinite, Timeout.Infinite);
 
             _disconnecting = new ManualResetEventSlim(false);
+            _connectionError = new ManualResetEventSlim(false);
             _canFetch = new AutoResetEvent(true);
             _tags = new ConcurrentQueue<XElement>();
             _rid = new Random().Next(1000000, 99999999);
@@ -133,7 +137,7 @@ namespace XMPP.common
         {
             StopInactivityTimer();
 
-            //CleanupState();
+            _connectionError.Set();
 
             _manager.Events.Error(this, type, policy, cause);
         }
@@ -153,10 +157,6 @@ namespace XMPP.common
                 _inactivityTimer.Dispose();
                 _inactivityTimer = null;
             }
-
-            _tags = null;
-            _disconnecting = null;
-            _connectionsCounter = null;
 
             _manager.ProcessComplete.Set();
             _manager.Parser.Clear();
@@ -383,7 +383,7 @@ namespace XMPP.common
                 return;
             }
 
-            _inactivityTimer.Change(5 * 1000, 5 * 1000);
+            _inactivityTimer.Change(_polling.Value * 1000, _polling.Value * 1000);
             //_inactivityTimer.Change(_inactivity.Value*1000, _inactivity.Value*1000);
         }
 
@@ -403,6 +403,7 @@ namespace XMPP.common
         private HttpClient _client;
         private Timer _inactivityTimer;
         private SemaphoreSlim _connectionsCounter;
+        private ManualResetEventSlim _connectionError;
         private ManualResetEventSlim _disconnecting;
         private AutoResetEvent _canFetch;
         private ConcurrentQueue<XElement> _tags;

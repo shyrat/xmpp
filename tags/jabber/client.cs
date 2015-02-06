@@ -42,8 +42,8 @@ namespace XMPP.tags.jabber.client
     [XMPPTag(typeof(Namespace), typeof(message))]
     public class message : Tag
     {
-        public message() : base(Namespace.message) { id = NextId(); }
-        public message(XElement other) : base(other) { id = NextId(); }
+        public message() : base(Namespace.message) { }
+        public message(XElement other) : base(other) { }
 
         public enum typeEnum
         {
@@ -173,8 +173,8 @@ namespace XMPP.tags.jabber.client
     [XMPPTag(typeof(Namespace), typeof(iq))]
     public class iq : Tag
     {
-        public iq() : base(Namespace.iq) { id = NextId(); }
-        public iq(XElement other) : base(other) { id = NextId(); }
+        public iq() : base(Namespace.iq) { }
+        public iq(XElement other) : base(other) { }
 
         public enum typeEnum
         {

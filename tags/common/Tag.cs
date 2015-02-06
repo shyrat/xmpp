@@ -85,10 +85,9 @@ namespace XMPP.tags
         }
 
 
-        public string NextId()
+        public static string NextId()
         {
-            Interlocked.Increment(ref _packetCounter);
-            return "U" + _packetCounter;
+            return "U" + Interlocked.Increment(ref _packetCounter);
         }
 
         public byte[] Bytes

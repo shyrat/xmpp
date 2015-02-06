@@ -29,7 +29,7 @@ namespace XMPP.states
 		{
 			if (data == null)
 			{
-                tags.jabber.client.iq iq = new tags.jabber.client.iq();
+                tags.jabber.client.iq iq = new tags.jabber.client.iq { id = Tag.NextId() };
                 Tag session = new tags.xmpp_session.session() as Tag;
 
 				iq.from = Manager.Settings.Id;

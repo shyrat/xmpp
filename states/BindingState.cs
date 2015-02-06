@@ -31,7 +31,7 @@ namespace XMPP.states
 			if (data == null)
 			{
                 tags.xmpp_bind.bind bindMsg = new tags.xmpp_bind.bind();
-                tags.jabber.client.iq iqMsg = new tags.jabber.client.iq();
+                tags.jabber.client.iq iqMsg = new tags.jabber.client.iq { id = Tag.NextId() };
                 
                 if (Manager.Settings.Id.Resource != null)
 				{
