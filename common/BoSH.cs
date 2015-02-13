@@ -135,8 +135,6 @@ namespace XMPP.common
 
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
         {
-            StopInactivityTimer();
-
             _connectionError.Set();
 
             _manager.Events.Error(this, type, policy, cause);
@@ -231,7 +229,7 @@ namespace XMPP.common
                 _manager.Events.Connected(this);
 
                 _sid = resp.sid;
-                _polling = resp.polling;
+                _polling = null != _manager.Settings.PollingTimeOut ? _manager.Settings.PollingTimeOut.Value.Seconds : resp.polling;
                 _inactivity = resp.inactivity;
                 _requests = resp.requests;
 
@@ -278,7 +276,7 @@ namespace XMPP.common
                 {
                     _canFetch.WaitOne();
 
-                    tags.bosh.body body = null;
+                    body body = null;
 
                     if (!_tags.IsEmpty)
                     {
@@ -298,13 +296,16 @@ namespace XMPP.common
                 {
                     _connectionsCounter.Release();
 
-                    if (!_tags.IsEmpty)
+                    if (!_connectionError.IsSet)
                     {
-                        Flush();
-                    }
-                    else if (_requests == _connectionsCounter.CurrentCount)
-                    {
-                        StartInactivityTimer();
+                        if (!_tags.IsEmpty)
+                        {
+                            Flush();
+                        }
+                        else if (_requests == _connectionsCounter.CurrentCount)
+                        {
+                            StartInactivityTimer();
+                        }
                     }
                 }
             }
@@ -312,10 +313,15 @@ namespace XMPP.common
 
         private void CombineBody(body body)
         {
+            int counter = _manager.Settings.MaxQueriesInRequest;
             XElement tag;
             while (_tags.TryDequeue(out tag))
             {
                 body.Add(tag);
+                if (--counter == 0)
+                {
+                    break;
+                }
             }
         }
 
@@ -347,6 +353,11 @@ namespace XMPP.common
 
         private void InactivityCallback()
         {
+            if (_disconnecting.IsSet)
+            {
+                return;
+            }
+
             StopInactivityTimer();
 
             if (_connectionsCounter.Wait(TimeSpan.FromMilliseconds(1d)))
@@ -368,9 +379,12 @@ namespace XMPP.common
                 {
                     _connectionsCounter.Release();
 
-                    if (_requests == _connectionsCounter.CurrentCount)
+                    if (!_connectionError.IsSet)
                     {
-                        StartInactivityTimer();
+                        if (_requests == _connectionsCounter.CurrentCount)
+                        {
+                            StartInactivityTimer();
+                        }
                     }
                 }
             }
@@ -384,7 +398,6 @@ namespace XMPP.common
             }
 
             _inactivityTimer.Change(_polling.Value * 1000, _polling.Value * 1000);
-            //_inactivityTimer.Change(_inactivity.Value*1000, _inactivity.Value*1000);
         }
 
         private void StopInactivityTimer()
