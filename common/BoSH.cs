@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Http;
@@ -57,8 +58,6 @@ namespace XMPP.common
 
         public void Disconnect()
         {
-            StopInactivityTimer();
-
             _disconnecting.Set();
 
             if (!_connectionError.IsSet)
@@ -78,9 +77,7 @@ namespace XMPP.common
 
         public void Send(tags.Tag tag)
         {
-            _tags.Enqueue(RemoveComments(tag));
-
-            Flush();
+            Task.Run(() => Flush(tag));
         }
 
         public void Send(string message)
@@ -110,14 +107,14 @@ namespace XMPP.common
                 BaseAddress = new Uri(_manager.Settings.Hostname)
             };
 
-            TimerCallback cb = obj => InactivityCallback();
+            TimerCallback cb = obj => FlushInternal();
             _inactivityTimer = new Timer(cb, null, Timeout.Infinite, Timeout.Infinite);
 
             _disconnecting = new ManualResetEventSlim(false);
             _connectionError = new ManualResetEventSlim(false);
             _canFetch = new AutoResetEvent(true);
             _tags = new ConcurrentQueue<XElement>();
-            _rid = new Random().Next(1000000, 99999999);
+            _rid = new Random().Next(StartRid, EndRid);
         }
 
         private XElement RemoveComments(Tag tag)
@@ -182,6 +179,10 @@ namespace XMPP.common
 
         private body SendRequest(body body)
         {
+#if DEBUG
+            Debug.WriteLine("Outgoing data:\r\n{0}", body);
+#endif
+
             var req = new HttpRequestMessage
             {
                 Method = new HttpMethod("POST"),
@@ -195,6 +196,10 @@ namespace XMPP.common
                 if (resp.IsSuccessStatusCode)
                 {
                     var data = resp.Content.ReadAsStringAsync().Result;
+
+#if DEBUG
+                    Debug.WriteLine("Incomming data:\r\n{0}", data);
+#endif
 
                     return Tag.Get(data) as body;
                 }
@@ -214,8 +219,8 @@ namespace XMPP.common
             var body = new body
             {
                 rid = _rid,
-                wait = 60,
-                hold = 1,
+                wait = Wait,
+                hold = Hold,
                 from = _manager.Settings.Id.Bare,
                 to = _manager.Settings.Id.Server
             };
@@ -229,8 +234,7 @@ namespace XMPP.common
                 _manager.Events.Connected(this);
 
                 _sid = resp.sid;
-                _polling = null != _manager.Settings.PollingTimeOut ? _manager.Settings.PollingTimeOut.Value.Seconds : resp.polling;
-                _inactivity = resp.inactivity;
+                _polling = _manager.Settings.PollingInterval ?? resp.polling;
                 _requests = resp.requests;
 
                 _connectionsCounter = new SemaphoreSlim(_requests.Value, _requests.Value);
@@ -256,9 +260,14 @@ namespace XMPP.common
             SendRequest(body);
         }
 
-        private void Flush()
+        private void Flush(tags.Tag tag = null)
         {
-            Task.Run(() => FlushInternal());
+            if (null != tag)
+            {
+                _tags.Enqueue(RemoveComments(tag));
+            }
+
+            FlushInternal();
         }
 
         private void FlushInternal()
@@ -268,44 +277,34 @@ namespace XMPP.common
                 return;
             }
 
+            if (_connectionError.IsSet)
+            {
+                return;
+            }
+
             if (_connectionsCounter.Wait(TimeSpan.FromMilliseconds(1d)))
             {
-                StopInactivityTimer();
-
                 try
                 {
                     _canFetch.WaitOne();
 
-                    body body = null;
-
-                    if (!_tags.IsEmpty)
-                    {
-                        body = CombineBody();
-                    }
+                    body body = CombineBody();
 
                     _canFetch.Set();
 
-                    if (null != body)
-                    {
-                        var resp = SendRequest(body);
+                    StartInactivityTimer();
 
-                        ExtractBody(resp);
-                    }
+                    var resp = SendRequest(body);
+
+                    ExtractBody(resp);
                 }
                 finally
                 {
                     _connectionsCounter.Release();
 
-                    if (!_connectionError.IsSet)
+                    if (!_tags.IsEmpty)
                     {
-                        if (!_tags.IsEmpty)
-                        {
-                            Flush();
-                        }
-                        else if (_requests == _connectionsCounter.CurrentCount)
-                        {
-                            StartInactivityTimer();
-                        }
+                        Flush();
                     }
                 }
             }
@@ -313,14 +312,18 @@ namespace XMPP.common
 
         private void CombineBody(body body)
         {
-            int counter = _manager.Settings.MaxQueriesInRequest;
-            XElement tag;
-            while (_tags.TryDequeue(out tag))
+            int counter = _manager.Settings.QueryCount;
+
+            while (!_tags.IsEmpty)
             {
-                body.Add(tag);
-                if (--counter == 0)
+                XElement tag;
+                if (_tags.TryDequeue(out tag))
                 {
-                    break;
+                    body.Add(tag);
+                    if (--counter == 0)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -346,63 +349,14 @@ namespace XMPP.common
             {
                 foreach (var element in resp.Elements())
                 {
-                    _manager.Parser.Parse(element.ToString());
-                }
-            }
-        }
-
-        private void InactivityCallback()
-        {
-            if (_disconnecting.IsSet)
-            {
-                return;
-            }
-
-            StopInactivityTimer();
-
-            if (_connectionsCounter.Wait(TimeSpan.FromMilliseconds(1d)))
-            {
-                try
-                {
-                    if (_canFetch.WaitOne(TimeSpan.FromMilliseconds(1d)))
-                    {
-                        var body = CombineBody();
-
-                        _canFetch.Set();
-
-                        var resp = SendRequest(body);
-
-                        ExtractBody(resp);
-                    }
-                }
-                finally
-                {
-                    _connectionsCounter.Release();
-
-                    if (!_connectionError.IsSet)
-                    {
-                        if (_requests == _connectionsCounter.CurrentCount)
-                        {
-                            StartInactivityTimer();
-                        }
-                    }
+                    _manager.Events.NewTag(this, Tag.Get(element.ToString()));
                 }
             }
         }
 
         private void StartInactivityTimer()
         {
-            if (_disconnecting.IsSet)
-            {
-                return;
-            }
-
-            _inactivityTimer.Change(_polling.Value * 1000, _polling.Value * 1000);
-        }
-
-        private void StopInactivityTimer()
-        {
-            _inactivityTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            _inactivityTimer.Change(_polling.Value * 1000, Timeout.Infinite);
         }
 
         private readonly Manager _manager;
@@ -410,7 +364,6 @@ namespace XMPP.common
         private string _sid;
         private long _rid;
         private int? _requests;
-        private int? _inactivity;
         private int? _polling;
 
         private HttpClient _client;
@@ -420,5 +373,10 @@ namespace XMPP.common
         private ManualResetEventSlim _disconnecting;
         private AutoResetEvent _canFetch;
         private ConcurrentQueue<XElement> _tags;
+
+        private const int StartRid = 1000000;
+        private const int EndRid = 99999999;
+        private const int Hold = 1;
+        private const int Wait = 60;
     }
 }

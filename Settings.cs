@@ -50,7 +50,7 @@ namespace XMPP.common
         public bool UseKeepAlive = false;
         public int KeepAliveTime = 60;
 
-	    public int MaxQueriesInRequest = 50;
-	    public TimeSpan? PollingTimeOut;
+	    public int QueryCount = 50;
+	    public int? PollingInterval;
     }
 }
