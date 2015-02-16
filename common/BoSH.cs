@@ -58,6 +58,8 @@ namespace XMPP.common
 
         public void Disconnect()
         {
+            StopPollingTimer();
+
             _disconnecting.Set();
 
             if (!_connectionError.IsSet)
@@ -175,6 +177,8 @@ namespace XMPP.common
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
             }
+
+            StartPollingTimer();
         }
 
         private body SendRequest(body body)
@@ -206,9 +210,12 @@ namespace XMPP.common
 
                 ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, string.Format("{0} {1}", resp.StatusCode, resp.ReasonPhrase));
             }
-            catch (Exception e)
+            catch (AggregateException e)
             {
-                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, e.Message);
+                if (!(e.InnerException is TaskCanceledException))
+                {
+                    ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, e.Message);
+                }
             }
 
             return null;
@@ -292,8 +299,6 @@ namespace XMPP.common
 
                     _canFetch.Set();
 
-                    StartInactivityTimer();
-
                     var resp = SendRequest(body);
 
                     ExtractBody(resp);
@@ -354,9 +359,14 @@ namespace XMPP.common
             }
         }
 
-        private void StartInactivityTimer()
+        private void StartPollingTimer()
         {
-            _inactivityTimer.Change(_polling.Value * 1000, Timeout.Infinite);
+            _inactivityTimer.Change(_polling.Value * 1000, _polling.Value * 1000);
+        }
+
+        private void StopPollingTimer()
+        {
+            _inactivityTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         private readonly Manager _manager;
