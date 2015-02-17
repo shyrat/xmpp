@@ -3,12 +3,14 @@ using System.Diagnostics;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using XMPP.states;
 using XMPP.tags;
 using XMPP.tags.bosh;
+using XMPP.tags.xmpp.time;
 
 namespace XMPP.common
 {
@@ -102,7 +104,7 @@ namespace XMPP.common
 
         private void Init()
         {
-            _client = new HttpClient
+            _client = new HttpClient(new HttpClientHandler { UseCookies = true })
             {
                 BaseAddress = new Uri(_manager.Settings.Hostname)
             };
@@ -179,7 +181,12 @@ namespace XMPP.common
             var req = new HttpRequestMessage
             {
                 Method = new HttpMethod("POST"),
-                Content = new StringContent(body)
+                Content = new StringContent(body),
+            };
+
+            req.Content.Headers.ContentType = new MediaTypeHeaderValue("text/xml")
+            {
+                CharSet = "utf-8",
             };
 
             try
@@ -298,7 +305,7 @@ namespace XMPP.common
 
                     if (!_tags.IsEmpty)
                     {
-                        Flush();
+                        Task.Run(() => Flush());
                     }
                 }
             }
@@ -352,36 +359,37 @@ namespace XMPP.common
         {
             return Task.Run(() =>
             {
+                Task pollingTask = null;
+
                 while (true)
                 {
-                    if(_disconnecting.IsSet)
+                    if (_disconnecting.IsSet)
                     {
                         return;
                     }
 
-                    if(_connectionError.IsSet)
+                    if (_connectionError.IsSet)
                     {
                         return;
                     }
 
                     if (_connectionsCounter.CurrentCount == _requests) //no active requests
                     {
-                        Task.Run(() => Flush());
+                        Task.Run(() => FlushInternal());
                     }
 
                     if (_connectionsCounter.CurrentCount == _requests - 1) //last active requests
                     {
-                        Task.Run(() =>
+                        if (null == pollingTask)
                         {
-                            Task.Delay(TimeSpan.FromSeconds(1d)).Wait();
-                            Task.Run(() => Flush());
-                        })
-                        .Wait();
-
-                        continue;
+                            pollingTask = Task.Run(async () =>
+                            {
+                                await Task.Delay(TimeSpan.FromSeconds(5)).ContinueWith((t) => pollingTask = null).ContinueWith((t) => FlushInternal());
+                            });
+                        }
                     }
 
-                    Task.Delay(TimeSpan.FromMilliseconds(1d)).Wait();
+                    Task.Delay(TimeSpan.FromMilliseconds(10)).Wait();
                 };
             });
         }
