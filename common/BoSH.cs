@@ -172,13 +172,15 @@ namespace XMPP.common
             var resp = SendRequest(body);
             if (null != resp)
             {
+                StartPollingTimer();
+
+                StartPolling();
+
                 var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
 
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
             }
-
-            StartPollingTimer();
         }
 
         private body SendRequest(body body)
@@ -359,9 +361,49 @@ namespace XMPP.common
             }
         }
 
+        private Task StartPolling()
+        {
+            return Task.Run(() =>
+            {
+                while (true)
+                {
+                    if(_disconnecting.IsSet)
+                    {
+                        return;
+                    }
+
+                    if(_connectionError.IsSet)
+                    {
+                        return;
+                    }
+
+                    if (_connectionsCounter.CurrentCount == _requests) //no active requests
+                    {
+                        Task.Run(() => Flush());
+                        //Task.Delay(TimeSpan.FromSeconds(1d)).Wait();
+                        //continue;
+                    }
+
+                    if (_connectionsCounter.CurrentCount == _requests - 1) //last active requests
+                    {
+                        Task.Run(() =>
+                        {
+                            Task.Delay(TimeSpan.FromSeconds(1d)).Wait();
+                            Task.Run(() => Flush());
+                        })
+                        .Wait();
+                        //Task.Delay(TimeSpan.FromSeconds(1d)).Wait();
+                        continue;
+                    }
+
+                    Task.Delay(TimeSpan.FromMilliseconds(1d)).Wait();
+                };
+            });
+        }
+
         private void StartPollingTimer()
         {
-            _inactivityTimer.Change(_polling.Value * 1000, _polling.Value * 1000);
+            //_inactivityTimer.Change(_polling.Value * 1000, _polling.Value * 1000);
         }
 
         private void StopPollingTimer()
