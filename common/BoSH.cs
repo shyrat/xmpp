@@ -58,8 +58,6 @@ namespace XMPP.common
 
         public void Disconnect()
         {
-            StopPollingTimer();
-
             _disconnecting.Set();
 
             if (!_connectionError.IsSet)
@@ -109,9 +107,6 @@ namespace XMPP.common
                 BaseAddress = new Uri(_manager.Settings.Hostname)
             };
 
-            TimerCallback cb = obj => FlushInternal();
-            _inactivityTimer = new Timer(cb, null, Timeout.Infinite, Timeout.Infinite);
-
             _disconnecting = new ManualResetEventSlim(false);
             _connectionError = new ManualResetEventSlim(false);
             _canFetch = new AutoResetEvent(true);
@@ -149,12 +144,6 @@ namespace XMPP.common
                 _client = null;
             }
 
-            if (null != _inactivityTimer)
-            {
-                _inactivityTimer.Dispose();
-                _inactivityTimer = null;
-            }
-
             _manager.ProcessComplete.Set();
             _manager.Parser.Clear();
         }
@@ -172,8 +161,6 @@ namespace XMPP.common
             var resp = SendRequest(body);
             if (null != resp)
             {
-                StartPollingTimer();
-
                 StartPolling();
 
                 var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
@@ -380,8 +367,6 @@ namespace XMPP.common
                     if (_connectionsCounter.CurrentCount == _requests) //no active requests
                     {
                         Task.Run(() => Flush());
-                        //Task.Delay(TimeSpan.FromSeconds(1d)).Wait();
-                        //continue;
                     }
 
                     if (_connectionsCounter.CurrentCount == _requests - 1) //last active requests
@@ -392,23 +377,13 @@ namespace XMPP.common
                             Task.Run(() => Flush());
                         })
                         .Wait();
-                        //Task.Delay(TimeSpan.FromSeconds(1d)).Wait();
+
                         continue;
                     }
 
                     Task.Delay(TimeSpan.FromMilliseconds(1d)).Wait();
                 };
             });
-        }
-
-        private void StartPollingTimer()
-        {
-            //_inactivityTimer.Change(_polling.Value * 1000, _polling.Value * 1000);
-        }
-
-        private void StopPollingTimer()
-        {
-            _inactivityTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         private readonly Manager _manager;
@@ -419,7 +394,6 @@ namespace XMPP.common
         private int? _polling;
 
         private HttpClient _client;
-        private Timer _inactivityTimer;
         private SemaphoreSlim _connectionsCounter;
         private ManualResetEventSlim _connectionError;
         private ManualResetEventSlim _disconnecting;
