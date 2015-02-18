@@ -13,6 +13,7 @@
 
 using System.Xml.Linq;
 using XMPP.registries;
+using XMPP.tags.jabber.client;
 
 namespace XMPP.tags.jabber.protocol.forwarded
 {
@@ -27,6 +28,10 @@ namespace XMPP.tags.jabber.protocol.forwarded
     {
         public forwarded() : base(Namespace.forwarded) { }
         public forwarded(XElement other) : base(other) { }
+
+        public message messageElement { get { return Element<message>(XMPP.tags.jabber.client.Namespace.message); } }
+        public presence presenceElement { get { return Element<presence>(XMPP.tags.jabber.client.Namespace.presence); } }
+        public XMPP.tags.jabber.client.iq iqElement { get { return Element<XMPP.tags.jabber.client.iq>(XMPP.tags.jabber.client.Namespace.iq); } }
     }
 }
 

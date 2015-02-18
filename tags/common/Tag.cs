@@ -345,11 +345,44 @@ namespace XMPP.tags
                     document.Add(XNode.ReadFrom(xmlReader));
                 }
 
+                FixNS(document.Root);
+
                 return Tag.Get(document.Root);
             }
             catch
             {
                 return null;
+            }
+        }
+
+        private static void FixNS(XElement e)
+        {
+            if (e.Name.LocalName == "body" && e.Name.Namespace == "http://jabber.org/protocol/httpbind" && !e.Ancestors().Any())
+            {
+                if (e.HasElements)
+                {
+                    foreach (var chield in e.Descendants())
+                    {
+                        FixNS(chield);
+                    }
+                }
+            }
+            else if (e.Name.LocalName == "iq" ||
+                e.Name.LocalName == "presence" ||
+                e.Name.LocalName == "message" ||
+                e.Name.LocalName == "error" ||
+                e.Name.LocalName == "body" ||
+                e.Name.LocalName == "show")
+            {
+                e.Name = XName.Get(e.Name.LocalName, "jabber:client");
+
+                if (e.HasElements)
+                {
+                    foreach (var chield in e.Descendants())
+                    {
+                        FixNS(chield);
+                    }
+                }
             }
         }
     }

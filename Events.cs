@@ -138,6 +138,12 @@ namespace XMPP
         //Stream_unsupported_version,
         //Stream_xml_not_well_formed           
     }
+
+    public enum ChunkDirection
+    {
+        Incomming,
+        Outgoing
+    }
 }
 
 namespace XMPP.common
@@ -153,6 +159,16 @@ namespace XMPP.common
         public LogEventArgs(string message_, LogType type_) { this.message = message_; this.type = type_; }
         public string message;
         public LogType type;
+    }
+
+    public class ChunkLogEventArgs : LogEventArgs
+    {
+        public ChunkLogEventArgs(string message, ChunkDirection direction) : base(message, LogType.Info)
+        {
+            Direction = direction;
+        }
+
+        public ChunkDirection Direction;
     }
 
     public class ErrorEventArgs : EventArgs
@@ -224,14 +240,19 @@ namespace XMPP.common
                 public void LogMessage(object sender, LogType type, string format, params object[] parameters) { LogMessage(sender, type, string.Format(format, parameters)); }
                 public void LogMessage(object sender, LogType type, string message) { LogMessage(sender, new LogEventArgs(message, type)); }
                 public void LogMessage(object sender, LogEventArgs e) { if (OnLogMessage != null)OnLogMessage(sender, e); }
-
             #endregion
 
-             #region Ready
+            #region Trace stream
+                public event ExternalChunk OnChunk;
+                public delegate void ExternalChunk(object sender, ChunkLogEventArgs e);
+                public void Chunk(object sender, ChunkLogEventArgs e = default(ChunkLogEventArgs)) { if (OnChunk != null) OnChunk(sender, e); }
+            #endregion
+
+            #region Ready
                 public event ExternalReady OnReady;
                 public delegate void ExternalReady(object sender, EventArgs e);
                 public void Ready(object sender, EventArgs e = default(EventArgs)) { if (OnReady != null) OnReady(sender, e); }
-             #endregion
+            #endregion
 
             #region ResourceBound
                 public event ExternalResourceBound OnResourceBound;

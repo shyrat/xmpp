@@ -119,21 +119,6 @@ namespace XMPP.registries
 
                 bool gotType = RegisteredItems.TryGetValue(element.Name, out type);
 
-                if (!gotType)
-                {
-                    if (
-                        element.Name.LocalName == "iq" ||
-                        element.Name.LocalName == "presence" ||
-                        element.Name.LocalName == "message" ||
-                        element.Name.LocalName == "error"
-                    )
-                    {
-                        FixNs(element);
-
-                        gotType = RegisteredItems.TryGetValue(element.Name, out type);
-                    }
-                }
-
                 if (gotType)
                 {
                     ConstructorInfo ctorName = GetConstructor(type, new Type[] { element.GetType() });
@@ -150,22 +135,6 @@ namespace XMPP.registries
             catch
             {
                 return null;
-            }
-        }
-
-        protected void FixNs(XElement element)
-        {
-            element.Name = XName.Get(element.Name.LocalName, "jabber:client");
-
-            if (element.HasElements)
-            {
-                foreach (var chield in element.Descendants())
-                {
-                    if (chield.Name.Namespace == "http://jabber.org/protocol/httpbind")
-                    {
-                        FixNs(chield);
-                    }
-                }
             }
         }
 

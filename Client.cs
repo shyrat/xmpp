@@ -78,6 +78,7 @@ namespace XMPP
 
         public event Events.ExternalReceive OnReceive { add { Manager.Events.OnReceive += value; } remove { Manager.Events.OnReceive -= value; } }
 
+        public event Events.ExternalChunk OnChunk { add { Manager.Events.OnChunk += value; } remove { Manager.Events.OnChunk -= value; } }
         #endregion
 
         #region actions

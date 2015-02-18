@@ -60,6 +60,11 @@ namespace XMPP.common
 
         public void Disconnect()
         {
+            if (!IsConnected)
+            {
+                return;
+            }
+
             _disconnecting.Set();
 
             if(null != _pollingTask)
@@ -136,9 +141,12 @@ namespace XMPP.common
 
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
         {
-            _connectionError.Set();
+            if (!_connectionError.IsSet)
+            {
+                _connectionError.Set();
 
-            _manager.Events.Error(this, type, policy, cause);
+                _manager.Events.Error(this, type, policy, cause);
+            }
         }
 
         private void CleanupState()
@@ -179,9 +187,7 @@ namespace XMPP.common
 
         private body SendRequest(body body)
         {
-#if DEBUG
-            Debug.WriteLine("Outgoing data:\r\n{0}", body);
-#endif
+            _manager.Events.Chunk(this, new ChunkLogEventArgs(body, ChunkDirection.Outgoing));
 
             var req = new HttpRequestMessage
             {
@@ -202,14 +208,12 @@ namespace XMPP.common
                 {
                     var data = resp.Content.ReadAsStringAsync().Result;
 
-#if DEBUG
-                    Debug.WriteLine("Incomming data:\r\n{0}", data);
-#endif
+                   _manager.Events.Chunk(this, new ChunkLogEventArgs(data, ChunkDirection.Incomming));
 
                     return Tag.Get(data) as body;
                 }
 
-                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, string.Format("{0} {1}", resp.StatusCode, resp.ReasonPhrase));
+                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, string.Format("Connection error:\r\nStatus: {0}\r\nReason Phrase: {1}", resp.StatusCode, resp.ReasonPhrase));
             }
             catch (AggregateException e)
             {
@@ -353,9 +357,9 @@ namespace XMPP.common
         {
             if (null != resp)
             {
-                foreach (var element in resp.Elements())
+                foreach (var element in resp.Elements<XElement>())
                 {
-                    _manager.Events.NewTag(this, Tag.Get(element.ToString()));
+                    _manager.Events.NewTag(this, Tag.Get(element));
                 }
             }
         }
@@ -396,7 +400,7 @@ namespace XMPP.common
                         }
                     }
 
-                    Task.Delay(TimeSpan.FromMilliseconds(1)).Wait();
+                    Task.Delay(TimeSpan.FromMilliseconds(10)).Wait();
                 };
             });
         }
