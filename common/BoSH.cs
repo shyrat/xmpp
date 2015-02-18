@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Text;
 using XMPP.states;
 using XMPP.tags;
 using XMPP.tags.bosh;
@@ -192,7 +193,7 @@ namespace XMPP.common
             var req = new HttpRequestMessage
             {
                 Method = new HttpMethod("POST"),
-                Content = new StringContent(body),
+                Content = new StringContent(body, Encoding.UTF8),
             };
 
             req.Content.Headers.ContentType = new MediaTypeHeaderValue("text/xml")
