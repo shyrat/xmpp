@@ -62,6 +62,11 @@ namespace XMPP.common
         {
             _disconnecting.Set();
 
+            if(null != _pollingTask)
+            {
+                _pollingTask.Wait();
+            }
+
             if (!_connectionError.IsSet)
             {
                 SendSessionTerminationRequest();
@@ -163,7 +168,7 @@ namespace XMPP.common
             var resp = SendRequest(body);
             if (null != resp)
             {
-                StartPolling();
+                _pollingTask = StartPolling();
 
                 var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
 
@@ -237,7 +242,7 @@ namespace XMPP.common
                 _manager.Events.Connected(this);
 
                 _sid = resp.sid;
-                _polling = _manager.Settings.PollingInterval ?? resp.polling;
+                _polling = resp.polling;
                 _requests = resp.requests;
 
                 _connectionsCounter = new SemaphoreSlim(_requests.Value, _requests.Value);
@@ -380,16 +385,18 @@ namespace XMPP.common
 
                     if (_connectionsCounter.CurrentCount == _requests - 1) //last active requests
                     {
-                        if (null == pollingTask)
+                        if (null == Interlocked.Exchange(ref pollingTask, pollingTask))
                         {
                             pollingTask = Task.Run(async () =>
                             {
-                                await Task.Delay(TimeSpan.FromSeconds(5)).ContinueWith((t) => pollingTask = null).ContinueWith((t) => FlushInternal());
+                                await Task.Delay(TimeSpan.FromSeconds((double)_polling))
+                                            .ContinueWith((t) => Interlocked.Exchange(ref pollingTask, null))
+                                            .ContinueWith((t) => FlushInternal());
                             });
                         }
                     }
 
-                    Task.Delay(TimeSpan.FromMilliseconds(10)).Wait();
+                    Task.Delay(TimeSpan.FromMilliseconds(1)).Wait();
                 };
             });
         }
@@ -407,6 +414,7 @@ namespace XMPP.common
         private ManualResetEventSlim _disconnecting;
         private AutoResetEvent _canFetch;
         private ConcurrentQueue<XElement> _tags;
+        private Task _pollingTask;
 
         private const int StartRid = 1000000;
         private const int EndRid = 99999999;
