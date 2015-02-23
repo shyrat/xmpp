@@ -71,6 +71,7 @@ namespace XMPP.common
             if(null != _pollingTask)
             {
                 _pollingTask.Wait();
+                _pollingTask = null;
             }
 
             if (!_connectionError.IsSet)
@@ -86,6 +87,11 @@ namespace XMPP.common
         public void Restart()
         {
             SendRestartRequest();
+        }
+
+        public void StartPolling()
+        {
+            _pollingTask = StartPollingInternal();
         }
 
         public void Send(tags.Tag tag)
@@ -177,8 +183,6 @@ namespace XMPP.common
             var resp = SendRequest(body);
             if (null != resp)
             {
-                _pollingTask = StartPolling();
-
                 var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
 
                 _manager.State = new ServerFeaturesState(_manager);
@@ -360,12 +364,14 @@ namespace XMPP.common
             {
                 foreach (var element in resp.Elements<XElement>())
                 {
-                    _manager.Events.NewTag(this, Tag.Get(element));
+                    var tag = Tag.Get(element);
+
+                    _manager.Events.NewTag(this, tag);
                 }
             }
         }
 
-        private Task StartPolling()
+        private Task StartPollingInternal()
         {
             return Task.Run(() =>
             {
@@ -373,12 +379,7 @@ namespace XMPP.common
 
                 while (true)
                 {
-                    if (_disconnecting.IsSet)
-                    {
-                        return;
-                    }
-
-                    if (_connectionError.IsSet)
+                    if (_disconnecting.IsSet || _connectionError.IsSet)
                     {
                         return;
                     }
@@ -396,7 +397,13 @@ namespace XMPP.common
                             {
                                 await Task.Delay(TimeSpan.FromSeconds((double)_polling))
                                             .ContinueWith((t) => Interlocked.Exchange(ref pollingTask, null))
-                                            .ContinueWith((t) => FlushInternal());
+                                            .ContinueWith((t) =>
+                                            {
+                                                if (_manager.State.GetType() == typeof(RunningState))
+                                                {
+                                                    FlushInternal();
+                                                }
+                                            });
                             });
                         }
                     }

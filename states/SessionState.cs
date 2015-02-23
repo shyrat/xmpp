@@ -41,6 +41,11 @@ namespace XMPP.states
 			}
 			else
 			{
+                if(Manager.Transport == Transport.BoSH)
+                {
+                    (Manager.Connection as BoSH).StartPolling();
+                }
+
                 Manager.State = new RunningState(Manager);
 
                 tags.jabber.client.presence presence = new tags.jabber.client.presence();
