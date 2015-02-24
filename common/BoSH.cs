@@ -2,16 +2,17 @@
 using System.Diagnostics;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.Text;
 using XMPP.states;
 using XMPP.tags;
 using XMPP.tags.bosh;
 using XMPP.tags.xmpp.time;
+
+using Windows.Web.Http;
+using Windows.Storage.Streams;
+using Windows.Web.Http.Headers;
 
 namespace XMPP.common
 {
@@ -121,10 +122,7 @@ namespace XMPP.common
 
         private void Init()
         {
-            _client = new HttpClient(new HttpClientHandler { UseCookies = true })
-            {
-                BaseAddress = new Uri(_manager.Settings.Hostname)
-            };
+            _client = new HttpClient();
 
             _disconnecting = new ManualResetEventSlim(false);
             _connectionError = new ManualResetEventSlim(false);
@@ -196,22 +194,23 @@ namespace XMPP.common
 
             var req = new HttpRequestMessage
             {
+                RequestUri = new Uri(_manager.Settings.Hostname),
                 Method = new HttpMethod("POST"),
-                Content = new StringContent(body, Encoding.UTF8),
+                Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
             };
 
-            req.Content.Headers.ContentType = new MediaTypeHeaderValue("text/xml")
+            req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")
             {
                 CharSet = "utf-8",
             };
 
             try
             {
-                var resp = _client.SendAsync(req).Result;
+                var resp = _client.SendRequestAsync(req).AsTask().Result;
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    var data = resp.Content.ReadAsStringAsync().Result;
+                    var data = resp.Content.ReadAsStringAsync().AsTask().Result;
 
                    _manager.Events.Chunk(this, new ChunkLogEventArgs(data, ChunkDirection.Incomming));
 
@@ -375,7 +374,7 @@ namespace XMPP.common
         {
             return Task.Run(() =>
             {
-                Task pollingTask = null;
+                //Task pollingTask = null;
 
                 while (true)
                 {
@@ -389,7 +388,7 @@ namespace XMPP.common
                         Task.Run(() => FlushInternal());
                     }
 
-                    if (_connectionsCounter.CurrentCount == _requests - 1) //last active requests
+                    /*if (_connectionsCounter.CurrentCount == _requests - 1) //last active requests
                     {
                         if (null == Interlocked.Exchange(ref pollingTask, pollingTask))
                         {
@@ -406,7 +405,7 @@ namespace XMPP.common
                                             });
                             });
                         }
-                    }
+                    }*/
 
                     Task.Delay(TimeSpan.FromMilliseconds(10)).Wait();
                 };
