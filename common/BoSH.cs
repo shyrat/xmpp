@@ -80,11 +80,6 @@ namespace XMPP.common
                 SendSessionTerminationRequest();
             }
 
-            while (_connectionsCounter.CurrentCount < _requests)
-            {
-                _connectionsCounter.Wait(10);
-            }
-
             CleanupState();
 
             _manager.Events.Disconnected(this);
@@ -100,7 +95,7 @@ namespace XMPP.common
             _pollingTask = StartPollingInternal();
         }
 
-        public void Send(tags.Tag tag)
+        public void Send(Tag tag)
         {
             Task.Run(() => Flush(tag));
         }
@@ -186,7 +181,7 @@ namespace XMPP.common
             var resp = SendRequest(body);
             if (null != resp)
             {
-                var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
+                var payload = resp.Element<tags.streams.features>(tags.streams.Namespace.features);
 
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
@@ -255,12 +250,11 @@ namespace XMPP.common
                 _manager.Events.Connected(this);
 
                 _sid = resp.sid;
-                _polling = resp.polling;
                 _requests = resp.requests;
 
                 _connectionsCounter = new SemaphoreSlim(_requests.Value, _requests.Value);
 
-                var payload = resp.Element<XMPP.tags.streams.features>(XMPP.tags.streams.Namespace.features);
+                var payload = resp.Element<tags.streams.features>(tags.streams.Namespace.features);
 
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
@@ -281,7 +275,7 @@ namespace XMPP.common
             SendRequest(body);
         }
 
-        private void Flush(tags.Tag tag = null)
+        private void Flush(Tag tag = null)
         {
             if (null != tag)
             {
@@ -401,7 +395,6 @@ namespace XMPP.common
         private string _sid;
         private long _rid;
         private int? _requests;
-        private int? _polling;
 
         private HttpClient _client;
         private SemaphoreSlim _connectionsCounter;
