@@ -69,7 +69,7 @@ namespace XMPP.common
 
             _disconnecting.Set();
 
-            if(null != _pollingTask)
+            if (null != _pollingTask)
             {
                 _pollingTask.Wait();
                 _pollingTask = null;
@@ -78,6 +78,11 @@ namespace XMPP.common
             if (!_connectionError.IsSet)
             {
                 SendSessionTerminationRequest();
+            }
+
+            while (_connectionsCounter.CurrentCount < _requests)
+            {
+                _connectionsCounter.Wait(10);
             }
 
             CleanupState();
@@ -374,8 +379,6 @@ namespace XMPP.common
         {
             return Task.Run(() =>
             {
-                //Task pollingTask = null;
-
                 while (true)
                 {
                     if (_disconnecting.IsSet || _connectionError.IsSet)
@@ -387,25 +390,6 @@ namespace XMPP.common
                     {
                         Task.Run(() => FlushInternal());
                     }
-
-                    /*if (_connectionsCounter.CurrentCount == _requests - 1) //last active requests
-                    {
-                        if (null == Interlocked.Exchange(ref pollingTask, pollingTask))
-                        {
-                            pollingTask = Task.Run(async () =>
-                            {
-                                await Task.Delay(TimeSpan.FromSeconds((double)_polling))
-                                            .ContinueWith((t) => Interlocked.Exchange(ref pollingTask, null))
-                                            .ContinueWith((t) =>
-                                            {
-                                                if (_manager.State.GetType() == typeof(RunningState))
-                                                {
-                                                    FlushInternal();
-                                                }
-                                            });
-                            });
-                        }
-                    }*/
 
                     Task.Delay(TimeSpan.FromMilliseconds(10)).Wait();
                 };
