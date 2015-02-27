@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
@@ -8,7 +7,6 @@ using System.Xml.Linq;
 using XMPP.states;
 using XMPP.tags;
 using XMPP.tags.bosh;
-using XMPP.tags.xmpp.time;
 
 using Windows.Web.Http;
 using Windows.Storage.Streams;
@@ -136,6 +134,7 @@ namespace XMPP.common
             var copy = new XElement(tag);
             var comments = copy.DescendantNodesAndSelf()
                                .Where(node => node.NodeType == System.Xml.XmlNodeType.Comment);
+
             while (comments.Any())
             {
                 comments.First().Remove();
@@ -146,6 +145,11 @@ namespace XMPP.common
 
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
         {
+            if (_disconnecting.IsSet)
+            {
+                return;
+            }
+
             if (!_connectionError.IsSet)
             {
                 _connectionError.Set();
@@ -163,9 +167,6 @@ namespace XMPP.common
                 _client.Dispose();
                 _client = null;
             }
-
-            _manager.ProcessComplete.Set();
-            _manager.Parser.Clear();
         }
 
         private void SendRestartRequest()
@@ -287,12 +288,7 @@ namespace XMPP.common
 
         private void FlushInternal()
         {
-            if (_disconnecting.IsSet)
-            {
-                return;
-            }
-
-            if (_connectionError.IsSet)
+            if (_disconnecting.IsSet || _connectionError.IsSet)
             {
                 return;
             }
@@ -362,9 +358,7 @@ namespace XMPP.common
             {
                 foreach (var element in resp.Elements<XElement>())
                 {
-                    var tag = Tag.Get(element);
-
-                    _manager.Events.NewTag(this, tag);
+                    _manager.Events.NewTag(this, Tag.Get(element));
                 }
             }
         }

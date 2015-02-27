@@ -19,6 +19,7 @@
 using System;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using XMPP.common;
 using XMPP.tags;
 
@@ -83,12 +84,41 @@ namespace XMPP
 
         #region actions
 
-        public void Connect() { Manager.Events.Connect(null, default(EventArgs)); }
-        public void Disconnect()  { Manager.Events.Disconnect(null, default(EventArgs)); }
-        public void Send(Tag tag) { Send(new TagEventArgs(tag)); }
-        public void Send(TagEventArgs e) { Manager.Events.Send(null, e); }
+	    public void Connect()
+	    {
+	        Manager.Events.Connect(null, default(EventArgs));
+	    }
+
+        public Task ConnectAsync()
+        {
+            return Task.Run(() => Connect());
+        }
+
+	    public void Disconnect()
+	    {
+	        Manager.Events.Disconnect(null, default(EventArgs));
+	    }
+
+        public Task DisconnectAsync()
+	    {
+            return Task.Run(() => Disconnect());
+	    }
+
+	    public void Send(Tag tag)
+	    {
+	        Send(new TagEventArgs(tag));
+	    }
+
+        public Task SendAsync(Tag tag)
+        {
+            return Task.Run(() => Send(tag));
+        }
+
+	    public void Send(TagEventArgs e)
+	    {
+	        Manager.Events.Send(null, e);
+	    }
 
         #endregion
-
     }
 }

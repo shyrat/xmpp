@@ -370,7 +370,7 @@ namespace XMPP.tags
             else if (e.Name.LocalName == "iq" ||
                 e.Name.LocalName == "presence" ||
                 e.Name.LocalName == "message" ||
-                e.Name.LocalName == "error" ||
+                (e.Name.LocalName == "error" && e.Name.NamespaceName != streams.Namespace.Name) ||
                 e.Name.LocalName == "body" ||
                 e.Name.LocalName == "show")
             {
