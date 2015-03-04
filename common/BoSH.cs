@@ -143,18 +143,28 @@ namespace XMPP.common
             return copy;
         }
 
-        private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
+        private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause, body body)
         {
             if (_disconnecting.IsSet)
             {
                 return;
             }
 
-            if (!_connectionError.IsSet)
+            if (Interlocked.Increment(ref _retrySendRequestCounter) > 2)
             {
-                _connectionError.Set();
+                if (!_connectionError.IsSet)
+                {
+                    _connectionError.Set();
 
-                _manager.Events.Error(this, type, policy, cause);
+                    _manager.Events.Error(this, type, policy, cause);
+                }
+            }
+            else
+            {
+                foreach (var item in body.Elements())
+                {
+                    _tags.Enqueue(item);
+                }
             }
         }
 
@@ -191,8 +201,6 @@ namespace XMPP.common
 
         private body SendRequest(body body)
         {
-            _manager.Events.Chunk(this, new ChunkLogEventArgs(body, ChunkDirection.Outgoing));
-
             var req = new HttpRequestMessage
             {
                 RequestUri = new Uri(_manager.Settings.Hostname),
@@ -213,18 +221,29 @@ namespace XMPP.common
                 {
                     var data = resp.Content.ReadAsStringAsync().AsTask().Result;
 
-                   _manager.Events.Chunk(this, new ChunkLogEventArgs(data, ChunkDirection.Incomming));
+                    Interlocked.Exchange(ref _retrySendRequestCounter, 0);
 
                     return Tag.Get(data) as body;
                 }
 
-                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, string.Format("Connection error:\r\nStatus: {0}\r\nReason Phrase: {1}", resp.StatusCode, resp.ReasonPhrase));
+                ConnectionError(
+                    ErrorType.ConnectToServerFailed,
+                    ErrorPolicyType.Reconnect,
+                    string.Format(
+                        "Connection error: Status: {0} Reason Phrase: {1}",
+                        resp.StatusCode,
+                        resp.ReasonPhrase),
+                    body);
             }
             catch (AggregateException e)
             {
                 if (!(e.InnerException is TaskCanceledException))
                 {
-                    ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, e.Message);
+                    ConnectionError(
+                        ErrorType.ConnectToServerFailed,
+                        ErrorPolicyType.Reconnect,
+                        e.Message,
+                        body);
                 }
             }
 
@@ -389,6 +408,8 @@ namespace XMPP.common
         private string _sid;
         private long _rid;
         private int? _requests;
+
+        private long _retrySendRequestCounter;
 
         private HttpClient _client;
         private SemaphoreSlim _connectionsCounter;
