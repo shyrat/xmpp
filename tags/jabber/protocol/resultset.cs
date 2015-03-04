@@ -1,91 +1,132 @@
-﻿//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="resultset.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.protocol.resultset
+namespace XMPP.Tags.Jabber.Protocol.Resultset
 {
     public class Namespace
     {
         public const string Name = "http://jabber.org/protocol/rsm";
 
-        public static XName set = XName.Get("set", Name);
-        public static XName after = XName.Get("after", Name);
-        public static XName before = XName.Get("before", Name);
-        public static XName count = XName.Get("count", Name);
-        public static XName first = XName.Get("first", Name);
-        public static XName index = XName.Get("index", Name);
-        public static XName last = XName.Get("last", Name);
-        public static XName max = XName.Get("max", Name);
+        public static readonly XName Set = XName.Get("set", Name);
+        public static readonly XName After = XName.Get("after", Name);
+        public static readonly XName Before = XName.Get("before", Name);
+        public static readonly XName Count = XName.Get("count", Name);
+        public static readonly XName First = XName.Get("first", Name);
+        public static readonly XName Index = XName.Get("index", Name);
+        public static readonly XName Last = XName.Get("last", Name);
+        public static readonly XName Max = XName.Get("max", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(set))]
-    public class set : Tag
+    [XmppTag(typeof(Namespace), typeof(Set))]
+    public class Set : Tag
     {
-        public set() : base(Namespace.set) { }
-        public set(XElement other) : base(other) { }
+        public Set() : base(Namespace.Set)
+        {
+        }
+
+        public Set(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(after))]
-    public class after : Tag
+    [XmppTag(typeof(Namespace), typeof(After))]
+    public class After : Tag
     {
-        public after() : base(Namespace.after) { }
-        public after(XElement other) : base(other) { }
+        public After() : base(Namespace.After)
+        {
+        }
+
+        public After(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(before))]
-    public class before : Tag
+    [XmppTag(typeof(Namespace), typeof(Before))]
+    public class Before : Tag
     {
-        public before() : base(Namespace.before) { }
-        public before(XElement other) : base(other) { }
+        public Before() : base(Namespace.Before)
+        {
+        }
+
+        public Before(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(count))]
-    public class count : Tag
+    [XmppTag(typeof(Namespace), typeof(Count))]
+    public class Count : Tag
     {
-        public count() : base(Namespace.count) { }
-        public count(XElement other) : base(other) { }
+        public Count() : base(Namespace.Count)
+        {
+        }
+
+        public Count(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(first))]
-    public class first : Tag
+    [XmppTag(typeof(Namespace), typeof(First))]
+    public class First : Tag
     {
-        public first() : base(Namespace.first) { }
-        public first(XElement other) : base(other) { }
+        public First() : base(Namespace.First)
+        {
+        }
 
-        public int? index { get { return GetAttributeValueAsInt("index"); } set { SetAttributeValue("index", value); } }
+        public First(XElement other) : base(other)
+        {
+        }
+
+        public int? Index
+        {
+            get { return GetAttributeValueAsInt("index"); }
+            set { SetAttributeValue("index", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(index))]
-    public class index : Tag
+    [XmppTag(typeof(Namespace), typeof(Index))]
+    public class Index : Tag
     {
-        public index() : base(Namespace.index) { }
-        public index(XElement other) : base(other) { }
+        public Index() : base(Namespace.Index)
+        {
+        }
+
+        public Index(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(last))]
-    public class last : Tag
+    [XmppTag(typeof(Namespace), typeof(Last))]
+    public class Last : Tag
     {
-        public last() : base(Namespace.last) { }
-        public last(XElement other) : base(other) { }
+        public Last() : base(Namespace.Last)
+        {
+        }
+
+        public Last(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(max))]
-    public class max : Tag
+    [XmppTag(typeof(Namespace), typeof(Max))]
+    public class Max : Tag
     {
-        public max() : base(Namespace.max) { }
-        public max(XElement other) : base(other) { }
+        public Max() : base(Namespace.Max)
+        {
+        }
+
+        public Max(XElement other) : base(other)
+        {
+        }
     }
 }
 

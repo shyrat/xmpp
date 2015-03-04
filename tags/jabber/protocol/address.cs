@@ -1,66 +1,189 @@
-// address.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="address.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.protocol.address
+namespace XMPP.Tags.Jabber.Protocol.address
 {
+    /// <summary>
+    /// The namespace.
+    /// </summary>
     public class Namespace
     {
+        /// <summary>
+        /// The name.
+        /// </summary>
         public static string Name = "http://jabber.org/protocol/address";
+
+        /// <summary>
+        /// The addresses.
+        /// </summary>
         public static XName addresses = XName.Get("addresses", Name);
+
+        /// <summary>
+        /// The address.
+        /// </summary>
         public static XName address = XName.Get("address", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(addresses))]
+    /// <summary>
+    /// The addresses.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(addresses))]
     public class addresses : Tag
     {
-        public addresses() : base(Namespace.addresses) {} 
-        public addresses(XElement other) : base(other) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="addresses"/> class.
+        /// </summary>
+        public addresses() : base(Namespace.addresses)
+        {
+        }
 
-        public IEnumerable<address> addressElements { get { return Elements<address>(Namespace.address); } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="addresses"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public addresses(XElement other) : base(other)
+        {
+        }
+
+        /// <summary>
+        /// Gets the address elements.
+        /// </summary>
+        public IEnumerable<address> addressElements
+        {
+            get { return Elements<address>(Namespace.address); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(address))]
+    /// <summary>
+    /// The address.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(address))]
     public class address : Tag
     {
-        public address() : base(Namespace.address) {} 
-        public address(XElement other) : base(other) {}
-
+        /// <summary>
+        /// The type enum.
+        /// </summary>
         public enum typeEnum
         {
-            none,
-            bcc,
-            cc,
-            noreply,
-            replyroom,
-            replyto,
+            /// <summary>
+            /// The none.
+            /// </summary>
+            none, 
+
+            /// <summary>
+            /// The bcc.
+            /// </summary>
+            bcc, 
+
+            /// <summary>
+            /// The cc.
+            /// </summary>
+            cc, 
+
+            /// <summary>
+            /// The noreply.
+            /// </summary>
+            noreply, 
+
+            /// <summary>
+            /// The replyroom.
+            /// </summary>
+            replyroom, 
+
+            /// <summary>
+            /// The replyto.
+            /// </summary>
+            replyto, 
+
+            /// <summary>
+            /// The to.
+            /// </summary>
             to
         }
 
-		public string delivered { get { return (string)GetAttributeValue("delivered"); } set { SetAttributeValue("delivered", value); } }
-		public string desc { get { return (string)GetAttributeValue("desc"); } set { SetAttributeValue("desc", value); } }
-		public string jid { get { return (string)GetAttributeValue("jid"); } set { SetAttributeValue("jid", value); } }
-		public string node { get { return (string)GetAttributeValue("node"); } set { SetAttributeValue("node", value); } }
-        public typeEnum type { get { return GetAttributeEnum<typeEnum>("type"); } set { SetAttributeEnum<typeEnum>("type", value); } }
-		public string uri { get { return (string)GetAttributeValue("uri"); } set { SetAttributeValue("uri", value); } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="address"/> class.
+        /// </summary>
+        public address() : base(Namespace.address)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="address"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public address(XElement other) : base(other)
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the delivered.
+        /// </summary>
+        public string delivered
+        {
+            get { return (string) GetAttributeValue("delivered"); }
+            set { SetAttributeValue("delivered", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the desc.
+        /// </summary>
+        public string desc
+        {
+            get { return (string) GetAttributeValue("desc"); }
+            set { SetAttributeValue("desc", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the jid.
+        /// </summary>
+        public string jid
+        {
+            get { return (string) GetAttributeValue("jid"); }
+            set { SetAttributeValue("jid", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the node.
+        /// </summary>
+        public string node
+        {
+            get { return (string) GetAttributeValue("node"); }
+            set { SetAttributeValue("node", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the type.
+        /// </summary>
+        public typeEnum type
+        {
+            get { return GetAttributeEnum<typeEnum>("type"); }
+            set { SetAttributeEnum<typeEnum>("type", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the uri.
+        /// </summary>
+        public string uri
+        {
+            get { return (string) GetAttributeValue("uri"); }
+            set { SetAttributeValue("uri", value); }
+        }
     }
 }
 

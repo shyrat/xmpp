@@ -1,42 +1,39 @@
-﻿//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="dataforms.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.x.dataforms
+namespace XMPP.Tags.Jabber.X.Dataforms
 {
     public class Namespace
     {
         public const string Name = "jabber:x:data";
 
-        public static XName x = XName.Get("x", Name);
-        public static XName title = XName.Get("title", Name);
-        public static XName item = XName.Get("item", Name);
-        public static XName reported = XName.Get("reported", Name);
-        public static XName field = XName.Get("field", Name);
-        public static XName desc = XName.Get("desc", Name);
-        public static XName value = XName.Get("value", Name);
-        public static XName option = XName.Get("option", Name);
-        public static XName required = XName.Get("required", Name);
+        public static readonly XName X = XName.Get("x", Name);
+        public static readonly XName Title = XName.Get("title", Name);
+        public static readonly XName Item = XName.Get("item", Name);
+        public static readonly XName Reported = XName.Get("reported", Name);
+        public static readonly XName Field = XName.Get("field", Name);
+        public static readonly XName Desc = XName.Get("desc", Name);
+        public static readonly XName Value = XName.Get("value", Name);
+        public static readonly XName Option = XName.Get("option", Name);
+        public static readonly XName Required = XName.Get("required", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(x))]
+    [XmppTag(typeof(Namespace), typeof(x))]
     public class x : Tag
     {
-        public enum typeEnum
+        public enum TypeEnum
         {
             cancel,
             form,
@@ -44,155 +41,193 @@ namespace XMPP.tags.jabber.x.dataforms
             submit
         }
 
-        public x() : base(Namespace.x) { }
-        public x(XElement other) : base(other) { }
-
-        public IEnumerable<field> fieldElements
+        public x() : base(Namespace.X)
         {
-            get { return Elements<field>(Namespace.field); }
         }
 
-        public IEnumerable<item> itemElements
+        public x(XElement other) : base(other)
         {
-            get { return Elements<item>(Namespace.item); }
         }
 
-        public typeEnum type
+        public IEnumerable<Field> FieldElements
         {
-            get { return GetAttributeEnum<typeEnum>("type"); }
-            set { SetAttributeEnum<typeEnum>("type", value); }
+            get { return Elements<Field>(Namespace.Field); }
+        }
+
+        public IEnumerable<Item> ItemElements
+        {
+            get { return Elements<Item>(Namespace.Item); }
+        }
+
+        public TypeEnum Type
+        {
+            get { return GetAttributeEnum<TypeEnum>("type"); }
+            set { SetAttributeEnum<TypeEnum>("type", value); }
         }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(title))]
-    public class title : Tag
+    [XmppTag(typeof(Namespace), typeof(Title))]
+    public class Title : Tag
     {
-        public title() : base(Namespace.title) { }
-        public title(XElement other) : base(other) { }
-    }
-
-    [XMPPTag(typeof(Namespace), typeof(item))]
-    public class item : Tag
-    {
-        public item() : base(Namespace.item) { }
-        public item(XElement other) : base(other) { }
-
-        public IEnumerable<field> fieldElements
+        public Title() : base(Namespace.Title)
         {
-            get { return Elements<field>(Namespace.field); }
+        }
+
+        public Title(XElement other) : base(other)
+        {
         }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(reported))]
-    public class reported : Tag
+    [XmppTag(typeof(Namespace), typeof(Item))]
+    public class Item : Tag
     {
-        public reported() : base(Namespace.item) { }
-        public reported(XElement other) : base(other) { }
-
-        public IEnumerable<field> fieldElements
+        public Item() : base(Namespace.Item)
         {
-            get { return Elements<field>(Namespace.field); }
+        }
+
+        public Item(XElement other) : base(other)
+        {
+        }
+
+        public IEnumerable<Field> FieldElements
+        {
+            get { return Elements<Field>(Namespace.Field); }
         }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(field))]
-    public class field : Tag
+    [XmppTag(typeof(Namespace), typeof(Reported))]
+    public class Reported : Tag
+    {
+        public Reported() : base(Namespace.Item)
+        {
+        }
+
+        public Reported(XElement other) : base(other)
+        {
+        }
+
+        public IEnumerable<Field> FieldElements
+        {
+            get { return Elements<Field>(Namespace.Field); }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Field))]
+    public class Field : Tag
     {
         public enum typeEnum
         {
             boolean,
             @fixed,
             hidden,
-            [EnumMember(Value = "jid-multi")]
-            jid_multi,
-            [EnumMember(Value = "jid-single")]
-            jid_single,
-            [EnumMember(Value = "list-multi")]
-            list_multi,
-            [EnumMember(Value = "list-single")]
-            list_single,
-            [EnumMember(Value = "text-multi")]
-            text_multi,
-            [EnumMember(Value = "text-private")]
-            text_private,
-            [EnumMember(Value = "text-single")]
-            text_single
+            [EnumMember(Value = "jid-multi")] jid_multi,
+            [EnumMember(Value = "jid-single")] jid_single,
+            [EnumMember(Value = "list-multi")] list_multi,
+            [EnumMember(Value = "list-single")] list_single,
+            [EnumMember(Value = "text-multi")] text_multi,
+            [EnumMember(Value = "text-private")] text_private,
+            [EnumMember(Value = "text-single")] text_single
         }
 
-        public field() : base(Namespace.field) { }
-        public field(XElement other) : base(other) { }
-
-        public XElement desc
+        public Field() : base(Namespace.Field)
         {
-            get { return Element<desc>(Namespace.desc); }
         }
 
-        public XElement required
+        public Field(XElement other) : base(other)
         {
-            get { return Element<required>(Namespace.required); }
         }
 
-        public IEnumerable<value> valueElements
+        public XElement Desc
         {
-            get { return Elements<value>(Namespace.value); }
+            get { return Element<Desc>(Namespace.Desc); }
         }
 
-        public IEnumerable<option> optionElements
+        public XElement Required
         {
-            get { return Elements<option>(Namespace.option); }
+            get { return Element<Required>(Namespace.Required); }
         }
 
-        public string label
+        public IEnumerable<Value> ValueElements
         {
-            get { return (string)GetAttributeValue("label"); }
+            get { return Elements<Value>(Namespace.Value); }
+        }
+
+        public IEnumerable<Option> OptionElements
+        {
+            get { return Elements<Option>(Namespace.Option); }
+        }
+
+        public string Label
+        {
+            get { return (string) GetAttributeValue("label"); }
             set { SetAttributeValue("label", value); }
         }
 
-        public typeEnum type
+        public typeEnum Type
         {
             get { return GetAttributeEnum<typeEnum>("type"); }
             set { SetAttributeEnum<typeEnum>("type", value); }
         }
 
-        public string var
+        public string Var
         {
             get { return (string)GetAttributeValue("var"); }
             set { SetAttributeValue("var", value); }
         }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(desc))]
-    public class desc : Tag
+    [XmppTag(typeof(Namespace), typeof(Desc))]
+    public class Desc : Tag
     {
-        public desc() : base(Namespace.desc) { }
-        public desc(XElement other) : base(other) { }
+        public Desc() : base(Namespace.Desc)
+        {
+        }
+
+        public Desc(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(value))]
-    public class value : Tag
+    [XmppTag(typeof(Namespace), typeof(Value))]
+    public class Value : Tag
     {
-        public value() : base(Namespace.value) { }
-        public value(XElement other) : base(other) { }
+        public Value() : base(Namespace.Value)
+        {
+        }
+
+        public Value(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(option))]
-    public class option : Tag
+    [XmppTag(typeof(Namespace), typeof(Option))]
+    public class Option : Tag
     {
-        public option() : base(Namespace.option) { }
-        public option(XElement other) : base(other) { }
+        public Option() : base(Namespace.Option)
+        {
+        }
 
-        public string label
+        public Option(XElement other) : base(other)
+        {
+        }
+
+        public string Label
         {
             get { return (string)GetAttributeValue("label"); }
             set { SetAttributeValue("label", value); }
         }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(required))]
-    public class required : Tag
+    [XmppTag(typeof(Namespace), typeof(Required))]
+    public class Required : Tag
     {
-        public required() : base(Namespace.required) { }
-        public required(XElement other) : base(other) { }
+        public Required() : base(Namespace.Required)
+        {
+        }
+
+        public Required(XElement other) : base(other)
+        {
+        }
     }
 }
 

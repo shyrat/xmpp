@@ -1,43 +1,37 @@
-﻿// vcard-temp.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="vcard-temp.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.vcard_temp
+namespace XMPP.Tags.VCardTemp
 {
     public class Namespace
     {
-        public static string Name = "vcard-temp";
-        public static XName iq = XName.Get("iq", Name);
-        public static XName vCard = XName.Get("vCard", Name);
+        public const string Name = "vcard-temp";
+
+        public static readonly XName Iq = XName.Get("iq", Name);
+
+        public static readonly XName VCard = XName.Get("vCard", Name);
     }
 
-
-    // Don't know how somebody gets the idea to send me this but it happened
-    [XMPPTag(typeof(Namespace), typeof(jabber.client.iq))]
-
-
-    [XMPPTag(typeof(Namespace), typeof(vCard))]
-    public class vCard : Tag
+    [XmppTag(typeof(Namespace), typeof(VCard))]
+    public class VCard : Tag
     {
-        public vCard() : base(Namespace.vCard) { }
-        public vCard(XElement other) : base(other) { }
+        public VCard() : base(Namespace.VCard)
+        {
+        }
+
+        public VCard(XElement other) : base(other)
+        {
+        }
     }
 }
 

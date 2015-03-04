@@ -1,108 +1,178 @@
-// archive.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="archive.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.xmpp.archive
+namespace XMPP.Tags.Xmpp.Archive
 {
     public class Namespace
     {
-        public static string Name = "urn:xmpp:archive";
-        public static XName auto = XName.Get("auto", Name);
-        public static XName changed = XName.Get("changed", Name);
-        public static XName chat = XName.Get("chat", Name);
-        public static XName body = XName.Get("body", Name);
-        public static XName default_ = XName.Get("default", Name);
-        public static XName feature = XName.Get("feature", Name);
-        public static XName item = XName.Get("item", Name);
-        public static XName list = XName.Get("list", Name);
-        public static XName method = XName.Get("method", Name);
-        public static XName modified = XName.Get("modified", Name);
-        public static XName removed = XName.Get("removed", Name);
-        public static XName note = XName.Get("note", Name);
-        public static XName pref = XName.Get("pref", Name);
-        public static XName itemremove = XName.Get("itemremove", Name);
-        public static XName remove = XName.Get("remove", Name);
-        public static XName retrieve = XName.Get("retrieve", Name);
-        public static XName save = XName.Get("save", Name);
-        public static XName from = XName.Get("from", Name);
-        public static XName next = XName.Get("next", Name);
-        public static XName previous = XName.Get("previous", Name);
-        public static XName to = XName.Get("to", Name);
+        public const string Name = "urn:xmpp:archive";
+
+        public static readonly XName Auto = XName.Get("auto", Name);
+        public static readonly XName Changed = XName.Get("changed", Name);
+        public static readonly XName Chat = XName.Get("chat", Name);
+        public static readonly XName Body = XName.Get("body", Name);
+        public static readonly XName Default = XName.Get("default", Name);
+        public static readonly XName Feature = XName.Get("feature", Name);
+        public static readonly XName Item = XName.Get("item", Name);
+        public static readonly XName List = XName.Get("list", Name);
+        public static readonly XName Method = XName.Get("method", Name);
+        public static readonly XName Modified = XName.Get("modified", Name);
+        public static readonly XName Removed = XName.Get("removed", Name);
+        public static readonly XName Note = XName.Get("note", Name);
+        public static readonly XName Pref = XName.Get("pref", Name);
+        public static readonly XName Itemremove = XName.Get("itemremove", Name);
+        public static readonly XName Remove = XName.Get("remove", Name);
+        public static readonly XName Retrieve = XName.Get("retrieve", Name);
+        public static readonly XName Save = XName.Get("save", Name);
+        public static readonly XName From = XName.Get("from", Name);
+        public static readonly XName Next = XName.Get("next", Name);
+        public static readonly XName Previous = XName.Get("previous", Name);
+        public static readonly XName To = XName.Get("to", Name);
     }
 
+    [XmppTag(typeof(Namespace), typeof(Auto))]
+    public class Auto : Tag
+    {
+        public Auto() : base(Namespace.Auto)
+        {
+        }
 
-    [XMPPTag(typeof(Namespace), typeof(auto))] 
-    public class auto : Tag 
-    { 
-        public auto() : base(Namespace.auto) {} 
-        public auto(XElement other) : base(other) {} 
+        public Auto(XElement other) : base(other)
+        {
+        }
 
-		public string save { get { return (string)GetAttributeValue("save"); } set { SetAttributeValue("save", value); } }
-
+        public string Save
+        {
+            get { return (string)GetAttributeValue("save"); }
+            set { SetAttributeValue("save", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(changed))] 
-    public class changed : Tag 
-    { 
-        public changed() : base(Namespace.changed) {} 
-        public changed(XElement other) : base(other) {} 
+    [XmppTag(typeof(Namespace), typeof(Changed))]
+    public class Changed : Tag
+    {
+        public Changed() : base(Namespace.Changed)
+        {
+        }
 
-		public string exactmatch { get { return (string)GetAttributeValue("exactmatch"); } set { SetAttributeValue("exactmatch", value); } }
-		public string start { get { return (string)GetAttributeValue("start"); } set { SetAttributeValue("start", value); } }
-		public string with { get { return (string)GetAttributeValue("with"); } set { SetAttributeValue("with", value); } }
-		public string version { get { return (string)GetAttributeValue("version"); } set { SetAttributeValue("version", value); } }
+        public Changed(XElement other) : base(other)
+        {
+        }
+
+        public string Exactmatch
+        {
+            get { return (string)GetAttributeValue("exactmatch"); }
+            set { SetAttributeValue("exactmatch", value); }
+        }
+
+        public string Start
+        {
+            get { return (string)GetAttributeValue("start"); }
+            set { SetAttributeValue("start", value); }
+        }
+
+        public string With
+        {
+            get { return (string)GetAttributeValue("with"); }
+            set { SetAttributeValue("with", value); }
+        }
+
+        public string Version
+        {
+            get { return (string) GetAttributeValue("version"); }
+            set { SetAttributeValue("version", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(chat))] 
-    public class chat : Tag 
-    { 
-        public chat() : base(Namespace.chat) {} 
-        public chat(XElement other) : base(other) {} 
+    [XmppTag(typeof(Namespace), typeof(Chat))]
+    public class Chat : Tag
+    {
+        public Chat() : base(Namespace.Chat)
+        {
+        }
 
-		public string start { get { return (string)GetAttributeValue("start"); } set { SetAttributeValue("start", value); } }
-		public string subject { get { return (string)GetAttributeValue("subject"); } set { SetAttributeValue("subject", value); } }
-		public string thread { get { return (string)GetAttributeValue("thread"); } set { SetAttributeValue("thread", value); } }
-		public string version { get { return (string)GetAttributeValue("version"); } set { SetAttributeValue("version", value); } }
-		public string with { get { return (string)GetAttributeValue("with"); } set { SetAttributeValue("with", value); } }
+        public Chat(XElement other) : base(other)
+        {
+        }
 
-		public from from { get { return Element<from>(Namespace.from); } }
-		public next next { get { return Element<next>(Namespace.next); } }
-		public previous previous { get { return Element<previous>(Namespace.previous); } }
-		public to to { get { return Element<to>(Namespace.to); } }
+        public string Start
+        {
+            get { return (string)GetAttributeValue("start"); }
+            set { SetAttributeValue("start", value); }
+        }
+
+        public string Subject
+        {
+            get { return (string)GetAttributeValue("subject"); }
+            set { SetAttributeValue("subject", value); }
+        }
+
+        public string Thread
+        {
+            get { return (string)GetAttributeValue("thread"); }
+            set { SetAttributeValue("thread", value); }
+        }
+
+        public string Version
+        {
+            get { return (string)GetAttributeValue("version"); }
+            set { SetAttributeValue("version", value); }
+        }
+
+        public string With
+        {
+            get { return (string)GetAttributeValue("with"); }
+            set { SetAttributeValue("with", value); }
+        }
+
+        public From From
+        {
+            get { return Element<From>(Namespace.From); }
+        }
+
+        public Next Next
+        {
+            get { return Element<Next>(Namespace.Next); }
+        }
+
+        public Previous Previous
+        {
+            get { return Element<Previous>(Namespace.Previous); }
+        }
+
+        public To To
+        {
+            get { return Element<To>(Namespace.To); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(body))] 
-    public class body : Tag 
-    { 
-        public body() : base(Namespace.body) {} 
-        public body(XElement other) : base(other) {} 
+    [XmppTag(typeof(Namespace), typeof(Body))]
+    public class Body : Tag
+    {
+        public Body() : base(Namespace.Body)
+        {
+        }
+
+        public Body(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(default_))] 
-    public class default_ : Tag 
-    { 
-        public default_() : base(Namespace.default_) {} 
-        public default_(XElement other) : base(other) {}
-
-        public enum otrEnum
+    [XmppTag(typeof(Namespace), typeof(Default))]
+    public class Default : Tag
+    {
+        public enum OtrEnum
         {
             none,
             approve,
@@ -113,7 +183,7 @@ namespace XMPP.tags.xmpp.archive
             require
         }
 
-        public enum saveEnum
+        public enum SaveEnum
         {
             none,
             body,
@@ -122,29 +192,43 @@ namespace XMPP.tags.xmpp.archive
             stream
         }
 
-		public string expire { get { return (string)GetAttributeValue("expire"); } set { SetAttributeValue("expire", value); } }
-		public string unset { get { return (string)GetAttributeValue("unset"); } set { SetAttributeValue("unset", value); } }
+        public Default() : base(Namespace.Default)
+        {
+        }
 
-        public otrEnum otr { get { return GetAttributeEnum<otrEnum>("otr"); } set { SetAttributeEnum<otrEnum>("otr", value); } }
-        public saveEnum save { get { return GetAttributeEnum<saveEnum>("save"); } set { SetAttributeEnum<saveEnum>("save", value); } }
+        public Default(XElement other) : base(other)
+        {
+        }
+
+        public string Expire
+        {
+            get { return (string) GetAttributeValue("expire"); }
+            set { SetAttributeValue("expire", value); }
+        }
+
+        public string Unset
+        {
+            get { return (string) GetAttributeValue("unset"); }
+            set { SetAttributeValue("unset", value); }
+        }
+
+        public OtrEnum Otr
+        {
+            get { return GetAttributeEnum<OtrEnum>("otr"); }
+            set { SetAttributeEnum<OtrEnum>("otr", value); }
+        }
+
+        public SaveEnum Save
+        {
+            get { return GetAttributeEnum<SaveEnum>("save"); }
+            set { SetAttributeEnum<SaveEnum>("save", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(feature))] 
-    public class feature : Tag 
-    { 
-        public feature() : base(Namespace.feature) {} 
-        public feature(XElement other) : base(other) {}
-
-		public default_ default_ { get { return Element<default_>(Namespace.default_); } }
-    }
-
-    [XMPPTag(typeof(Namespace), typeof(item))] 
-    public class item : Tag 
-    { 
-        public item() : base(Namespace.item) {} 
-        public item(XElement other) : base(other) {}
-
-        public enum otrEnum
+    [XmppTag(typeof(Namespace), typeof(Item))]
+    public class Item : Tag
+    {
+        public enum OtrEnum
         {
             none,
             approve,
@@ -155,7 +239,7 @@ namespace XMPP.tags.xmpp.archive
             require
         }
 
-        public enum saveEnum
+        public enum SaveEnum
         {
             none,
             body,
@@ -164,35 +248,49 @@ namespace XMPP.tags.xmpp.archive
             stream
         }
 
-		public string exactmatch { get { return (string)GetAttributeValue("exactmatch"); } set { SetAttributeValue("exactmatch", value); } }
-		public string expire { get { return (string)GetAttributeValue("expire"); } set { SetAttributeValue("expire", value); } }
-		public string jid { get { return (string)GetAttributeValue("jid"); } set { SetAttributeValue("jid", value); } }
+        public Item() : base(Namespace.Item)
+        {
+        }
 
-        public otrEnum otr { get { return GetAttributeEnum<otrEnum>("otr"); } set { SetAttributeEnum<otrEnum>("otr", value); } }
-        public saveEnum save { get { return GetAttributeEnum<saveEnum>("save"); } set { SetAttributeEnum<saveEnum>("save", value); } }
+        public Item(XElement other) : base(other)
+        {
+        }
+
+        public string Exactmatch
+        {
+            get { return (string)GetAttributeValue("exactmatch"); }
+            set { SetAttributeValue("exactmatch", value); }
+        }
+
+        public string Expire
+        {
+            get { return (string)GetAttributeValue("expire"); }
+            set { SetAttributeValue("expire", value); }
+        }
+
+        public string Jid
+        {
+            get { return (string)GetAttributeValue("jid"); }
+            set { SetAttributeValue("jid", value); }
+        }
+
+        public OtrEnum Otr
+        {
+            get { return GetAttributeEnum<OtrEnum>("otr"); }
+            set { SetAttributeEnum<OtrEnum>("otr", value); }
+        }
+
+        public SaveEnum Save
+        {
+            get { return GetAttributeEnum<SaveEnum>("save"); }
+            set { SetAttributeEnum<SaveEnum>("save", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(list))] 
-    public class list : Tag 
-    { 
-        public list() : base(Namespace.list) {} 
-        public list(XElement other) : base(other) {}
-
-		public string end { get { return (string)GetAttributeValue("end"); } set { SetAttributeValue("end", value); } }
-		public string exactmatch { get { return (string)GetAttributeValue("exactmatch"); } set { SetAttributeValue("exactmatch", value); } }
-		public string start { get { return (string)GetAttributeValue("start"); } set { SetAttributeValue("start", value); } }
-		public string with { get { return (string)GetAttributeValue("with"); } set { SetAttributeValue("with", value); } }
-
-        public IEnumerable<chat> chatElements { get { return Elements<chat>(Namespace.chat); } }
-    }
-
-    [XMPPTag(typeof(Namespace), typeof(method))] 
-    public class method : Tag 
-    { 
-        public method() : base(Namespace.method) {} 
-        public method(XElement other) : base(other) {} 
-
-        public enum useEnum
+    [XmppTag(typeof(Namespace), typeof(Method))]
+    public class Method : Tag
+    {
+        public enum UseEnum
         {
             none,
             concede,
@@ -200,144 +298,376 @@ namespace XMPP.tags.xmpp.archive
             prefer
         }
 
-		public string type { get { return (string)GetAttributeValue("type"); } set { SetAttributeValue("type", value); } }
-        public useEnum use { get { return GetAttributeEnum<useEnum>("use"); } set { SetAttributeEnum<useEnum>("use", value); } }
+        public Method() : base(Namespace.Method)
+        {
+        }
+
+        public Method(XElement other) : base(other)
+        {
+        }
+
+        public string Type
+        {
+            get { return (string)GetAttributeValue("type"); }
+            set { SetAttributeValue("type", value); }
+        }
+
+        public UseEnum Use
+        {
+            get { return GetAttributeEnum<UseEnum>("use"); }
+            set { SetAttributeEnum<UseEnum>("use", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(modified))] 
-    public class modified : Tag 
-    { 
-        public modified() : base(Namespace.modified) {} 
-        public modified(XElement other) : base(other) {}
+    [XmppTag(typeof(Namespace), typeof(Modified))]
+    public class Modified : Tag
+    {
+        public Modified() : base(Namespace.Modified)
+        {
+        }
 
-		public string start { get { return (string)GetAttributeValue("start"); } set { SetAttributeValue("start", value); } }
+        public Modified(XElement other) : base(other)
+        {
+        }
 
-        public IEnumerable<changed> changedElements { get { return Elements<changed>(Namespace.changed); } }
-        public IEnumerable<removed> removedElements { get { return Elements<removed>(Namespace.removed); } }
+        public string Start
+        {
+            get { return (string)GetAttributeValue("start"); }
+            set { SetAttributeValue("start", value); }
+        }
+
+        public IEnumerable<Changed> ChangedElements
+        {
+            get { return Elements<Changed>(Namespace.Changed); }
+        }
+
+        public IEnumerable<Removed> RemovedElements
+        {
+            get { return Elements<Removed>(Namespace.Removed); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(note))] 
-    public class note : Tag 
-    { 
-        public note() : base(Namespace.note) {} 
-        public note(XElement other) : base(other) {}
+    [XmppTag(typeof(Namespace), typeof(Note))]
+    public class Note : Tag
+    {
+        public Note() : base(Namespace.Note)
+        {
+        }
 
-		public string utc { get { return (string)GetAttributeValue("utc"); } set { SetAttributeValue("utc", value); } }
+        public Note(XElement other) : base(other)
+        {
+        }
+
+        public string Utc
+        {
+            get { return (string)GetAttributeValue("utc"); }
+            set { SetAttributeValue("utc", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(pref))] 
-    public class pref : Tag 
-    { 
-        public pref() : base(Namespace.pref) {} 
-        public pref(XElement other) : base(other) {}
+    [XmppTag(typeof(Namespace), typeof(Pref))]
+    public class Pref : Tag
+    {
+        public Pref() : base(Namespace.Pref)
+        {
+        }
 
-        public IEnumerable<auto> autoElements { get { return Elements<auto>(Namespace.auto); } }
-        public IEnumerable<default_> default_Elements { get { return Elements<default_>(Namespace.default_); } }
-        public IEnumerable<item> itemElements { get { return Elements<item>(Namespace.item); } }
-        public IEnumerable<method> methodElements { get { return Elements<method>(Namespace.method); } }
+        public Pref(XElement other) : base(other)
+        {
+        }
+
+        public IEnumerable<Auto> AutoElements
+        {
+            get { return Elements<Auto>(Namespace.Auto); }
+        }
+
+        public IEnumerable<Default> DefaultElements
+        {
+            get { return Elements<Default>(Namespace.Default); }
+        }
+
+        public IEnumerable<Item> ItemElements
+        {
+            get { return Elements<Item>(Namespace.Item); }
+        }
+
+        public IEnumerable<Method> MethodElements
+        {
+            get { return Elements<Method>(Namespace.Method); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(itemremove))] 
-    public class itemremove : Tag 
-    { 
-        public itemremove() : base(Namespace.itemremove) {} 
-        public itemremove(XElement other) : base(other) {}
+    [XmppTag(typeof(Namespace), typeof(ItemRemove))]
+    public class ItemRemove : Tag
+    {
+        public ItemRemove() : base(Namespace.Itemremove)
+        {
+        }
 
-        public IEnumerable<item> itemElements { get { return Elements<item>(Namespace.item); } }
+        public ItemRemove(XElement other)
+            : base(other)
+        {
+        }
+
+        public IEnumerable<Item> ItemElements
+        {
+            get { return Elements<Item>(Namespace.Item); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(remove))] 
-    public class remove : Tag 
-    { 
-        public remove() : base(Namespace.remove) {} 
-        public remove(XElement other) : base(other) {}
+    [XmppTag(typeof(Namespace), typeof(Remove))]
+    public class Remove : Tag
+    {
+        public Remove() : base(Namespace.Remove)
+        {
+        }
 
-		public string end { get { return (string)GetAttributeValue("end"); } set { SetAttributeValue("end", value); } }
-		public string exactmatch { get { return (string)GetAttributeValue("exactmatch"); } set { SetAttributeValue("exactmatch", value); } }
-		public string open { get { return (string)GetAttributeValue("open"); } set { SetAttributeValue("open", value); } }
-		public string start { get { return (string)GetAttributeValue("start"); } set { SetAttributeValue("start", value); } }
-		public string with { get { return (string)GetAttributeValue("with"); } set { SetAttributeValue("with", value); } }
+        public Remove(XElement other) : base(other)
+        {
+        }
+
+        public string End
+        {
+            get { return (string)GetAttributeValue("end"); }
+            set { SetAttributeValue("end", value); }
+        }
+
+        public string ExactMatch
+        {
+            get { return (string)GetAttributeValue("exactmatch"); }
+            set { SetAttributeValue("exactmatch", value); }
+        }
+
+        public string Open
+        {
+            get { return (string)GetAttributeValue("open"); }
+            set { SetAttributeValue("open", value); }
+        }
+
+        public string Start
+        {
+            get { return (string)GetAttributeValue("start"); }
+            set { SetAttributeValue("start", value); }
+        }
+
+        public string With
+        {
+            get { return (string)GetAttributeValue("with"); }
+            set { SetAttributeValue("with", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(removed))] 
-    public class removed : Tag 
-    { 
-        public removed() : base(Namespace.removed) {} 
-        public removed(XElement other) : base(other) {}
+    [XmppTag(typeof(Namespace), typeof(Removed))]
+    public class Removed : Tag
+    {
+        public Removed() : base(Namespace.Removed)
+        {
+        }
 
-		public string exactmatch { get { return (string)GetAttributeValue("exactmatch"); } set { SetAttributeValue("exactmatch", value); } }
-		public string start { get { return (string)GetAttributeValue("start"); } set { SetAttributeValue("start", value); } }
-		public string with { get { return (string)GetAttributeValue("with"); } set { SetAttributeValue("with", value); } }
-		public string version { get { return (string)GetAttributeValue("version"); } set { SetAttributeValue("version", value); } }
+        public Removed(XElement other) : base(other)
+        {
+        }
+
+        public string ExactMatch
+        {
+            get { return (string)GetAttributeValue("exactmatch"); }
+            set { SetAttributeValue("exactmatch", value); }
+        }
+
+        public string Start
+        {
+            get { return (string)GetAttributeValue("start"); }
+            set { SetAttributeValue("start", value); }
+        }
+
+        public string With
+        {
+            get { return (string)GetAttributeValue("with"); }
+            set { SetAttributeValue("with", value); }
+        }
+
+        public string Version
+        {
+            get { return (string)GetAttributeValue("version"); }
+            set { SetAttributeValue("version", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(retrieve))] 
-    public class retrieve : Tag 
-    { 
-        public retrieve() : base(Namespace.retrieve) {} 
-        public retrieve(XElement other) : base(other) {}
+    [XmppTag(typeof(Namespace), typeof(Retrieve))]
+    public class Retrieve : Tag
+    {
+        public Retrieve() : base(Namespace.Retrieve)
+        {
+        }
 
-		public string exactmatch { get { return (string)GetAttributeValue("exactmatch"); } set { SetAttributeValue("exactmatch", value); } }
-		public string start { get { return (string)GetAttributeValue("start"); } set { SetAttributeValue("start", value); } }
-		public string with { get { return (string)GetAttributeValue("with"); } set { SetAttributeValue("with", value); } }
-    }
-    
-    [XMPPTag(typeof(Namespace), typeof(save))] 
-    public class save : Tag 
-    { 
-        public save() : base(Namespace.save) {} 
-        public save(XElement other) : base(other) {}
+        public Retrieve(XElement other) : base(other)
+        {
+        }
 
-        public chat chat { get { return Element<chat>(Namespace.chat); } }
-    }
+        public string ExactMatch
+        {
+            get { return (string)GetAttributeValue("exactmatch"); }
+            set { SetAttributeValue("exactmatch", value); }
+        }
 
-    [XMPPTag(typeof(Namespace), typeof(from))] 
-    public class from : Tag 
-    { 
-        public from() : base(Namespace.from) {} 
-        public from(XElement other) : base(other) {} 
+        public string Start
+        {
+            get { return (string)GetAttributeValue("start"); }
+            set { SetAttributeValue("start", value); }
+        }
 
-		public string jid { get { return (string)GetAttributeValue("jid"); } set { SetAttributeValue("jid", value); } }
-		public string name { get { return (string)GetAttributeValue("name"); } set { SetAttributeValue("name", value); } }
-		public string secs { get { return (string)GetAttributeValue("secs"); } set { SetAttributeValue("secs", value); } }
-		public string utc { get { return (string)GetAttributeValue("utc"); } set { SetAttributeValue("utc", value); } }
-
-        public IEnumerable<body> bodyElements { get { return Elements<body>(Namespace.body); } }
+        public string With
+        {
+            get { return (string)GetAttributeValue("with"); }
+            set { SetAttributeValue("with", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(next))] 
-    public class next : Tag 
-    { 
-        public next() : base(Namespace.next) {} 
-        public next(XElement other) : base(other) {} 
+    [XmppTag(typeof(Namespace), typeof(Save))]
+    public class Save : Tag
+    {
+        public Save() : base(Namespace.Save)
+        {
+        }
 
-		public string start { get { return (string)GetAttributeValue("start"); } set { SetAttributeValue("start", value); } }
-		public string with { get { return (string)GetAttributeValue("with"); } set { SetAttributeValue("with", value); } }
+        public Save(XElement other) : base(other)
+        {
+        }
 
+        public Chat Chat
+        {
+            get { return Element<Chat>(Namespace.Chat); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(previous))] 
-    public class previous : Tag 
-    { 
-        public previous() : base(Namespace.previous) {} 
-        public previous(XElement other) : base(other) {}
+    [XmppTag(typeof(Namespace), typeof(From))]
+    public class From : Tag
+    {
+        public From() : base(Namespace.From)
+        {
+        }
 
-		public string start { get { return (string)GetAttributeValue("start"); } set { SetAttributeValue("start", value); } }
-		public string with { get { return (string)GetAttributeValue("with"); } set { SetAttributeValue("with", value); } }
+        public From(XElement other) : base(other)
+        {
+        }
+
+        public string Jid
+        {
+            get { return (string)GetAttributeValue("jid"); }
+            set { SetAttributeValue("jid", value); }
+        }
+
+        public string Name
+        {
+            get { return (string)GetAttributeValue("name"); }
+            set { SetAttributeValue("name", value); }
+        }
+
+        public string Secs
+        {
+            get { return (string)GetAttributeValue("secs"); }
+            set { SetAttributeValue("secs", value); }
+        }
+
+        public string Utc
+        {
+            get { return (string)GetAttributeValue("utc"); }
+            set { SetAttributeValue("utc", value); }
+        }
+
+        public IEnumerable<Body> BodyElements
+        {
+            get { return Elements<Body>(Namespace.Body); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(to))] 
-    public class to : Tag 
-    { 
-        public to() : base(Namespace.to) {} 
-        public to(XElement other) : base(other) {}
+    [XmppTag(typeof(Namespace), typeof(Next))]
+    public class Next : Tag
+    {
+        public Next() : base(Namespace.Next)
+        {
+        }
 
-		public string jid { get { return (string)GetAttributeValue("jid"); } set { SetAttributeValue("jid", value); } }
-		public string name { get { return (string)GetAttributeValue("name"); } set { SetAttributeValue("name", value); } }
-		public string secs { get { return (string)GetAttributeValue("secs"); } set { SetAttributeValue("secs", value); } }
-		public string utc { get { return (string)GetAttributeValue("utc"); } set { SetAttributeValue("utc", value); } }
+        public Next(XElement other) : base(other)
+        {
+        }
 
-        public IEnumerable<body> bodyElements { get { return Elements<body>(Namespace.body); } }
+        public string Start
+        {
+            get { return (string)GetAttributeValue("start"); }
+            set { SetAttributeValue("start", value); }
+        }
+
+        public string With
+        {
+            get { return (string)GetAttributeValue("with"); }
+            set { SetAttributeValue("with", value); }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Previous))]
+    public class Previous : Tag
+    {
+        public Previous() : base(Namespace.Previous)
+        {
+        }
+
+        public Previous(XElement other) : base(other)
+        {
+        }
+
+        public string Start
+        {
+            get { return (string)GetAttributeValue("start"); }
+            set { SetAttributeValue("start", value); }
+        }
+
+        public string With
+        {
+            get { return (string)GetAttributeValue("with"); }
+            set { SetAttributeValue("with", value); }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(To))]
+    public class To : Tag
+    {
+        public To() : base(Namespace.To)
+        {
+        }
+
+        public To(XElement other) : base(other)
+        {
+        }
+
+        public string Jid
+        {
+            get { return (string)GetAttributeValue("jid"); }
+            set { SetAttributeValue("jid", value); }
+        }
+
+        public string Name
+        {
+            get { return (string)GetAttributeValue("name"); }
+            set { SetAttributeValue("name", value); }
+        }
+
+        public string Secs
+        {
+            get { return (string)GetAttributeValue("secs"); }
+            set { SetAttributeValue("secs", value); }
+        }
+
+        public string Utc
+        {
+            get { return (string)GetAttributeValue("utc"); }
+            set { SetAttributeValue("utc", value); }
+        }
+
+        public IEnumerable<Body> BodyElements
+        {
+            get { return Elements<Body>(Namespace.Body); }
+        }
     }
 }
 

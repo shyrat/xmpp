@@ -1,40 +1,50 @@
-﻿// delay.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="delay.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.x.delay
+namespace XMPP.Tags.Jabber.X.delay
 {
     public class Namespace
     {
-        public static string Name = "jabber:x:delay";
-        public static XName x = XName.Get("x", Name);
+        public const string Name = "jabber:x:delay";
+
+        public static readonly XName X = XName.Get("x", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(x))]
+    /// <summary>
+    /// The x.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(x))]
     public class x : Tag
     {
-        public x() : base(Namespace.x) {} 
-        public x(XElement other) : base(other) {}
+        public x() : base(Namespace.X)
+        {
+        }
 
-		public string from { get { return (string)GetAttributeValue("from"); } set { SetAttributeValue("from", value); } }
-		public string stamp { get { return (string)GetAttributeValue("stamp"); } set { SetAttributeValue("stamp", value); } }
+        public x(XElement other) : base(other)
+        {
+        }
+
+        public string From
+        {
+            get { return (string) GetAttributeValue("from"); }
+            set { SetAttributeValue("from", value); }
+        }
+
+        public string Stamp
+        {
+            get { return (string) GetAttributeValue("stamp"); }
+            set { SetAttributeValue("stamp", value); }
+        }
     }
 }
 

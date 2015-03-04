@@ -1,76 +1,127 @@
-// metadata.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="metadata.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.xmpp.avatar.metadata
+namespace XMPP.Tags.Xmpp.Avatar.Metadata
 {
     public class Namespace
     {
-        public static string Name = "urn:xmpp:avatar:metadata";
-        public static XName metadata = XName.Get("metadata", Name);
-        public static XName info = XName.Get("info", Name);
-        public static XName pointer = XName.Get("pointer", Name);
-        public static XName stop = XName.Get("stop", Name);
+        public const string Name = "urn:xmpp:avatar:metadata";
 
+        public static readonly XName Metadata = XName.Get("metadata", Name);
+        public static readonly XName Info = XName.Get("info", Name);
+        public static readonly XName Pointer = XName.Get("pointer", Name);
+        public static readonly XName Stop = XName.Get("stop", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(metadata))]
-    public class metadata : Tag 
-    { 
-        public metadata() : base(Namespace.metadata) {} 
-        public metadata(XElement other) : base(other) {}
-
-		public info info { get { return Element<info>(Namespace.info); } }
-		public pointer pointer { get { return Element<pointer>(Namespace.pointer); } }
-		public stop stop { get { return Element<stop>(Namespace.stop); } }
-    }
-
-    [XMPPTag(typeof(Namespace), typeof(info))]
-    public class info : Tag 
-    { 
-        public info() : base(Namespace.info) {} 
-        public info(XElement other) : base(other) {}
-
-		public string bytes { get { return (string)GetAttributeValue("bytes"); } set { SetAttributeValue("bytes", value); } }
-		public string height { get { return (string)GetAttributeValue("height"); } set { SetAttributeValue("height", value); } }
-		public string id { get { return (string)GetAttributeValue("id"); } set { SetAttributeValue("id", value); } }
-		public string type { get { return (string)GetAttributeValue("type"); } set { SetAttributeValue("type", value); } }
-		public string url { get { return (string)GetAttributeValue("url"); } set { SetAttributeValue("url", value); } }
-		public string width { get { return (string)GetAttributeValue("width"); } set { SetAttributeValue("width", value); } }
-    }
-
-
-    [XMPPTag(typeof(Namespace), typeof(pointer))]
-    public class pointer : Tag  
+    [XmppTag(typeof(Namespace), typeof(Metadata))]
+    public class Metadata : Tag
     {
-        public pointer() : base(Namespace.pointer) {} 
-        public pointer(XElement other) : base(other) {} 
+        public Metadata() : base(Namespace.Metadata)
+        {
+        }
+
+        public Metadata(XElement other)
+            : base(other)
+        {
+        }
+
+        public Info Info
+        {
+            get { return Element<Info>(Namespace.Info); }
+        }
+
+        public Pointer Pointer
+        {
+            get { return Element<Pointer>(Namespace.Pointer); }
+        }
+
+        public Stop Stop
+        {
+            get { return Element<Stop>(Namespace.Stop); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(stop))]
-    public class stop : Tag 
+    [XmppTag(typeof(Namespace), typeof(Info))]
+    public class Info : Tag
     {
-        public stop() : base(Namespace.stop) {} 
-        public stop(XElement other) : base(other) {}
+        public Info() : base(Namespace.Info)
+        {
+        }
+
+        public Info(XElement other) : base(other)
+        {
+        }
+
+        public string BytesAttr
+        {
+            get { return (string)GetAttributeValue("bytes"); }
+            set { SetAttributeValue("bytes", value); }
+        }
+
+        public string Height
+        {
+            get { return (string)GetAttributeValue("height"); }
+            set { SetAttributeValue("height", value); }
+        }
+
+        public string Id
+        {
+            get { return (string)GetAttributeValue("id"); }
+            set { SetAttributeValue("id", value); }
+        }
+
+        public string Type
+        {
+            get { return (string)GetAttributeValue("type"); }
+            set { SetAttributeValue("type", value); }
+        }
+
+        public string Url
+        {
+            get { return (string)GetAttributeValue("url"); }
+            set { SetAttributeValue("url", value); }
+        }
+
+        public string Width
+        {
+            get { return (string)GetAttributeValue("width"); }
+            set { SetAttributeValue("width", value); }
+        }
     }
 
+    [XmppTag(typeof(Namespace), typeof(Pointer))]
+    public class Pointer : Tag
+    {
+        public Pointer() : base(Namespace.Pointer)
+        {
+        }
+
+        public Pointer(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Stop))]
+    public class Stop : Tag
+    {
+        public Stop() : base(Namespace.Stop)
+        {
+        }
+
+        public Stop(XElement other) : base(other)
+        {
+        }
+    }
 }
 
 /*

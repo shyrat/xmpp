@@ -1,44 +1,65 @@
-﻿// conference.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="conference.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.x.conference
+namespace XMPP.Tags.Jabber.X.Conference
 {
     public class Namespace
     {
-        public static string Name = "jabber:x:conference";
-        public static XName x = XName.Get("x", Name);
+        public const string Name = "jabber:x:conference";
+
+        public static readonly XName X = XName.Get("x", Name);
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(x))]
+    [XmppTag(typeof(Namespace), typeof(x))]
     public class x : Tag
     {
-        public x() : base(Namespace.x) {} 
-        public x(XElement other) : base(other) {}
+        public x() : base(Namespace.X)
+        {
+        }
 
-		public string continue_ { get { return (string)GetAttributeValue("continue_"); } set { SetAttributeValue("continue_", value); } }
-		public string jid { get { return (string)GetAttributeValue("jid"); } set { SetAttributeValue("jid", value); } }
-		public string password { get { return (string)GetAttributeValue("password"); } set { SetAttributeValue("password", value); } }
-		public string reason { get { return (string)GetAttributeValue("reason"); } set { SetAttributeValue("reason", value); } }
-		public string thread { get { return (string)GetAttributeValue("thread"); } set { SetAttributeValue("thread", value); } }
+        public x(XElement other) : base(other)
+        {
+        }
+
+        public string Continue
+        {
+            get { return (string)GetAttributeValue("continue"); }
+            set { SetAttributeValue("continue", value); }
+        }
+
+        public string Jid
+        {
+            get { return (string)GetAttributeValue("jid"); }
+            set { SetAttributeValue("jid", value); }
+        }
+
+        public string Password
+        {
+            get { return (string)GetAttributeValue("password"); }
+            set { SetAttributeValue("password", value); }
+        }
+
+        public string Reason
+        {
+            get { return (string)GetAttributeValue("reason"); }
+            set { SetAttributeValue("reason", value); }
+        }
+
+        public string Thread
+        {
+            get { return (string)GetAttributeValue("thread"); }
+            set { SetAttributeValue("thread", value); }
+        }
     }
 }
 

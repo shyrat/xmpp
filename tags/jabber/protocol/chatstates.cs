@@ -1,70 +1,87 @@
-// chatstates.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="chatstates.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.protocol.chatstates
+namespace XMPP.Tags.Jabber.Protocol.Chatstates
 {
     public class Namespace
     {
-        public static string Name = "http://jabber.org/protocol/chatstates";
-        public static XName active = XName.Get("active", Name);
-        public static XName composing = XName.Get("composing", Name);
-        public static XName gone = XName.Get("gone", Name);
-        public static XName inactive = XName.Get("inactive", Name);
-        public static XName paused = XName.Get("paused", Name);
+        public const string Name = "http://jabber.org/protocol/chatstates";
+
+        public static readonly XName Active = XName.Get("active", Name);
+        public static readonly XName Composing = XName.Get("composing", Name);
+        public static readonly XName Gone = XName.Get("gone", Name);
+        public static readonly XName Inactive = XName.Get("inactive", Name);
+        public static readonly XName Paused = XName.Get("paused", Name);
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(active))]
-    public class active : Tag
+    [XmppTag(typeof(Namespace), typeof(Active))]
+    public class Active : Tag
     {
-        public active() : base(Namespace.active) { }
-        public active(XElement other) : base(other) { }
+        public Active() : base(Namespace.Active)
+        {
+        }
+
+        public Active(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(composing))]
-    public class composing : Tag
+    [XmppTag(typeof(Namespace), typeof(Composing))]
+    public class Composing : Tag
     {
-        public composing() : base(Namespace.composing) { }
-        public composing(XElement other) : base(other) { }
+        public Composing() : base(Namespace.Composing)
+        {
+        }
+
+        public Composing(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(gone))]
-    public class gone : Tag
+    [XmppTag(typeof(Namespace), typeof(Gone))]
+    public class Gone : Tag
     {
-        public gone() : base(Namespace.gone) { }
-        public gone(XElement other) : base(other) { }
+        public Gone() : base(Namespace.Gone)
+        {
+        }
+
+        public Gone(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(inactive))]
-    public class inactive : Tag
+    [XmppTag(typeof(Namespace), typeof(Inactive))]
+    public class Inactive : Tag
     {
-        public inactive() : base(Namespace.inactive) { }
-        public inactive(XElement other) : base(other) { }
+        public Inactive() : base(Namespace.Inactive)
+        {
+        }
+
+        public Inactive(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(paused))]
-    public class paused : Tag
+    [XmppTag(typeof(Namespace), typeof(Paused))]
+    public class Paused : Tag
     {
-        public paused() : base(Namespace.paused) { }
-        public paused(XElement other) : base(other) { }
+        public Paused() : base(Namespace.Paused)
+        {
+        }
+
+        public Paused(XElement other) : base(other)
+        {
+        }
     }
 }
 

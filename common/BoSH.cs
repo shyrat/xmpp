@@ -1,37 +1,131 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Bosh.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The bo sh.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
-using XMPP.states;
-using XMPP.tags;
-using XMPP.tags.bosh;
-
-using Windows.Web.Http;
 using Windows.Storage.Streams;
+using Windows.Web.Http;
 using Windows.Web.Http.Headers;
+using XMPP.States;
+using XMPP.Tags;
+using XMPP.Tags.Bosh;
+using XMPP.Tags.Streams;
+using Namespace = XMPP.Tags.Streams.Namespace;
 
-namespace XMPP.common
+namespace XMPP.Сommon
 {
+    /// <summary>
+    /// The bo sh.
+    /// </summary>
     public class BoSH : IConnection
     {
+        /// <summary>
+        /// The start rid.
+        /// </summary>
+        private const int StartRid = 1000000;
+
+        /// <summary>
+        /// The end rid.
+        /// </summary>
+        private const int EndRid = 99999999;
+
+        /// <summary>
+        /// The hold.
+        /// </summary>
+        private const int Hold = 1;
+
+        /// <summary>
+        /// The wait.
+        /// </summary>
+        private const int Wait = 60;
+
+        /// <summary>
+        /// The _manager.
+        /// </summary>
+        private readonly Manager _manager;
+
+        /// <summary>
+        /// The _can fetch.
+        /// </summary>
+        private AutoResetEvent _canFetch;
+
+        /// <summary>
+        /// The _client.
+        /// </summary>
+        private HttpClient _client;
+
+        /// <summary>
+        /// The _connection error.
+        /// </summary>
+        private ManualResetEventSlim _connectionError;
+
+        /// <summary>
+        /// The _connections counter.
+        /// </summary>
+        private SemaphoreSlim _connectionsCounter;
+
+        /// <summary>
+        /// The _disconnecting.
+        /// </summary>
+        private ManualResetEventSlim _disconnecting;
+
+        /// <summary>
+        /// The _polling task.
+        /// </summary>
+        private Task _pollingTask;
+
+        /// <summary>
+        /// The _requests.
+        /// </summary>
+        private int? _requests;
+
+        /// <summary>
+        /// The _rid.
+        /// </summary>
+        private long _rid;
+
+        /// <summary>
+        /// The _sid.
+        /// </summary>
+        private string _sid;
+
+        /// <summary>
+        /// The _tags.
+        /// </summary>
+        private ConcurrentQueue<XElement> _tags;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoSH"/> class.
+        /// </summary>
+        /// <param name="manager">
+        /// The manager.
+        /// </param>
         public BoSH(Manager manager)
         {
             _manager = manager;
         }
 
         /// <summary>
-        /// Gets a value indicating whether is connected.
+        ///     Gets a value indicating whether is connected.
         /// </summary>
-        public bool IsConnected
-        {
-            get;
-            private set;
-        }
+        public bool IsConnected { get; private set; }
 
         /// <summary>
-        /// Gets the hostname.
+        ///     Gets the hostname.
         /// </summary>
         public string Hostname
         {
@@ -39,10 +133,13 @@ namespace XMPP.common
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether is ssl enabled.
+        ///     Gets or sets a value indicating whether is ssl enabled.
         /// </summary>
         public bool IsSSLEnabled { get; set; }
 
+        /// <summary>
+        /// The connect.
+        /// </summary>
         public void Connect()
         {
             if (IsConnected)
@@ -58,6 +155,9 @@ namespace XMPP.common
             SendSessionCreationRequest();
         }
 
+        /// <summary>
+        /// The disconnect.
+        /// </summary>
         public void Disconnect()
         {
             if (!IsConnected)
@@ -83,41 +183,80 @@ namespace XMPP.common
             _manager.Events.Disconnected(this);
         }
 
-        public void Restart()
-        {
-            SendRestartRequest();
-        }
-
-        public void StartPolling()
-        {
-            _pollingTask = StartPollingInternal();
-        }
-
+        /// <summary>
+        /// The send.
+        /// </summary>
+        /// <param name="tag">
+        /// The tag.
+        /// </param>
         public void Send(Tag tag)
         {
             Task.Run(() => Flush(tag));
         }
 
+        /// <summary>
+        /// The send.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
         public void Send(string message)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The enable ssl.
+        /// </summary>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
         public void EnableSSL()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The enable compression.
+        /// </summary>
+        /// <param name="algorithm">
+        /// The algorithm.
+        /// </param>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
         public void EnableCompression(string algorithm)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The dispose.
+        /// </summary>
         public void Dispose()
         {
             CleanupState();
         }
 
+        /// <summary>
+        /// The restart.
+        /// </summary>
+        public void Restart()
+        {
+            SendRestartRequest();
+        }
+
+        /// <summary>
+        /// The start polling.
+        /// </summary>
+        public void StartPolling()
+        {
+            _pollingTask = StartPollingInternal();
+        }
+
+        /// <summary>
+        /// The init.
+        /// </summary>
         private void Init()
         {
             _client = new HttpClient();
@@ -129,11 +268,20 @@ namespace XMPP.common
             _rid = new Random().Next(StartRid, EndRid);
         }
 
+        /// <summary>
+        /// The remove comments.
+        /// </summary>
+        /// <param name="tag">
+        /// The tag.
+        /// </param>
+        /// <returns>
+        /// The <see cref="XElement"/>.
+        /// </returns>
         private XElement RemoveComments(Tag tag)
         {
             var copy = new XElement(tag);
-            var comments = copy.DescendantNodesAndSelf()
-                               .Where(node => node.NodeType == System.Xml.XmlNodeType.Comment);
+            IEnumerable<XNode> comments = copy.DescendantNodesAndSelf()
+                .Where(node => node.NodeType == XmlNodeType.Comment);
 
             while (comments.Any())
             {
@@ -143,6 +291,18 @@ namespace XMPP.common
             return copy;
         }
 
+        /// <summary>
+        /// The connection error.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <param name="policy">
+        /// The policy.
+        /// </param>
+        /// <param name="cause">
+        /// The cause.
+        /// </param>
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
         {
             if (_disconnecting.IsSet)
@@ -158,6 +318,9 @@ namespace XMPP.common
             }
         }
 
+        /// <summary>
+        /// The cleanup state.
+        /// </summary>
         private void CleanupState()
         {
             IsConnected = false;
@@ -169,56 +332,70 @@ namespace XMPP.common
             }
         }
 
+        /// <summary>
+        /// The send restart request.
+        /// </summary>
         private void SendRestartRequest()
         {
-            var body = new body
+            var body = new Body
             {
-                sid = _sid,
-                rid = Interlocked.Increment(ref _rid),
-                restart = true,
-                to = _manager.Settings.Id.Server
+                Sid = _sid, 
+                Rid = Interlocked.Increment(ref _rid), 
+                Restart = true, 
+                To = _manager.Settings.Id.Server
             };
 
-            var resp = SendRequest(body);
+            Body resp = SendRequest(body);
             if (null != resp)
             {
-                var payload = resp.Element<tags.streams.features>(tags.streams.Namespace.features);
+                var payload = resp.Element<Features>(Namespace.Features);
 
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
             }
         }
 
-        private body SendRequest(body body)
+        /// <summary>
+        /// The send request.
+        /// </summary>
+        /// <param name="body">
+        /// The body.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Body"/>.
+        /// </returns>
+        private Body SendRequest(Body body)
         {
             _manager.Events.Chunk(this, new ChunkLogEventArgs(body, ChunkDirection.Outgoing));
 
             var req = new HttpRequestMessage
             {
-                RequestUri = new Uri(_manager.Settings.Hostname),
-                Method = new HttpMethod("POST"),
-                Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
+                RequestUri = new Uri(_manager.Settings.Hostname), 
+                Method = new HttpMethod("POST"), 
+                Content = new HttpStringContent(body, UnicodeEncoding.Utf8), 
             };
 
             req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")
             {
-                CharSet = "utf-8",
+                CharSet = "utf-8", 
             };
 
             try
             {
-                var resp = _client.SendRequestAsync(req).AsTask().Result;
+                HttpResponseMessage resp = _client.SendRequestAsync(req).AsTask().Result;
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    var data = resp.Content.ReadAsStringAsync().AsTask().Result;
+                    string data = resp.Content.ReadAsStringAsync().AsTask().Result;
 
-                   _manager.Events.Chunk(this, new ChunkLogEventArgs(data, ChunkDirection.Incomming));
+                    _manager.Events.Chunk(this, new ChunkLogEventArgs(data, ChunkDirection.Incomming));
 
-                    return Tag.Get(data) as body;
+                    return Tag.Get(data) as Body;
                 }
 
-                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, string.Format("Connection error:\r\nStatus: {0}\r\nReason Phrase: {1}", resp.StatusCode, resp.ReasonPhrase));
+                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, 
+                    string.Format("Connection error:\r\nStatus: {0}\r\nReason Phrase: {1}", resp.StatusCode, 
+                        resp.ReasonPhrase));
             }
             catch (AggregateException e)
             {
@@ -231,18 +408,21 @@ namespace XMPP.common
             return null;
         }
 
+        /// <summary>
+        /// The send session creation request.
+        /// </summary>
         private void SendSessionCreationRequest()
         {
-            var body = new body
+            var body = new Body
             {
-                rid = _rid,
-                wait = Wait,
-                hold = Hold,
-                from = _manager.Settings.Id.Bare,
-                to = _manager.Settings.Id.Server
+                Rid = _rid, 
+                Wait = Wait, 
+                Hold = Hold, 
+                From = _manager.Settings.Id.Bare, 
+                To = _manager.Settings.Id.Server
             };
 
-            var resp = SendRequest(body);
+            Body resp = SendRequest(body);
 
             if (null != resp)
             {
@@ -250,25 +430,28 @@ namespace XMPP.common
 
                 _manager.Events.Connected(this);
 
-                _sid = resp.sid;
-                _requests = resp.requests;
+                _sid = resp.Sid;
+                _requests = resp.Requests;
 
                 _connectionsCounter = new SemaphoreSlim(_requests.Value, _requests.Value);
 
-                var payload = resp.Element<tags.streams.features>(tags.streams.Namespace.features);
+                var payload = resp.Element<Features>(Namespace.Features);
 
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
             }
         }
 
+        /// <summary>
+        /// The send session termination request.
+        /// </summary>
         private void SendSessionTerminationRequest()
         {
-            var body = new body
+            var body = new Body
             {
-                sid = _sid,
-                rid = Interlocked.Increment(ref _rid),
-                type = "terminate"
+                Sid = _sid, 
+                Rid = Interlocked.Increment(ref _rid), 
+                Type = "terminate"
             };
 
             CombineBody(body);
@@ -276,6 +459,12 @@ namespace XMPP.common
             SendRequest(body);
         }
 
+        /// <summary>
+        /// The flush.
+        /// </summary>
+        /// <param name="tag">
+        /// The tag.
+        /// </param>
         private void Flush(Tag tag = null)
         {
             if (null != tag)
@@ -286,6 +475,9 @@ namespace XMPP.common
             FlushInternal();
         }
 
+        /// <summary>
+        /// The flush internal.
+        /// </summary>
         private void FlushInternal()
         {
             if (_disconnecting.IsSet || _connectionError.IsSet)
@@ -299,11 +491,11 @@ namespace XMPP.common
                 {
                     _canFetch.WaitOne();
 
-                    body body = CombineBody();
+                    Body body = CombineBody();
 
                     _canFetch.Set();
 
-                    var resp = SendRequest(body);
+                    Body resp = SendRequest(body);
 
                     ExtractBody(resp);
                 }
@@ -319,7 +511,13 @@ namespace XMPP.common
             }
         }
 
-        private void CombineBody(body body)
+        /// <summary>
+        /// The combine body.
+        /// </summary>
+        /// <param name="body">
+        /// The body.
+        /// </param>
+        private void CombineBody(Body body)
         {
             int counter = _manager.Settings.QueryCount;
 
@@ -337,14 +535,20 @@ namespace XMPP.common
             }
         }
 
-        private body CombineBody()
+        /// <summary>
+        /// The combine body.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Body"/>.
+        /// </returns>
+        private Body CombineBody()
         {
-            var body = new body
+            var body = new Body
             {
-                sid = _sid,
-                rid = Interlocked.Increment(ref _rid),
-                from = _manager.Settings.Id,
-                to = _manager.Settings.Id.Server
+                Sid = _sid, 
+                Rid = Interlocked.Increment(ref _rid), 
+                From = _manager.Settings.Id, 
+                To = _manager.Settings.Id.Server
             };
 
             CombineBody(body);
@@ -352,17 +556,29 @@ namespace XMPP.common
             return body;
         }
 
-        private void ExtractBody(body resp)
+        /// <summary>
+        /// The extract body.
+        /// </summary>
+        /// <param name="resp">
+        /// The resp.
+        /// </param>
+        private void ExtractBody(Body resp)
         {
             if (null != resp)
             {
-                foreach (var element in resp.Elements<XElement>())
+                foreach (XElement element in resp.Elements<XElement>())
                 {
                     _manager.Events.NewTag(this, Tag.Get(element));
                 }
             }
         }
 
+        /// <summary>
+        /// The start polling internal.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         private Task StartPollingInternal()
         {
             return Task.Run(() =>
@@ -374,33 +590,17 @@ namespace XMPP.common
                         return;
                     }
 
-                    if (_connectionsCounter.CurrentCount == _requests) //no active requests
+                    if (_connectionsCounter.CurrentCount == _requests)
                     {
+// no active requests
                         Task.Run(() => FlushInternal());
                     }
 
                     Task.Delay(TimeSpan.FromMilliseconds(10)).Wait();
-                };
+                }
+
+                ;
             });
         }
-
-        private readonly Manager _manager;
-
-        private string _sid;
-        private long _rid;
-        private int? _requests;
-
-        private HttpClient _client;
-        private SemaphoreSlim _connectionsCounter;
-        private ManualResetEventSlim _connectionError;
-        private ManualResetEventSlim _disconnecting;
-        private AutoResetEvent _canFetch;
-        private ConcurrentQueue<XElement> _tags;
-        private Task _pollingTask;
-
-        private const int StartRid = 1000000;
-        private const int EndRid = 99999999;
-        private const int Hold = 1;
-        private const int Wait = 60;
     }
 }

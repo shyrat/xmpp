@@ -1,26 +1,21 @@
-// Connection.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Connection.cs">
+//   
+// </copyright>
+// <summary>
+//   The repeat.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Networking;
@@ -28,20 +23,42 @@ using Windows.Networking.Sockets;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using XMPP.compression;
-using XMPP.extensions;
-using XMPP.registries;
-using XMPP.states;
+using XMPP.Extensions;
+using XMPP.Registries;
+using XMPP.States;
+using XMPP.Tags;
+using Buffer = Windows.Storage.Streams.Buffer;
 
-namespace XMPP.common
+namespace XMPP.Ñommon
 {
+
     #region helper
 
-    static class Repeat
+    /// <summary>
+    /// The repeat.
+    /// </summary>
+    internal static class Repeat
     {
+        /// <summary>
+        /// The interval.
+        /// </summary>
+        /// <param name="pollInterval">
+        /// The poll interval.
+        /// </param>
+        /// <param name="action">
+        /// The action.
+        /// </param>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public static Task Interval(TimeSpan pollInterval, Action action, CancellationToken token)
         {
-            return Task.Factory.StartNew(() => {
-                for (; ; )
+            return Task.Factory.StartNew(() =>
+            {
+                for (;;)
                 {
                     if (token.WaitCancellationRequested(pollInterval))
                         break;
@@ -52,10 +69,25 @@ namespace XMPP.common
         }
     }
 
-    static class CancellationTokenExtensions
+    /// <summary>
+    /// The cancellation token extensions.
+    /// </summary>
+    internal static class CancellationTokenExtensions
     {
+        /// <summary>
+        /// The wait cancellation requested.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        /// <param name="timeout">
+        /// The timeout.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public static bool WaitCancellationRequested(
-            this CancellationToken token,
+            this CancellationToken token, 
             TimeSpan timeout)
         {
             return token.WaitHandle.WaitOne(timeout);
@@ -64,84 +96,199 @@ namespace XMPP.common
 
     #endregion
 
+    /// <summary>
+    /// The connection.
+    /// </summary>
     public class Connection : IConnection
     {
-        public Connection(Manager manager) { _manager = manager; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Connection"/> class.
+        /// </summary>
+        /// <param name="manager">
+        /// The manager.
+        /// </param>
+        public Connection(Manager manager)
+        {
+            _manager = manager;
+        }
 
-        public void Dispose() { Dispose(true); }
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+        }
 
-        virtual protected void Dispose(bool managed)
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        /// <param name="managed">
+        /// The managed.
+        /// </param>
+        protected virtual void Dispose(bool managed)
         {
             _elevateMutex.Dispose();
         }
 
         #region properties
 
+        /// <summary>
+        /// Gets a value indicating whether is connected.
+        /// </summary>
         public bool IsConnected { get; private set; }
-        public string Hostname { get { return _manager.Settings.Hostname; } }
+
+        /// <summary>
+        /// Gets the hostname.
+        /// </summary>
+        public string Hostname
+        {
+            get { return _manager.Settings.Hostname; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is ssl enabled.
+        /// </summary>
         public bool IsSSLEnabled { get; set; }
 
         #endregion
 
         #region member
 
+        /// <summary>
+        /// The _buffer size.
+        /// </summary>
+        private const int _bufferSize = 64*1024; // This is the maximal TCP packet size
+
+        /// <summary>
+        /// The _elevate mutex.
+        /// </summary>
+        private readonly ManualResetEvent _elevateMutex = new ManualResetEvent(true);
+
+        /// <summary>
+        /// The _encoding.
+        /// </summary>
+        private readonly UTF8Encoding _encoding = new UTF8Encoding();
+
+        /// <summary>
+        /// The _manager.
+        /// </summary>
         private readonly Manager _manager;
 
-        private const int               _bufferSize = 64*1024; // This is the maximal TCP packet size
-		private HostName                _hostname = null;
-		private readonly UTF8Encoding   _encoding = new UTF8Encoding();
-		private ICompression            _compression = null;
-		private bool                    _isCompressionEnabled = false;
-
-        private string _socketWriteMessage = string.Empty;
-        private IBuffer _socketReadBuffer = new Windows.Storage.Streams.Buffer(_bufferSize);
-
+        /// <summary>
+        /// The _socket.
+        /// </summary>
         private readonly StreamSocket _socket = new StreamSocket();
 
-        IAsyncAction _socketConnector = null;
-        IAsyncAction _socketElevator = null;
-        IAsyncOperationWithProgress<IBuffer, UInt32> _socketReader = null;
-        IAsyncOperationWithProgress<UInt32, UInt32> _socketWriter = null;
+        /// <summary>
+        /// The _socket read buffer.
+        /// </summary>
+        private readonly IBuffer _socketReadBuffer = new Buffer(_bufferSize);
 
-        private ManualResetEvent _elevateMutex = new ManualResetEvent(true);
+        /// <summary>
+        /// The _compression.
+        /// </summary>
+        private ICompression _compression;
+
+        /// <summary>
+        /// The _hostname.
+        /// </summary>
+        private HostName _hostname;
+
+        /// <summary>
+        /// The _is compression enabled.
+        /// </summary>
+        private bool _isCompressionEnabled;
+
+        /// <summary>
+        /// The _socket connector.
+        /// </summary>
+        private IAsyncAction _socketConnector;
+
+        /// <summary>
+        /// The _socket elevator.
+        /// </summary>
+        private IAsyncAction _socketElevator;
+
+        /// <summary>
+        /// The _socket reader.
+        /// </summary>
+        private IAsyncOperationWithProgress<IBuffer, uint> _socketReader;
+
+        /// <summary>
+        /// The _socket write message.
+        /// </summary>
+        private string _socketWriteMessage = string.Empty;
+
+        /// <summary>
+        /// The _socket writer.
+        /// </summary>
+        private IAsyncOperationWithProgress<uint, uint> _socketWriter;
 
         #endregion
 
         #region actions
 
+        /// <summary>
+        /// The connect.
+        /// </summary>
         public void Connect()
         {
             SocketConnect();
         }
 
+        /// <summary>
+        /// The disconnect.
+        /// </summary>
         public void Disconnect()
         {
             SocketDisconnect();
         }
 
-        public void Send(tags.Tag tag)
+        /// <summary>
+        /// The send.
+        /// </summary>
+        /// <param name="tag">
+        /// The tag.
+        /// </param>
+        public void Send(Tag tag)
         {
             // Remove comments
             var manipulationCopy = new XElement(tag);
-            var descendants = manipulationCopy.DescendantNodesAndSelf();
-            var comments = descendants.Where(node => node.NodeType == System.Xml.XmlNodeType.Comment);
+            IEnumerable<XNode> descendants = manipulationCopy.DescendantNodesAndSelf();
+            IEnumerable<XNode> comments = descendants.Where(node => node.NodeType == XmlNodeType.Comment);
             while (comments.Count() > 0)
                 comments.First().Remove();
 
-            this.Send(manipulationCopy.ToString());
+            Send(manipulationCopy.ToString());
         }
 
+        /// <summary>
+        /// The send.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
         public void Send(string message)
         {
             SocketSend(message);
         }
 
+        /// <summary>
+        /// The enable ssl.
+        /// </summary>
         public void EnableSSL()
         {
-            if( !_manager.Settings.OldSSL )
+            if (!_manager.Settings.OldSSL)
                 SocketElevate();
         }
 
+        /// <summary>
+        /// The enable compression.
+        /// </summary>
+        /// <param name="algorithm">
+        /// The algorithm.
+        /// </param>
         public void EnableCompression(string algorithm)
         {
             StartCompression(algorithm);
@@ -151,6 +298,9 @@ namespace XMPP.common
 
         #region socket operations
 
+        /// <summary>
+        /// The socket connect.
+        /// </summary>
         private void SocketConnect()
         {
             if (IsConnected)
@@ -183,17 +333,23 @@ namespace XMPP.common
 
             _socket.Control.KeepAlive = false;
 
-            var protection = _manager.Settings.OldSSL ? SocketProtectionLevel.SslAllowNullEncryption : SocketProtectionLevel.PlainSocket;
+            SocketProtectionLevel protection = _manager.Settings.OldSSL
+                ? SocketProtectionLevel.SslAllowNullEncryption
+                : SocketProtectionLevel.PlainSocket;
             _socketConnector = _socket.ConnectAsync(_hostname, _manager.Settings.Port.ToString(), protection);
             _socketConnector.Completed = OnSocketConnectorCompleted;
         }
 
+        /// <summary>
+        /// The socket disconnect.
+        /// </summary>
         private void SocketDisconnect()
         {
             if (IsConnected)
             {
                 SocketSend("</stream:stream>", true);
             }
+
 #if DEBUG
             else
             {
@@ -206,26 +362,37 @@ namespace XMPP.common
             _manager.Events.Disconnected(this);
         }
 
+        /// <summary>
+        /// The socket send.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="synchronized">
+        /// The synchronized.
+        /// </param>
         private void SocketSend(string message, bool synchronized = false)
         {
-            if (!IsConnected || string.IsNullOrEmpty(message) ) return;
+            if (!IsConnected || string.IsNullOrEmpty(message)) return;
 
             // Prepare message
             _socketWriteMessage = message;
             byte[] writeBytes = _encoding.GetBytes(message);
 
-            if( _isCompressionEnabled )
+            if (_isCompressionEnabled)
                 writeBytes = _compression.Deflate(writeBytes);
 
             IBuffer sendBuffer = CryptographicBuffer.CreateFromByteArray(writeBytes);
 
-            if (synchronized) // Wait for completion
+            if (synchronized)
             {
+// Wait for completion
                 _elevateMutex.WaitOne(4000);
                 _socket.OutputStream.WriteAsync(sendBuffer).AsTask().Wait(4000);
             }
-            else // wait for last task and start new one
+            else
             {
+// wait for last task and start new one
                 // Wait for other reads to finish 
                 if (_socketWriter != null && _socketWriter.Status == AsyncStatus.Started)
                 {
@@ -235,11 +402,11 @@ namespace XMPP.common
                     }
                     catch
                     {
-                        //if (_socketWriter.Status == AsyncStatus.Started)
-                        //{
-                        //    ConnectionError(ErrorType.WriteStateMismatch, ErrorPolicyType.Reconnect);
-                        //    return;
-                        //}
+                        // if (_socketWriter.Status == AsyncStatus.Started)
+                        // {
+                        // ConnectionError(ErrorType.WriteStateMismatch, ErrorPolicyType.Reconnect);
+                        // return;
+                        // }
                     }
                 }
 
@@ -251,13 +418,15 @@ namespace XMPP.common
                     _socketWriter.Completed = OnSocketWriterCompleted;
                 }
             }
-		}
+        }
 
+        /// <summary>
+        /// The socket read.
+        /// </summary>
         private void SocketRead()
-		{
+        {
             try
             {
-
                 if (!IsConnected) return;
                 _elevateMutex.WaitOne(4000);
 
@@ -268,15 +437,18 @@ namespace XMPP.common
             {
                 ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect);
             }
-		}
+        }
 
+        /// <summary>
+        /// The socket elevate.
+        /// </summary>
         private void SocketElevate()
         {
             if (!IsConnected) return;
 
             _elevateMutex.Reset();
 
-            if (_socketReader != null) 
+            if (_socketReader != null)
                 _socketReader.Cancel();
 
             // Wait for other reads to finish 
@@ -297,9 +469,12 @@ namespace XMPP.common
             }
 
             _socketElevator = _socket.UpgradeToSslAsync(SocketProtectionLevel.SslAllowNullEncryption, _hostname);
-            _socketElevator.Completed = OnSocketElevatorCompleted;                
+            _socketElevator.Completed = OnSocketElevatorCompleted;
         }
 
+        /// <summary>
+        /// The cleanup state.
+        /// </summary>
         private void CleanupState()
         {
             IsConnected = false;
@@ -318,12 +493,30 @@ namespace XMPP.common
             _socket.Dispose();
         }
 
+        /// <summary>
+        /// The connection error.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <param name="policy">
+        /// The policy.
+        /// </param>
+        /// <param name="cause">
+        /// The cause.
+        /// </param>
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
         {
             CleanupState();
             _manager.Events.Error(this, type, policy, cause);
         }
 
+        /// <summary>
+        /// The start compression.
+        /// </summary>
+        /// <param name="algorithm">
+        /// The algorithm.
+        /// </param>
         private void StartCompression(string algorithm)
         {
             _compression = Static.CompressionRegistry.GetCompression(algorithm);
@@ -334,6 +527,15 @@ namespace XMPP.common
 
         #region events
 
+        /// <summary>
+        /// The on socket connector completed.
+        /// </summary>
+        /// <param name="action">
+        /// The action.
+        /// </param>
+        /// <param name="status">
+        /// The status.
+        /// </param>
         private void OnSocketConnectorCompleted(IAsyncAction action, AsyncStatus status)
         {
             if (status == AsyncStatus.Completed)
@@ -344,11 +546,11 @@ namespace XMPP.common
                 {
                     // Create keepalive check
                     var cancellationTokenSource = new CancellationTokenSource();
-                    var task = Repeat.Interval(
-                        TimeSpan.FromSeconds(_manager.Settings.KeepAliveTime),
-                        () => OnKeepAlive(),
+                    Task task = Repeat.Interval(
+                        TimeSpan.FromSeconds(_manager.Settings.KeepAliveTime), 
+                        () => OnKeepAlive(), 
                         cancellationTokenSource.Token
-                    );
+                        );
                 }
 
                 // Signal that we have a connection
@@ -360,42 +562,53 @@ namespace XMPP.common
                 _manager.State = new ConnectedState(_manager);
                 _manager.State.Execute();
             }
-            else if (status == AsyncStatus.Error )
+            else if (status == AsyncStatus.Error)
             {
                 ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, action.ErrorCode.Message);
             }
         }
 
-        private void OnSocketReaderCompleted(IAsyncOperationWithProgress<IBuffer, uint> asyncInfo, AsyncStatus asyncStatus)
+        /// <summary>
+        /// The on socket reader completed.
+        /// </summary>
+        /// <param name="asyncInfo">
+        /// The async info.
+        /// </param>
+        /// <param name="asyncStatus">
+        /// The async status.
+        /// </param>
+        private void OnSocketReaderCompleted(IAsyncOperationWithProgress<IBuffer, uint> asyncInfo, 
+            AsyncStatus asyncStatus)
         {
             if (asyncStatus == AsyncStatus.Completed)
             {
                 _manager.ProcessComplete.Reset();
-                
+
                 IBuffer readBuffer = asyncInfo.GetResults();
 
                 if (readBuffer.Length == 0)
                 {
                     // This is not neccessarily an error, it can be just fine
-                    //ConnectionError(ErrorType.ServerDisconnected, "Server sent empty package");
+                    // ConnectionError(ErrorType.ServerDisconnected, "Server sent empty package");
                     return;
                 }
 
                 // Get data
-                byte[] readBytes = new byte[readBuffer.Length];
+                var readBytes = new byte[readBuffer.Length];
                 DataReader dataReader = DataReader.FromBuffer(readBuffer);
                 dataReader.ReadBytes(readBytes);
                 dataReader.DetachBuffer();
 
                 // Check if it is a keepalive
-                if ( !(readBytes.Length == 1 && (readBytes[0] == 0 || readBytes[0] == ' ') ) )
+                if (!(readBytes.Length == 1 && (readBytes[0] == 0 || readBytes[0] == ' ')))
                 {
                     // Trim
                     readBytes = readBytes.TrimNull();
 
                     if (readBytes == null || readBytes.Length == 0)
                     {
-                        ConnectionError(ErrorType.ServerDisconnected, ErrorPolicyType.Reconnect, "Server sent empty package");
+                        ConnectionError(ErrorType.ServerDisconnected, ErrorPolicyType.Reconnect, 
+                            "Server sent empty package");
                         return;
                     }
 
@@ -421,10 +634,18 @@ namespace XMPP.common
             else if (asyncStatus == AsyncStatus.Error)
             {
                 ConnectionError(ErrorType.SocketReadInterrupted, ErrorPolicyType.Reconnect);
-                return;
             }
         }
 
+        /// <summary>
+        /// The on socket writer completed.
+        /// </summary>
+        /// <param name="asyncInfo">
+        /// The async info.
+        /// </param>
+        /// <param name="asyncStatus">
+        /// The async status.
+        /// </param>
         private void OnSocketWriterCompleted(IAsyncOperationWithProgress<uint, uint> asyncInfo, AsyncStatus asyncStatus)
         {
             if (asyncStatus == AsyncStatus.Completed)
@@ -432,15 +653,23 @@ namespace XMPP.common
 #if DEBUG
                 _manager.Events.LogMessage(this, LogType.Debug, "Outgoing Message: {0}", _socketWriteMessage);
 #endif
-                _socketWriteMessage = "";
+                _socketWriteMessage = string.Empty;
             }
             else if (asyncStatus == AsyncStatus.Error)
             {
                 ConnectionError(ErrorType.SocketWriteInterrupted, ErrorPolicyType.Reconnect);
             }
-
         }
 
+        /// <summary>
+        /// The on socket elevator completed.
+        /// </summary>
+        /// <param name="asyncInfo">
+        /// The async info.
+        /// </param>
+        /// <param name="asyncStatus">
+        /// The async status.
+        /// </param>
         private void OnSocketElevatorCompleted(IAsyncAction asyncInfo, AsyncStatus asyncStatus)
         {
             if (asyncStatus == AsyncStatus.Completed)
@@ -451,19 +680,23 @@ namespace XMPP.common
             else if (asyncStatus == AsyncStatus.Error)
             {
                 if (asyncInfo.ErrorCode.HResult == -2146762487) // Certificate invalid
-                    ConnectionError(ErrorType.InvalidSSLCertificate, ErrorPolicyType.Deactivate);
-                else if( asyncInfo.ErrorCode.HResult == -2146762481 )// CN MISMATCH 
-                    ConnectionError(ErrorType.InvalidSSLCertificate, ErrorPolicyType.Deactivate, "The server sent a SSL certificate with a wrong CN entry");
+                    ConnectionError(ErrorType.InvalidSslCertificate, ErrorPolicyType.Deactivate);
+                else if (asyncInfo.ErrorCode.HResult == -2146762481) // CN MISMATCH 
+                    ConnectionError(ErrorType.InvalidSslCertificate, ErrorPolicyType.Deactivate, 
+                        "The server sent a SSL certificate with a wrong CN entry");
                 else
-                    ConnectionError(ErrorType.InvalidSSLCertificate, ErrorPolicyType.Deactivate, asyncInfo.ErrorCode.Message);
+                    ConnectionError(ErrorType.InvalidSslCertificate, ErrorPolicyType.Deactivate, 
+                        asyncInfo.ErrorCode.Message);
             }
+        }
 
-        } 
-
+        /// <summary>
+        /// The on keep alive.
+        /// </summary>
         private void OnKeepAlive()
         {
             Send(" ");
-            System.Diagnostics.Debug.WriteLine(DateTime.Now.ToString("MM/dd/yyyy hh:mm:tt") + " KeepAlive");
+            Debug.WriteLine(DateTime.Now.ToString("MM/dd/yyyy hh:mm:tt") + " KeepAlive");
         }
 
         #endregion

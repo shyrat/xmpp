@@ -1,34 +1,47 @@
-// PlainProcessor.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="PlainProcessor.cs">
+//   
+// </copyright>
+// <summary>
+//   The plain processor.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
 using System.Text;
-using XMPP.common;
-using XMPP.tags;
+using XMPP.Ñommon;
+using XMPP.Tags;
+using XMPP.Tags.XmppSasl;
 
 namespace XMPP.SASL
 {
-	public class PlainProcessor : SASLProcessor
-	{
-        public PlainProcessor(Manager manager) : base(manager) {}
+    /// <summary>
+    /// The plain processor.
+    /// </summary>
+    public class PlainProcessor : SASLProcessor
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlainProcessor"/> class.
+        /// </summary>
+        /// <param name="manager">
+        /// The manager.
+        /// </param>
+        public PlainProcessor(Manager manager) : base(manager)
+        {
+        }
 
+        /// <summary>
+        /// The step.
+        /// </summary>
+        /// <param name="tag">
+        /// The tag.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Tag"/>.
+        /// </returns>
         public override Tag Step(Tag tag)
-		{
+        {
             if (tag.Name.LocalName == "success")
             {
 #if DEBUG
@@ -37,27 +50,33 @@ namespace XMPP.SASL
             }
 
             return tag;
-		}
+        }
 
-		public override Tag Initialize()
-		{
+        /// <summary>
+        /// The initialize.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Tag"/>.
+        /// </returns>
+        public override Tag Initialize()
+        {
 #if DEBUG
 			Manager.Events.LogMessage(this, LogType.Debug, "Initializing Plain Processor");
 			Manager.Events.LogMessage(this, LogType.Debug, "ID User: {0}", Manager.Settings.Id.User);
 #endif
-			var sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-			sb.Append((char) 0);
+            sb.Append((char) 0);
             sb.Append(Manager.Settings.Id.User);
-			sb.Append((char) 0);
+            sb.Append((char) 0);
             sb.Append(Manager.Settings.Password);
 
-            tags.xmpp_sasl.auth auth = new tags.xmpp_sasl.auth();
+            var auth = new Auth();
 
-			auth.Value = Convert.ToBase64String(Encoding.UTF8.GetBytes(sb.ToString()));
-            auth.mechanism = MechanismType.Plain;
+            auth.Value = Convert.ToBase64String(Encoding.UTF8.GetBytes(sb.ToString()));
+            auth.Mechanism = MechanismType.Plain;
 
-			return auth as Tag;
-		}
-	}
+            return auth;
+        }
+    }
 }

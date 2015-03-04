@@ -1,56 +1,52 @@
-// xmpp_session.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.xmpp_session
+namespace XMPP.Tags.XmppSession
 {
     public class Namespace
     {
-        public static string Name = "urn:ietf:params:xml:ns:xmpp-session";
-        public static XName session = XName.Get("session", Name);
-        public static XName required = XName.Get("required", Name);
-        public static XName optional = XName.Get("optional", Name);
+        public const string Name = "urn:ietf:params:xml:ns:xmpp-session";
+
+        public static readonly XName Session = XName.Get("session", Name);
+        public static readonly XName Required = XName.Get("required", Name);
+        public static readonly XName Optional = XName.Get("optional", Name);
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(session))]
-    public class session : Tag
+    [XmppTag(typeof(Namespace), typeof(Session))]
+    public class Session : Tag
     {
-        public session() : base(Namespace.session) { }
-        public session(XElement other) : base(other) { }
+        public Session() : base(Namespace.Session)
+        {
+        }
+
+        public Session(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(required))]
-    public class required : Tag 
+    [XmppTag(typeof(Namespace), typeof(Required))]
+    public class Required : Tag
     {
-        public required() : base(Namespace.required) { }
-        public required(XElement other) : base(other) { }
+        public Required() : base(Namespace.Required)
+        {
+        }
+
+        public Required(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(optional))]
-    public class optional : Tag 
+    [XmppTag(typeof(Namespace), typeof(Optional))]
+    public class Optional : Tag
     {
-        public optional() : base(Namespace.optional) { }
-        public optional(XElement other) : base(other) { }
+        public Optional() : base(Namespace.Optional)
+        {
+        }
+
+        public Optional(XElement other) : base(other)
+        {
+        }
     }
 }
 

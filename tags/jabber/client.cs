@@ -1,51 +1,41 @@
-﻿// client.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="client.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.client
+namespace XMPP.Tags.Jabber.Client
 {
     public class Namespace
     {
-        public static string Name = "jabber:client";
-        public static XName message = XName.Get("message", Name);
-        public static XName iq = XName.Get("iq", Name);
-        public static XName presence = XName.Get("presence", Name);
-        public static XName priority = XName.Get("priority", Name);
-        public static XName show = XName.Get("show", Name);
-        public static XName status = XName.Get("status", Name);
-        public static XName body = XName.Get("body", Name);
-        public static XName subject = XName.Get("subject", Name);
-        public static XName thread = XName.Get("thread", Name);
-        public static XName error = XName.Get("error", Name);
+        public const string Name = "jabber:client";
+
+        public static readonly XName Message = XName.Get("message", Name);
+        public static readonly XName Iq = XName.Get("iq", Name);
+        public static readonly XName Presence = XName.Get("presence", Name);
+        public static readonly XName Priority = XName.Get("priority", Name);
+        public static readonly XName Show = XName.Get("show", Name);
+        public static readonly XName Status = XName.Get("status", Name);
+        public static readonly XName Body = XName.Get("body", Name);
+        public static readonly XName Subject = XName.Get("subject", Name);
+        public static readonly XName Thread = XName.Get("thread", Name);
+        public static readonly XName Error = XName.Get("error", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(message))]
-    public class message : Tag
+    [XmppTag(typeof(Namespace), typeof(Message))]
+    public class Message : Tag
     {
-        public message() : base(Namespace.message) { }
-        public message(XElement other) : base(other) { }
-
-        public enum typeEnum
+        public enum TypeEnum
         {
             none,
             chat,
@@ -55,57 +45,129 @@ namespace XMPP.tags.jabber.client
             normal
         }
 
-		public string from { get { return (string)GetAttributeValue("from"); } set { SetAttributeValue("from", value); } }
-		public string to { get { return (string)GetAttributeValue("to"); } set { SetAttributeValue("to", value); } }
-        public typeEnum type { get { return GetAttributeEnum<typeEnum>("type"); } set { SetAttributeEnum<typeEnum>("type", value); } }
-		public string id { get { return (string)GetAttributeValue("id"); } set { SetAttributeValue("id", value); } }
-        public string lang { get { return (string)GetAttributeValue(XName.Get("lang", xml.Namespace.Name)); } set { SetAttributeValue(XName.Get("lang", xml.Namespace.Name), value); } }
+        public Message() : base(Namespace.Message)
+        {
+        }
 
-        public IEnumerable<body> bodyElements { get { return Elements<body>(Namespace.body); } }
-        public IEnumerable<subject> subjectElements { get { return Elements<subject>(Namespace.subject); } }
-        public IEnumerable<thread> threadElements { get { return Elements<thread>(Namespace.thread); } }
-        public IEnumerable<error> errorElements { get { return Elements<error>(Namespace.error); } }
+        public Message(XElement other) : base(other)
+        {
+        }
 
-        public string body { get { return string.Join(" ", (from body in bodyElements select body.Value)); } }
+        public string From
+        {
+            get { return (string)GetAttributeValue("from"); }
+            set { SetAttributeValue("from", value); }
+        }
+
+        public string To
+        {
+            get { return (string)GetAttributeValue("to"); }
+            set { SetAttributeValue("to", value); }
+        }
+
+        public TypeEnum Type
+        {
+            get { return GetAttributeEnum<TypeEnum>("type"); }
+            set { SetAttributeEnum<TypeEnum>("type", value); }
+        }
+
+        public string Id
+        {
+            get { return (string)GetAttributeValue("id"); }
+            set { SetAttributeValue("id", value); }
+        }
+
+        public string Lang
+        {
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
+            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+        }
+
+        public IEnumerable<Body> BodyElements
+        {
+            get { return Elements<Body>(Namespace.Body); }
+        }
+
+        public IEnumerable<Subject> SubjectElements
+        {
+            get { return Elements<Subject>(Namespace.Subject); }
+        }
+
+        public IEnumerable<Thread> ThreadElements
+        {
+            get { return Elements<Thread>(Namespace.Thread); }
+        }
+
+        public IEnumerable<Error> ErrorElements
+        {
+            get { return Elements<Error>(Namespace.Error); }
+        }
+
+        public string Body
+        {
+            get { return string.Join(" ", from body in BodyElements select body.Value); }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Body))]
+    public class Body : Tag
+    {
+        public Body() : base(Namespace.Body)
+        {
+        }
+
+        public Body(XElement other) : base(other)
+        {
+        }
+
+        public string Lang
+        {
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
+            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Subject))]
+    public class Subject : Tag
+    {
+        public Subject() : base(Namespace.Subject)
+        {
+        }
+
+        public Subject(XElement other) : base(other)
+        {
+        }
+
+        public string Lang
+        {
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
+            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+        }
     }
 
 
-    [XMPPTag(typeof(Namespace), typeof(body))]
-    public class body : Tag
+    [XmppTag(typeof(Namespace), typeof(Thread))]
+    public class Thread : Tag
     {
-        public body() : base(Namespace.body) {} 
-        public body(XElement other) : base(other) {}
+        public Thread() : base(Namespace.Thread)
+        {
+        }
 
-        public string lang { get { return (string)GetAttributeValue(XName.Get("lang", xml.Namespace.Name)); } set { SetAttributeValue(XName.Get("lang", xml.Namespace.Name), value); } }
+        public Thread(XElement other) : base(other)
+        {
+        }
+
+        public string ParentAttr
+        {
+            get { return (string)GetAttributeValue("parent"); }
+            set { SetAttributeValue("parent", value); }
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(subject))]
-    public class subject : Tag
+    [XmppTag(typeof(Namespace), typeof(Presence))]
+    public class Presence : Tag
     {
-        public subject() : base(Namespace.subject) {} 
-        public subject(XElement other) : base(other) {}
-
-        public string lang { get { return (string)GetAttributeValue(XName.Get("lang", xml.Namespace.Name)); } set { SetAttributeValue(XName.Get("lang", xml.Namespace.Name), value); } }
-    }
-
-
-    [XMPPTag(typeof(Namespace), typeof(thread))]
-    public class thread : Tag
-    {
-        public thread() : base(Namespace.thread) {} 
-        public thread(XElement other) : base(other) {}
-
-		public string parent { get { return (string)GetAttributeValue("parent"); } set { SetAttributeValue("parent", value); } }
-    }
-
-    [XMPPTag(typeof(Namespace), typeof(presence))]
-    public class presence : Tag
-    {
-        public presence() : base(Namespace.presence) { id = NextId(); }
-        public presence(XElement other) : base(other) { id = NextId(); }
-
-        public enum typeEnum
+        public enum TypeEnum
         {
             none,
             error,
@@ -117,27 +179,71 @@ namespace XMPP.tags.jabber.client
             unsubscribed
         }
 
-		public string from { get { return (string)GetAttributeValue("from"); } set { SetAttributeValue("from", value); } }
-		public string to { get { return (string)GetAttributeValue("to"); } set { SetAttributeValue("to", value); } }
-        public typeEnum type { get { return GetAttributeEnum<typeEnum>("type"); } set { SetAttributeEnum<typeEnum>("type", value); } }
-		public string id { get { return (string)GetAttributeValue("id"); } set { SetAttributeValue("id", value); } }
-        public string lang { get { return (string)GetAttributeValue(XName.Get("lang", xml.Namespace.Name)); } set { SetAttributeValue(XName.Get("lang", xml.Namespace.Name), value); } }
+        public Presence() : base(Namespace.Presence)
+        {
+            Id = NextId();
+        }
 
-        public IEnumerable<show> showElements { get { return Elements<show>(Namespace.show); } }
-        public IEnumerable<status> statusElements { get { return Elements<status>(Namespace.status); } }
-        public IEnumerable<priority> priorityElements { get { return Elements<priority>(Namespace.priority); } }
-        public IEnumerable<error> errorElements { get { return Elements<error>(Namespace.error); } }
+        public Presence(XElement other) : base(other)
+        {
+            Id = NextId();
+        }
+
+        public string From
+        {
+            get { return (string)GetAttributeValue("from"); }
+            set { SetAttributeValue("from", value); }
+        }
+
+        public string To
+        {
+            get { return (string)GetAttributeValue("to"); }
+            set { SetAttributeValue("to", value); }
+        }
+
+        public TypeEnum Type
+        {
+            get { return GetAttributeEnum<TypeEnum>("type"); }
+            set { SetAttributeEnum<TypeEnum>("type", value); }
+        }
+
+        public string Id
+        {
+            get { return (string)GetAttributeValue("id"); }
+            set { SetAttributeValue("id", value); }
+        }
+
+        public string Lang
+        {
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
+            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+        }
+
+        public IEnumerable<Show> ShowElements
+        {
+            get { return Elements<Show>(Namespace.Show); }
+        }
+
+        public IEnumerable<Status> StatusElements
+        {
+            get { return Elements<Status>(Namespace.Status); }
+        }
+
+        public IEnumerable<Priority> PriorityElements
+        {
+            get { return Elements<Priority>(Namespace.Priority); }
+        }
+
+        public IEnumerable<Error> ErrorElements
+        {
+            get { return Elements<Error>(Namespace.Error); }
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(show))]
-    public class show : Tag
+    [XmppTag(typeof(Namespace), typeof(Show))]
+    public class Show : Tag
     {
-        public show() : base(Namespace.show) {} 
-        public show(XElement other) : base(other) {}
-
-        // Enums
-        public enum valueEnum
+        public enum ValueEnum
         {
             none,
             away,
@@ -146,37 +252,75 @@ namespace XMPP.tags.jabber.client
             xa
         }
 
-        public new valueEnum Value { get { return (valueEnum)Enum.Parse(typeof(valueEnum), base.Value, true); } set { base.Value = value.ToString(); } }
+        public Show() : base(Namespace.Show)
+        {
+        }
+
+        public Show(XElement other) : base(other)
+        {
+        }
+
+        public new ValueEnum Value
+        {
+            get { return (ValueEnum) Enum.Parse(typeof(ValueEnum), base.Value, true); }
+            set { base.Value = value.ToString(); }
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(status))]
-    public class status : Tag
+    [XmppTag(typeof(Namespace), typeof(Status))]
+    public class Status : Tag
     {
-        public status() : base(Namespace.status) {} 
-        public status(XElement other) : base(other) {}
+        public Status() : base(Namespace.Status)
+        {
+        }
 
-        public string lang { get { return (string)GetAttributeValue(XName.Get("lang", xml.Namespace.Name)); } set { SetAttributeValue(XName.Get("lang", xml.Namespace.Name), value); } }
-        public new string Value { get { return base.Value; } set { if (value.Length < 1 || value.Length > 1024) { throw new Exception("Text out of range"); } base.Value = value; } } // string1024
+        public Status(XElement other) : base(other)
+        {
+        }
+
+        public string Lang
+        {
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
+            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+        }
+
+        public new string Value
+        {
+            get { return base.Value; }
+            set
+            {
+                if (value.Length < 1 || value.Length > 1024)
+                {
+                    throw new Exception("Text out of range");
+                }
+
+                base.Value = value;
+            }
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(priority))]
-    public class priority : Tag
+    [XmppTag(typeof(Namespace), typeof(Priority))]
+    public class Priority : Tag
     {
-        public priority() : base(Namespace.priority) {} 
-        public priority(XElement other) : base(other) {}
+        public Priority() : base(Namespace.Priority)
+        {
+        }
 
-        public new int Value { get { return Convert.ToInt32(base.Value); } set { base.Value = value.ToString(); } }
+        public Priority(XElement other) : base(other)
+        {
+        }
+
+        public new int Value
+        {
+            get { return Convert.ToInt32(base.Value); }
+            set { base.Value = value.ToString(); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(iq))]
-    public class iq : Tag
+    [XmppTag(typeof(Namespace), typeof(Iq))]
+    public class Iq : Tag
     {
-        public iq() : base(Namespace.iq) { }
-        public iq(XElement other) : base(other) { }
-
-        public enum typeEnum
+        public enum TypeEnum
         {
             none,
             error,
@@ -185,39 +329,87 @@ namespace XMPP.tags.jabber.client
             set
         }
 
-		public string from { get { return (string)GetAttributeValue("from"); } set { SetAttributeValue("from", value); } }
-		public string to { get { return (string)GetAttributeValue("to"); } set { SetAttributeValue("to", value); } }
-        public typeEnum type { get { return GetAttributeEnum<typeEnum>("type"); } set { SetAttributeEnum<typeEnum>("type", value); } }
-		public string id { get { return (string)GetAttributeValue("id"); } set { SetAttributeValue("id", value); } }
-        public string lang { get { return (string)GetAttributeValue(XName.Get("lang", xml.Namespace.Name)); } set { SetAttributeValue(XName.Get("lang", xml.Namespace.Name), value); } }
-
-        public IEnumerable<error> errorElements { get { return Elements<error>(Namespace.error); } }
-        public Tag Payload { get { return Tag.Get(Elements().FirstOrDefault()); } }
-    }
-
-
-    [XMPPTag(typeof(Namespace), typeof(error))]
-    public class error : Tag
-    {
-        public error() : base(Namespace.error) {} 
-        public error(XElement other) : base(other) {}
-
-        // Enums
-        public enum typeEnum
+        public Iq() : base(Namespace.Iq)
         {
-            none,
-            auth,     
-            cancel,   
-            @continue, 
-            modify,   
-            wait,     
         }
 
-		public string by { get { return (string)GetAttributeValue("by"); } set { SetAttributeValue("by", value); } }
+        public Iq(XElement other) : base(other)
+        {
+        }
 
-        public typeEnum type { get { return GetAttributeEnum<typeEnum>("type"); } set { SetAttributeEnum<typeEnum>("type", value); } }
+        public string From
+        {
+            get { return (string) GetAttributeValue("from"); }
+            set { SetAttributeValue("from", value); }
+        }
 
-        // Has children
+        public string To
+        {
+            get { return (string)GetAttributeValue("to"); }
+            set { SetAttributeValue("to", value); }
+        }
+
+        public TypeEnum Type
+        {
+            get { return GetAttributeEnum<TypeEnum>("type"); }
+            set { SetAttributeEnum<TypeEnum>("type", value); }
+        }
+
+        public string Id
+        {
+            get { return (string)GetAttributeValue("id"); }
+            set { SetAttributeValue("id", value); }
+        }
+
+        public string Lang
+        {
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
+            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+        }
+
+        public IEnumerable<Error> ErrorElements
+        {
+            get { return Elements<Error>(Namespace.Error); }
+        }
+
+        public Tag Payload
+        {
+            get { return Get(Elements().FirstOrDefault()); }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Error))]
+    public class Error : Tag
+    {
+        public enum TypeEnum
+        {
+            none,
+            auth,
+            cancel,
+            @continue,
+            modify,
+            wait,
+        }
+
+        public Error() : base(Namespace.Error)
+        {
+        }
+
+        public Error(XElement other) : base(other)
+        {
+        }
+
+        public string By
+        {
+            get { return (string)GetAttributeValue("by"); }
+            set { SetAttributeValue("by", value); }
+        }
+
+        public TypeEnum Type
+        {
+            get { return GetAttributeEnum<TypeEnum>("type"); }
+            set { SetAttributeEnum<TypeEnum>("type", value); }
+        }
     }
 }
 

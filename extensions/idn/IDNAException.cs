@@ -1,46 +1,71 @@
-// *
-// Author: Alexander Gnauck AG-Software, mailto:gnauck@ag-software.de
-// *
-// This file is part of GNU Libidn.
-// *
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation; either version 2.1 of
-// the License, or (at your option) any later version.
-// *
-// This library is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Lesser General Public License for more details.
-// *
-// You should have received a copy of the GNU Lesser General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
-// USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="IDNAException.cs">
+//   
+// </copyright>
+// <summary>
+//   The idna exception.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
 
 namespace Gnu.Inet.Encoding
-{		
-	public class IDNAException : System.Exception
-	{
-		public static string CONTAINS_NON_LDH		= "Contains non-LDH characters.";
-		public static string CONTAINS_HYPHEN		= "Leading or trailing hyphen not allowed.";
-		public static string CONTAINS_ACE_PREFIX	= "ACE prefix (xn--) not allowed.";
-		public static string TOO_LONG				= "String too long.";
-		
-		public IDNAException(string m) : base(m)
-		{
-		
-		}
+{
+    /// <summary>
+    /// The idna exception.
+    /// </summary>
+    public class IDNAException : Exception
+    {
+        /// <summary>
+        /// The contain s_ no n_ ldh.
+        /// </summary>
+        public static string CONTAINS_NON_LDH = "Contains non-LDH characters.";
 
-		// TODO
-		public IDNAException(StringprepException e) :base( "", e)
-		{
-		}
-		
-		public IDNAException(PunycodeException e) : base( "", e)
-		{
-		}
-	}
+        /// <summary>
+        /// The contain s_ hyphen.
+        /// </summary>
+        public static string CONTAINS_HYPHEN = "Leading or trailing hyphen not allowed.";
+
+        /// <summary>
+        /// The contain s_ ac e_ prefix.
+        /// </summary>
+        public static string CONTAINS_ACE_PREFIX = "ACE prefix (xn--) not allowed.";
+
+        /// <summary>
+        /// The to o_ long.
+        /// </summary>
+        public static string TOO_LONG = "String too long.";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IDNAException"/> class.
+        /// </summary>
+        /// <param name="m">
+        /// The m.
+        /// </param>
+        public IDNAException(string m) : base(m)
+        {
+        }
+
+        // TODO
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IDNAException"/> class.
+        /// </summary>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        public IDNAException(StringprepException e) : base(string.Empty, e)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IDNAException"/> class.
+        /// </summary>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        public IDNAException(PunycodeException e) : base(string.Empty, e)
+        {
+        }
+    }
 }

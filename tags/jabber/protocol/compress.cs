@@ -1,96 +1,136 @@
-// compress.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="compress.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.protocol.compress
+namespace XMPP.Tags.Jabber.Protocol.Compress
 {
     public class Namespace
     {
-        public static string Name = "http://jabber.org/protocol/compress";
-        public static XName compress = XName.Get("compress", Name);
-        public static XName method = XName.Get("method", Name);
-        public static XName compressed = XName.Get("compressed", Name);
+        public const string Name = "http://jabber.org/protocol/compress";
 
-        public static XName failure = XName.Get("failure", Name);
-        public static XName setup_failed = XName.Get("setup-failed", Name);
-        public static XName processing_failed = XName.Get("processing-failed", Name);
-        public static XName unsupported_method = XName.Get("unsupported-method", Name);
+        public static readonly XName Compress = XName.Get("compress", Name);
+        public static readonly XName Method = XName.Get("method", Name);
+        public static readonly XName Compressed = XName.Get("compressed", Name);
+        public static readonly XName Failure = XName.Get("failure", Name);
+        public static readonly XName SetupFailed = XName.Get("setup-failed", Name);
+        public static readonly XName ProcessingFailed = XName.Get("processing-failed", Name);
+        public static readonly XName UnsupportedMethod = XName.Get("unsupported-method", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(compress))]
-    public class compress : Tag
+    [XmppTag(typeof(Namespace), typeof(Compress))]
+    public class Compress : Tag
     {
-        public compress() : base(Namespace.compress) {} 
-        public compress(XElement other) : base(other) {}
+        public Compress() : base(Namespace.Compress)
+        {
+        }
 
-        public IEnumerable<method> methodElements { get { return Elements<method>(Namespace.method); } }
+        public Compress(XElement other)
+            : base(other)
+        {
+        }
+
+        public IEnumerable<Method> MethodElements
+        {
+            get { return Elements<Method>(Namespace.Method); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(method))]
-    public class method : Tag
+    [XmppTag(typeof(Namespace), typeof(Method))]
+    public class Method : Tag
     {
-        public method() : base(Namespace.method) {} 
-        public method(XElement other) : base(other) {}
+        public Method() : base(Namespace.Method)
+        {
+        }
+
+        public Method(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(compressed))]
-    public class compressed : Tag
-    { 
-        public compressed() : base(Namespace.compressed) {} 
-        public compressed(XElement other) : base(other) {}
-    }
-
-    [XMPPTag(typeof(Namespace), typeof(failure))]
-    public class failure : Tag 
-    { 
-        public failure() : base(Namespace.failure) {} 
-        public failure(XElement other) : base(other) {}
-
-		public setup_failed setup_failed { get { return Element<setup_failed>(Namespace.setup_failed); } }
-		public processing_failed processing_failed { get { return Element<processing_failed>(Namespace.processing_failed); } }
-		public unsupported_method unsupported_method { get { return Element<unsupported_method>(Namespace.unsupported_method); } }
-    }
-
-    [XMPPTag(typeof(Namespace), typeof(setup_failed))]
-    public class setup_failed : Tag
+    [XmppTag(typeof(Namespace), typeof(Compressed))]
+    public class Compressed : Tag
     {
-        public setup_failed() : base(Namespace.setup_failed) { }
-        public setup_failed(XElement other) : base(other) { }
+        public Compressed() : base(Namespace.Compressed)
+        {
+        }
+
+        public Compressed(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(processing_failed))]
-    public class processing_failed : Tag
+    [XmppTag(typeof(Namespace), typeof(Failure))]
+    public class Failure : Tag
     {
-        public processing_failed() : base(Namespace.processing_failed) { }
-        public processing_failed(XElement other) : base(other) { }
+        public Failure() : base(Namespace.Failure)
+        {
+        }
+
+        public Failure(XElement other) : base(other)
+        {
+        }
+
+        public SetupFailed SetupFailed
+        {
+            get { return Element<SetupFailed>(Namespace.SetupFailed); }
+        }
+
+        public ProcessingFailed ProcessingFailed
+        {
+            get { return Element<ProcessingFailed>(Namespace.ProcessingFailed); }
+        }
+
+        public UnsupportedMethod UnsupportedMethod
+        {
+            get { return Element<UnsupportedMethod>(Namespace.UnsupportedMethod); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(unsupported_method))]
-    public class unsupported_method : Tag
+    [XmppTag(typeof(Namespace), typeof(SetupFailed))]
+    public class SetupFailed : Tag
     {
-        public unsupported_method() : base(Namespace.unsupported_method) { }
-        public unsupported_method(XElement other) : base(other) { }
+        public SetupFailed() : base(Namespace.SetupFailed)
+        {
+        }
+
+        public SetupFailed(XElement other) : base(other)
+        {
+        }
     }
 
+    [XmppTag(typeof(Namespace), typeof(ProcessingFailed))]
+    public class ProcessingFailed : Tag
+    {
+        public ProcessingFailed() : base(Namespace.ProcessingFailed)
+        {
+        }
 
+        public ProcessingFailed(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(UnsupportedMethod))]
+    public class UnsupportedMethod : Tag
+    {
+        public UnsupportedMethod() : base(Namespace.UnsupportedMethod)
+        {
+        }
+
+        public UnsupportedMethod(XElement other) : base(other)
+        {
+        }
+    }
 }
 
 /*

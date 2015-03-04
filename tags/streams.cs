@@ -1,54 +1,104 @@
-// streams.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="streams.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
+using XMPP.Tags.Jabber.Client;
+using XMPP.Tags.XmppSasl;
+using XMPP.Tags.XmppTls;
 
-namespace XMPP.tags.streams
+// ReSharper disable once CheckNamespace
+namespace XMPP.Tags.Streams
 {
     public class Namespace
     {
-        public static string Name = "http://etherx.jabber.org/streams";
-        public static XName features = XName.Get("features", Name);
-        public static XName stream = XName.Get("stream", Name);
-        public static XName error = XName.Get("error", Name);
+        public const string Name = "http://etherx.jabber.org/streams";
+
+        public static readonly XName Features = XName.Get("features", Name);
+        public static readonly XName Stream = XName.Get("stream", Name);
+        public static readonly XName Error = XName.Get("error", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(stream))]
-    public class stream : Tag
+    [XmppTag(typeof(Namespace), typeof(Stream))]
+    public class Stream : Tag
     {
-        public stream() : base(Namespace.stream) {} 
-        public stream(XElement other) : base(other) {}
+        public Stream() : base(Namespace.Stream)
+        {
+        }
 
-		public string from { get { return (string)GetAttributeValue("from"); } set { SetAttributeValue("from", value); } }
-		public string to { get { return (string)GetAttributeValue("to"); } set { SetAttributeValue("to", value); } }
-		public string id { get { return (string)GetAttributeValue("id"); } set { SetAttributeValue("id", value); } }
-        public string lang { get { return (string)GetAttributeValue(XName.Get("lang", xml.Namespace.Name)); } set { SetAttributeValue(XName.Get("lang", xml.Namespace.Name), value); } }
-		public string version { get { return (string)GetAttributeValue("version"); } set { SetAttributeValue("version", value); } }
-		public string xmlns { get { return (string)GetAttributeValue("xmlns"); } set { SetAttributeValue("xmlns", value); } }
+        public Stream(XElement other) : base(other)
+        {
+        }
 
-		public features features { get { return Element<features>(Namespace.features); } }
-        public IEnumerable<jabber.client.message> bodyElements { get { return Elements<jabber.client.message>(jabber.client.Namespace.message); } }
-        public IEnumerable<jabber.client.presence> presenceElements { get { return Elements<jabber.client.presence>(jabber.client.Namespace.presence); } }
-        public IEnumerable<jabber.client.iq> iqElements { get { return Elements<jabber.client.iq>(jabber.client.Namespace.iq); } }
-        public IEnumerable<error> errorElements { get { return Elements<error>(Namespace.error); } }
+        public string From
+        {
+            get { return (string)GetAttributeValue("from"); }
+            set { SetAttributeValue("from", value); }
+        }
+
+        public string To
+        {
+            get { return (string)GetAttributeValue("to"); }
+            set { SetAttributeValue("to", value); }
+        }
+
+        public string Id
+        {
+            get { return (string)GetAttributeValue("id"); }
+            set { SetAttributeValue("id", value); }
+        }
+
+        public string Lang
+        {
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
+            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+        }
+
+        public string Version
+        {
+            get { return (string)GetAttributeValue("version"); }
+            set { SetAttributeValue("version", value); }
+        }
+
+        public string Xmlns
+        {
+            get { return (string)GetAttributeValue("xmlns"); }
+            set { SetAttributeValue("xmlns", value); }
+        }
+
+        public Features Features
+        {
+            get { return Element<Features>(Namespace.Features); }
+        }
+
+        public IEnumerable<Message> BodyElements
+        {
+            get { return Elements<Message>(Jabber.Client.Namespace.Message); }
+        }
+
+        public IEnumerable<Presence> PresenceElements
+        {
+            get { return Elements<Presence>(Jabber.Client.Namespace.Presence); }
+        }
+
+        public IEnumerable<Iq> IqElements
+        {
+            get { return Elements<Iq>(Jabber.Client.Namespace.Iq); }
+        }
+
+        public IEnumerable<Error> ErrorElements
+        {
+            get { return Elements<Error>(Namespace.Error); }
+        }
 
         public string StartTag
         {
@@ -60,7 +110,7 @@ namespace XMPP.tags.streams
                 sb.Append(Name.LocalName);
                 sb.Append(" xmlns");
                 sb.Append(":");
-                sb.Append(Name.LocalName);                
+                sb.Append(Name.LocalName);
                 sb.Append("=\'");
                 sb.Append(Name.NamespaceName);
                 sb.Append("\'");
@@ -73,32 +123,54 @@ namespace XMPP.tags.streams
                     sb.Append(attr.Value);
                     sb.Append("\'");
                 }
+
                 sb.Append(">");
                 return sb.ToString();
             }
         }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(features))]
-    public class features : Tag
+    [XmppTag(typeof(Namespace), typeof(Features))]
+    public class Features : Tag
     {
+        public Features() : base(Namespace.Features)
+        {
+        }
 
-        public features() : base(Namespace.features) {  }
-        public features(XElement other) : base(other) { }
+        public Features(XElement other) : base(other)
+        {
+        }
 
-        public xmpp_sasl.mechanisms mechanisms { get { return Element<xmpp_sasl.mechanisms>(xmpp_sasl.Namespace.mechanisms); } }
-        public xmpp_tls.starttls starttls { get { return Element<xmpp_tls.starttls>(xmpp_tls.Namespace.starttls); } }
-        public jabber.features.compress.compression compression { get { return Element<jabber.features.compress.compression>(jabber.features.compress.Namespace.compression); } }
+        public Mechanisms Mechanisms
+        {
+            get { return Element<Mechanisms>(XmppSasl.Namespace.Mechanisms); }
+        }
+
+        public StartTls StartTls
+        {
+            get { return Element<StartTls>(XmppTls.Namespace.StartTls); }
+        }
+
+        public Jabber.Reatures.Compress.Compression Compression
+        {
+            get
+            {
+                return Element<Jabber.Reatures.Compress.Compression>(Jabber.Reatures.Compress.Namespace.compression);
+            }
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(error))]
-    public class error : Tag
+    [XmppTag(typeof(Namespace), typeof(Error))]
+    public class Error : Tag
     {
-        public error() : base(Namespace.error) {} 
-        public error(XElement other) : base(other) {}
-    }
+        public Error() : base(Namespace.Error)
+        {
+        }
 
+        public Error(XElement other) : base(other)
+        {
+        }
+    }
 }
 
 /*

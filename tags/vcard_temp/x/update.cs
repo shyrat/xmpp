@@ -1,47 +1,55 @@
-﻿// update.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="update.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.vcard_temp.x.update
+namespace XMPP.Tags.VCardTemp.X.Update
 {
     public class Namespace
     {
-        public static string Name = "vcard-temp:x:update";
-        public static XName x = XName.Get("x", Name);
-        public static XName photo = XName.Get("photo", Name);
+        public const string Name = "vcard-temp:x:update";
+
+        public static readonly XName X = XName.Get("x", Name);
+
+        public static readonly XName Photo = XName.Get("photo", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(x))]
-    public class x : Tag
+    [XmppTag(typeof(Namespace), typeof(X))]
+    public class X : Tag
     {
-        public x() : base(Namespace.x) {} 
-        public x(XElement other) : base(other) {}
-        public IEnumerable<photo> photoElements { get { return Elements<photo>(Namespace.photo); } }
+        public X() : base(Namespace.X)
+        {
+        }
+
+        public X(XElement other) : base(other)
+        {
+        }
+
+        public IEnumerable<Photo> PhotoElements
+        {
+            get { return Elements<Photo>(Namespace.Photo); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(photo))]
-    public class photo : Tag
+    [XmppTag(typeof(Namespace), typeof(Photo))]
+    public class Photo : Tag
     {
-        public photo() : base(Namespace.photo) {} 
-        public photo(XElement other) : base(other) {}
+        public Photo() : base(Namespace.Photo)
+        {
+        }
+
+        public Photo(XElement other) : base(other)
+        {
+        }
     }
 }
 

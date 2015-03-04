@@ -1,42 +1,59 @@
-// caps.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="caps.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.protocol.caps
+namespace XMPP.Tags.Jabber.Protocol.Caps
 {
     public class Namespace
     {
-        public static string Name = "http://jabber.org/protocol/caps";
-        public static XName c = XName.Get("c", Name);
+        public const string Name = "http://jabber.org/protocol/caps";
+
+        public static readonly XName C = XName.Get("c", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(c))]
-    public class c : Tag
+    [XmppTag(typeof(Namespace), typeof(C))]
+    public class C : Tag
     {
-        public c() : base(Namespace.c) {} 
-        public c(XElement other) : base(other) {}
+        public C() : base(Namespace.C)
+        {
+        }
 
-		public string ext { get { return (string)GetAttributeValue("ext"); } set { SetAttributeValue("ext", value); } }
-		public string hash { get { return (string)GetAttributeValue("hash"); } set { SetAttributeValue("hash", value); } }
-		public string node { get { return (string)GetAttributeValue("node"); } set { SetAttributeValue("node", value); } }
-		public string ver { get { return (string)GetAttributeValue("ver"); } set { SetAttributeValue("ver", value); } }
+        public C(XElement other) : base(other)
+        {
+        }
+
+        public string Ext
+        {
+            get { return (string)GetAttributeValue("ext"); }
+            set { SetAttributeValue("ext", value); }
+        }
+
+        public string Hash
+        {
+            get { return (string)GetAttributeValue("hash"); }
+            set { SetAttributeValue("hash", value); }
+        }
+
+        public string Node
+        {
+            get { return (string)GetAttributeValue("node"); }
+            set { SetAttributeValue("node", value); }
+        }
+
+        public string Ver
+        {
+            get { return (string)GetAttributeValue("ver"); }
+            set { SetAttributeValue("ver", value); }
+        }
     }
 }
 

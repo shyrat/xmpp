@@ -1,57 +1,88 @@
-// discoXitems.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="discoXitems.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.protocol.discoXitems
+namespace XMPP.Tags.Jabber.Protocol.DiscoXitems
 {
     public class Namespace
     {
-        public static string Name = "http://jabber.org/protocol/disco#items";
-        public static XName query = XName.Get("query", Name);
-        public static XName item = XName.Get("item", Name);
+        public const string Name = "http://jabber.org/protocol/disco#items";
+
+        public static readonly XName Query = XName.Get("query", Name);
+        public static readonly XName Item = XName.Get("item", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        public query() : base(Namespace.query) {} 
-        public query(XElement other) : base(other) {}
+        public Query() : base(Namespace.Query)
+        {
+        }
 
-		public string node { get { return (string)GetAttributeValue("node"); } set { SetAttributeValue("node", value); } }
+        public Query(XElement other) : base(other)
+        {
+        }
 
-        public IEnumerable<item> itemElements { get { return Elements<item>(Namespace.item); } }
+        public string Node
+        {
+            get { return (string)GetAttributeValue("node"); }
+            set { SetAttributeValue("node", value); }
+        }
+
+        public IEnumerable<Item> ItemElements
+        {
+            get { return Elements<Item>(Namespace.Item); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(item))]
-    public class item : Tag
+    [XmppTag(typeof(Namespace), typeof(Item))]
+    public class Item : Tag
     {
-        public item() : base(Namespace.item) { }
-        public item(XElement other) : base(other) { }
+        public Item() : base(Namespace.Item)
+        {
+        }
 
-        public string jid { get { return (string)GetAttributeValue("jid"); } set { if (value.Length < 8 || value.Length > 3071) { throw new Exception("Text out of range"); } SetAttributeValue("jid", value); } } // fullJIDType
-		public string name { get { return (string)GetAttributeValue("name"); } set { SetAttributeValue("name", value); } }
-		public string node { get { return (string)GetAttributeValue("node"); } set { SetAttributeValue("node", value); } }
+        public Item(XElement other) : base(other)
+        {
+        }
+
+        public string Jid
+        {
+            get { return (string) GetAttributeValue("jid"); }
+            set
+            {
+                if (value.Length < 8 || value.Length > 3071)
+                {
+                    throw new Exception("Text out of range");
+                }
+
+                SetAttributeValue("jid", value);
+            }
+        }
+
+        public string Name
+        {
+            get { return (string)GetAttributeValue("name"); }
+            set { SetAttributeValue("name", value); }
+        }
+
+        public string Node
+        {
+            get { return (string)GetAttributeValue("node"); }
+            set { SetAttributeValue("node", value); }
+        }
     }
-
 }
 
 /*

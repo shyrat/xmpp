@@ -1,91 +1,289 @@
-// bytestreams.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="bytestreams.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.protocol.bytestreams
+namespace XMPP.Tags.Jabber.Protocol.bytestreams
 {
+    /// <summary>
+    /// The namespace.
+    /// </summary>
     public class Namespace
     {
+        /// <summary>
+        /// The name.
+        /// </summary>
         public static string Name = "http://jabber.org/protocol/bytestreams";
+
+        /// <summary>
+        /// The query.
+        /// </summary>
         public static XName query = XName.Get("query", Name);
+
+        /// <summary>
+        /// The streamhost.
+        /// </summary>
         public static XName streamhost = XName.Get("streamhost", Name);
+
+        /// <summary>
+        /// The streamhost_used.
+        /// </summary>
         public static XName streamhost_used = XName.Get("streamhost-used", Name);
+
+        /// <summary>
+        /// The udpsuccess.
+        /// </summary>
         public static XName udpsuccess = XName.Get("udpsuccess", Name);
+
+        /// <summary>
+        /// The activate.
+        /// </summary>
         public static XName activate = XName.Get("activate", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(query))]
+    /// <summary>
+    /// The query.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(query))]
     public class query : Tag
     {
-        public query() : base(Namespace.query) {} 
-        public query(XElement other) : base(other) {}
-
+        /// <summary>
+        /// The mode enum.
+        /// </summary>
         public enum modeEnum
         {
-            none,
-            tcp,
+            /// <summary>
+            /// The none.
+            /// </summary>
+            none, 
+
+            /// <summary>
+            /// The tcp.
+            /// </summary>
+            tcp, 
+
+            /// <summary>
+            /// The udp.
+            /// </summary>
             udp
         }
 
-		public streamhost streamhost { get { return Element<streamhost>(Namespace.streamhost); } }
-        public streamhost_used streamhost_used { get { return Element<streamhost_used>(Namespace.streamhost_used); } }
-		public activate activate { get { return Element<activate>(Namespace.activate); } }		public string dstaddr { get { return (string)GetAttributeValue("dstaddr"); } set { SetAttributeValue("dstaddr", value); } }
-		public string sid { get { return (string)GetAttributeValue("sid"); } set { SetAttributeValue("sid", value); } }
-        public modeEnum mode { get { return GetAttributeEnum<modeEnum>("mode"); } set { SetAttributeEnum<modeEnum>("mode", value); } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="query"/> class.
+        /// </summary>
+        public query() : base(Namespace.query)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="query"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public query(XElement other) : base(other)
+        {
+        }
+
+        /// <summary>
+        /// Gets the streamhost.
+        /// </summary>
+        public streamhost streamhost
+        {
+            get { return Element<streamhost>(Namespace.streamhost); }
+        }
+
+        /// <summary>
+        /// Gets the streamhost_used.
+        /// </summary>
+        public streamhost_used streamhost_used
+        {
+            get { return Element<streamhost_used>(Namespace.streamhost_used); }
+        }
+
+        /// <summary>
+        /// Gets the activate.
+        /// </summary>
+        public activate activate
+        {
+            get { return Element<activate>(Namespace.activate); }
+        }
+
+        /// <summary>
+        /// Gets or sets the dstaddr.
+        /// </summary>
+        public string dstaddr
+        {
+            get { return (string) GetAttributeValue("dstaddr"); }
+            set { SetAttributeValue("dstaddr", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the sid.
+        /// </summary>
+        public string sid
+        {
+            get { return (string) GetAttributeValue("sid"); }
+            set { SetAttributeValue("sid", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the mode.
+        /// </summary>
+        public modeEnum mode
+        {
+            get { return GetAttributeEnum<modeEnum>("mode"); }
+            set { SetAttributeEnum<modeEnum>("mode", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(streamhost))]
+    /// <summary>
+    /// The streamhost.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(streamhost))]
     public class streamhost : Tag
     {
-        public streamhost() : base(Namespace.streamhost) {} 
-        public streamhost(XElement other) : base(other) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="streamhost"/> class.
+        /// </summary>
+        public streamhost() : base(Namespace.streamhost)
+        {
+        }
 
-		public string jid { get { return (string)GetAttributeValue("jid"); } set { SetAttributeValue("jid", value); } }
-		public string host { get { return (string)GetAttributeValue("host"); } set { SetAttributeValue("host", value); } }
-		public string port { get { return (string)GetAttributeValue("port"); } set { SetAttributeValue("port", value); } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="streamhost"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public streamhost(XElement other) : base(other)
+        {
+        }
 
+        /// <summary>
+        /// Gets or sets the jid.
+        /// </summary>
+        public string jid
+        {
+            get { return (string) GetAttributeValue("jid"); }
+            set { SetAttributeValue("jid", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the host.
+        /// </summary>
+        public string host
+        {
+            get { return (string) GetAttributeValue("host"); }
+            set { SetAttributeValue("host", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the port.
+        /// </summary>
+        public string port
+        {
+            get { return (string) GetAttributeValue("port"); }
+            set { SetAttributeValue("port", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(streamhost_used))]
+    /// <summary>
+    /// The streamhost_used.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(streamhost_used))]
     public class streamhost_used : Tag
     {
-        public streamhost_used() : base(Namespace.streamhost_used) {} 
-        public streamhost_used(XElement other) : base(other) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="streamhost_used"/> class.
+        /// </summary>
+        public streamhost_used() : base(Namespace.streamhost_used)
+        {
+        }
 
-		public string jid { get { return (string)GetAttributeValue("jid"); } set { SetAttributeValue("jid", value); } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="streamhost_used"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public streamhost_used(XElement other) : base(other)
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the jid.
+        /// </summary>
+        public string jid
+        {
+            get { return (string) GetAttributeValue("jid"); }
+            set { SetAttributeValue("jid", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(udpsuccess))]
+    /// <summary>
+    /// The udpsuccess.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(udpsuccess))]
     public class udpsuccess : Tag
     {
-        public udpsuccess() : base(Namespace.udpsuccess) {} 
-        public udpsuccess(XElement other) : base(other) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="udpsuccess"/> class.
+        /// </summary>
+        public udpsuccess() : base(Namespace.udpsuccess)
+        {
+        }
 
-		public string dstaddr { get { return (string)GetAttributeValue("dstaddr"); } set { SetAttributeValue("dstaddr", value); } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="udpsuccess"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public udpsuccess(XElement other) : base(other)
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the dstaddr.
+        /// </summary>
+        public string dstaddr
+        {
+            get { return (string) GetAttributeValue("dstaddr"); }
+            set { SetAttributeValue("dstaddr", value); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(activate))]
+    /// <summary>
+    /// The activate.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(activate))]
     public class activate : Tag
     {
-        public activate() : base(Namespace.activate) {} 
-        public activate(XElement other) : base(other) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="activate"/> class.
+        /// </summary>
+        public activate() : base(Namespace.activate)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="activate"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public activate(XElement other) : base(other)
+        {
+        }
     }
 }
 

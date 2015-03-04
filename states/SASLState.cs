@@ -1,89 +1,87 @@
-// SASLState.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="SASLState.cs">
+//   
+// </copyright>
+// <summary>
+//   The sasl state.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Linq;
-using XMPP.common;
 using XMPP.SASL;
-using XMPP.tags;
+using XMPP.Tags;
+using XMPP.Tags.XmppSasl;
+using XMPP.Ñommon;
 
-namespace XMPP.states
+namespace XMPP.States
 {
-	public class SASLState : IState
-	{
-        public SASLState(Manager manager) : base(manager) {}
+    public class SaslState : IState
+    {
+        public SaslState(Manager manager) : base(manager)
+        {
+        }
 
-		public override void Execute(Tag data = null)
-		{
+        public override void Execute(Tag data = null)
+        {
 #if DEBUG
             Manager.Events.LogMessage(this, LogType.Debug, "Processing next SASL step");
 #endif
-			var res = Manager.SASLProcessor.Step(data);
-			switch (res.Name.LocalName)
-			{
+            Tag res = Manager.SaslProcessor.Step(data);
+            switch (res.Name.LocalName)
+            {
                 case "success":
-                    {
+                {
 #if DEBUG
-                        Manager.Events.LogMessage(this, LogType.Debug, "Success, sending start stream again");
+                    Manager.Events.LogMessage(this, LogType.Debug, "Success, sending start stream again");
 #endif
-                        Manager.IsAuthenticated = true;
+                    Manager.IsAuthenticated = true;
 
-                        if (Manager.Transport == Transport.Socket)
-                        {
-                            Manager.State = new ConnectedState(Manager);
-                            Manager.State.Execute();
-                        }
-                        else
-                        {
-                            (Manager.Connection as BoSH).Restart();
-                        }
-                        break;
+                    if (Manager.Transport == Transport.Socket)
+                    {
+                        Manager.State = new ConnectedState(Manager);
+                        Manager.State.Execute();
                     }
+                    else
+                    {
+                        (Manager.Connection as BoSH).Restart();
+                    }
+
+                    break;
+                }
+
                 case "failure":
-                    {
-                        ErrorType type = ErrorType.Undefined;
+                {
+                    var type = ErrorType.Undefined;
 
-                        if (Manager.SASLProcessor is MD5Processor)
-                            type = ErrorType.MD5AuthError;
+                    if (Manager.SaslProcessor is MD5Processor)
+                        type = ErrorType.Md5AuthError;
 
-                        if (Manager.SASLProcessor is PlainProcessor)
-                            type = ErrorType.PLAINAuthError;
+                    if (Manager.SaslProcessor is PlainProcessor)
+                        type = ErrorType.PlainAuthError;
 
-                        if (Manager.SASLProcessor is SCRAMProcessor)
-                            type = ErrorType.SCRAMAuthError;
+                    if (Manager.SaslProcessor is SCRAMProcessor)
+                        type = ErrorType.ScramAuthError;
 
-                        if (Manager.SASLProcessor is XOAUTH2Processor)
-                            type = ErrorType.OAUTH2AuthError;
+                    if (Manager.SaslProcessor is XOAUTH2Processor)
+                        type = ErrorType.Oauth2AuthError;
 
-                        var failure = data as tags.xmpp_sasl.failure;
-                        var text = string.Empty;
-                        if (failure.textElements.Count() > 0)
-                            text = failure.textElements.First().Value;
+                    var failure = data as Failure;
+                    string text = string.Empty;
+                    if (failure.TextElements.Any())
+                        text = failure.TextElements.First().Value;
 
-                        Manager.Events.Error(this, type, ErrorPolicyType.Deactivate, text);
+                    Manager.Events.Error(this, type, ErrorPolicyType.Deactivate, text);
 
-                        return;
-                    }
+                    return;
+                }
+
                 default:
-                    {
-                        Manager.Connection.Send(res);
-                        break;
-                    }
-			}
-		}
-	}
+                {
+                    Manager.Connection.Send(res);
+                    break;
+                }
+            }
+        }
+    }
 }

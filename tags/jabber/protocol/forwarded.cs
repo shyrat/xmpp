@@ -1,37 +1,51 @@
-﻿//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="forwarded.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
-using XMPP.registries;
-using XMPP.tags.jabber.client;
+using XMPP.Registries;
+using XMPP.Tags.Jabber.Client;
 
-namespace XMPP.tags.jabber.protocol.forwarded
+namespace XMPP.Tags.Jabber.Protocol.forwarded
 {
     public class Namespace
     {
         public const string Name = "urn:xmpp:forward:0";
-        public static XName forwarded = XName.Get("forwarded", Name);
+
+        public static readonly XName Forwarded = XName.Get("forwarded", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(forwarded))]
-    public class forwarded : Tag
+    [XmppTag(typeof(Namespace), typeof(Forwarded))]
+    public class Forwarded : Tag
     {
-        public forwarded() : base(Namespace.forwarded) { }
-        public forwarded(XElement other) : base(other) { }
+        public Forwarded() : base(Namespace.Forwarded)
+        {
+        }
 
-        public message messageElement { get { return Element<message>(XMPP.tags.jabber.client.Namespace.message); } }
-        public presence presenceElement { get { return Element<presence>(XMPP.tags.jabber.client.Namespace.presence); } }
-        public XMPP.tags.jabber.client.iq iqElement { get { return Element<XMPP.tags.jabber.client.iq>(XMPP.tags.jabber.client.Namespace.iq); } }
+        public Forwarded(XElement other) : base(other)
+        {
+        }
+
+        public Message MessageElement
+        {
+            get { return Element<Message>(Client.Namespace.Message); }
+        }
+
+        public Presence PresenceElement
+        {
+            get { return Element<Presence>(Client.Namespace.Presence); }
+        }
+
+        public Iq IqElement
+        {
+            get { return Element<Iq>(Client.Namespace.Iq); }
+        }
     }
 }
 

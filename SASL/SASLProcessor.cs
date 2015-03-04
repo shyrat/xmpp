@@ -1,49 +1,99 @@
-// SASLProcessor.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="SASLProcessor.cs">
+//   
+// </copyright>
+// <summary>
+//   The sasl processor.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using Windows.Security.Cryptography;
-using XMPP.tags;
-using XMPP.common;
+using XMPP.Ñommon;
+using XMPP.Tags;
 
 namespace XMPP.SASL
 {
-	public abstract class SASLProcessor
-	{
+    /// <summary>
+    /// The sasl processor.
+    /// </summary>
+    public abstract class SASLProcessor
+    {
+        /// <summary>
+        /// The manager.
+        /// </summary>
+        protected readonly Manager Manager;
+
+        /// <summary>
+        /// The _directives.
+        /// </summary>
+        private readonly Dictionary<string, string> _directives = new Dictionary<string, string>();
+
+        /// <summary>
+        /// The id.
+        /// </summary>
+        protected Jid Id;
+
+        /// <summary>
+        /// The password.
+        /// </summary>
+        protected string Password;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SASLProcessor"/> class.
+        /// </summary>
+        /// <param name="manager">
+        /// The manager.
+        /// </param>
         public SASLProcessor(Manager manager)
         {
             Manager = manager;
         }
 
-        
-		protected JID Id;
-		protected string Password;
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="directive">
+        /// The directive.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public string this[string directive]
+        {
+            get
+            {
+                if (_directives.ContainsKey(directive))
+                    return _directives[directive];
+                return null;
+            }
 
-        protected readonly Manager Manager;
-        private readonly Dictionary<String, String> _directives = new Dictionary<String, String>();
+            set { _directives[directive] = value; }
+        }
 
+        /// <summary>
+        /// The step.
+        /// </summary>
+        /// <param name="tag">
+        /// The tag.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Tag"/>.
+        /// </returns>
         public abstract Tag Step(Tag tag);
 
-		public virtual Tag Initialize()
-		{
+        /// <summary>
+        /// The initialize.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Tag"/>.
+        /// </returns>
+        public virtual Tag Initialize()
+        {
 #if DEBUG
 			Manager.Events.LogMessage(this, LogType.Debug, "Initializing Base Processor");
 #endif
@@ -51,35 +101,39 @@ namespace XMPP.SASL
             Id = Manager.Settings.Id;
             Password = Manager.Settings.Password;
 
-			return null;
-		}
-		
-		public string this[string directive]
-		{
-			get {
-                if (_directives.ContainsKey(directive))
-                    return (string)_directives[directive];
-                else
-                    return null;
+            return null;
+        }
+
+        /// <summary>
+        /// The hex string.
+        /// </summary>
+        /// <param name="buff">
+        /// The buff.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        protected string HexString(byte[] buff)
+        {
+            var sb = new StringBuilder();
+            foreach (byte b in buff)
+            {
+                sb.Append(b.ToString("x2"));
             }
-			set { _directives[directive] = value; }
-		}
 
-		protected string HexString(byte[] buff)
-		{
-			var sb = new StringBuilder();
-			foreach (byte b in buff)
-			{
-				sb.Append(b.ToString("x2"));
-			}
+            return sb.ToString();
+        }
 
-			return sb.ToString();
-		}
-
-		protected static Int64 NextInt64()
-		{
-            var bytes = CryptographicBuffer.GenerateRandom(sizeof(Int64)).ToArray();
-			return BitConverter.ToInt64(bytes, 0);
-		}
-	}
+        /// <summary>
+        /// The next int 64.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="long"/>.
+        /// </returns>
+        protected static long NextInt64()
+        {
+            byte[] bytes = CryptographicBuffer.GenerateRandom(sizeof (Int64)).ToArray();
+            return BitConverter.ToInt64(bytes, 0);
+        }
+    }
 }

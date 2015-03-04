@@ -1,87 +1,88 @@
-// xmpp_sasl.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="xmpp_sasl.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
-using XMPP.registries;
 using System.Collections.Generic;
-using System.Xml; 
-using System.Xml.Linq;
 using System.Linq;
+using System.Xml.Linq;
+using XMPP.Registries;
 
-namespace XMPP.tags.xmpp_sasl
+namespace XMPP.Tags.XmppSasl
 {
     public class Namespace
     {
-        public static string Name = "urn:ietf:params:xml:ns:xmpp-sasl";
-        public static XName mechanisms = XName.Get("mechanisms", Name);
-        public static XName mechanism = XName.Get("mechanism", Name);
-        public static XName abort = XName.Get("abort", Name);
-        public static XName auth = XName.Get("auth", Name);
-        public static XName challenge = XName.Get("challenge", Name);
-        public static XName response = XName.Get("response", Name);
-        public static XName success = XName.Get("success", Name);
-        public static XName failure = XName.Get("failure", Name);
-        public static XName text = XName.Get("text", Name);
+        public const string Name = "urn:ietf:params:xml:ns:xmpp-sasl";
 
-        public static XName bad_protocol = XName.Get("bad-protocol", Name);
-        public static XName malformed_request = XName.Get("malformed-request", Name);
-
-        public static XName aborted = XName.Get("aborted", Name);
-        public static XName account_disabled = XName.Get("account-disabled", Name);
-        public static XName credentials_expired = XName.Get("credentials-expired", Name);
-        public static XName encryption_required = XName.Get("encryption-required", Name);
-        public static XName incorrect_encoding = XName.Get("incorrect-encoding", Name);
-        public static XName invalid_authzid = XName.Get("invalid-authzid", Name);
-        public static XName invalid_mechanism = XName.Get("invalid-mechanism", Name);
-        public static XName mechanism_too_weak = XName.Get("mechanism-too-weak", Name);
-        public static XName not_authorized = XName.Get("not-authorized", Name);
-        public static XName temporary_auth_failure = XName.Get("temporary-auth-failure", Name);
-        public static XName transition_needed = XName.Get("transition-needed", Name);
-
-        public static XName required = XName.Get("required", Name);
-        public static XName optional = XName.Get("optional", Name);
+        public static readonly XName Mechanisms = XName.Get("mechanisms", Name);
+        public static readonly XName Mechanism = XName.Get("mechanism", Name);
+        public static readonly XName Abort = XName.Get("abort", Name);
+        public static readonly XName Auth = XName.Get("auth", Name);
+        public static readonly XName Challenge = XName.Get("challenge", Name);
+        public static readonly XName Response = XName.Get("response", Name);
+        public static readonly XName Success = XName.Get("success", Name);
+        public static readonly XName Failure = XName.Get("failure", Name);
+        public static readonly XName Text = XName.Get("text", Name);
+        public static readonly XName BadProtocol = XName.Get("bad-protocol", Name);
+        public static readonly XName MalformedRequest = XName.Get("malformed-request", Name);
+        public static readonly XName Aborted = XName.Get("aborted", Name);
+        public static readonly XName AccountDisabled = XName.Get("account-disabled", Name);
+        public static readonly XName CredentialsExpired = XName.Get("credentials-expired", Name);
+        public static readonly XName EncryptionRequired = XName.Get("encryption-required", Name);
+        public static readonly XName IncorrectEncoding = XName.Get("incorrect-encoding", Name);
+        public static readonly XName InvalidAuthzid = XName.Get("invalid-authzid", Name);
+        public static readonly XName InvalidMechanism = XName.Get("invalid-mechanism", Name);
+        public static readonly XName MechanismTooWeak = XName.Get("mechanism-too-weak", Name);
+        public static readonly XName NotAuthorized = XName.Get("not-authorized", Name);
+        public static readonly XName TemporaryAuthFailure = XName.Get("temporary-auth-failure", Name);
+        public static readonly XName TransitionNeeded = XName.Get("transition-needed", Name);
+        public static readonly XName Required = XName.Get("required", Name);
+        public static readonly XName Optional = XName.Get("optional", Name);
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(mechanisms))]
-    public class mechanisms : Tag
+    [XmppTag(typeof(Namespace), typeof(Mechanisms))]
+    public class Mechanisms : Tag
     {
-        public mechanisms() : base(Namespace.mechanisms) { }
-        public mechanisms(XElement other) : base(other) { }
+        public Mechanisms() : base(Namespace.Mechanisms)
+        {
+        }
+
+        public Mechanisms(XElement other) : base(other)
+        {
+        }
 
         public MechanismType Types
         {
-            get
-            {
-                return mechanismElements.Aggregate(MechanismType.None, (current, m) => current | m.Type);
-            }
+            get { return MechanismElements.Aggregate(MechanismType.None, (current, m) => current | m.Type); }
         }
 
-        public IEnumerable<mechanism> mechanismElements { get { return Elements<mechanism>(Namespace.mechanism); } }
+        public IEnumerable<Mechanism> MechanismElements
+        {
+            get { return Elements<Mechanism>(Namespace.Mechanism); }
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(mechanism))]
-    public class mechanism : Tag
+    [XmppTag(typeof(Namespace), typeof(Mechanism))]
+    public class Mechanism : Tag
     {
-        public mechanism() : base(Namespace.mechanism) { }
-        public mechanism(XElement other) : base(other) { }
+        public Mechanism() : base(Namespace.Mechanism)
+        {
+        }
 
-        public MechanismType Type { get { return ToType(Value); } set { Value = ToString(value); } }
+        public Mechanism(XElement other) : base(other)
+        {
+        }
+
+        public MechanismType Type
+        {
+            get { return ToType(Value); }
+            set { Value = ToString(value); }
+        }
 
         public static MechanismType ToType(string type)
         {
@@ -90,13 +91,13 @@ namespace XMPP.tags.xmpp_sasl
                 case "PLAIN":
                     return MechanismType.Plain;
                 case "DIGEST-MD5":
-                    return MechanismType.DigestMD5;
+                    return MechanismType.DigestMd5;
                 case "EXTERNAL":
                     return MechanismType.External;
                 case "SCRAM-SHA-1":
-                    return MechanismType.SCRAM;
+                    return MechanismType.Scram;
                 case "X-OAUTH2":
-                    return MechanismType.XOAUTH2;
+                    return MechanismType.Xoauth2;
                 default:
                     return MechanismType.None;
             }
@@ -110,68 +111,88 @@ namespace XMPP.tags.xmpp_sasl
                     return "PLAIN";
                 case MechanismType.External:
                     return "EXTERNAL";
-                case MechanismType.DigestMD5:
+                case MechanismType.DigestMd5:
                     return "DIGEST-MD5";
-                case MechanismType.SCRAM:
+                case MechanismType.Scram:
                     return "SCRAM-SHA-1";
-                case MechanismType.XOAUTH2:
+                case MechanismType.Xoauth2:
                     return "X-OAUTH2";
                 default:
-                    return "";
+                    return string.Empty;
             }
         }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(abort))]
-    public class abort : Tag 
+    [XmppTag(typeof(Namespace), typeof(Abort))]
+    public class Abort : Tag
     {
-        public abort() : base(Namespace.abort) { }
-        public abort(XElement other) : base(other) { } 
+        public Abort() : base(Namespace.Abort)
+        {
+        }
+
+        public Abort(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(auth))]
-    public class auth : Tag
+    [XmppTag(typeof(Namespace), typeof(Auth))]
+    public class Auth : Tag
     {
-        public auth() : base(Namespace.auth) { }
-        public auth(XElement other) : base(other) { }
+        public Auth() : base(Namespace.Auth)
+        {
+        }
 
-        public MechanismType mechanism { get { return xmpp_sasl.mechanism.ToType((string)GetAttributeValue("mechanism")); } set { SetAttributeValue("mechanism", xmpp_sasl.mechanism.ToString(value)); } }
+        public Auth(XElement other) : base(other)
+        {
+        }
+
+        public MechanismType Mechanism
+        {
+            get { return XmppSasl.Mechanism.ToType((string) GetAttributeValue("mechanism")); }
+            set { SetAttributeValue("mechanism", XmppSasl.Mechanism.ToString(value)); }
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(challenge))]
-    public class challenge : Tag
+    [XmppTag(typeof(Namespace), typeof(Challenge))]
+    public class Challenge : Tag
     {
-        public challenge() : base(Namespace.challenge) { }
-        public challenge(XElement other) : base(other) { }
+        public Challenge() : base(Namespace.Challenge)
+        {
+        }
+
+        public Challenge(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(response))]
-    public class response : Tag
+    [XmppTag(typeof(Namespace), typeof(Response))]
+    public class Response : Tag
     {
-        public response() : base(Namespace.response) { }
-        public response(XElement other) : base(other) { }
+        public Response() : base(Namespace.Response)
+        {
+        }
+
+        public Response(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(success))]
-    public class success : Tag
+    [XmppTag(typeof(Namespace), typeof(Success))]
+    public class Success : Tag
     {
-        public success() : base(Namespace.success) { }
-        public success(XElement other) : base(other) { }
+        public Success() : base(Namespace.Success)
+        {
+        }
+
+        public Success(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(failure))]
-    public class failure : Tag
+    [XmppTag(typeof(Namespace), typeof(Failure))]
+    public class Failure : Tag
     {
-        public failure() : base(Namespace.failure) { }
-        public failure(XElement other) : base(other) { }
-
-        public enum typeEnum
+        public enum TypeEnum
         {
             none,
             aborted,
@@ -183,172 +204,295 @@ namespace XMPP.tags.xmpp_sasl
             invalid_mechanism,
             mechanism_too_weak,
             not_authorized,
-            temporary_auth_failure, 
+            temporary_auth_failure,
             transition_needed
         }
 
-        public typeEnum types
+        public Failure() : base(Namespace.Failure)
+        {
+        }
+
+        public Failure(XElement other) : base(other)
+        {
+        }
+
+        public TypeEnum Types
         {
             get
             {
-                typeEnum types = typeEnum.none;
-                if (aborted != null) types = types | typeEnum.aborted;
-                if (account_disabled != null) types = types | typeEnum.account_disabled;
-                if (credentials_expired != null) types = types | typeEnum.credentials_expired;
-                if (encryption_required != null) types = types | typeEnum.encryption_required;
-                if (incorrect_encoding != null) types = types | typeEnum.incorrect_encoding;
-                if (invalid_authzid != null) types = types | typeEnum.invalid_authzid;
-                if (invalid_mechanism != null) types = types | typeEnum.invalid_mechanism;
-                if (mechanism_too_weak != null) types = types | typeEnum.mechanism_too_weak;
-                if (not_authorized != null) types = types | typeEnum.not_authorized;
-                if (temporary_auth_failure != null) types = types | typeEnum.temporary_auth_failure;
-                if (transition_needed != null) types = types | typeEnum.transition_needed;
+                var types = TypeEnum.none;
+                if (Aborted != null) types = types | TypeEnum.aborted;
+                if (AccountDisabled != null) types = types | TypeEnum.account_disabled;
+                if (CredentialsExpired != null) types = types | TypeEnum.credentials_expired;
+                if (EncryptionRequired != null) types = types | TypeEnum.encryption_required;
+                if (IncorrectEncoding != null) types = types | TypeEnum.incorrect_encoding;
+                if (InvalidAuthzid != null) types = types | TypeEnum.invalid_authzid;
+                if (InvalidMechanism != null) types = types | TypeEnum.invalid_mechanism;
+                if (MechanismTooWeak != null) types = types | TypeEnum.mechanism_too_weak;
+                if (NotAuthorized != null) types = types | TypeEnum.not_authorized;
+                if (TemporaryAuthFailure != null) types = types | TypeEnum.temporary_auth_failure;
+                if (TransitionNeeded != null) types = types | TypeEnum.transition_needed;
                 return types;
             }
         }
 
-		public aborted aborted { get { return Element<aborted>(Namespace.aborted); } }
-		public account_disabled account_disabled { get { return Element<account_disabled>(Namespace.account_disabled); } }
-		public credentials_expired credentials_expired { get { return Element<credentials_expired>(Namespace.credentials_expired); } }
-		public encryption_required encryption_required { get { return Element<encryption_required>(Namespace.encryption_required); } }
-		public incorrect_encoding incorrect_encoding { get { return Element<incorrect_encoding>(Namespace.incorrect_encoding); } }
-		public invalid_authzid invalid_authzid { get { return Element<invalid_authzid>(Namespace.invalid_authzid); } }
-		public invalid_mechanism invalid_mechanism { get { return Element<invalid_mechanism>(Namespace.invalid_mechanism); } }
-		public mechanism_too_weak mechanism_too_weak { get { return Element<mechanism_too_weak>(Namespace.mechanism_too_weak); } }
-		public not_authorized not_authorized { get { return Element<not_authorized>(Namespace.not_authorized); } }
-		public temporary_auth_failure temporary_auth_failure { get { return Element<temporary_auth_failure>(Namespace.temporary_auth_failure); } }
-		public transition_needed transition_needed { get { return Element<transition_needed>(Namespace.transition_needed); } }
-        public IEnumerable<text> textElements { get { return Elements<text>(Namespace.text); } }
+        public Aborted Aborted
+        {
+            get { return Element<Aborted>(Namespace.Aborted); }
+        }
+
+        public AccountDisabled AccountDisabled
+        {
+            get { return Element<AccountDisabled>(Namespace.AccountDisabled); }
+        }
+
+        public CredentialsExpired CredentialsExpired
+        {
+            get { return Element<CredentialsExpired>(Namespace.CredentialsExpired); }
+        }
+
+        public EncryptionRequired EncryptionRequired
+        {
+            get { return Element<EncryptionRequired>(Namespace.EncryptionRequired); }
+        }
+
+        public IncorrectEncoding IncorrectEncoding
+        {
+            get { return Element<IncorrectEncoding>(Namespace.IncorrectEncoding); }
+        }
+
+        public InvalidAuthzid InvalidAuthzid
+        {
+            get { return Element<InvalidAuthzid>(Namespace.InvalidAuthzid); }
+        }
+
+        public InvalidMechanism InvalidMechanism
+        {
+            get { return Element<InvalidMechanism>(Namespace.InvalidMechanism); }
+        }
+
+        public MechanismTooWeak MechanismTooWeak
+        {
+            get { return Element<MechanismTooWeak>(Namespace.MechanismTooWeak); }
+        }
+
+        public NotAuthorized NotAuthorized
+        {
+            get { return Element<NotAuthorized>(Namespace.NotAuthorized); }
+        }
+
+        public TemporaryAuthFailure TemporaryAuthFailure
+        {
+            get { return Element<TemporaryAuthFailure>(Namespace.TemporaryAuthFailure); }
+        }
+
+        public TransitionNeeded TransitionNeeded
+        {
+            get { return Element<TransitionNeeded>(Namespace.TransitionNeeded); }
+        }
+
+        public IEnumerable<Text> TextElements
+        {
+            get { return Elements<Text>(Namespace.Text); }
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(text))]
-    public class text : Tag
+    [XmppTag(typeof(Namespace), typeof(Text))]
+    public class Text : Tag
     {
-        public text() : base(Namespace.text) { }
-        public text(XElement other) : base(other) { }
+        public Text() : base(Namespace.Text)
+        {
+        }
 
-        public string lang { get { return (string)GetAttributeValue(XName.Get("lang", xml.Namespace.Name)); } set { SetAttributeValue(XName.Get("lang", xml.Namespace.Name), value); } }
+        public Text(XElement other) : base(other)
+        {
+        }
+
+        public string Lang
+        {
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
+            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(bad_protocol))]
-    public class bad_protocol : Tag 
+    [XmppTag(typeof(Namespace), typeof(BadProtocol))]
+    public class BadProtocol : Tag
     {
-        public bad_protocol() : base(Namespace.bad_protocol) { }
-        public bad_protocol(XElement other) : base(other) { }
+        public BadProtocol() : base(Namespace.BadProtocol)
+        {
+        }
+
+        public BadProtocol(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(malformed_request))]
-    public class malformed_request : Tag 
+    [XmppTag(typeof(Namespace), typeof(MalformedRequest))]
+    public class MalformedRequest : Tag
     {
-        public malformed_request() : base(Namespace.malformed_request) { }
-        public malformed_request(XElement other) : base(other) { }
+        public MalformedRequest() : base(Namespace.MalformedRequest)
+        {
+        }
+
+        public MalformedRequest(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(aborted))]
-    public class aborted : Tag 
+    [XmppTag(typeof(Namespace), typeof(Aborted))]
+    public class Aborted : Tag
     {
-        public aborted() : base(Namespace.aborted) { }
-        public aborted(XElement other) : base(other) { }
+        public Aborted() : base(Namespace.Aborted)
+        {
+        }
+
+        public Aborted(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(account_disabled))]
-    public class account_disabled : Tag 
+    [XmppTag(typeof(Namespace), typeof(AccountDisabled))]
+    public class AccountDisabled : Tag
     {
-        public account_disabled() : base(Namespace.account_disabled) { }
-        public account_disabled(XElement other) : base(other) { }
+        public AccountDisabled() : base(Namespace.AccountDisabled)
+        {
+        }
+
+        public AccountDisabled(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(credentials_expired))]
-    public class credentials_expired : Tag 
+    [XmppTag(typeof(Namespace), typeof(CredentialsExpired))]
+    public class CredentialsExpired : Tag
     {
-        public credentials_expired() : base(Namespace.credentials_expired) { }
-        public credentials_expired(XElement other) : base(other) { }
+        public CredentialsExpired() : base(Namespace.CredentialsExpired)
+        {
+        }
+
+        public CredentialsExpired(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(encryption_required))]
-    public class encryption_required : Tag 
+    [XmppTag(typeof(Namespace), typeof(EncryptionRequired))]
+    public class EncryptionRequired : Tag
     {
-        public encryption_required() : base(Namespace.encryption_required) { }
-        public encryption_required(XElement other) : base(other) { }
+        public EncryptionRequired() : base(Namespace.EncryptionRequired)
+        {
+        }
+
+        public EncryptionRequired(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(incorrect_encoding))]
-    public class incorrect_encoding : Tag 
+    [XmppTag(typeof(Namespace), typeof(IncorrectEncoding))]
+    public class IncorrectEncoding : Tag
     {
-        public incorrect_encoding() : base(Namespace.incorrect_encoding) { }
-        public incorrect_encoding(XElement other) : base(other) { }
+        public IncorrectEncoding() : base(Namespace.IncorrectEncoding)
+        {
+        }
+
+        public IncorrectEncoding(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(invalid_authzid))]
-    public class invalid_authzid : Tag 
+    [XmppTag(typeof(Namespace), typeof(InvalidAuthzid))]
+    public class InvalidAuthzid : Tag
     {
-        public invalid_authzid() : base(Namespace.invalid_authzid) { }
-        public invalid_authzid(XElement other) : base(other) { }
+        public InvalidAuthzid() : base(Namespace.InvalidAuthzid)
+        {
+        }
+
+        public InvalidAuthzid(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(invalid_mechanism))]
-    public class invalid_mechanism : Tag 
+    [XmppTag(typeof(Namespace), typeof(InvalidMechanism))]
+    public class InvalidMechanism : Tag
     {
-        public invalid_mechanism() : base(Namespace.invalid_mechanism) { }
-        public invalid_mechanism(XElement other) : base(other) { }
+        public InvalidMechanism() : base(Namespace.InvalidMechanism)
+        {
+        }
+
+        public InvalidMechanism(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(mechanism_too_weak))]
-    public class mechanism_too_weak : Tag 
+    [XmppTag(typeof(Namespace), typeof(MechanismTooWeak))]
+    public class MechanismTooWeak : Tag
     {
-        public mechanism_too_weak() : base(Namespace.mechanism_too_weak) { }
-        public mechanism_too_weak(XElement other) : base(other) { }
+        public MechanismTooWeak() : base(Namespace.MechanismTooWeak)
+        {
+        }
+
+        public MechanismTooWeak(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(not_authorized))]
-    public class not_authorized : Tag
+    [XmppTag(typeof(Namespace), typeof(NotAuthorized))]
+    public class NotAuthorized : Tag
     {
-        public not_authorized() : base(Namespace.not_authorized) { }
-        public not_authorized(XElement other) : base(other) { }
+        public NotAuthorized() : base(Namespace.NotAuthorized)
+        {
+        }
+
+        public NotAuthorized(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(temporary_auth_failure))]
-    public class temporary_auth_failure : Tag
+    [XmppTag(typeof(Namespace), typeof(TemporaryAuthFailure))]
+    public class TemporaryAuthFailure : Tag
     {
-        public temporary_auth_failure() : base(Namespace.temporary_auth_failure) { }
-        public temporary_auth_failure(XElement other) : base(other) { }
+        public TemporaryAuthFailure() : base(Namespace.TemporaryAuthFailure)
+        {
+        }
+
+        public TemporaryAuthFailure(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(transition_needed))]
-    public class transition_needed : Tag
+    [XmppTag(typeof(Namespace), typeof(TransitionNeeded))]
+    public class TransitionNeeded : Tag
     {
-        public transition_needed() : base(Namespace.transition_needed) { }
-        public transition_needed(XElement other) : base(other) { }
+        public TransitionNeeded() : base(Namespace.TransitionNeeded)
+        {
+        }
+
+        public TransitionNeeded(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(required))]
-    public class required : Tag
+    [XmppTag(typeof(Namespace), typeof(Required))]
+    public class Required : Tag
     {
-        public required() : base(Namespace.required) { }
-        public required(XElement other) : base(other) { }
+        public Required() : base(Namespace.Required)
+        {
+        }
+
+        public Required(XElement other) : base(other)
+        {
+        }
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(optional))]
-    public class optional : Tag
+    [XmppTag(typeof(Namespace), typeof(Optional))]
+    public class Optional : Tag
     {
-        public optional() : base(Namespace.optional) { }
-        public optional(XElement other) : base(other) { }
+        public Optional() : base(Namespace.Optional)
+        {
+        }
+
+        public Optional(XElement other) : base(other)
+        {
+        }
     }
 }
 

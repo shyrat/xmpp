@@ -1,68 +1,120 @@
-// discoXinfo.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="discoXinfo.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.protocol.discoXinfo
+namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
 {
     public class Namespace
     {
-        public static string Name = "http://jabber.org/protocol/disco#info";
-        public static XName query = XName.Get("query", Name);
-        public static XName identity = XName.Get("identity", Name);
-        public static XName feature = XName.Get("feature", Name);
+        public const string Name = "http://jabber.org/protocol/disco#info";
+
+        public static readonly XName Query = XName.Get("query", Name);
+        public static readonly XName Identity = XName.Get("identity", Name);
+        public static readonly XName Feature = XName.Get("feature", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        public query() : base(Namespace.query) {} 
-        public query(XElement other) : base(other) {}
+        public Query() : base(Namespace.Query)
+        {
+        }
 
-		public string node { get { return (string)GetAttributeValue("node"); } set { SetAttributeValue("node", value); } }
+        public Query(XElement other) : base(other)
+        {
+        }
 
-        public IEnumerable<identity> identityElements { get { return Elements<identity>(Namespace.identity); } }
-        public IEnumerable<feature> featureElements { get { return Elements<feature>(Namespace.feature); } }
+        public string Node
+        {
+            get { return (string)GetAttributeValue("node"); }
+            set { SetAttributeValue("node", value); }
+        }
+
+        public IEnumerable<Identity> IdentityElements
+        {
+            get { return Elements<Identity>(Namespace.Identity); }
+        }
+
+        public IEnumerable<Feature> FeatureElements
+        {
+            get { return Elements<Feature>(Namespace.Feature); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(identity))]
-    public class identity : Tag
+    [XmppTag(typeof(Namespace), typeof(Identity))]
+    public class Identity : Tag
     {
-        public identity() : base(Namespace.identity) {} 
-        public identity(XElement other) : base(other) {}
+        public Identity() : base(Namespace.Identity)
+        {
+        }
 
-        public string category { get { return (string)GetAttributeValue("category"); } set { if (value.Length < 1) { throw new Exception("Text out of range"); } SetAttributeValue("category", value); } } // nonEmptyString
-		public string name { get { return (string)GetAttributeValue("name"); } set { SetAttributeValue("name", value); } }
-        public string type { get { return (string)GetAttributeValue("type"); } set { if (value.Length < 1) { throw new Exception("Text out of range"); } SetAttributeValue("type", value); } } // nonEmptyString
+        public Identity(XElement other) : base(other)
+        {
+        }
+
+        public string Category
+        {
+            get { return (string)GetAttributeValue("category"); }
+            set
+            {
+                if (value.Length < 1)
+                {
+                    throw new Exception("Text out of range");
+                }
+
+                SetAttributeValue("category", value);
+            }
+        }
+
+        public string Name
+        {
+            get { return (string)GetAttributeValue("name"); }
+            set { SetAttributeValue("name", value); }
+        }
+
+        public string Type
+        {
+            get { return (string) GetAttributeValue("type"); }
+            set
+            {
+                if (value.Length < 1)
+                {
+                    throw new Exception("Text out of range");
+                }
+
+                SetAttributeValue("type", value);
+            }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(feature))]
-    public class feature : Tag
+    [XmppTag(typeof(Namespace), typeof(Feature))]
+    public class Feature : Tag
     {
-        public feature() : base(Namespace.feature) { }
-        public feature(XElement other) : base(other) { }
+        public Feature() : base(Namespace.Feature)
+        {
+        }
 
-		public string var { get { return (string)GetAttributeValue("var"); } set { SetAttributeValue("var", value); } }
+        public Feature(XElement other) : base(other)
+        {
+        }
+
+        public string Var
+        {
+            get { return (string)GetAttributeValue("var"); }
+            set { SetAttributeValue("var", value); }
+        }
     }
-
 }
 
 /*

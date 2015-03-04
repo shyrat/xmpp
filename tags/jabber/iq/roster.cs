@@ -1,82 +1,234 @@
-﻿// roster.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="roster.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.iq.roster
+namespace XMPP.Tags.Jabber.iq.roster
 {
+    /// <summary>
+    /// The namespace.
+    /// </summary>
     public class Namespace
     {
+        /// <summary>
+        /// The name.
+        /// </summary>
         public static string Name = "jabber:iq:roster";
+
+        /// <summary>
+        /// The query.
+        /// </summary>
         public static XName query = XName.Get("query", Name);
+
+        /// <summary>
+        /// The item.
+        /// </summary>
         public static XName item = XName.Get("item", Name);
+
+        /// <summary>
+        /// The group.
+        /// </summary>
         public static XName group = XName.Get("group", Name);
     }
 
 
-    [XMPPTag(typeof(Namespace), typeof(query))]
+    /// <summary>
+    /// The query.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(query))]
     public class query : Tag
     {
-        public query() : base(Namespace.query) {} 
-        public query(XElement other) : base(other) {}
-
-		public string ver { get { return (string)GetAttributeValue("ver"); } set { SetAttributeValue("ver", value); } }
-        public IEnumerable<item>    itemElements { get { return Elements<item>(Namespace.item); } }
-    }
-
-    [XMPPTag(typeof(Namespace), typeof(item))]
-    public class item : Tag
-    {
-        public item() : base(Namespace.item) {} 
-        public item(XElement other) : base(other) {}
-
-        public enum subscriptionEnum
+        /// <summary>
+        /// Initializes a new instance of the <see cref="query"/> class.
+        /// </summary>
+        public query() : base(Namespace.query)
         {
-            none,
-            both,
-            from,
-            remove,
-            to
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="query"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public query(XElement other) : base(other)
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the ver.
+        /// </summary>
+        public string ver
+        {
+            get { return (string) GetAttributeValue("ver"); }
+            set { SetAttributeValue("ver", value); }
+        }
+
+        /// <summary>
+        /// Gets the item elements.
+        /// </summary>
+        public IEnumerable<item> itemElements
+        {
+            get { return Elements<item>(Namespace.item); }
+        }
+    }
+
+    /// <summary>
+    /// The item.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(item))]
+    public class item : Tag
+    {
+        /// <summary>
+        /// The ask enum.
+        /// </summary>
         public enum askEnum
         {
-            none,
+            /// <summary>
+            /// The none.
+            /// </summary>
+            none, 
+
+            /// <summary>
+            /// The subscribe.
+            /// </summary>
             subscribe
         }
 
-		public string approved { get { return (string)GetAttributeValue("approved"); } set { SetAttributeValue("approved", value); } }
-        public askEnum ask { get { return GetAttributeEnum<askEnum>("ask"); } set { SetAttributeEnum<askEnum>("ask", value); } }
-		public string jid { get { return (string)GetAttributeValue("jid"); } set { SetAttributeValue("jid", value); } }
-		public string name { get { return (string)GetAttributeValue("name"); } set { SetAttributeValue("name", value); } }
-        public subscriptionEnum subscription { get { return GetAttributeEnum<subscriptionEnum>("subscription"); } set { SetAttributeEnum<subscriptionEnum>("subscription", value); } }
+        /// <summary>
+        /// The subscription enum.
+        /// </summary>
+        public enum subscriptionEnum
+        {
+            /// <summary>
+            /// The none.
+            /// </summary>
+            none, 
 
-        public IEnumerable<group>    groupElements { get { return Elements<group>(Namespace.group); } }
+            /// <summary>
+            /// The both.
+            /// </summary>
+            both, 
+
+            /// <summary>
+            /// The from.
+            /// </summary>
+            from, 
+
+            /// <summary>
+            /// The remove.
+            /// </summary>
+            remove, 
+
+            /// <summary>
+            /// The to.
+            /// </summary>
+            to
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="item"/> class.
+        /// </summary>
+        public item() : base(Namespace.item)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="item"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public item(XElement other) : base(other)
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the approved.
+        /// </summary>
+        public string approved
+        {
+            get { return (string) GetAttributeValue("approved"); }
+            set { SetAttributeValue("approved", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the ask.
+        /// </summary>
+        public askEnum ask
+        {
+            get { return GetAttributeEnum<askEnum>("ask"); }
+            set { SetAttributeEnum<askEnum>("ask", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the jid.
+        /// </summary>
+        public string jid
+        {
+            get { return (string) GetAttributeValue("jid"); }
+            set { SetAttributeValue("jid", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        public string name
+        {
+            get { return (string) GetAttributeValue("name"); }
+            set { SetAttributeValue("name", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the subscription.
+        /// </summary>
+        public subscriptionEnum subscription
+        {
+            get { return GetAttributeEnum<subscriptionEnum>("subscription"); }
+            set { SetAttributeEnum<subscriptionEnum>("subscription", value); }
+        }
+
+        /// <summary>
+        /// Gets the group elements.
+        /// </summary>
+        public IEnumerable<@group> groupElements
+        {
+            get { return Elements<@group>(Namespace.group); }
+        }
     }
 
 
-    [XMPPTag(typeof(Namespace), typeof(group))]
+    /// <summary>
+    /// The group.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(group))]
     public class group : Tag
     {
-        public group() : base(Namespace.group) {} 
-        public group(XElement other) : base(other) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="group"/> class.
+        /// </summary>
+        public group() : base(Namespace.group)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="group"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public group(XElement other) : base(other)
+        {
+        }
     }
 }
 

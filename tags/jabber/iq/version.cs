@@ -1,67 +1,169 @@
-﻿// version.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="version.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.iq.version
+namespace XMPP.Tags.Jabber.iq.version
 {
+    /// <summary>
+    /// The namespace.
+    /// </summary>
     public class Namespace
     {
+        /// <summary>
+        /// The name.
+        /// </summary>
         public static string Name = "jabber:iq:version";
+
+        /// <summary>
+        /// The query.
+        /// </summary>
         public static XName query = XName.Get("query", Name);
+
+        /// <summary>
+        /// The name.
+        /// </summary>
         public static XName name = XName.Get("name", Name);
+
+        /// <summary>
+        /// The version.
+        /// </summary>
         public static XName version = XName.Get("version", Name);
+
+        /// <summary>
+        /// The os.
+        /// </summary>
         public static XName os = XName.Get("os", Name);
     }
 
 
-    [XMPPTag(typeof(Namespace), typeof(query))]
+    /// <summary>
+    /// The query.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(query))]
     public class query : Tag
     {
-        public query() : base(Namespace.query) {} 
-        public query(XElement other) : base(other) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="query"/> class.
+        /// </summary>
+        public query() : base(Namespace.query)
+        {
+        }
 
-        public IEnumerable<name>    nameElements { get { return Elements<name>(Namespace.name); } }
-        public IEnumerable<version>    versionElements { get { return Elements<version>(Namespace.version); } }
-        public IEnumerable<os>    osElements { get { return Elements<os>(Namespace.os); } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="query"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public query(XElement other) : base(other)
+        {
+        }
+
+        /// <summary>
+        /// Gets the name elements.
+        /// </summary>
+        public IEnumerable<name> nameElements
+        {
+            get { return Elements<name>(Namespace.name); }
+        }
+
+        /// <summary>
+        /// Gets the version elements.
+        /// </summary>
+        public IEnumerable<version> versionElements
+        {
+            get { return Elements<version>(Namespace.version); }
+        }
+
+        /// <summary>
+        /// Gets the os elements.
+        /// </summary>
+        public IEnumerable<os> osElements
+        {
+            get { return Elements<os>(Namespace.os); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(name))]
+    /// <summary>
+    /// The name.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(name))]
     public class name : Tag
     {
-        public name() : base(Namespace.name) { }
-        public name(XElement other) : base(other) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="name"/> class.
+        /// </summary>
+        public name() : base(Namespace.name)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="name"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public name(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(version))]
+    /// <summary>
+    /// The version.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(version))]
     public class version : Tag
     {
-        public version() : base(Namespace.version) { }
-        public version(XElement other) : base(other) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="version"/> class.
+        /// </summary>
+        public version() : base(Namespace.version)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="version"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public version(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(os))]
+    /// <summary>
+    /// The os.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(os))]
     public class os : Tag
     {
-        public os() : base(Namespace.os) { }
-        public os(XElement other) : base(other) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="os"/> class.
+        /// </summary>
+        public os() : base(Namespace.os)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="os"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public os(XElement other) : base(other)
+        {
+        }
     }
 }
 

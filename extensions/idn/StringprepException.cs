@@ -1,36 +1,51 @@
-// *
-// Author: Alexander Gnauck AG-Software, mailto:gnauck@ag-software.de
-// *
-// This file is part of GNU Libidn.
-// *
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation; either version 2.1 of
-// the License, or (at your option) any later version.
-// *
-// This library is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Lesser General Public License for more details.
-// *
-// You should have received a copy of the GNU Lesser General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
-// USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="StringprepException.cs">
+//   
+// </copyright>
+// <summary>
+//   The stringprep exception.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
 
+// ReSharper disable once CheckNamespace
 namespace Gnu.Inet.Encoding
-{	
-	public class StringprepException : Exception
-	{
-		public static string CONTAINS_UNASSIGNED    = "Contains unassigned code points.";
-		public static string CONTAINS_PROHIBITED    = "Contains prohibited code points.";
-		public static string BIDI_BOTHRAL           = "Contains both R and AL code points.";
-		public static string BIDI_LTRAL             = "Leading and trailing code points not both R or AL.";
+{
+    /// <summary>
+    /// The stringprep exception.
+    /// </summary>
+    public class StringprepException : Exception
+    {
+        /// <summary>
+        /// The contain s_ unassigned.
+        /// </summary>
+        public const string ContainsUnassigned = "Contains unassigned code points.";
 
+        /// <summary>
+        /// The contain s_ prohibited.
+        /// </summary>
+        public const string ContainsProhibited = "Contains prohibited code points.";
+
+        /// <summary>
+        /// The bid i_ bothral.
+        /// </summary>
+        public const string BidiBothral = "Contains both R and AL code points.";
+
+        /// <summary>
+        /// The bid i_ ltral.
+        /// </summary>
+        public const string BidiLtral = "Leading and trailing code points not both R or AL.";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringprepException"/> class.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
         public StringprepException(string message) : base(message)
-		{
-		}
-	}
+        {
+        }
+    }
 }

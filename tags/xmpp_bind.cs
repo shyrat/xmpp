@@ -1,79 +1,137 @@
-// xmpp_bind.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="xmpp_bind.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.xmpp_bind
+namespace XMPP.Tags.XmppBind
 {
     public class Namespace
     {
-        public static string Name = "urn:ietf:params:xml:ns:xmpp-bind";
-        public static XName bind = XName.Get("bind", Name);
-        public static XName jid = XName.Get("jid", Name);
-        public static XName resource = XName.Get("resource", Name);
-        public static XName required = XName.Get("required", Name);
-        public static XName optional = XName.Get("optional", Name);
+        public const string Name = "urn:ietf:params:xml:ns:xmpp-bind";
+
+        public static readonly XName Bind = XName.Get("bind", Name);
+        public static readonly XName Jid = XName.Get("jid", Name);
+        public static readonly XName Resource = XName.Get("resource", Name);
+        public static readonly XName Required = XName.Get("required", Name);
+        public static readonly XName Optional = XName.Get("optional", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(bind))]
-    public class bind : Tag
+    [XmppTag(typeof(Namespace), typeof(Bind))]
+    public class Bind : Tag
     {
-        public bind() : base(Namespace.bind) { }
-        public bind(XElement other) : base(other) { }
+        public Bind() : base(Namespace.Bind)
+        {
+        }
 
-		public jid jid { get { return Element<jid>(Namespace.jid); } }
-		public required required { get { return Element<required>(Namespace.required); } }
-		public optional optional { get { return Element<optional>(Namespace.optional); } }
+        public Bind(XElement other) : base(other)
+        {
+        }
+
+        public Jid Jid
+        {
+            get { return Element<Jid>(Namespace.Jid); }
+        }
+
+        public Required Required
+        {
+            get { return Element<Required>(Namespace.Required); }
+        }
+
+        public Optional Optional
+        {
+            get { return Element<Optional>(Namespace.Optional); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(jid))]
-    public class jid : Tag
+    [XmppTag(typeof(Namespace), typeof(Jid))]
+    public class Jid : Tag
     {
-        public jid() : base(Namespace.jid) { }
-        public jid(XElement other) : base(other) { }
+        public Jid() : base(Namespace.Jid)
+        {
+        }
 
-        public new string Value { get { return base.Value; } set { if (value.Length < 8 || value.Length > 3071) { throw new Exception("Text out of range"); } base.Value = value; } } // fullJIDType
-        public JID JID { get { return new JID(base.Value); } set { base.Value = value.ToString(); } }
+        public Jid(XElement other) : base(other)
+        {
+        }
+
+        public new string Value
+        {
+            get { return base.Value; }
+            set
+            {
+                if (value.Length < 8 || value.Length > 3071)
+                {
+                    throw new Exception("Text out of range");
+                }
+
+                base.Value = value;
+            }
+        }
+
+        public XMPP.Jid JID
+        {
+            get { return new XMPP.Jid(base.Value); }
+            set { base.Value = value.ToString(); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(resource))]
-    public class resource : Tag
+    [XmppTag(typeof(Namespace), typeof(Resource))]
+    public class Resource : Tag
     {
-        public resource() : base(Namespace.resource) { }
-        public resource(XElement other) : base(other) { }
+        public Resource() : base(Namespace.Resource)
+        {
+        }
 
-        public new string Value { get { return base.Value; } set { if (value.Length < 1 || value.Length > 1023) { throw new Exception("Text out of range"); } base.Value = value; } } // resourceType
+        public Resource(XElement other) : base(other)
+        {
+        }
+
+        public new string Value
+        {
+            get { return base.Value; }
+            set
+            {
+                if (value.Length < 1 || value.Length > 1023)
+                {
+                    throw new Exception("Text out of range");
+                }
+
+                base.Value = value;
+            }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(required))]
-    public class required : Tag 
+    [XmppTag(typeof(Namespace), typeof(Required))]
+    public class Required : Tag
     {
-        public required() : base(Namespace.required) { }
-        public required(XElement other) : base(other) { } 
+        public Required() : base(Namespace.Required)
+        {
+        }
+
+        public Required(XElement other) : base(other)
+        {
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(optional))]
-    public class optional : Tag 
+    [XmppTag(typeof(Namespace), typeof(Optional))]
+    public class Optional : Tag
     {
-        public optional() : base(Namespace.optional) { }
-        public optional(XElement other) : base(other) { } 
+        public Optional() : base(Namespace.Optional)
+        {
+        }
+
+        public Optional(XElement other) : base(other)
+        {
+        }
     }
 }
 

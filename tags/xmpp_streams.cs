@@ -1,239 +1,350 @@
-﻿// xmpp_streams.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+﻿using System.Xml.Linq;
+using XMPP.Registries;
 
-using System.Xml.Linq;
-using XMPP.registries;
-
-
-namespace XMPP.tags.xmpp_streams
+namespace XMPP.Tags.XmppStreams
 {
     public class Namespace
     {
-        public static string Name = "urn:ietf:params:xml:ns:xmpp-streams";
-        public static XName bad_format = XName.Get("bad-format", Name);
-        public static XName bad_namespace_prefix = XName.Get("bad-namespace-prefix", Name);
-        public static XName conflict = XName.Get("conflict", Name);
-        public static XName connection_timeout = XName.Get("connection-timeout", Name);
-        public static XName host_gone = XName.Get("host-gone", Name);
-        public static XName host_unknown = XName.Get("host-unknown", Name);
-        public static XName improper_addressing = XName.Get("improper-addressing", Name);
-        public static XName internal_server_error = XName.Get("internal-server-error", Name);
-        public static XName invalid_from = XName.Get("invalid-from", Name);
-        public static XName invalid_id = XName.Get("invalid-id", Name);
-        public static XName invalid_namespace = XName.Get("invalid-namespace", Name);
-        public static XName invalid_xml = XName.Get("invalid-xml", Name);
-        public static XName not_authorized = XName.Get("not-authorized", Name);
-        public static XName policy_violation = XName.Get("policy-violation", Name);
-        public static XName remote_connection_failed = XName.Get("remote-connection-failed", Name);
-        public static XName reset = XName.Get("reset", Name);
-        public static XName resource_constraint = XName.Get("resource-constraint", Name);
-        public static XName restricted_xml = XName.Get("restricted-xml", Name);
-        public static XName see_other_host = XName.Get("see-other-host", Name);
-        public static XName system_shutdown = XName.Get("system-shutdown", Name);
-        public static XName undefined_condition = XName.Get("undefined-condition", Name);
-        public static XName unsupported_encoding = XName.Get("unsupported-encoding", Name);
-        public static XName unsupported_stanza_type = XName.Get("unsupported-stanza-type", Name);
-        public static XName unsupported_version = XName.Get("unsupported-version", Name);
-        public static XName xml_not_well_formed = XName.Get("xml-not-well-formed", Name);
-        public static XName text = XName.Get("text", Name);
+        public const string Name = "urn:ietf:params:xml:ns:xmpp-streams";
+
+        public static readonly XName BadFormat = XName.Get("bad-format", Name);
+        public static readonly XName BadNamespacePrefix = XName.Get("bad-namespace-prefix", Name);
+        public static readonly XName Conflict = XName.Get("conflict", Name);
+        public static readonly XName ConnectionTimeout = XName.Get("connection-timeout", Name);
+        public static readonly XName HostGone = XName.Get("host-gone", Name);
+        public static readonly XName HostUnknown = XName.Get("host-unknown", Name);
+        public static readonly XName ImproperAddressing = XName.Get("improper-addressing", Name);
+        public static readonly XName InternalServerError = XName.Get("internal-server-error", Name);
+        public static readonly XName InvalidFrom = XName.Get("invalid-from", Name);
+        public static readonly XName InvalidId = XName.Get("invalid-id", Name);
+        public static readonly XName InvalidNamespace = XName.Get("invalid-namespace", Name);
+        public static readonly XName InvalidXml = XName.Get("invalid-xml", Name);
+        public static readonly XName NotAuthorized = XName.Get("not-authorized", Name);
+        public static readonly XName PolicyViolation = XName.Get("policy-violation", Name);
+        public static readonly XName RemoteConnectionFailed = XName.Get("remote-connection-failed", Name);
+        public static readonly XName Reset = XName.Get("reset", Name);
+        public static readonly XName ResourceConstraint = XName.Get("resource-constraint", Name);
+        public static readonly XName RestrictedXml = XName.Get("restricted-xml", Name);
+        public static readonly XName SeeOtherHost = XName.Get("see-other-host", Name);
+        public static readonly XName SystemShutdown = XName.Get("system-shutdown", Name);
+        public static readonly XName UndefinedCondition = XName.Get("undefined-condition", Name);
+        public static readonly XName UnsupportedEncoding = XName.Get("unsupported-encoding", Name);
+        public static readonly XName UnsupportedStanzaType = XName.Get("unsupported-stanza-type", Name);
+        public static readonly XName UnsupportedVersion = XName.Get("unsupported-version", Name);
+        public static readonly XName XmlNotWellFormed = XName.Get("xml-not-well-formed", Name);
+        public static readonly XName Text = XName.Get("text", Name);
     }
 
-
-    [XMPPTag(typeof(Namespace), typeof(bad_format))]
-    public class bad_format : Tag
-	{
-		 public bad_format() : base(Namespace.bad_format) {} 
-		 public bad_format(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(bad_namespace_prefix))]
-    public class bad_namespace_prefix : Tag
-	{
-		 public bad_namespace_prefix() : base(Namespace.bad_namespace_prefix) {} 
-		 public bad_namespace_prefix(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(conflict))]
-    public class conflict : Tag
-	{
-		 public conflict() : base(Namespace.conflict) {} 
-		 public conflict(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(connection_timeout))]
-    public class connection_timeout : Tag
-	{
-		 public connection_timeout() : base(Namespace.connection_timeout) {} 
-		 public connection_timeout(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(host_gone))]
-    public class host_gone : Tag
-	{
-		 public host_gone() : base(Namespace.host_gone) {} 
-		 public host_gone(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(host_unknown))]
-    public class host_unknown : Tag
-	{
-		 public host_unknown() : base(Namespace.host_unknown) {} 
-		 public host_unknown(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(improper_addressing))]
-    public class improper_addressing : Tag
-	{
-		 public improper_addressing() : base(Namespace.improper_addressing) {} 
-		 public improper_addressing(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(internal_server_error))]
-    public class internal_server_error : Tag
-	{
-		 public internal_server_error() : base(Namespace.internal_server_error) {} 
-		 public internal_server_error(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(invalid_from))]
-    public class invalid_from : Tag
-	{
-		 public invalid_from() : base(Namespace.invalid_from) {} 
-		 public invalid_from(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(invalid_id))]
-    public class invalid_id : Tag
-	{
-		 public invalid_id() : base(Namespace.invalid_id) {} 
-		 public invalid_id(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(invalid_namespace))]
-    public class invalid_namespace : Tag
-	{
-		 public invalid_namespace() : base(Namespace.invalid_namespace) {} 
-		 public invalid_namespace(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(invalid_xml))]
-    public class invalid_xml : Tag
-	{
-		 public invalid_xml() : base(Namespace.invalid_xml) {} 
-		 public invalid_xml(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(not_authorized))]
-    public class not_authorized : Tag
-	{
-		 public not_authorized() : base(Namespace.not_authorized) {} 
-		 public not_authorized(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(policy_violation))]
-    public class policy_violation : Tag
-	{
-		 public policy_violation() : base(Namespace.policy_violation) {} 
-		 public policy_violation(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(remote_connection_failed))]
-    public class remote_connection_failed : Tag
-	{
-		 public remote_connection_failed() : base(Namespace.remote_connection_failed) {} 
-		 public remote_connection_failed(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(reset))]
-    public class reset : Tag
-	{
-		 public reset() : base(Namespace.reset) {} 
-		 public reset(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(resource_constraint))]
-    public class resource_constraint : Tag
-	{
-		 public resource_constraint() : base(Namespace.resource_constraint) {} 
-		 public resource_constraint(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(restricted_xml))]
-    public class restricted_xml : Tag
-	{
-		 public restricted_xml() : base(Namespace.restricted_xml) {} 
-		 public restricted_xml(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(see_other_host))]
-    public class see_other_host : Tag
-	{
-		 public see_other_host() : base(Namespace.see_other_host) {} 
-		 public see_other_host(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(system_shutdown))]
-    public class system_shutdown : Tag
-	{
-		 public system_shutdown() : base(Namespace.system_shutdown) {} 
-		 public system_shutdown(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(undefined_condition))]
-    public class undefined_condition : Tag
-	{
-		 public undefined_condition() : base(Namespace.undefined_condition) {} 
-		 public undefined_condition(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(unsupported_encoding))]
-    public class unsupported_encoding : Tag
-	{
-		 public unsupported_encoding() : base(Namespace.unsupported_encoding) {} 
-		 public unsupported_encoding(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(unsupported_stanza_type))]
-    public class unsupported_stanza_type : Tag
-	{
-		 public unsupported_stanza_type() : base(Namespace.unsupported_stanza_type) {} 
-		 public unsupported_stanza_type(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(unsupported_version))]
-    public class unsupported_version : Tag
-	{
-		 public unsupported_version() : base(Namespace.unsupported_version) {} 
-		 public unsupported_version(XElement other) : base(other) {} 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(xml_not_well_formed))]
-    public class xml_not_well_formed : Tag
-	{
-		 public xml_not_well_formed() : base(Namespace.xml_not_well_formed) {}
-         public xml_not_well_formed(XElement other) : base(other) { } 
-	}
-
-    [XMPPTag(typeof(Namespace), typeof(text))]
-    public class text : Tag
+    [XmppTag(typeof(Namespace), typeof(BadFormat))]
+    public class BadFormat : Tag
     {
-        public text() : base(Namespace.text) { }
-        public text(XElement other) : base(other) { }
+        public BadFormat() : base(Namespace.BadFormat)
+        {
+        }
+
+        public BadFormat(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(BadNamespacePrefix))]
+    public class BadNamespacePrefix : Tag
+    {
+        public BadNamespacePrefix() : base(Namespace.BadNamespacePrefix)
+        {
+        }
+
+        public BadNamespacePrefix(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Conflict))]
+    public class Conflict : Tag
+    {
+        public Conflict() : base(Namespace.Conflict)
+        {
+        }
+
+        public Conflict(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(ConnectionTimeout))]
+    public class ConnectionTimeout : Tag
+    {
+        public ConnectionTimeout() : base(Namespace.ConnectionTimeout)
+        {
+        }
+
+        public ConnectionTimeout(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(HostGone))]
+    public class HostGone : Tag
+    {
+        public HostGone() : base(Namespace.HostGone)
+        {
+        }
+
+        public HostGone(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(HostUnknown))]
+    public class HostUnknown : Tag
+    {
+        public HostUnknown() : base(Namespace.HostUnknown)
+        {
+        }
+
+        public HostUnknown(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(ImproperAddressing))]
+    public class ImproperAddressing : Tag
+    {
+        public ImproperAddressing() : base(Namespace.ImproperAddressing)
+        {
+        }
+
+        public ImproperAddressing(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(InternalServerError))]
+    public class InternalServerError : Tag
+    {
+        public InternalServerError() : base(Namespace.InternalServerError)
+        {
+        }
+
+        public InternalServerError(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(InvalidFrom))]
+    public class InvalidFrom : Tag
+    {
+        public InvalidFrom() : base(Namespace.InvalidFrom)
+        {
+        }
+
+        public InvalidFrom(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(InvalidId))]
+    public class InvalidId : Tag
+    {
+        public InvalidId() : base(Namespace.InvalidId)
+        {
+        }
+
+        public InvalidId(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(InvalidNamespace))]
+    public class InvalidNamespace : Tag
+    {
+        public InvalidNamespace() : base(Namespace.InvalidNamespace)
+        {
+        }
+
+        public InvalidNamespace(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(InvalidXml))]
+    public class InvalidXml : Tag
+    {
+        public InvalidXml() : base(Namespace.InvalidXml)
+        {
+        }
+
+        public InvalidXml(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(NotAuthorized))]
+    public class NotAuthorized : Tag
+    {
+        public NotAuthorized() : base(Namespace.NotAuthorized)
+        {
+        }
+
+        public NotAuthorized(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(PolicyViolation))]
+    public class PolicyViolation : Tag
+    {
+        public PolicyViolation() : base(Namespace.PolicyViolation)
+        {
+        }
+
+        public PolicyViolation(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(RemoteConnectionFailed))]
+    public class RemoteConnectionFailed : Tag
+    {
+        public RemoteConnectionFailed() : base(Namespace.RemoteConnectionFailed)
+        {
+        }
+
+        public RemoteConnectionFailed(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Reset))]
+    public class Reset : Tag
+    {
+        public Reset() : base(Namespace.Reset)
+        {
+        }
+
+        public Reset(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(ResourceConstraint))]
+    public class ResourceConstraint : Tag
+    {
+        public ResourceConstraint() : base(Namespace.ResourceConstraint)
+        {
+        }
+
+        public ResourceConstraint(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(RestrictedXml))]
+    public class RestrictedXml : Tag
+    {
+        public RestrictedXml() : base(Namespace.RestrictedXml)
+        {
+        }
+
+        public RestrictedXml(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(SeeOtherHost))]
+    public class SeeOtherHost : Tag
+    {
+        public SeeOtherHost() : base(Namespace.SeeOtherHost)
+        {
+        }
+
+        public SeeOtherHost(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(SystemShutdown))]
+    public class SystemShutdown : Tag
+    {
+        public SystemShutdown() : base(Namespace.SystemShutdown)
+        {
+        }
+
+        public SystemShutdown(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(UndefinedCondition))]
+    public class UndefinedCondition : Tag
+    {
+        public UndefinedCondition() : base(Namespace.UndefinedCondition)
+        {
+        }
+
+        public UndefinedCondition(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(UnsupportedEncoding))]
+    public class UnsupportedEncoding : Tag
+    {
+        public UnsupportedEncoding() : base(Namespace.UnsupportedEncoding)
+        {
+        }
+
+        public UnsupportedEncoding(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(UnsupportedStanzaType))]
+    public class UnsupportedStanzaType : Tag
+    {
+        public UnsupportedStanzaType() : base(Namespace.UnsupportedStanzaType)
+        {
+        }
+
+        public UnsupportedStanzaType(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(UnsupportedVersion))]
+    public class UnsupportedVersion : Tag
+    {
+        public UnsupportedVersion() : base(Namespace.UnsupportedVersion)
+        {
+        }
+
+        public UnsupportedVersion(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(XmlNotWellFormed))]
+    public class XmlNotWellFormed : Tag
+    {
+        public XmlNotWellFormed() : base(Namespace.XmlNotWellFormed)
+        {
+        }
+
+        public XmlNotWellFormed(XElement other) : base(other)
+        {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Text))]
+    public class Text : Tag
+    {
+        public Text() : base(Namespace.Text)
+        {
+        }
+
+        public Text(XElement other) : base(other)
+        {
+        }
     }
 }
 

@@ -1,53 +1,121 @@
-// ampXerrors.cs
-//
-//Copyright © 2006 - 2012 Dieter Lunn
-//Modified 2012 Paul Freund ( freund.paul@lvl3.org )
-//
-//This library is free software; you can redistribute it and/or modify it under
-//the terms of the GNU Lesser General Public License as published by the Free
-//Software Foundation; either version 3 of the License, or (at your option)
-//any later version.
-//
-//This library is distributed in the hope that it will be useful, but WITHOUT
-//ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-//FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-//
-//You should have received a copy of the GNU Lesser General Public License along
-//with this library; if not, write to the Free Software Foundation, Inc., 59
-//Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="ampXerrors.cs">
+//   
+// </copyright>
+// <summary>
+//   The namespace.
+// </summary>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using XMPP.registries;
+using XMPP.Registries;
 
-namespace XMPP.tags.jabber.protocol.ampXerrors
+namespace XMPP.Tags.Jabber.Protocol.ampXerrors
 {
+    /// <summary>
+    /// The namespace.
+    /// </summary>
     public class Namespace
     {
+        /// <summary>
+        /// The name.
+        /// </summary>
         public static string Name = "http://jabber.org/protocol/amp#errors";
+
+        /// <summary>
+        /// The failed_rules.
+        /// </summary>
         public static XName failed_rules = XName.Get("failed-rules", Name);
+
+        /// <summary>
+        /// The rule.
+        /// </summary>
         public static XName rule = XName.Get("rule", Name);
     }
 
-    [XMPPTag(typeof(Namespace), typeof(failed_rules))]
+    /// <summary>
+    /// The failed_rules.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(failed_rules))]
     public class failed_rules : Tag
     {
-        public failed_rules() : base(Namespace.failed_rules) {} 
-        public failed_rules(XElement other) : base(other) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="failed_rules"/> class.
+        /// </summary>
+        public failed_rules() : base(Namespace.failed_rules)
+        {
+        }
 
-        public IEnumerable<rule> ruleElements { get { return Elements<rule>(Namespace.rule); } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="failed_rules"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public failed_rules(XElement other) : base(other)
+        {
+        }
+
+        /// <summary>
+        /// Gets the rule elements.
+        /// </summary>
+        public IEnumerable<rule> ruleElements
+        {
+            get { return Elements<rule>(Namespace.rule); }
+        }
     }
 
-    [XMPPTag(typeof(Namespace), typeof(rule))]
+    /// <summary>
+    /// The rule.
+    /// </summary>
+    [XmppTag(typeof(Namespace), typeof(rule))]
     public class rule : Tag
     {
-        public rule() : base(Namespace.rule) { }
-        public rule(XElement other) : base(other) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="rule"/> class.
+        /// </summary>
+        public rule() : base(Namespace.rule)
+        {
+        }
 
-		public string action { get { return (string)GetAttributeValue("action"); } set { SetAttributeValue("action", value); } }
-		public string condition { get { return (string)GetAttributeValue("condition"); } set { SetAttributeValue("condition", value); } }
-		public string value { get { return (string)GetAttributeValue("value"); } set { SetAttributeValue("value", value); } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="rule"/> class.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        public rule(XElement other) : base(other)
+        {
+        }
 
+        /// <summary>
+        /// Gets or sets the action.
+        /// </summary>
+        public string action
+        {
+            get { return (string) GetAttributeValue("action"); }
+            set { SetAttributeValue("action", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the condition.
+        /// </summary>
+        public string condition
+        {
+            get { return (string) GetAttributeValue("condition"); }
+            set { SetAttributeValue("condition", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        public string value
+        {
+            get { return (string) GetAttributeValue("value"); }
+            set { SetAttributeValue("value", value); }
+        }
     }
 }
 
