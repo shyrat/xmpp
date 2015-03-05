@@ -1,203 +1,110 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="auth.cs">
-//   
-// </copyright>
-// <summary>
-//   The namespace.
-// </summary>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using XMPP.Registries;
 
 namespace XMPP.Tags.Jabber.iq.auth
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "jabber:iq:auth";
+        public const string Name = "jabber:iq:auth";
 
-        /// <summary>
-        /// The query.
-        /// </summary>
-        public static XName query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", Name);
 
-        /// <summary>
-        /// The username.
-        /// </summary>
-        public static XName username = XName.Get("username", Name);
+        public static readonly XName Username = XName.Get("username", Name);
 
-        /// <summary>
-        /// The password.
-        /// </summary>
-        public static XName password = XName.Get("password", Name);
+        public static readonly XName Password = XName.Get("password", Name);
 
-        /// <summary>
-        /// The digest.
-        /// </summary>
-        public static XName digest = XName.Get("digest", Name);
+        public static readonly XName Digest = XName.Get("digest", Name);
 
-        /// <summary>
-        /// The resource.
-        /// </summary>
-        public static XName resource = XName.Get("resource", Name);
+        public static readonly XName Resource = XName.Get("resource", Name);
     }
 
-    /// <summary>
-    /// The query.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        public query() : base(Namespace.query)
+        public Query()
+            : base(Namespace.Query)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public query(XElement other) : base(other)
+        public Query(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the username elements.
-        /// </summary>
-        public IEnumerable<username> usernameElements
+        public IEnumerable<Username> UsernameElements
         {
-            get { return Elements<username>(Namespace.username); }
+            get { return Elements<Username>(Namespace.Username); }
         }
 
-        /// <summary>
-        /// Gets the password elements.
-        /// </summary>
-        public IEnumerable<password> passwordElements
+        public IEnumerable<Password> PasswordElements
         {
-            get { return Elements<password>(Namespace.password); }
+            get { return Elements<Password>(Namespace.Password); }
         }
 
-        /// <summary>
-        /// Gets the digest elements.
-        /// </summary>
-        public IEnumerable<digest> digestElements
+        public IEnumerable<Digest> DigestElements
         {
-            get { return Elements<digest>(Namespace.digest); }
+            get { return Elements<Digest>(Namespace.Digest); }
         }
 
-        /// <summary>
-        /// Gets the resource elements.
-        /// </summary>
-        public IEnumerable<resource> resourceElements
+        public IEnumerable<Resource> ResourceElements
         {
-            get { return Elements<resource>(Namespace.resource); }
+            get { return Elements<Resource>(Namespace.Resource); }
         }
     }
 
-    /// <summary>
-    /// The username.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(username))]
-    public class username : Tag
+    [XmppTag(typeof(Namespace), typeof(Username))]
+    public class Username : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="username"/> class.
-        /// </summary>
-        public username() : base(Namespace.username)
+        public Username()
+            : base(Namespace.Username)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="username"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public username(XElement other) : base(other)
+        public Username(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The password.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(password))]
-    public class password : Tag
+    [XmppTag(typeof(Namespace), typeof(Password))]
+    public class Password : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="password"/> class.
-        /// </summary>
-        public password() : base(Namespace.password)
+        public Password()
+            : base(Namespace.Password)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="password"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public password(XElement other) : base(other)
+        public Password(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The digest.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(digest))]
-    public class digest : Tag
+    [XmppTag(typeof(Namespace), typeof(Digest))]
+    public class Digest : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="digest"/> class.
-        /// </summary>
-        public digest() : base(Namespace.digest)
+        public Digest()
+            : base(Namespace.Digest)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="digest"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public digest(XElement other) : base(other)
+        public Digest(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The resource.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(resource))]
-    public class resource : Tag
+    [XmppTag(typeof(Namespace), typeof(Resource))]
+    public class Resource : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="resource"/> class.
-        /// </summary>
-        public resource() : base(Namespace.resource)
+        public Resource()
+            : base(Namespace.Resource)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="resource"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public resource(XElement other) : base(other)
+        public Resource(XElement other)
+            : base(other)
         {
         }
     }

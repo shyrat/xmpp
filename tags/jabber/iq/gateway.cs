@@ -1,167 +1,90 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="gateway.cs">
-//   
-// </copyright>
-// <summary>
-//   The namespace.
-// </summary>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using XMPP.Registries;
 
 namespace XMPP.Tags.Jabber.iq.gateway
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "jabber:iq:gateway";
+        public const string Name = "jabber:iq:gateway";
 
-        /// <summary>
-        /// The query.
-        /// </summary>
-        public static XName query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", Name);
 
-        /// <summary>
-        /// The desc.
-        /// </summary>
-        public static XName desc = XName.Get("desc", Name);
+        public static readonly XName Desc = XName.Get("desc", Name);
 
-        /// <summary>
-        /// The prompt.
-        /// </summary>
-        public static XName prompt = XName.Get("prompt", Name);
+        public static readonly XName Prompt = XName.Get("prompt", Name);
 
-        /// <summary>
-        /// The jid.
-        /// </summary>
-        public static XName jid = XName.Get("jid", Name);
+        public static readonly XName Jid = XName.Get("jid", Name);
     }
 
-    /// <summary>
-    /// The query.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        public query() : base(Namespace.query)
+        public Query()
+            : base(Namespace.Query)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public query(XElement other) : base(other)
+        public Query(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the jid.
-        /// </summary>
-        public jid jid
+        public jid Jid
         {
-            get { return Element<jid>(Namespace.jid); }
+            get { return Element<jid>(Namespace.Jid); }
         }
 
-        /// <summary>
-        /// Gets the desc elements.
-        /// </summary>
-        public IEnumerable<desc> descElements
+        public IEnumerable<Desc> DescElements
         {
-            get { return Elements<desc>(Namespace.desc); }
+            get { return Elements<Desc>(Namespace.Desc); }
         }
 
-        /// <summary>
-        /// Gets the prompt elements.
-        /// </summary>
-        public IEnumerable<prompt> promptElements
+        public IEnumerable<Prompt> PromptElements
         {
-            get { return Elements<prompt>(Namespace.prompt); }
+            get { return Elements<Prompt>(Namespace.Prompt); }
         }
     }
 
 
-    /// <summary>
-    /// The desc.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(desc))]
-    public class desc : Tag
+    [XmppTag(typeof(Namespace), typeof(Desc))]
+    public class Desc : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="desc"/> class.
-        /// </summary>
-        public desc() : base(Namespace.desc)
+        public Desc()
+            : base(Namespace.Desc)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="desc"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public desc(XElement other) : base(other)
+        public Desc(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The prompt.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(prompt))]
-    public class prompt : Tag
+    [XmppTag(typeof(Namespace), typeof(Prompt))]
+    public class Prompt : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="prompt"/> class.
-        /// </summary>
-        public prompt() : base(Namespace.prompt)
+        public Prompt()
+            : base(Namespace.Prompt)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="prompt"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public prompt(XElement other) : base(other)
+        public Prompt(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The jid.
-    /// </summary>
     [XmppTag(typeof(Namespace), typeof(jid))]
     public class jid : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="jid"/> class.
-        /// </summary>
-        public jid() : base(Namespace.jid)
+        public jid()
+            : base(Namespace.Jid)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="jid"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public jid(XElement other) : base(other)
+        public jid(XElement other)
+            : base(other)
         {
         }
     }

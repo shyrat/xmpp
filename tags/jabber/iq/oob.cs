@@ -1,121 +1,63 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="oob.cs">
-//   
-// </copyright>
-// <summary>
-//   The namespace.
-// </summary>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using XMPP.Registries;
 
 namespace XMPP.Tags.Jabber.iq.oob
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "jabber:iq:oob";
+        public const string Name = "jabber:iq:oob";
 
-        /// <summary>
-        /// The query.
-        /// </summary>
-        public static XName query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", Name);
 
-        /// <summary>
-        /// The desc.
-        /// </summary>
-        public static XName desc = XName.Get("desc", Name);
+        public static readonly XName Desc = XName.Get("desc", Name);
 
-        /// <summary>
-        /// The url.
-        /// </summary>
-        public static XName url = XName.Get("url", Name);
+        public static readonly XName Url = XName.Get("url", Name);
     }
 
-    /// <summary>
-    /// The query.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        public query() : base(Namespace.query)
+        public Query()
+            : base(Namespace.Query)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public query(XElement other) : base(other)
+        public Query(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the sid.
-        /// </summary>
-        public string sid
+        public string Sid
         {
-            get { return (string) GetAttributeValue("sid"); }
+            get { return (string)GetAttributeValue("sid"); }
             set { SetAttributeValue("sid", value); }
         }
     }
 
-    /// <summary>
-    /// The url.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(url))]
-    public class url : Tag
+    [XmppTag(typeof(Namespace), typeof(Url))]
+    public class Url : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="url"/> class.
-        /// </summary>
-        public url() : base(Namespace.url)
+        public Url()
+            : base(Namespace.Url)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="url"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public url(XElement other) : base(other)
+        public Url(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The desc.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(desc))]
-    public class desc : Tag
+    [XmppTag(typeof(Namespace), typeof(Desc))]
+    public class Desc : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="desc"/> class.
-        /// </summary>
-        public desc() : base(Namespace.desc)
+        public Desc()
+            : base(Namespace.Desc)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="desc"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public desc(XElement other) : base(other)
+        public Desc(XElement other)
+            : base(other)
         {
         }
     }

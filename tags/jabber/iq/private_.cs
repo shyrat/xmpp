@@ -1,54 +1,25 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="private_.cs">
-//   
-// </copyright>
-// <summary>
-//   The namespace.
-// </summary>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using XMPP.Registries;
 
 namespace XMPP.Tags.Jabber.iq.private_
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "jabber:iq:private";
+        public const string Name = "jabber:iq:private";
 
-        /// <summary>
-        /// The query.
-        /// </summary>
-        public static XName query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", Name);
     }
 
-    /// <summary>
-    /// The query.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        public query() : base(Namespace.query)
+        public Query()
+            : base(Namespace.Query)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public query(XElement other) : base(other)
+        public Query(XElement other)
+            : base(other)
         {
         }
     }
