@@ -26,8 +26,22 @@ namespace XMPP.common
         /// </summary>
         public bool IsConnected
         {
-            get;
-            private set;
+            get
+            {
+                return _isConnected.IsSet;
+            }
+
+            private set
+            {
+                if (value)
+                {
+                    _isConnected.Set();
+                }
+                else
+                {
+                    _isConnected.Reset();
+                }
+            }
         }
 
         /// <summary>
@@ -125,7 +139,7 @@ namespace XMPP.common
             _disconnecting = new ManualResetEventSlim(false);
             _connectionError = new ManualResetEventSlim(false);
             _canFetch = new AutoResetEvent(true);
-            _tags = new ConcurrentQueue<XElement>();
+            _tagQueue = new ConcurrentQueue<XElement>();
             _rid = new Random().Next(StartRid, EndRid);
         }
 
@@ -163,7 +177,7 @@ namespace XMPP.common
             {
                 foreach (var item in body.Elements())
                 {
-                    _tags.Enqueue(item);
+                    _tagQueue.Enqueue(item);
                 }
             }
         }
@@ -299,7 +313,7 @@ namespace XMPP.common
         {
             if (null != tag)
             {
-                _tags.Enqueue(RemoveComments(tag));
+                _tagQueue.Enqueue(RemoveComments(tag));
             }
 
             FlushInternal();
@@ -330,7 +344,7 @@ namespace XMPP.common
                 {
                     _connectionsCounter.Release();
 
-                    if (!_tags.IsEmpty)
+                    if (!_tagQueue.IsEmpty)
                     {
                         Task.Run(() => Flush());
                     }
@@ -342,10 +356,10 @@ namespace XMPP.common
         {
             int counter = _manager.Settings.QueryCount;
 
-            while (!_tags.IsEmpty)
+            while (!_tagQueue.IsEmpty)
             {
                 XElement tag;
-                if (_tags.TryDequeue(out tag))
+                if (_tagQueue.TryDequeue(out tag))
                 {
                     body.Add(tag);
                     if (--counter == 0)
@@ -416,8 +430,10 @@ namespace XMPP.common
         private ManualResetEventSlim _connectionError;
         private ManualResetEventSlim _disconnecting;
         private AutoResetEvent _canFetch;
-        private ConcurrentQueue<XElement> _tags;
+        private ConcurrentQueue<XElement> _tagQueue;
         private Task _pollingTask;
+
+        private readonly ManualResetEventSlim _isConnected =new ManualResetEventSlim(false);
 
         private const int StartRid = 1000000;
         private const int EndRid = 99999999;

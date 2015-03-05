@@ -51,6 +51,5 @@ namespace XMPP.common
         public int KeepAliveTime = 60;
 
 	    public int QueryCount = 50;
-	    public int? PollingInterval;
     }
 }
