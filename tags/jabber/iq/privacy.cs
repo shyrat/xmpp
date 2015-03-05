@@ -1,467 +1,251 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="privacy.cs">
-//   
-// </copyright>
-// <summary>
-//   The namespace.
-// </summary>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using XMPP.Registries;
 
 namespace XMPP.Tags.Jabber.iq.privacy
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "jabber:iq:privacy";
+        public const string Name = "jabber:iq:privacy";
 
-        /// <summary>
-        /// The query.
-        /// </summary>
-        public static XName query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", Name);
 
-        /// <summary>
-        /// The active.
-        /// </summary>
-        public static XName active = XName.Get("active", Name);
+        public static readonly XName Active = XName.Get("active", Name);
 
-        /// <summary>
-        /// The default_.
-        /// </summary>
-        public static XName default_ = XName.Get("default", Name);
+        public static readonly XName Default = XName.Get("default", Name);
 
-        /// <summary>
-        /// The list.
-        /// </summary>
-        public static XName list = XName.Get("list", Name);
+        public static readonly XName List = XName.Get("list", Name);
 
-        /// <summary>
-        /// The item.
-        /// </summary>
-        public static XName item = XName.Get("item", Name);
+        public static readonly XName Item = XName.Get("item", Name);
 
-        /// <summary>
-        /// The iq.
-        /// </summary>
-        public static XName iq = XName.Get("iq", Name);
+        public static readonly XName Iq = XName.Get("iq", Name);
 
-        /// <summary>
-        /// The message.
-        /// </summary>
-        public static XName message = XName.Get("message", Name);
+        public static readonly XName Message = XName.Get("message", Name);
 
-        /// <summary>
-        /// The presence_in.
-        /// </summary>
-        public static XName presence_in = XName.Get("presence-in", Name);
+        public static readonly XName PresenceIn = XName.Get("presence-in", Name);
 
-        /// <summary>
-        /// The presence_out.
-        /// </summary>
-        public static XName presence_out = XName.Get("presence-out", Name);
+        public static readonly XName PresenceOut = XName.Get("presence-out", Name);
     }
 
-    /// <summary>
-    /// The query.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        public query() : base(Namespace.query)
+        public Query()
+            : base(Namespace.Query)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public query(XElement other) : base(other)
+        public Query(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the active elements.
-        /// </summary>
-        public IEnumerable<active> activeElements
+        public IEnumerable<Active> ActiveElements
         {
-            get { return Elements<active>(Namespace.active); }
+            get { return Elements<Active>(Namespace.Active); }
         }
 
-        /// <summary>
-        /// Gets the default elements.
-        /// </summary>
-        public IEnumerable<default_> defaultElements
+        public IEnumerable<Default> DefaultElements
         {
-            get { return Elements<default_>(Namespace.default_); }
+            get { return Elements<Default>(Namespace.Default); }
         }
 
-        /// <summary>
-        /// Gets the list elements.
-        /// </summary>
-        public IEnumerable<list> listElements
+        public IEnumerable<list> ListElements
         {
-            get { return Elements<list>(Namespace.list); }
+            get { return Elements<list>(Namespace.List); }
         }
     }
 
-    /// <summary>
-    /// The active.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(active))]
-    public class active : Tag
+    [XmppTag(typeof(Namespace), typeof(Active))]
+    public class Active : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="active"/> class.
-        /// </summary>
-        public active() : base(Namespace.active)
+        public Active()
+            : base(Namespace.Active)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="active"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public active(XElement other) : base(other)
+        public Active(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
         public string name
         {
-            get { return (string) GetAttributeValue("name"); }
+            get { return (string)GetAttributeValue("name"); }
             set { SetAttributeValue("name", value); }
         }
     }
 
-
-    /// <summary>
-    /// The default_.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(default_))]
-    public class default_ : Tag
+    [XmppTag(typeof(Namespace), typeof(Default))]
+    public class Default : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="default_"/> class.
-        /// </summary>
-        public default_() : base(Namespace.default_)
+        public Default()
+            : base(Namespace.Default)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="default_"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public default_(XElement other) : base(other)
+        public Default(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
         public string name
         {
-            get { return (string) GetAttributeValue("name"); }
+            get { return (string)GetAttributeValue("name"); }
             set { SetAttributeValue("name", value); }
         }
     }
 
-    /// <summary>
-    /// The list.
-    /// </summary>
     [XmppTag(typeof(Namespace), typeof(list))]
     public class list : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="list"/> class.
-        /// </summary>
-        public list() : base(Namespace.list)
+        public list()
+            : base(Namespace.List)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="list"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public list(XElement other) : base(other)
+        public list(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
         public string name
         {
-            get { return (string) GetAttributeValue("name"); }
+            get { return (string)GetAttributeValue("name"); }
             set { SetAttributeValue("name", value); }
         }
 
-        /// <summary>
-        /// Gets the item elements.
-        /// </summary>
-        public IEnumerable<item> itemElements
+        public IEnumerable<Item> ItemElements
         {
-            get { return Elements<item>(Namespace.item); }
+            get { return Elements<Item>(Namespace.Item); }
         }
     }
 
-    /// <summary>
-    /// The item.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(item))]
-    public class item : Tag
+    [XmppTag(typeof(Namespace), typeof(Item))]
+    public class Item : Tag
     {
-        /// <summary>
-        /// The action enum.
-        /// </summary>
-        public enum actionEnum
+        public enum ActionEnum
         {
-            /// <summary>
-            /// The none.
-            /// </summary>
-            none, 
-
-            /// <summary>
-            /// The allow.
-            /// </summary>
-            allow, 
-
-            /// <summary>
-            /// The deny.
-            /// </summary>
+            none,
+            allow,
             deny
         }
 
-        /// <summary>
-        /// The type enum.
-        /// </summary>
-        public enum typeEnum
+        public enum TypeEnum
         {
-            /// <summary>
-            /// The none.
-            /// </summary>
-            none, 
-
-            /// <summary>
-            /// The group.
-            /// </summary>
-            group, 
-
-            /// <summary>
-            /// The jid.
-            /// </summary>
-            jid, 
-
-            /// <summary>
-            /// The subscription.
-            /// </summary>
+            none,
+            group,
+            jid,
             subscription
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="item"/> class.
-        /// </summary>
-        public item() : base(Namespace.item)
+        public Item()
+            : base(Namespace.Item)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="item"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public item(XElement other) : base(other)
+        public Item(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the seconds.
-        /// </summary>
-        public actionEnum seconds
+        public ActionEnum Seconds
         {
-            get { return GetAttributeEnum<actionEnum>("action"); }
-            set { SetAttributeEnum<actionEnum>("action", value); }
+            get { return GetAttributeEnum<ActionEnum>("action"); }
+            set { SetAttributeEnum<ActionEnum>("action", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the order.
-        /// </summary>
-        public string order
+        public string Order
         {
-            get { return (string) GetAttributeValue("order"); }
+            get { return (string)GetAttributeValue("order"); }
             set { SetAttributeValue("order", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the type.
-        /// </summary>
-        public typeEnum type
+        public TypeEnum Type
         {
-            get { return GetAttributeEnum<typeEnum>("type"); }
-            set { SetAttributeEnum<typeEnum>("type", value); }
+            get { return GetAttributeEnum<TypeEnum>("type"); }
+            set { SetAttributeEnum<TypeEnum>("type", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
         public string value
         {
-            get { return (string) GetAttributeValue("value"); }
+            get { return (string)GetAttributeValue("value"); }
             set { SetAttributeValue("value", value); }
         }
 
-
-        /// <summary>
-        /// Gets the iq elements.
-        /// </summary>
-        public IEnumerable<iq> iqElements
+        public IEnumerable<Iq> IqElements
         {
-            get { return Elements<iq>(Namespace.iq); }
+            get { return Elements<Iq>(Namespace.Iq); }
         }
 
-        /// <summary>
-        /// Gets the message elements.
-        /// </summary>
-        public IEnumerable<message> messageElements
+        public IEnumerable<Message> MessageElements
         {
-            get { return Elements<message>(Namespace.message); }
+            get { return Elements<Message>(Namespace.Message); }
         }
 
-        /// <summary>
-        /// Gets the presence_in elements.
-        /// </summary>
-        public IEnumerable<presence_in> presence_inElements
+        public IEnumerable<PresenceIn> PresenceInElements
         {
-            get { return Elements<presence_in>(Namespace.presence_in); }
+            get { return Elements<PresenceIn>(Namespace.PresenceIn); }
         }
 
-        /// <summary>
-        /// Gets the presence_out elements.
-        /// </summary>
-        public IEnumerable<presence_out> presence_outElements
+        public IEnumerable<PresenceOut> PresenceOutElements
         {
-            get { return Elements<presence_out>(Namespace.presence_out); }
+            get { return Elements<PresenceOut>(Namespace.PresenceOut); }
         }
     }
 
-
-    /// <summary>
-    /// The iq.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(iq))]
-    public class iq : Tag
+    [XmppTag(typeof(Namespace), typeof(Iq))]
+    public class Iq : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="iq"/> class.
-        /// </summary>
-        public iq() : base(Namespace.iq)
+        public Iq()
+            : base(Namespace.Iq)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="iq"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public iq(XElement other) : base(other)
+        public Iq(XElement other)
+            : base(other)
         {
         }
     }
 
-
-    /// <summary>
-    /// The message.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(message))]
-    public class message : Tag
+    [XmppTag(typeof(Namespace), typeof(Message))]
+    public class Message : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="message"/> class.
-        /// </summary>
-        public message() : base(Namespace.message)
+        public Message()
+            : base(Namespace.Message)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="message"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public message(XElement other) : base(other)
+        public Message(XElement other)
+            : base(other)
         {
         }
     }
 
-
-    /// <summary>
-    /// The presence_in.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(presence_in))]
-    public class presence_in : Tag
+    [XmppTag(typeof(Namespace), typeof(PresenceIn))]
+    public class PresenceIn : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="presence_in"/> class.
-        /// </summary>
-        public presence_in() : base(Namespace.presence_in)
+        public PresenceIn()
+            : base(Namespace.PresenceIn)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="presence_in"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public presence_in(XElement other) : base(other)
+        public PresenceIn(XElement other)
+            : base(other)
         {
         }
     }
 
-
-    /// <summary>
-    /// The presence_out.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(presence_out))]
-    public class presence_out : Tag
+    [XmppTag(typeof(Namespace), typeof(PresenceOut))]
+    public class PresenceOut : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="presence_out"/> class.
-        /// </summary>
-        public presence_out() : base(Namespace.presence_out)
+        public PresenceOut()
+            : base(Namespace.PresenceOut)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="presence_out"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public presence_out(XElement other) : base(other)
+        public PresenceOut(XElement other)
+            : base(other)
         {
         }
     }

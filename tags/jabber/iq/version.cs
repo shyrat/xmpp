@@ -1,167 +1,89 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="version.cs">
-//   
-// </copyright>
-// <summary>
-//   The namespace.
-// </summary>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using XMPP.Registries;
 
 namespace XMPP.Tags.Jabber.iq.version
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "jabber:iq:version";
+        public const string Name = "jabber:iq:version";
 
-        /// <summary>
-        /// The query.
-        /// </summary>
-        public static XName query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", Name);
 
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static XName name = XName.Get("name", Name);
+        public static readonly XName name = XName.Get("name", Name);
 
-        /// <summary>
-        /// The version.
-        /// </summary>
-        public static XName version = XName.Get("version", Name);
+        public static readonly XName Version = XName.Get("version", Name);
 
-        /// <summary>
-        /// The os.
-        /// </summary>
-        public static XName os = XName.Get("os", Name);
+        public static readonly XName Os = XName.Get("os", Name);
     }
 
-
-    /// <summary>
-    /// The query.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        public query() : base(Namespace.query)
+        public Query()
+            : base(Namespace.Query)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public query(XElement other) : base(other)
+        public Query(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the name elements.
-        /// </summary>
-        public IEnumerable<name> nameElements
+        public IEnumerable<Name> NameElements
         {
-            get { return Elements<name>(Namespace.name); }
+            get { return Elements<Name>(Namespace.name); }
         }
 
-        /// <summary>
-        /// Gets the version elements.
-        /// </summary>
-        public IEnumerable<version> versionElements
+        public IEnumerable<Version> VersionElements
         {
-            get { return Elements<version>(Namespace.version); }
+            get { return Elements<Version>(Namespace.Version); }
         }
 
-        /// <summary>
-        /// Gets the os elements.
-        /// </summary>
-        public IEnumerable<os> osElements
+        public IEnumerable<Os> OsElements
         {
-            get { return Elements<os>(Namespace.os); }
+            get { return Elements<Os>(Namespace.Os); }
         }
     }
 
-    /// <summary>
-    /// The name.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(name))]
-    public class name : Tag
+    [XmppTag(typeof(Namespace), typeof(Name))]
+    public class Name : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="name"/> class.
-        /// </summary>
-        public name() : base(Namespace.name)
+        public Name()
+            : base(Namespace.name)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="name"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public name(XElement other) : base(other)
+        public Name(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The version.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(version))]
-    public class version : Tag
+    [XmppTag(typeof(Namespace), typeof(Version))]
+    public class Version : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="version"/> class.
-        /// </summary>
-        public version() : base(Namespace.version)
+        public Version()
+            : base(Namespace.Version)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="version"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public version(XElement other) : base(other)
+        public Version(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The os.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(os))]
-    public class os : Tag
+    [XmppTag(typeof(Namespace), typeof(Os))]
+    public class Os : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="os"/> class.
-        /// </summary>
-        public os() : base(Namespace.os)
+        public Os()
+            : base(Namespace.Os)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="os"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public os(XElement other) : base(other)
+        public Os(XElement other)
+            : base(other)
         {
         }
     }

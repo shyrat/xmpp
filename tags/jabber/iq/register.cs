@@ -1,796 +1,446 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="register.cs">
-//   
-// </copyright>
-// <summary>
-//   The namespace.
-// </summary>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using XMPP.Registries;
 
 namespace XMPP.Tags.Jabber.iq.register
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "jabber:iq:register";
+        public const string Name = "jabber:iq:register";
 
-        /// <summary>
-        /// The query.
-        /// </summary>
-        public static XName query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", Name);
 
-        /// <summary>
-        /// The registered.
-        /// </summary>
-        public static XName registered = XName.Get("registered", Name);
+        public static readonly XName Registered = XName.Get("registered", Name);
 
-        /// <summary>
-        /// The instruction.
-        /// </summary>
-        public static XName instruction = XName.Get("instruction", Name);
+        public static readonly XName Instruction = XName.Get("instruction", Name);
 
-        /// <summary>
-        /// The username.
-        /// </summary>
-        public static XName username = XName.Get("username", Name);
+        public static readonly XName Username = XName.Get("username", Name);
 
-        /// <summary>
-        /// The nick.
-        /// </summary>
-        public static XName nick = XName.Get("nick", Name);
+        public static readonly XName Nick = XName.Get("nick", Name);
 
-        /// <summary>
-        /// The password.
-        /// </summary>
-        public static XName password = XName.Get("password", Name);
+        public static readonly XName Password = XName.Get("password", Name);
 
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static XName name = XName.Get("name", Name);
+        public static readonly XName name = XName.Get("name", Name);
 
-        /// <summary>
-        /// The first.
-        /// </summary>
-        public static XName first = XName.Get("first", Name);
+        public static readonly XName First = XName.Get("first", Name);
 
-        /// <summary>
-        /// The last.
-        /// </summary>
-        public static XName last = XName.Get("last", Name);
+        public static readonly XName Last = XName.Get("last", Name);
 
-        /// <summary>
-        /// The email.
-        /// </summary>
-        public static XName email = XName.Get("email", Name);
+        public static readonly XName Email = XName.Get("email", Name);
 
-        /// <summary>
-        /// The address.
-        /// </summary>
-        public static XName address = XName.Get("address", Name);
+        public static readonly XName Address = XName.Get("address", Name);
 
-        /// <summary>
-        /// The city.
-        /// </summary>
-        public static XName city = XName.Get("city", Name);
+        public static readonly XName City = XName.Get("city", Name);
 
-        /// <summary>
-        /// The state.
-        /// </summary>
-        public static XName state = XName.Get("state", Name);
+        public static readonly XName State = XName.Get("state", Name);
 
-        /// <summary>
-        /// The zip.
-        /// </summary>
-        public static XName zip = XName.Get("zip", Name);
+        public static readonly XName Zip = XName.Get("zip", Name);
 
-        /// <summary>
-        /// The phone.
-        /// </summary>
-        public static XName phone = XName.Get("phone", Name);
+        public static readonly XName Phone = XName.Get("phone", Name);
 
-        /// <summary>
-        /// The url.
-        /// </summary>
-        public static XName url = XName.Get("url", Name);
+        public static readonly XName Url = XName.Get("url", Name);
 
-        /// <summary>
-        /// The date.
-        /// </summary>
-        public static XName date = XName.Get("date", Name);
+        public static readonly XName Date = XName.Get("date", Name);
 
-        /// <summary>
-        /// The misc.
-        /// </summary>
-        public static XName misc = XName.Get("misc", Name);
+        public static readonly XName Misc = XName.Get("misc", Name);
 
-        /// <summary>
-        /// The text.
-        /// </summary>
-        public static XName text = XName.Get("text", Name);
+        public static readonly XName Text = XName.Get("text", Name);
 
-        /// <summary>
-        /// The key.
-        /// </summary>
-        public static XName key = XName.Get("key", Name);
+        public static readonly XName Key = XName.Get("key", Name);
 
-        /// <summary>
-        /// The remove.
-        /// </summary>
-        public static XName remove = XName.Get("remove", Name);
+        public static readonly XName Remove = XName.Get("remove", Name);
     }
 
-
-    /// <summary>
-    /// The query.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        public query() : base(Namespace.query)
+        public Query()
+            : base(Namespace.Query)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public query(XElement other) : base(other)
+        public Query(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the registered elements.
-        /// </summary>
-        public IEnumerable<registered> registeredElements
+        public IEnumerable<Registered> RegisteredElements
         {
-            get { return Elements<registered>(Namespace.registered); }
+            get { return Elements<Registered>(Namespace.Registered); }
         }
 
-        /// <summary>
-        /// Gets the instruction elements.
-        /// </summary>
-        public IEnumerable<instruction> instructionElements
+        public IEnumerable<Instruction> InstructionElements
         {
-            get { return Elements<instruction>(Namespace.instruction); }
+            get { return Elements<Instruction>(Namespace.Instruction); }
         }
 
-        /// <summary>
-        /// Gets the username elements.
-        /// </summary>
-        public IEnumerable<username> usernameElements
+        public IEnumerable<Username> UsernameElements
         {
-            get { return Elements<username>(Namespace.username); }
+            get { return Elements<Username>(Namespace.Username); }
         }
 
-        /// <summary>
-        /// Gets the nick elements.
-        /// </summary>
-        public IEnumerable<nick> nickElements
+        public IEnumerable<Nick> NickElements
         {
-            get { return Elements<nick>(Namespace.nick); }
+            get { return Elements<Nick>(Namespace.Nick); }
         }
 
-        /// <summary>
-        /// Gets the password elements.
-        /// </summary>
-        public IEnumerable<password> passwordElements
+        public IEnumerable<Password> PasswordElements
         {
-            get { return Elements<password>(Namespace.password); }
+            get { return Elements<Password>(Namespace.Password); }
         }
 
-        /// <summary>
-        /// Gets the name elements.
-        /// </summary>
-        public IEnumerable<name> nameElements
+        public IEnumerable<Name> NameElements
         {
-            get { return Elements<name>(Namespace.name); }
+            get { return Elements<Name>(Namespace.name); }
         }
 
-        /// <summary>
-        /// Gets the first elements.
-        /// </summary>
-        public IEnumerable<first> firstElements
+        public IEnumerable<First> FirstElements
         {
-            get { return Elements<first>(Namespace.first); }
+            get { return Elements<First>(Namespace.First); }
         }
 
-        /// <summary>
-        /// Gets the last elements.
-        /// </summary>
-        public IEnumerable<last> lastElements
+        public IEnumerable<Last> LastElements
         {
-            get { return Elements<last>(Namespace.last); }
+            get { return Elements<Last>(Namespace.Last); }
         }
 
-        /// <summary>
-        /// Gets the email elements.
-        /// </summary>
-        public IEnumerable<email> emailElements
+        public IEnumerable<Email> EmailElements
         {
-            get { return Elements<email>(Namespace.email); }
+            get { return Elements<Email>(Namespace.Email); }
         }
 
-        /// <summary>
-        /// Gets the address elements.
-        /// </summary>
-        public IEnumerable<address> addressElements
+        public IEnumerable<Address> AddressElements
         {
-            get { return Elements<address>(Namespace.address); }
+            get { return Elements<Address>(Namespace.Address); }
         }
 
-        /// <summary>
-        /// Gets the city elements.
-        /// </summary>
-        public IEnumerable<city> cityElements
+        public IEnumerable<City> CityElements
         {
-            get { return Elements<city>(Namespace.city); }
+            get { return Elements<City>(Namespace.City); }
         }
 
-        /// <summary>
-        /// Gets the state elements.
-        /// </summary>
-        public IEnumerable<state> stateElements
+        public IEnumerable<State> StateElements
         {
-            get { return Elements<state>(Namespace.state); }
+            get { return Elements<State>(Namespace.State); }
         }
 
-        /// <summary>
-        /// Gets the zip elements.
-        /// </summary>
-        public IEnumerable<zip> zipElements
+        public IEnumerable<Zip> ZipElements
         {
-            get { return Elements<zip>(Namespace.zip); }
+            get { return Elements<Zip>(Namespace.Zip); }
         }
 
-        /// <summary>
-        /// Gets the phone elements.
-        /// </summary>
-        public IEnumerable<phone> phoneElements
+        public IEnumerable<Phone> PhoneElements
         {
-            get { return Elements<phone>(Namespace.phone); }
+            get { return Elements<Phone>(Namespace.Phone); }
         }
 
-        /// <summary>
-        /// Gets the url elements.
-        /// </summary>
-        public IEnumerable<url> urlElements
+        public IEnumerable<Url> UrlElements
         {
-            get { return Elements<url>(Namespace.url); }
+            get { return Elements<Url>(Namespace.Url); }
         }
 
-        /// <summary>
-        /// Gets the date elements.
-        /// </summary>
-        public IEnumerable<date> dateElements
+        public IEnumerable<Date> DateElements
         {
-            get { return Elements<date>(Namespace.date); }
+            get { return Elements<Date>(Namespace.Date); }
         }
 
-        /// <summary>
-        /// Gets the misc elements.
-        /// </summary>
-        public IEnumerable<misc> miscElements
+        public IEnumerable<Misc> MiscElements
         {
-            get { return Elements<misc>(Namespace.misc); }
+            get { return Elements<Misc>(Namespace.Misc); }
         }
 
-        /// <summary>
-        /// Gets the text elements.
-        /// </summary>
-        public IEnumerable<text> textElements
+        public IEnumerable<Text> TextElements
         {
-            get { return Elements<text>(Namespace.text); }
+            get { return Elements<Text>(Namespace.Text); }
         }
 
-        /// <summary>
-        /// Gets the key elements.
-        /// </summary>
-        public IEnumerable<key> keyElements
+        public IEnumerable<Key> KeyElements
         {
-            get { return Elements<key>(Namespace.key); }
+            get { return Elements<Key>(Namespace.Key); }
         }
 
-        /// <summary>
-        /// Gets the remove elements.
-        /// </summary>
-        public IEnumerable<remove> removeElements
+        public IEnumerable<Remove> RemoveElements
         {
-            get { return Elements<remove>(Namespace.remove); }
+            get { return Elements<Remove>(Namespace.Remove); }
         }
     }
 
-    /// <summary>
-    /// The registered.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(registered))]
-    public class registered : Tag
+    [XmppTag(typeof(Namespace), typeof(Registered))]
+    public class Registered : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="registered"/> class.
-        /// </summary>
-        public registered() : base(Namespace.registered)
+        public Registered()
+            : base(Namespace.Registered)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="registered"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public registered(XElement other) : base(other)
+        public Registered(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The instruction.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(instruction))]
-    public class instruction : Tag
+    [XmppTag(typeof(Namespace), typeof(Instruction))]
+    public class Instruction : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="instruction"/> class.
-        /// </summary>
-        public instruction() : base(Namespace.instruction)
+        public Instruction()
+            : base(Namespace.Instruction)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="instruction"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public instruction(XElement other) : base(other)
+        public Instruction(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The username.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(username))]
-    public class username : Tag
+    [XmppTag(typeof(Namespace), typeof(Username))]
+    public class Username : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="username"/> class.
-        /// </summary>
-        public username() : base(Namespace.username)
+        public Username()
+            : base(Namespace.Username)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="username"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public username(XElement other) : base(other)
+        public Username(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The nick.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(nick))]
-    public class nick : Tag
+    [XmppTag(typeof(Namespace), typeof(Nick))]
+    public class Nick : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="nick"/> class.
-        /// </summary>
-        public nick() : base(Namespace.nick)
+        public Nick()
+            : base(Namespace.Nick)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="nick"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public nick(XElement other) : base(other)
+        public Nick(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The password.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(password))]
-    public class password : Tag
+    [XmppTag(typeof(Namespace), typeof(Password))]
+    public class Password : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="password"/> class.
-        /// </summary>
-        public password() : base(Namespace.password)
+        public Password()
+            : base(Namespace.Password)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="password"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public password(XElement other) : base(other)
+        public Password(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The name.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(name))]
-    public class name : Tag
+    [XmppTag(typeof(Namespace), typeof(Name))]
+    public class Name : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="name"/> class.
-        /// </summary>
-        public name() : base(Namespace.name)
+        public Name()
+            : base(Namespace.name)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="name"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public name(XElement other) : base(other)
+        public Name(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The first.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(first))]
-    public class first : Tag
+    [XmppTag(typeof(Namespace), typeof(First))]
+    public class First : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="first"/> class.
-        /// </summary>
-        public first() : base(Namespace.first)
+        public First()
+            : base(Namespace.First)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="first"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public first(XElement other) : base(other)
+        public First(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The last.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(last))]
-    public class last : Tag
+    [XmppTag(typeof(Namespace), typeof(Last))]
+    public class Last : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="last"/> class.
-        /// </summary>
-        public last() : base(Namespace.last)
+        public Last()
+            : base(Namespace.Last)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="last"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public last(XElement other) : base(other)
+        public Last(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The email.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(email))]
-    public class email : Tag
+    [XmppTag(typeof(Namespace), typeof(Email))]
+    public class Email : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="email"/> class.
-        /// </summary>
-        public email() : base(Namespace.email)
+        public Email()
+            : base(Namespace.Email)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="email"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public email(XElement other) : base(other)
+        public Email(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The address.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(address))]
-    public class address : Tag
+    [XmppTag(typeof(Namespace), typeof(Address))]
+    public class Address : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="address"/> class.
-        /// </summary>
-        public address() : base(Namespace.address)
+        public Address()
+            : base(Namespace.Address)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="address"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public address(XElement other) : base(other)
+        public Address(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The city.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(city))]
-    public class city : Tag
+    [XmppTag(typeof(Namespace), typeof(City))]
+    public class City : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="city"/> class.
-        /// </summary>
-        public city() : base(Namespace.city)
+        public City()
+            : base(Namespace.City)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="city"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public city(XElement other) : base(other)
+        public City(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The state.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(state))]
-    public class state : Tag
+    [XmppTag(typeof(Namespace), typeof(State))]
+    public class State : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="state"/> class.
-        /// </summary>
-        public state() : base(Namespace.state)
+        public State()
+            : base(Namespace.State)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="state"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public state(XElement other) : base(other)
+        public State(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The zip.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(zip))]
-    public class zip : Tag
+    [XmppTag(typeof(Namespace), typeof(Zip))]
+    public class Zip : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="zip"/> class.
-        /// </summary>
-        public zip() : base(Namespace.zip)
+        public Zip()
+            : base(Namespace.Zip)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="zip"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public zip(XElement other) : base(other)
+        public Zip(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The phone.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(phone))]
-    public class phone : Tag
+    [XmppTag(typeof(Namespace), typeof(Phone))]
+    public class Phone : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="phone"/> class.
-        /// </summary>
-        public phone() : base(Namespace.phone)
+        public Phone()
+            : base(Namespace.Phone)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="phone"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public phone(XElement other) : base(other)
+        public Phone(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The url.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(url))]
-    public class url : Tag
+    [XmppTag(typeof(Namespace), typeof(Url))]
+    public class Url : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="url"/> class.
-        /// </summary>
-        public url() : base(Namespace.url)
+        public Url()
+            : base(Namespace.Url)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="url"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public url(XElement other) : base(other)
+        public Url(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The date.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(date))]
-    public class date : Tag
+    [XmppTag(typeof(Namespace), typeof(Date))]
+    public class Date : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="date"/> class.
-        /// </summary>
-        public date() : base(Namespace.date)
+        public Date()
+            : base(Namespace.Date)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="date"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public date(XElement other) : base(other)
+        public Date(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The misc.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(misc))]
-    public class misc : Tag
+    [XmppTag(typeof(Namespace), typeof(Misc))]
+    public class Misc : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="misc"/> class.
-        /// </summary>
-        public misc() : base(Namespace.misc)
+        public Misc()
+            : base(Namespace.Misc)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="misc"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public misc(XElement other) : base(other)
+        public Misc(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The text.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(text))]
-    public class text : Tag
+    [XmppTag(typeof(Namespace), typeof(Text))]
+    public class Text : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="text"/> class.
-        /// </summary>
-        public text() : base(Namespace.text)
+        public Text()
+            : base(Namespace.Text)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="text"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public text(XElement other) : base(other)
+        public Text(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The key.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(key))]
-    public class key : Tag
+    [XmppTag(typeof(Namespace), typeof(Key))]
+    public class Key : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="key"/> class.
-        /// </summary>
-        public key() : base(Namespace.key)
+        public Key()
+            : base(Namespace.Key)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="key"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public key(XElement other) : base(other)
+        public Key(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The remove.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(remove))]
-    public class remove : Tag
+    [XmppTag(typeof(Namespace), typeof(Remove))]
+    public class Remove : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="remove"/> class.
-        /// </summary>
-        public remove() : base(Namespace.remove)
+        public Remove()
+            : base(Namespace.Remove)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="remove"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public remove(XElement other) : base(other)
+        public Remove(XElement other)
+            : base(other)
         {
         }
     }

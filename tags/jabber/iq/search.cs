@@ -1,318 +1,178 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="search.cs">
-//   
-// </copyright>
-// <summary>
-//   The namespace.
-// </summary>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using XMPP.Registries;
 
 namespace XMPP.Tags.Jabber.iq.search
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "jabber:iq:search";
+        public const string Name = "jabber:iq:search";
 
-        /// <summary>
-        /// The query.
-        /// </summary>
-        public static XName query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", Name);
 
-        /// <summary>
-        /// The instructions.
-        /// </summary>
-        public static XName instructions = XName.Get("instructions", Name);
+        public static readonly XName Instructions = XName.Get("instructions", Name);
 
-        /// <summary>
-        /// The first.
-        /// </summary>
-        public static XName first = XName.Get("first", Name);
+        public static readonly XName First = XName.Get("first", Name);
 
-        /// <summary>
-        /// The last.
-        /// </summary>
-        public static XName last = XName.Get("last", Name);
+        public static readonly XName Last = XName.Get("last", Name);
 
-        /// <summary>
-        /// The nick.
-        /// </summary>
-        public static XName nick = XName.Get("nick", Name);
+        public static readonly XName Nick = XName.Get("nick", Name);
 
-        /// <summary>
-        /// The email.
-        /// </summary>
-        public static XName email = XName.Get("email", Name);
+        public static readonly XName Email = XName.Get("email", Name);
 
-        /// <summary>
-        /// The item.
-        /// </summary>
-        public static XName item = XName.Get("item", Name);
+        public static readonly XName Item = XName.Get("item", Name);
     }
 
-    /// <summary>
-    /// The query.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        public query() : base(Namespace.query)
+        public Query()
+            : base(Namespace.Query)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public query(XElement other) : base(other)
+        public Query(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the instructions.
-        /// </summary>
-        public instructions instructions
+        public Instructions Instructions
         {
-            get { return Element<instructions>(Namespace.instructions); }
+            get { return Element<Instructions>(Namespace.Instructions); }
         }
 
-        /// <summary>
-        /// Gets the first.
-        /// </summary>
-        public first first
+        public First First
         {
-            get { return Element<first>(Namespace.first); }
+            get { return Element<First>(Namespace.First); }
         }
 
-        /// <summary>
-        /// Gets the last.
-        /// </summary>
-        public last last
+        public Last Last
         {
-            get { return Element<last>(Namespace.last); }
+            get { return Element<Last>(Namespace.Last); }
         }
 
-        /// <summary>
-        /// Gets the nick.
-        /// </summary>
-        public nick nick
+        public Nick Nick
         {
-            get { return Element<nick>(Namespace.nick); }
+            get { return Element<Nick>(Namespace.Nick); }
         }
 
-        /// <summary>
-        /// Gets the email.
-        /// </summary>
-        public email email
+        public Email Email
         {
-            get { return Element<email>(Namespace.email); }
+            get { return Element<Email>(Namespace.Email); }
         }
 
-        /// <summary>
-        /// Gets the item.
-        /// </summary>
-        public item item
+        public Item Item
         {
-            get { return Element<item>(Namespace.item); }
+            get { return Element<Item>(Namespace.Item); }
         }
     }
 
-    /// <summary>
-    /// The instructions.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(instructions))]
-    public class instructions : Tag
+    [XmppTag(typeof(Namespace), typeof(Instructions))]
+    public class Instructions : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="instructions"/> class.
-        /// </summary>
-        public instructions() : base(Namespace.instructions)
+        public Instructions()
+            : base(Namespace.Instructions)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="instructions"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public instructions(XElement other) : base(other)
+        public Instructions(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The first.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(first))]
-    public class first : Tag
+    [XmppTag(typeof(Namespace), typeof(First))]
+    public class First : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="first"/> class.
-        /// </summary>
-        public first() : base(Namespace.first)
+        public First()
+            : base(Namespace.First)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="first"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public first(XElement other) : base(other)
+        public First(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The last.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(last))]
-    public class last : Tag
+    [XmppTag(typeof(Namespace), typeof(Last))]
+    public class Last : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="last"/> class.
-        /// </summary>
-        public last() : base(Namespace.last)
+        public Last()
+            : base(Namespace.Last)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="last"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public last(XElement other) : base(other)
+        public Last(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The nick.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(nick))]
-    public class nick : Tag
+    [XmppTag(typeof(Namespace), typeof(Nick))]
+    public class Nick : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="nick"/> class.
-        /// </summary>
-        public nick() : base(Namespace.nick)
+        public Nick()
+            : base(Namespace.Nick)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="nick"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public nick(XElement other) : base(other)
+        public Nick(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The email.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(email))]
-    public class email : Tag
+    [XmppTag(typeof(Namespace), typeof(Email))]
+    public class Email : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="email"/> class.
-        /// </summary>
-        public email() : base(Namespace.email)
+        public Email()
+            : base(Namespace.Email)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="email"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public email(XElement other) : base(other)
+        public Email(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The item.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(item))]
-    public class item : Tag
+    [XmppTag(typeof(Namespace), typeof(Item))]
+    public class Item : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="item"/> class.
-        /// </summary>
-        public item() : base(Namespace.item)
+        public Item()
+            : base(Namespace.Item)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="item"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public item(XElement other) : base(other)
+        public Item(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the jid.
-        /// </summary>
-        public string jid
+        public string Jid
         {
-            get { return (string) GetAttributeValue("jid"); }
+            get { return (string)GetAttributeValue("jid"); }
             set { SetAttributeValue("jid", value); }
         }
 
-        /// <summary>
-        /// Gets the first.
-        /// </summary>
-        public first first
+        public First First
         {
-            get { return Element<first>(Namespace.first); }
+            get { return Element<First>(Namespace.First); }
         }
 
-        /// <summary>
-        /// Gets the last.
-        /// </summary>
-        public last last
+        public Last Last
         {
-            get { return Element<last>(Namespace.last); }
+            get { return Element<Last>(Namespace.Last); }
         }
 
-        /// <summary>
-        /// Gets the nick.
-        /// </summary>
-        public nick nick
+        public Nick Nick
         {
-            get { return Element<nick>(Namespace.nick); }
+            get { return Element<Nick>(Namespace.Nick); }
         }
 
-        /// <summary>
-        /// Gets the email.
-        /// </summary>
-        public email email
+        public Email Email
         {
-            get { return Element<email>(Namespace.email); }
+            get { return Element<Email>(Namespace.Email); }
         }
     }
 }
