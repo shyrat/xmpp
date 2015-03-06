@@ -164,7 +164,7 @@ namespace XMPP.common
                 return;
             }
 
-            if (Interlocked.Increment(ref _retrySendRequestCounter) > 2)
+            if (string.IsNullOrEmpty(body.sid) || Interlocked.Increment(ref _retryCounter) >= MaxRetry)
             {
                 if (!_connectionError.IsSet)
                 {
@@ -235,7 +235,7 @@ namespace XMPP.common
                 {
                     var data = resp.Content.ReadAsStringAsync().AsTask().Result;
 
-                    Interlocked.Exchange(ref _retrySendRequestCounter, 0);
+                    Interlocked.Exchange(ref _retryCounter, 0);
 
                     return Tag.Get(data) as body;
                 }
@@ -423,7 +423,7 @@ namespace XMPP.common
         private long _rid;
         private int? _requests;
 
-        private long _retrySendRequestCounter;
+        private long _retryCounter;
 
         private HttpClient _client;
         private SemaphoreSlim _connectionsCounter;
@@ -439,5 +439,7 @@ namespace XMPP.common
         private const int EndRid = 99999999;
         private const int Hold = 1;
         private const int Wait = 60;
+
+        private const long MaxRetry = 3;
     }
 }
