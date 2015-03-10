@@ -59,7 +59,7 @@ namespace XMPP.Tags.Jabber.X.Dataforms
             get { return Elements<Item>(Namespace.Item); }
         }
 
-        public TypeEnum Type
+        public TypeEnum TypeAttr
         {
             get { return GetAttributeEnum<TypeEnum>("type"); }
             set { SetAttributeEnum<TypeEnum>("type", value); }
@@ -120,13 +120,20 @@ namespace XMPP.Tags.Jabber.X.Dataforms
             boolean,
             @fixed,
             hidden,
-            [EnumMember(Value = "jid-multi")] jid_multi,
-            [EnumMember(Value = "jid-single")] jid_single,
-            [EnumMember(Value = "list-multi")] list_multi,
-            [EnumMember(Value = "list-single")] list_single,
-            [EnumMember(Value = "text-multi")] text_multi,
-            [EnumMember(Value = "text-private")] text_private,
-            [EnumMember(Value = "text-single")] text_single
+            [EnumMember(Value = "jid-multi")]
+            jid_multi,
+            [EnumMember(Value = "jid-single")]
+            jid_single,
+            [EnumMember(Value = "list-multi")]
+            list_multi,
+            [EnumMember(Value = "list-single")]
+            list_single,
+            [EnumMember(Value = "text-multi")]
+            text_multi,
+            [EnumMember(Value = "text-private")]
+            text_private,
+            [EnumMember(Value = "text-single")]
+            text_single
         }
 
         public Field() : base(Namespace.Field)
@@ -157,19 +164,19 @@ namespace XMPP.Tags.Jabber.X.Dataforms
             get { return Elements<Option>(Namespace.Option); }
         }
 
-        public string Label
+        public string LabelAttr
         {
-            get { return (string) GetAttributeValue("label"); }
+            get { return (string)GetAttributeValue("label"); }
             set { SetAttributeValue("label", value); }
         }
 
-        public typeEnum Type
+        public typeEnum TypeAttr
         {
             get { return GetAttributeEnum<typeEnum>("type"); }
             set { SetAttributeEnum<typeEnum>("type", value); }
         }
 
-        public string Var
+        public string VarAttr
         {
             get { return (string)GetAttributeValue("var"); }
             set { SetAttributeValue("var", value); }
@@ -211,7 +218,7 @@ namespace XMPP.Tags.Jabber.X.Dataforms
         {
         }
 
-        public string Label
+        public string LabelAttr
         {
             get { return (string)GetAttributeValue("label"); }
             set { SetAttributeValue("label", value); }

@@ -39,37 +39,37 @@ namespace XMPP.Tags.Streams
         {
         }
 
-        public string From
+        public string FromAttr
         {
             get { return (string)GetAttributeValue("from"); }
             set { SetAttributeValue("from", value); }
         }
 
-        public string To
+        public string ToAttr
         {
             get { return (string)GetAttributeValue("to"); }
             set { SetAttributeValue("to", value); }
         }
 
-        public string Id
+        public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
             set { SetAttributeValue("id", value); }
         }
 
-        public string Lang
+        public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
             set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
         }
 
-        public string Version
+        public string VersionAttr
         {
             get { return (string)GetAttributeValue("version"); }
             set { SetAttributeValue("version", value); }
         }
 
-        public string Xmlns
+        public string XmlnsAttr
         {
             get { return (string)GetAttributeValue("xmlns"); }
             set { SetAttributeValue("xmlns", value); }
@@ -155,7 +155,7 @@ namespace XMPP.Tags.Streams
         {
             get
             {
-                return Element<Jabber.Reatures.Compress.Compression>(Jabber.Reatures.Compress.Namespace.compression);
+                return Element<Jabber.Reatures.Compress.Compression>(Jabber.Reatures.Compress.Namespace.Compression);
             }
         }
     }

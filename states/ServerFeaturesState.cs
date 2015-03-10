@@ -16,7 +16,6 @@ using XMPP.Tags;
 using XMPP.Tags.Jabber.Protocol.Compress;
 using XMPP.Tags.Streams;
 using XMPP.Tags.XmppSasl;
-using XMPP.Tags.XmppStreams;
 using XMPP.Tags.XmppTls;
 using XMPP.Ñommon;
 using Namespace = XMPP.Tags.XmppStreams.Namespace;
@@ -37,7 +36,7 @@ namespace XMPP.States
             if (data is Stream)
             {
                 var stream = data as Stream;
-                if (!stream.Version.StartsWith("1."))
+                if (!stream.VersionAttr.StartsWith("1."))
                 {
                     Manager.Events.Error(
                         this,
@@ -82,7 +81,7 @@ namespace XMPP.States
             {
                 if (features.StartTls != null && Manager.Settings.SSL)
                 {
-                    Manager.State = new StartTLSState(Manager);
+                    Manager.State = new StartTlsState(Manager);
                     var tls = new StartTls();
                     Manager.Connection.Send(tls);
                     return;
@@ -99,7 +98,7 @@ namespace XMPP.States
 #if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Creating XOAUTH2 processor");
 #endif
-                        Manager.SaslProcessor = new XOAUTH2Processor(Manager);
+                        Manager.SaslProcessor = new XOAuth2Processor(Manager);
                     }
                     else if ((features.Mechanisms.Types & MechanismType.Scram & Manager.Settings.AuthenticationTypes) ==
                              MechanismType.Scram)
@@ -107,7 +106,7 @@ namespace XMPP.States
 #if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Creating SCRAM-SHA-1 Processor");
 #endif
-                        Manager.SaslProcessor = new SCRAMProcessor(Manager);
+                        Manager.SaslProcessor = new ScramProcessor(Manager);
                     }
                     else if ((features.Mechanisms.Types & MechanismType.DigestMd5 &
                               Manager.Settings.AuthenticationTypes) == MechanismType.DigestMd5)
@@ -115,7 +114,7 @@ namespace XMPP.States
 #if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Creating DIGEST-MD5 Processor");
 #endif
-                        Manager.SaslProcessor = new MD5Processor(Manager);
+                        Manager.SaslProcessor = new Md5Processor(Manager);
                     }
                     else if ((features.Mechanisms.Types & MechanismType.External &
                               Manager.Settings.AuthenticationTypes) == MechanismType.External)
@@ -168,7 +167,7 @@ namespace XMPP.States
                     Manager.Events.LogMessage(this, LogType.Info, "Starting compression");
 #endif
 
-// Do we have a stream for any of the compressions supported by the server?
+                    // Do we have a stream for any of the compressions supported by the server?
                     foreach (string algorithm in
                         features.Compression.Methods.Where(Static.CompressionRegistry.SupportsAlgorithm))
                     {

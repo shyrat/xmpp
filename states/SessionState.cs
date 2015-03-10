@@ -25,12 +25,12 @@ namespace XMPP.States
         {
             if (data == null)
             {
-                var iq = new Iq {Id = Tag.NextId()};
+                var iq = new Iq { IdAttr = Tag.NextId() };
                 Tag session = new Session();
 
-                iq.From = Manager.Settings.Id;
-                iq.To = Manager.Settings.Id.Server;
-                iq.Type = Iq.TypeEnum.set;
+                iq.FromAttr = Manager.Settings.Id;
+                iq.ToAttr = Manager.Settings.Id.Server;
+                iq.TypeAttr = Iq.TypeEnum.set;
                 iq.Add(session);
 
                 Manager.Connection.Send(iq);

@@ -23,11 +23,14 @@ namespace XMPP.States
 
         public override void Execute(Tag data = null)
         {
-            var stream = new Stream();
-            stream.Version = "1.0";
-            stream.To = Manager.Settings.Id.Server;
-            stream.Xmlns = Namespace.Name;
-            stream.Lang = "en";
+            var stream = new Stream
+            {
+                VersionAttr = "1.0",
+                ToAttr = Manager.Settings.Id.Server,
+                XmlnsAttr = Namespace.Name,
+                LangAttr = "en"
+            };
+
             Manager.Connection.Send("<?xml version='1.0' encoding='UTF-8'?>" + stream.StartTag);
             Manager.State = new ServerFeaturesState(Manager);
         }

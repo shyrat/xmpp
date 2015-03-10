@@ -54,16 +54,16 @@ namespace XMPP.States
                 {
                     var type = ErrorType.Undefined;
 
-                    if (Manager.SaslProcessor is MD5Processor)
+                    if (Manager.SaslProcessor is Md5Processor)
                         type = ErrorType.Md5AuthError;
 
                     if (Manager.SaslProcessor is PlainProcessor)
                         type = ErrorType.PlainAuthError;
 
-                    if (Manager.SaslProcessor is SCRAMProcessor)
+                    if (Manager.SaslProcessor is ScramProcessor)
                         type = ErrorType.ScramAuthError;
 
-                    if (Manager.SaslProcessor is XOAUTH2Processor)
+                    if (Manager.SaslProcessor is XOAuth2Processor)
                         type = ErrorType.Oauth2AuthError;
 
                     var failure = data as Failure;

@@ -1,16 +1,14 @@
 ﻿using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.iq.oob
+namespace XMPP.Tags.Jabber.Iq.Oob
 {
     public class Namespace
     {
         public const string Name = "jabber:iq:oob";
 
         public static readonly XName Query = XName.Get("query", Name);
-
         public static readonly XName Desc = XName.Get("desc", Name);
-
         public static readonly XName Url = XName.Get("url", Name);
     }
 
@@ -27,7 +25,7 @@ namespace XMPP.Tags.Jabber.iq.oob
         {
         }
 
-        public string Sid
+        public string SidAttr
         {
             get { return (string)GetAttributeValue("sid"); }
             set { SetAttributeValue("sid", value); }

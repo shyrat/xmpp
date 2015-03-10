@@ -2,20 +2,16 @@
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.iq.auth
+namespace XMPP.Tags.Jabber.Iq.Auth
 {
     public class Namespace
     {
         public const string Name = "jabber:iq:auth";
 
         public static readonly XName Query = XName.Get("query", Name);
-
         public static readonly XName Username = XName.Get("username", Name);
-
         public static readonly XName Password = XName.Get("password", Name);
-
         public static readonly XName Digest = XName.Get("digest", Name);
-
         public static readonly XName Resource = XName.Get("resource", Name);
     }
 

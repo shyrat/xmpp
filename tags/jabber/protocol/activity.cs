@@ -12,2229 +12,1025 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.Protocol.activity
+namespace XMPP.Tags.Jabber.Protocol.Activity
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "http://jabber.org/protocol/activity";
-
-        /// <summary>
-        /// The activity.
-        /// </summary>
-        public static XName activity = XName.Get("activity", Name);
-
-        /// <summary>
-        /// The doing_chores.
-        /// </summary>
-        public static XName doing_chores = XName.Get("doing_chores", Name);
-
-        /// <summary>
-        /// The drinking.
-        /// </summary>
-        public static XName drinking = XName.Get("drinking", Name);
-
-        /// <summary>
-        /// The eating.
-        /// </summary>
-        public static XName eating = XName.Get("eating", Name);
-
-        /// <summary>
-        /// The exercising.
-        /// </summary>
-        public static XName exercising = XName.Get("exercising", Name);
-
-        /// <summary>
-        /// The grooming.
-        /// </summary>
-        public static XName grooming = XName.Get("grooming", Name);
-
-        /// <summary>
-        /// The having_appointment.
-        /// </summary>
-        public static XName having_appointment = XName.Get("having_appointment", Name);
-
-        /// <summary>
-        /// The inactive.
-        /// </summary>
-        public static XName inactive = XName.Get("inactive", Name);
-
-        /// <summary>
-        /// The relaxing.
-        /// </summary>
-        public static XName relaxing = XName.Get("relaxing", Name);
-
-        /// <summary>
-        /// The talking.
-        /// </summary>
-        public static XName talking = XName.Get("talking", Name);
-
-        /// <summary>
-        /// The traveling.
-        /// </summary>
-        public static XName traveling = XName.Get("traveling", Name);
-
-        /// <summary>
-        /// The working.
-        /// </summary>
-        public static XName working = XName.Get("working", Name);
-
-        /// <summary>
-        /// The text.
-        /// </summary>
-        public static XName text = XName.Get("text", Name);
-
-        /// <summary>
-        /// The at_the_spa.
-        /// </summary>
-        public static XName at_the_spa = XName.Get("at_the_spa", Name);
-
-        /// <summary>
-        /// The brushing_teeth.
-        /// </summary>
-        public static XName brushing_teeth = XName.Get("brushing_teeth", Name);
-
-        /// <summary>
-        /// The buying_groceries.
-        /// </summary>
-        public static XName buying_groceries = XName.Get("buying_groceries", Name);
-
-        /// <summary>
-        /// The cleaning.
-        /// </summary>
-        public static XName cleaning = XName.Get("cleaning", Name);
-
-        /// <summary>
-        /// The coding.
-        /// </summary>
-        public static XName coding = XName.Get("coding", Name);
-
-        /// <summary>
-        /// The commuting.
-        /// </summary>
-        public static XName commuting = XName.Get("commuting", Name);
-
-        /// <summary>
-        /// The cooking.
-        /// </summary>
-        public static XName cooking = XName.Get("cooking", Name);
-
-        /// <summary>
-        /// The cycling.
-        /// </summary>
-        public static XName cycling = XName.Get("cycling", Name);
-
-        /// <summary>
-        /// The day_off.
-        /// </summary>
-        public static XName day_off = XName.Get("day_off", Name);
-
-        /// <summary>
-        /// The doing_maintenance.
-        /// </summary>
-        public static XName doing_maintenance = XName.Get("doing_maintenance", Name);
-
-        /// <summary>
-        /// The doing_the_dishes.
-        /// </summary>
-        public static XName doing_the_dishes = XName.Get("doing_the_dishes", Name);
-
-        /// <summary>
-        /// The doing_the_laundry.
-        /// </summary>
-        public static XName doing_the_laundry = XName.Get("doing_the_laundry", Name);
-
-        /// <summary>
-        /// The driving.
-        /// </summary>
-        public static XName driving = XName.Get("driving", Name);
-
-        /// <summary>
-        /// The gaming.
-        /// </summary>
-        public static XName gaming = XName.Get("gaming", Name);
-
-        /// <summary>
-        /// The gardening.
-        /// </summary>
-        public static XName gardening = XName.Get("gardening", Name);
-
-        /// <summary>
-        /// The getting_a_haircut.
-        /// </summary>
-        public static XName getting_a_haircut = XName.Get("getting_a_haircut", Name);
-
-        /// <summary>
-        /// The going_out.
-        /// </summary>
-        public static XName going_out = XName.Get("going_out", Name);
-
-        /// <summary>
-        /// The hanging_out.
-        /// </summary>
-        public static XName hanging_out = XName.Get("hanging_out", Name);
-
-        /// <summary>
-        /// The having_a_beer.
-        /// </summary>
-        public static XName having_a_beer = XName.Get("having_a_beer", Name);
-
-        /// <summary>
-        /// The having_a_snack.
-        /// </summary>
-        public static XName having_a_snack = XName.Get("having_a_snack", Name);
-
-        /// <summary>
-        /// The having_breakfast.
-        /// </summary>
-        public static XName having_breakfast = XName.Get("having_breakfast", Name);
-
-        /// <summary>
-        /// The having_coffee.
-        /// </summary>
-        public static XName having_coffee = XName.Get("having_coffee", Name);
-
-        /// <summary>
-        /// The having_dinner.
-        /// </summary>
-        public static XName having_dinner = XName.Get("having_dinner", Name);
-
-        /// <summary>
-        /// The having_lunch.
-        /// </summary>
-        public static XName having_lunch = XName.Get("having_lunch", Name);
-
-        /// <summary>
-        /// The having_tea.
-        /// </summary>
-        public static XName having_tea = XName.Get("having_tea", Name);
-
-        /// <summary>
-        /// The hiking.
-        /// </summary>
-        public static XName hiking = XName.Get("hiking", Name);
-
-        /// <summary>
-        /// The in_a_car.
-        /// </summary>
-        public static XName in_a_car = XName.Get("in_a_car", Name);
-
-        /// <summary>
-        /// The in_a_meeting.
-        /// </summary>
-        public static XName in_a_meeting = XName.Get("in_a_meeting", Name);
-
-        /// <summary>
-        /// The in_real_life.
-        /// </summary>
-        public static XName in_real_life = XName.Get("in_real_life", Name);
-
-        /// <summary>
-        /// The jogging.
-        /// </summary>
-        public static XName jogging = XName.Get("jogging", Name);
-
-        /// <summary>
-        /// The on_a_bus.
-        /// </summary>
-        public static XName on_a_bus = XName.Get("on_a_bus", Name);
-
-        /// <summary>
-        /// The on_a_plane.
-        /// </summary>
-        public static XName on_a_plane = XName.Get("on_a_plane", Name);
-
-        /// <summary>
-        /// The on_a_train.
-        /// </summary>
-        public static XName on_a_train = XName.Get("on_a_train", Name);
-
-        /// <summary>
-        /// The on_a_trip.
-        /// </summary>
-        public static XName on_a_trip = XName.Get("on_a_trip", Name);
-
-        /// <summary>
-        /// The on_the_phone.
-        /// </summary>
-        public static XName on_the_phone = XName.Get("on_the_phone", Name);
-
-        /// <summary>
-        /// The on_vacation.
-        /// </summary>
-        public static XName on_vacation = XName.Get("on_vacation", Name);
-
-        /// <summary>
-        /// The other.
-        /// </summary>
-        public static XName other = XName.Get("other", Name);
-
-        /// <summary>
-        /// The partying.
-        /// </summary>
-        public static XName partying = XName.Get("partying", Name);
-
-        /// <summary>
-        /// The playing_sports.
-        /// </summary>
-        public static XName playing_sports = XName.Get("playing_sports", Name);
-
-        /// <summary>
-        /// The reading.
-        /// </summary>
-        public static XName reading = XName.Get("reading", Name);
-
-        /// <summary>
-        /// The rehearsing.
-        /// </summary>
-        public static XName rehearsing = XName.Get("rehearsing", Name);
-
-        /// <summary>
-        /// The running.
-        /// </summary>
-        public static XName running = XName.Get("running", Name);
-
-        /// <summary>
-        /// The running_an_errand.
-        /// </summary>
-        public static XName running_an_errand = XName.Get("running_an_errand", Name);
-
-        /// <summary>
-        /// The scheduled_holiday.
-        /// </summary>
-        public static XName scheduled_holiday = XName.Get("scheduled_holiday", Name);
-
-        /// <summary>
-        /// The shaving.
-        /// </summary>
-        public static XName shaving = XName.Get("shaving", Name);
-
-        /// <summary>
-        /// The shopping.
-        /// </summary>
-        public static XName shopping = XName.Get("shopping", Name);
-
-        /// <summary>
-        /// The skiing.
-        /// </summary>
-        public static XName skiing = XName.Get("skiing", Name);
-
-        /// <summary>
-        /// The sleeping.
-        /// </summary>
-        public static XName sleeping = XName.Get("sleeping", Name);
-
-        /// <summary>
-        /// The socializing.
-        /// </summary>
-        public static XName socializing = XName.Get("socializing", Name);
-
-        /// <summary>
-        /// The studying.
-        /// </summary>
-        public static XName studying = XName.Get("studying", Name);
-
-        /// <summary>
-        /// The sunbathing.
-        /// </summary>
-        public static XName sunbathing = XName.Get("sunbathing", Name);
-
-        /// <summary>
-        /// The swimming.
-        /// </summary>
-        public static XName swimming = XName.Get("swimming", Name);
-
-        /// <summary>
-        /// The taking_a_bath.
-        /// </summary>
-        public static XName taking_a_bath = XName.Get("taking_a_bath", Name);
-
-        /// <summary>
-        /// The taking_a_shower.
-        /// </summary>
-        public static XName taking_a_shower = XName.Get("taking_a_shower", Name);
-
-        /// <summary>
-        /// The walking.
-        /// </summary>
-        public static XName walking = XName.Get("walking", Name);
-
-        /// <summary>
-        /// The walking_the_dog.
-        /// </summary>
-        public static XName walking_the_dog = XName.Get("walking_the_dog", Name);
-
-        /// <summary>
-        /// The watching_tv.
-        /// </summary>
-        public static XName watching_tv = XName.Get("watching_tv", Name);
-
-        /// <summary>
-        /// The watching_a_movie.
-        /// </summary>
-        public static XName watching_a_movie = XName.Get("watching_a_movie", Name);
-
-        /// <summary>
-        /// The working_out.
-        /// </summary>
-        public static XName working_out = XName.Get("working_out", Name);
-
-        /// <summary>
-        /// The writing.
-        /// </summary>
-        public static XName writing = XName.Get("writing", Name);
+        public const string Name = "http://jabber.org/protocol/activity";
+
+        public static readonly XName Activity = XName.Get("activity", Name);
+        public static readonly XName DoingChores = XName.Get("doing_chores", Name);
+        public static readonly XName Drinking = XName.Get("drinking", Name);
+        public static readonly XName Eating = XName.Get("eating", Name);
+        public static readonly XName Exercising = XName.Get("exercising", Name);
+        public static readonly XName Grooming = XName.Get("grooming", Name);
+        public static readonly XName HavingAppointment = XName.Get("having_appointment", Name);
+        public static readonly XName Inactive = XName.Get("inactive", Name);
+        public static readonly XName Relaxing = XName.Get("relaxing", Name);
+        public static readonly XName Talking = XName.Get("talking", Name);
+        public static readonly XName Traveling = XName.Get("traveling", Name);
+        public static readonly XName Working = XName.Get("working", Name);
+        public static readonly XName Text = XName.Get("text", Name);
+        public static readonly XName AtTheSpa = XName.Get("at_the_spa", Name);
+        public static readonly XName BrushingTeeth = XName.Get("brushing_teeth", Name);
+        public static readonly XName BuyingGroceries = XName.Get("buying_groceries", Name);
+        public static readonly XName Cleaning = XName.Get("cleaning", Name);
+        public static readonly XName Coding = XName.Get("coding", Name);
+        public static readonly XName Commuting = XName.Get("commuting", Name);
+        public static readonly XName Cooking = XName.Get("cooking", Name);
+        public static readonly XName Cycling = XName.Get("cycling", Name);
+        public static readonly XName DayOff = XName.Get("day_off", Name);
+        public static readonly XName DoingMaintenance = XName.Get("doing_maintenance", Name);
+        public static readonly XName DoingTheDishes = XName.Get("doing_the_dishes", Name);
+        public static readonly XName DoingTheLaundry = XName.Get("doing_the_laundry", Name);
+        public static readonly XName Driving = XName.Get("driving", Name);
+        public static readonly XName Gaming = XName.Get("gaming", Name);
+        public static readonly XName Gardening = XName.Get("gardening", Name);
+        public static readonly XName GettingAHaircut = XName.Get("getting_a_haircut", Name);
+        public static readonly XName GoingOut = XName.Get("going_out", Name);
+        public static readonly XName HangingOut = XName.Get("hanging_out", Name);
+        public static readonly XName HavingABeer = XName.Get("having_a_beer", Name);
+        public static readonly XName HavingASnack = XName.Get("having_a_snack", Name);
+        public static readonly XName HavingBreakfast = XName.Get("having_breakfast", Name);
+        public static readonly XName HavingCoffee = XName.Get("having_coffee", Name);
+        public static readonly XName HavingDinner = XName.Get("having_dinner", Name);
+        public static readonly XName HavingLunch = XName.Get("having_lunch", Name);
+        public static readonly XName HavingTea = XName.Get("having_tea", Name);
+        public static readonly XName Hiking = XName.Get("hiking", Name);
+        public static readonly XName InACar = XName.Get("in_a_car", Name);
+        public static readonly XName InAMeeting = XName.Get("in_a_meeting", Name);
+        public static readonly XName InRealLife = XName.Get("in_real_life", Name);
+        public static readonly XName Jogging = XName.Get("jogging", Name);
+        public static readonly XName OnABus = XName.Get("on_a_bus", Name);
+        public static readonly XName OnAPlane = XName.Get("on_a_plane", Name);
+        public static readonly XName OnATrain = XName.Get("on_a_train", Name);
+        public static readonly XName OnATrip = XName.Get("on_a_trip", Name);
+        public static readonly XName OnThePhone = XName.Get("on_the_phone", Name);
+        public static readonly XName OnVacation = XName.Get("on_vacation", Name);
+        public static readonly XName Other = XName.Get("other", Name);
+        public static readonly XName Partying = XName.Get("partying", Name);
+        public static readonly XName PlayingSports = XName.Get("playing_sports", Name);
+        public static readonly XName Reading = XName.Get("reading", Name);
+        public static readonly XName Rehearsing = XName.Get("rehearsing", Name);
+        public static readonly XName Running = XName.Get("running", Name);
+        public static readonly XName RunningAnErrand = XName.Get("running_an_errand", Name);
+        public static readonly XName ScheduledHoliday = XName.Get("scheduled_holiday", Name);
+        public static readonly XName Shaving = XName.Get("shaving", Name);
+        public static readonly XName Shopping = XName.Get("shopping", Name);
+        public static readonly XName Skiing = XName.Get("skiing", Name);
+        public static readonly XName Sleeping = XName.Get("sleeping", Name);
+        public static readonly XName Socializing = XName.Get("socializing", Name);
+        public static readonly XName Studying = XName.Get("studying", Name);
+        public static readonly XName Sunbathing = XName.Get("sunbathing", Name);
+        public static readonly XName Swimming = XName.Get("swimming", Name);
+        public static readonly XName TakingABath = XName.Get("taking_a_bath", Name);
+        public static readonly XName TakingAShower = XName.Get("taking_a_shower", Name);
+        public static readonly XName Walking = XName.Get("walking", Name);
+        public static readonly XName WalkingTheDog = XName.Get("walking_the_dog", Name);
+        public static readonly XName WatchingTv = XName.Get("watching_tv", Name);
+        public static readonly XName WatchingAMovie = XName.Get("watching_a_movie", Name);
+        public static readonly XName WorkingOut = XName.Get("working_out", Name);
+        public static readonly XName Writing = XName.Get("writing", Name);
     }
-
 
-    /// <summary>
-    /// The activity.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(activity))]
-    public class activity : Tag
+    [XmppTag(typeof(Namespace), typeof(Activity))]
+    public class Activity : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="activity"/> class.
-        /// </summary>
-        public activity() : base(Namespace.activity)
+        public Activity() : base(Namespace.Activity)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="activity"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public activity(XElement other) : base(other)
+        public Activity(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the doing_chores elements.
-        /// </summary>
-        public IEnumerable<doing_chores> doing_choresElements
+        public IEnumerable<DoingChores> DoingChoresElements
         {
-            get { return Elements<doing_chores>(Namespace.doing_chores); }
+            get { return Elements<DoingChores>(Namespace.DoingChores); }
         }
 
-        /// <summary>
-        /// Gets the drinking elements.
-        /// </summary>
-        public IEnumerable<drinking> drinkingElements
+        public IEnumerable<Drinking> DrinkingElements
         {
-            get { return Elements<drinking>(Namespace.drinking); }
+            get { return Elements<Drinking>(Namespace.Drinking); }
         }
 
-        /// <summary>
-        /// Gets the eating elements.
-        /// </summary>
-        public IEnumerable<eating> eatingElements
+        public IEnumerable<Eating> EatingElements
         {
-            get { return Elements<eating>(Namespace.eating); }
+            get { return Elements<Eating>(Namespace.Eating); }
         }
 
-        /// <summary>
-        /// Gets the exercising elements.
-        /// </summary>
-        public IEnumerable<exercising> exercisingElements
+        public IEnumerable<Exercising> ExercisingElements
         {
-            get { return Elements<exercising>(Namespace.exercising); }
+            get { return Elements<Exercising>(Namespace.Exercising); }
         }
 
-        /// <summary>
-        /// Gets the grooming elements.
-        /// </summary>
-        public IEnumerable<grooming> groomingElements
+        public IEnumerable<Grooming> GroomingElements
         {
-            get { return Elements<grooming>(Namespace.grooming); }
+            get { return Elements<Grooming>(Namespace.Grooming); }
         }
 
-        /// <summary>
-        /// Gets the having_appointment elements.
-        /// </summary>
-        public IEnumerable<having_appointment> having_appointmentElements
+        public IEnumerable<HavingAppointment> HavingAppointmentElements
         {
-            get { return Elements<having_appointment>(Namespace.having_appointment); }
+            get { return Elements<HavingAppointment>(Namespace.HavingAppointment); }
         }
 
-        /// <summary>
-        /// Gets the inactive elements.
-        /// </summary>
-        public IEnumerable<inactive> inactiveElements
+        public IEnumerable<Inactive> InactiveElements
         {
-            get { return Elements<inactive>(Namespace.inactive); }
+            get { return Elements<Inactive>(Namespace.Inactive); }
         }
 
-        /// <summary>
-        /// Gets the relaxing elements.
-        /// </summary>
-        public IEnumerable<relaxing> relaxingElements
+        public IEnumerable<Relaxing> RelaxingElements
         {
-            get { return Elements<relaxing>(Namespace.relaxing); }
+            get { return Elements<Relaxing>(Namespace.Relaxing); }
         }
 
-        /// <summary>
-        /// Gets the talking elements.
-        /// </summary>
-        public IEnumerable<talking> talkingElements
+        public IEnumerable<Talking> TalkingElements
         {
-            get { return Elements<talking>(Namespace.talking); }
+            get { return Elements<Talking>(Namespace.Talking); }
         }
 
-        /// <summary>
-        /// Gets the traveling elements.
-        /// </summary>
-        public IEnumerable<traveling> travelingElements
+        public IEnumerable<Traveling> TravelingElements
         {
-            get { return Elements<traveling>(Namespace.traveling); }
+            get { return Elements<Traveling>(Namespace.Traveling); }
         }
 
-        /// <summary>
-        /// Gets the working elements.
-        /// </summary>
-        public IEnumerable<working> workingElements
+        public IEnumerable<Working> WorkingElements
         {
-            get { return Elements<working>(Namespace.working); }
+            get { return Elements<Working>(Namespace.Working); }
         }
 
-        /// <summary>
-        /// Gets the text elements.
-        /// </summary>
-        public IEnumerable<text> textElements
+        public IEnumerable<Text> TextElements
         {
-            get { return Elements<text>(Namespace.text); }
+            get { return Elements<Text>(Namespace.Text); }
         }
     }
 
-    /// <summary>
-    /// The text.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(text))]
-    public class text : Tag
+    [XmppTag(typeof(Namespace), typeof(Text))]
+    public class Text : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="text"/> class.
-        /// </summary>
-        public text() : base(Namespace.text)
+        public Text() : base(Namespace.Text)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="text"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public text(XElement other) : base(other)
+        public Text(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The doing_chores.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(doing_chores))]
-    public class doing_chores : Tag
+    [XmppTag(typeof(Namespace), typeof(DoingChores))]
+    public class DoingChores : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="doing_chores"/> class.
-        /// </summary>
-        public doing_chores() : base(Namespace.doing_chores)
+        public DoingChores() : base(Namespace.DoingChores)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="doing_chores"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public doing_chores(XElement other) : base(other)
+        public DoingChores(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The drinking.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(drinking))]
-    public class drinking : Tag
+    [XmppTag(typeof(Namespace), typeof(Drinking))]
+    public class Drinking : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="drinking"/> class.
-        /// </summary>
-        public drinking() : base(Namespace.drinking)
+        public Drinking() : base(Namespace.Drinking)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="drinking"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public drinking(XElement other) : base(other)
+        public Drinking(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The eating.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(eating))]
-    public class eating : Tag
+    [XmppTag(typeof(Namespace), typeof(Eating))]
+    public class Eating : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="eating"/> class.
-        /// </summary>
-        public eating() : base(Namespace.eating)
+        public Eating() : base(Namespace.Eating)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="eating"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public eating(XElement other) : base(other)
+        public Eating(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The exercising.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(exercising))]
-    public class exercising : Tag
+    [XmppTag(typeof(Namespace), typeof(Exercising))]
+    public class Exercising : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="exercising"/> class.
-        /// </summary>
-        public exercising() : base(Namespace.exercising)
+        public Exercising() : base(Namespace.Exercising)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="exercising"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public exercising(XElement other) : base(other)
+        public Exercising(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The grooming.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(grooming))]
-    public class grooming : Tag
+    [XmppTag(typeof(Namespace), typeof(Grooming))]
+    public class Grooming : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="grooming"/> class.
-        /// </summary>
-        public grooming() : base(Namespace.grooming)
+        public Grooming()
+            : base(Namespace.Grooming)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="grooming"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public grooming(XElement other) : base(other)
+        public Grooming(XElement other)
+            : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The having_appointment.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(having_appointment))]
-    public class having_appointment : Tag
+    [XmppTag(typeof(Namespace), typeof(HavingAppointment))]
+    public class HavingAppointment : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_appointment"/> class.
-        /// </summary>
-        public having_appointment() : base(Namespace.having_appointment)
+        public HavingAppointment() : base(Namespace.HavingAppointment)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_appointment"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public having_appointment(XElement other) : base(other)
+        public HavingAppointment(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The inactive.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(inactive))]
-    public class inactive : Tag
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="inactive"/> class.
-        /// </summary>
-        public inactive() : base(Namespace.inactive)
+    [XmppTag(typeof(Namespace), typeof(Inactive))]
+    public class Inactive : Tag
+    {
+        public Inactive() : base(Namespace.Inactive)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="inactive"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public inactive(XElement other) : base(other)
+        public Inactive(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The relaxing.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(relaxing))]
-    public class relaxing : Tag
+    [XmppTag(typeof(Namespace), typeof(Relaxing))]
+    public class Relaxing : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="relaxing"/> class.
-        /// </summary>
-        public relaxing() : base(Namespace.relaxing)
+        public Relaxing() : base(Namespace.Relaxing)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="relaxing"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public relaxing(XElement other) : base(other)
+        public Relaxing(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The talking.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(talking))]
-    public class talking : Tag
+    [XmppTag(typeof(Namespace), typeof(Talking))]
+    public class Talking : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="talking"/> class.
-        /// </summary>
-        public talking() : base(Namespace.talking)
+        public Talking() : base(Namespace.Talking)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="talking"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public talking(XElement other) : base(other)
+        public Talking(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The traveling.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(traveling))]
-    public class traveling : Tag
+    [XmppTag(typeof(Namespace), typeof(Traveling))]
+    public class Traveling : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="traveling"/> class.
-        /// </summary>
-        public traveling() : base(Namespace.traveling)
+        public Traveling() : base(Namespace.Traveling)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="traveling"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public traveling(XElement other) : base(other)
+        public Traveling(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The working.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(working))]
-    public class working : Tag
+    [XmppTag(typeof(Namespace), typeof(Working))]
+    public class Working : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="working"/> class.
-        /// </summary>
-        public working() : base(Namespace.working)
+        public Working() : base(Namespace.Working)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="working"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public working(XElement other) : base(other)
+        public Working(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The at_the_spa.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(at_the_spa))]
-    public class at_the_spa : Tag
+    [XmppTag(typeof(Namespace), typeof(AtTheSpa))]
+    public class AtTheSpa : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="at_the_spa"/> class.
-        /// </summary>
-        public at_the_spa() : base(Namespace.at_the_spa)
+        public AtTheSpa() : base(Namespace.AtTheSpa)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="at_the_spa"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public at_the_spa(XElement other) : base(other)
+        public AtTheSpa(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The brushing_teeth.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(brushing_teeth))]
-    public class brushing_teeth : Tag
+    [XmppTag(typeof(Namespace), typeof(BrushingTeeth))]
+    public class BrushingTeeth : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="brushing_teeth"/> class.
-        /// </summary>
-        public brushing_teeth() : base(Namespace.brushing_teeth)
+        public BrushingTeeth() : base(Namespace.BrushingTeeth)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="brushing_teeth"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public brushing_teeth(XElement other) : base(other)
+        public BrushingTeeth(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The buying_groceries.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(buying_groceries))]
-    public class buying_groceries : Tag
+    [XmppTag(typeof(Namespace), typeof(BuyingGroceries))]
+    public class BuyingGroceries : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="buying_groceries"/> class.
-        /// </summary>
-        public buying_groceries() : base(Namespace.buying_groceries)
+        public BuyingGroceries() : base(Namespace.BuyingGroceries)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="buying_groceries"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public buying_groceries(XElement other) : base(other)
+        public BuyingGroceries(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The cleaning.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(cleaning))]
-    public class cleaning : Tag
+    [XmppTag(typeof(Namespace), typeof(Cleaning))]
+    public class Cleaning : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="cleaning"/> class.
-        /// </summary>
-        public cleaning() : base(Namespace.cleaning)
+        public Cleaning() : base(Namespace.Cleaning)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="cleaning"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public cleaning(XElement other) : base(other)
+        public Cleaning(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The coding.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(coding))]
-    public class coding : Tag
+    [XmppTag(typeof(Namespace), typeof(Coding))]
+    public class Coding : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="coding"/> class.
-        /// </summary>
-        public coding() : base(Namespace.coding)
+        public Coding() : base(Namespace.Coding)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="coding"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public coding(XElement other) : base(other)
+        public Coding(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The commuting.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(commuting))]
-    public class commuting : Tag
+    [XmppTag(typeof(Namespace), typeof(Commuting))]
+    public class Commuting : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="commuting"/> class.
-        /// </summary>
-        public commuting() : base(Namespace.commuting)
+        public Commuting() : base(Namespace.Commuting)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="commuting"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public commuting(XElement other) : base(other)
+        public Commuting(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The cooking.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(cooking))]
-    public class cooking : Tag
+    [XmppTag(typeof(Namespace), typeof(Cooking))]
+    public class Cooking : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="cooking"/> class.
-        /// </summary>
-        public cooking() : base(Namespace.cooking)
+        public Cooking() : base(Namespace.Cooking)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="cooking"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public cooking(XElement other) : base(other)
+        public Cooking(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The cycling.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(cycling))]
-    public class cycling : Tag
+    [XmppTag(typeof(Namespace), typeof(Cycling))]
+    public class Cycling : Tag
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="cycling"/> class.
+        /// Initializes a new instance of the <see cref="Cycling"/> class.
         /// </summary>
-        public cycling() : base(Namespace.cycling)
+        public Cycling() : base(Namespace.Cycling)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="cycling"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public cycling(XElement other) : base(other)
+        public Cycling(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The day_off.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(day_off))]
-    public class day_off : Tag
+    [XmppTag(typeof(Namespace), typeof(DayOff))]
+    public class DayOff : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="day_off"/> class.
-        /// </summary>
-        public day_off() : base(Namespace.day_off)
+        public DayOff() : base(Namespace.DayOff)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="day_off"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public day_off(XElement other) : base(other)
+        public DayOff(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The doing_maintenance.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(doing_maintenance))]
-    public class doing_maintenance : Tag
+    [XmppTag(typeof(Namespace), typeof(DoingMaintenance))]
+    public class DoingMaintenance : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="doing_maintenance"/> class.
-        /// </summary>
-        public doing_maintenance() : base(Namespace.doing_maintenance)
+        public DoingMaintenance() : base(Namespace.DoingMaintenance)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="doing_maintenance"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public doing_maintenance(XElement other) : base(other)
+        public DoingMaintenance(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The doing_the_dishes.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(doing_the_dishes))]
-    public class doing_the_dishes : Tag
+    [XmppTag(typeof(Namespace), typeof(DoingTheDishes))]
+    public class DoingTheDishes : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="doing_the_dishes"/> class.
-        /// </summary>
-        public doing_the_dishes() : base(Namespace.doing_the_dishes)
+        public DoingTheDishes() : base(Namespace.DoingTheDishes)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="doing_the_dishes"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public doing_the_dishes(XElement other) : base(other)
+        public DoingTheDishes(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The doing_the_laundry.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(doing_the_laundry))]
-    public class doing_the_laundry : Tag
+    [XmppTag(typeof(Namespace), typeof(DoingTheLaundry))]
+    public class DoingTheLaundry : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="doing_the_laundry"/> class.
-        /// </summary>
-        public doing_the_laundry() : base(Namespace.doing_the_laundry)
+        public DoingTheLaundry() : base(Namespace.DoingTheLaundry)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="doing_the_laundry"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public doing_the_laundry(XElement other) : base(other)
+        public DoingTheLaundry(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The driving.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(driving))]
-    public class driving : Tag
+    [XmppTag(typeof(Namespace), typeof(Driving))]
+    public class Driving : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="driving"/> class.
-        /// </summary>
-        public driving() : base(Namespace.driving)
+        public Driving() : base(Namespace.Driving)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="driving"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public driving(XElement other) : base(other)
+        public Driving(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The gaming.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(gaming))]
-    public class gaming : Tag
+    [XmppTag(typeof(Namespace), typeof(Gaming))]
+    public class Gaming : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="gaming"/> class.
-        /// </summary>
-        public gaming() : base(Namespace.gaming)
+        public Gaming() : base(Namespace.Gaming)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="gaming"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public gaming(XElement other) : base(other)
+        public Gaming(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The gardening.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(gardening))]
-    public class gardening : Tag
+    [XmppTag(typeof(Namespace), typeof(Gardening))]
+    public class Gardening : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="gardening"/> class.
-        /// </summary>
-        public gardening() : base(Namespace.gardening)
+        public Gardening() : base(Namespace.Gardening)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="gardening"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public gardening(XElement other) : base(other)
+        public Gardening(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The getting_a_haircut.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(getting_a_haircut))]
-    public class getting_a_haircut : Tag
+    [XmppTag(typeof(Namespace), typeof(GettingAHaircut))]
+    public class GettingAHaircut : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="getting_a_haircut"/> class.
-        /// </summary>
-        public getting_a_haircut() : base(Namespace.getting_a_haircut)
+        public GettingAHaircut() : base(Namespace.GettingAHaircut)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="getting_a_haircut"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public getting_a_haircut(XElement other) : base(other)
+        public GettingAHaircut(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The going_out.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(going_out))]
-    public class going_out : Tag
+    [XmppTag(typeof(Namespace), typeof(GoingOut))]
+    public class GoingOut : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="going_out"/> class.
-        /// </summary>
-        public going_out() : base(Namespace.going_out)
+        public GoingOut() : base(Namespace.GoingOut)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="going_out"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public going_out(XElement other) : base(other)
+        public GoingOut(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The hanging_out.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(hanging_out))]
-    public class hanging_out : Tag
+    [XmppTag(typeof(Namespace), typeof(HangingOut))]
+    public class HangingOut : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="hanging_out"/> class.
-        /// </summary>
-        public hanging_out() : base(Namespace.hanging_out)
+        public HangingOut() : base(Namespace.HangingOut)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="hanging_out"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public hanging_out(XElement other) : base(other)
+        public HangingOut(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The having_a_beer.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(having_a_beer))]
-    public class having_a_beer : Tag
+    [XmppTag(typeof(Namespace), typeof(HavingABeer))]
+    public class HavingABeer : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_a_beer"/> class.
-        /// </summary>
-        public having_a_beer() : base(Namespace.having_a_beer)
+        public HavingABeer() : base(Namespace.HavingABeer)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_a_beer"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public having_a_beer(XElement other) : base(other)
+        public HavingABeer(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The having_a_snack.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(having_a_snack))]
-    public class having_a_snack : Tag
+    [XmppTag(typeof(Namespace), typeof(HavingASnack))]
+    public class HavingASnack : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_a_snack"/> class.
-        /// </summary>
-        public having_a_snack() : base(Namespace.having_a_snack)
+        public HavingASnack() : base(Namespace.HavingASnack)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_a_snack"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public having_a_snack(XElement other) : base(other)
+        public HavingASnack(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The having_breakfast.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(having_breakfast))]
-    public class having_breakfast : Tag
+    [XmppTag(typeof(Namespace), typeof(HavingBreakfast))]
+    public class HavingBreakfast : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_breakfast"/> class.
-        /// </summary>
-        public having_breakfast() : base(Namespace.having_breakfast)
+        public HavingBreakfast() : base(Namespace.HavingBreakfast)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_breakfast"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public having_breakfast(XElement other) : base(other)
+        public HavingBreakfast(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The having_coffee.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(having_coffee))]
-    public class having_coffee : Tag
+    [XmppTag(typeof(Namespace), typeof(HavingCoffee))]
+    public class HavingCoffee : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_coffee"/> class.
-        /// </summary>
-        public having_coffee() : base(Namespace.having_coffee)
+        public HavingCoffee() : base(Namespace.HavingCoffee)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_coffee"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public having_coffee(XElement other) : base(other)
+        public HavingCoffee(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The having_dinner.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(having_dinner))]
-    public class having_dinner : Tag
+    [XmppTag(typeof(Namespace), typeof(HavingDinner))]
+    public class HavingDinner : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_dinner"/> class.
-        /// </summary>
-        public having_dinner() : base(Namespace.having_dinner)
+        public HavingDinner() : base(Namespace.HavingDinner)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_dinner"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public having_dinner(XElement other) : base(other)
+        public HavingDinner(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The having_lunch.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(having_lunch))]
-    public class having_lunch : Tag
+    [XmppTag(typeof(Namespace), typeof(HavingLunch))]
+    public class HavingLunch : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_lunch"/> class.
-        /// </summary>
-        public having_lunch() : base(Namespace.having_lunch)
+        public HavingLunch() : base(Namespace.HavingLunch)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_lunch"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public having_lunch(XElement other) : base(other)
+        public HavingLunch(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The having_tea.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(having_tea))]
-    public class having_tea : Tag
+    [XmppTag(typeof(Namespace), typeof(HavingTea))]
+    public class HavingTea : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_tea"/> class.
-        /// </summary>
-        public having_tea() : base(Namespace.having_tea)
+        public HavingTea() : base(Namespace.HavingTea)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="having_tea"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public having_tea(XElement other) : base(other)
+        public HavingTea(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The hiking.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(hiking))]
-    public class hiking : Tag
+    [XmppTag(typeof(Namespace), typeof(Hiking))]
+    public class Hiking : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="hiking"/> class.
-        /// </summary>
-        public hiking() : base(Namespace.hiking)
+        public Hiking() : base(Namespace.Hiking)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="hiking"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public hiking(XElement other) : base(other)
+        public Hiking(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The in_a_car.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(in_a_car))]
-    public class in_a_car : Tag
+    [XmppTag(typeof(Namespace), typeof(InACar))]
+    public class InACar : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="in_a_car"/> class.
-        /// </summary>
-        public in_a_car() : base(Namespace.in_a_car)
+        public InACar() : base(Namespace.InACar)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="in_a_car"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public in_a_car(XElement other) : base(other)
+        public InACar(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The in_a_meeting.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(in_a_meeting))]
-    public class in_a_meeting : Tag
+    [XmppTag(typeof(Namespace), typeof(InAMeeting))]
+    public class InAMeeting : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="in_a_meeting"/> class.
-        /// </summary>
-        public in_a_meeting() : base(Namespace.in_a_meeting)
+        public InAMeeting() : base(Namespace.InAMeeting)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="in_a_meeting"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public in_a_meeting(XElement other) : base(other)
+        public InAMeeting(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The in_real_life.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(in_real_life))]
-    public class in_real_life : Tag
+    [XmppTag(typeof(Namespace), typeof(InRealLife))]
+    public class InRealLife : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="in_real_life"/> class.
-        /// </summary>
-        public in_real_life() : base(Namespace.in_real_life)
+        public InRealLife() : base(Namespace.InRealLife)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="in_real_life"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public in_real_life(XElement other) : base(other)
+        public InRealLife(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The jogging.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(jogging))]
-    public class jogging : Tag
+    [XmppTag(typeof(Namespace), typeof(Jogging))]
+    public class Jogging : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="jogging"/> class.
-        /// </summary>
-        public jogging() : base(Namespace.jogging)
+        public Jogging() : base(Namespace.Jogging)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="jogging"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public jogging(XElement other) : base(other)
+        public Jogging(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The on_a_bus.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(on_a_bus))]
-    public class on_a_bus : Tag
+    [XmppTag(typeof(Namespace), typeof(OnABus))]
+    public class OnABus : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_a_bus"/> class.
-        /// </summary>
-        public on_a_bus() : base(Namespace.on_a_bus)
+        public OnABus() : base(Namespace.OnABus)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_a_bus"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public on_a_bus(XElement other) : base(other)
+        public OnABus(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The on_a_plane.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(on_a_plane))]
-    public class on_a_plane : Tag
+    [XmppTag(typeof(Namespace), typeof(OnAPlane))]
+    public class OnAPlane : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_a_plane"/> class.
-        /// </summary>
-        public on_a_plane() : base(Namespace.on_a_plane)
+        public OnAPlane() : base(Namespace.OnAPlane)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_a_plane"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public on_a_plane(XElement other) : base(other)
+        public OnAPlane(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The on_a_train.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(on_a_train))]
-    public class on_a_train : Tag
+    [XmppTag(typeof(Namespace), typeof(OnATrain))]
+    public class OnATrain : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_a_train"/> class.
-        /// </summary>
-        public on_a_train() : base(Namespace.on_a_train)
+        public OnATrain() : base(Namespace.OnATrain)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_a_train"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public on_a_train(XElement other) : base(other)
+        public OnATrain(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The on_a_trip.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(on_a_trip))]
-    public class on_a_trip : Tag
+    [XmppTag(typeof(Namespace), typeof(OnATrip))]
+    public class OnATrip : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_a_trip"/> class.
-        /// </summary>
-        public on_a_trip() : base(Namespace.on_a_trip)
+        public OnATrip() : base(Namespace.OnATrip)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_a_trip"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public on_a_trip(XElement other) : base(other)
+        public OnATrip(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The on_the_phone.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(on_the_phone))]
-    public class on_the_phone : Tag
+    [XmppTag(typeof(Namespace), typeof(OnThePhone))]
+    public class OnThePhone : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_the_phone"/> class.
-        /// </summary>
-        public on_the_phone() : base(Namespace.on_the_phone)
+        public OnThePhone() : base(Namespace.OnThePhone)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_the_phone"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public on_the_phone(XElement other) : base(other)
+        public OnThePhone(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The on_vacation.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(on_vacation))]
-    public class on_vacation : Tag
+    [XmppTag(typeof(Namespace), typeof(OnVacation))]
+    public class OnVacation : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_vacation"/> class.
-        /// </summary>
-        public on_vacation() : base(Namespace.on_vacation)
+        public OnVacation() : base(Namespace.OnVacation)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="on_vacation"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public on_vacation(XElement other) : base(other)
+        public OnVacation(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The other.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(other))]
-    public class other : Tag
+    [XmppTag(typeof(Namespace), typeof(Other))]
+    public class Other : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="other"/> class.
-        /// </summary>
-        public other() : base(Namespace.other)
+        public Other() : base(Namespace.Other)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="other"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public other(XElement other) : base(other)
+        public Other(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The partying.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(partying))]
-    public class partying : Tag
+    [XmppTag(typeof(Namespace), typeof(Partying))]
+    public class Partying : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="partying"/> class.
-        /// </summary>
-        public partying() : base(Namespace.partying)
+        public Partying() : base(Namespace.Partying)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="partying"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public partying(XElement other) : base(other)
+        public Partying(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The playing_sports.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(playing_sports))]
-    public class playing_sports : Tag
+    [XmppTag(typeof(Namespace), typeof(PlayingSports))]
+    public class PlayingSports : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="playing_sports"/> class.
-        /// </summary>
-        public playing_sports() : base(Namespace.playing_sports)
+        public PlayingSports() : base(Namespace.PlayingSports)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="playing_sports"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public playing_sports(XElement other) : base(other)
+        public PlayingSports(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The reading.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(reading))]
-    public class reading : Tag
+    [XmppTag(typeof(Namespace), typeof(Reading))]
+    public class Reading : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="reading"/> class.
-        /// </summary>
-        public reading() : base(Namespace.reading)
+        public Reading() : base(Namespace.Reading)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="reading"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public reading(XElement other) : base(other)
+        public Reading(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The rehearsing.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(rehearsing))]
-    public class rehearsing : Tag
+    [XmppTag(typeof(Namespace), typeof(Rehearsing))]
+    public class Rehearsing : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="rehearsing"/> class.
-        /// </summary>
-        public rehearsing() : base(Namespace.rehearsing)
+        public Rehearsing() : base(Namespace.Rehearsing)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="rehearsing"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public rehearsing(XElement other) : base(other)
+        public Rehearsing(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The running.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(running))]
-    public class running : Tag
+    [XmppTag(typeof(Namespace), typeof(Running))]
+    public class Running : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="running"/> class.
-        /// </summary>
-        public running() : base(Namespace.running)
+        public Running() : base(Namespace.Running)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="running"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public running(XElement other) : base(other)
+        public Running(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The running_an_errand.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(running_an_errand))]
-    public class running_an_errand : Tag
+    [XmppTag(typeof(Namespace), typeof(RunningAnErrand))]
+    public class RunningAnErrand : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="running_an_errand"/> class.
-        /// </summary>
-        public running_an_errand() : base(Namespace.running_an_errand)
+        public RunningAnErrand() : base(Namespace.RunningAnErrand)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="running_an_errand"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public running_an_errand(XElement other) : base(other)
+        public RunningAnErrand(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The scheduled_holiday.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(scheduled_holiday))]
-    public class scheduled_holiday : Tag
+    [XmppTag(typeof(Namespace), typeof(ScheduledHoliday))]
+    public class ScheduledHoliday : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="scheduled_holiday"/> class.
-        /// </summary>
-        public scheduled_holiday() : base(Namespace.scheduled_holiday)
+        public ScheduledHoliday() : base(Namespace.ScheduledHoliday)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="scheduled_holiday"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public scheduled_holiday(XElement other) : base(other)
+        public ScheduledHoliday(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The shaving.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(shaving))]
-    public class shaving : Tag
+    [XmppTag(typeof(Namespace), typeof(Shaving))]
+    public class Shaving : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="shaving"/> class.
-        /// </summary>
-        public shaving() : base(Namespace.shaving)
+        public Shaving() : base(Namespace.Shaving)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="shaving"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public shaving(XElement other) : base(other)
+        public Shaving(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The shopping.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(shopping))]
-    public class shopping : Tag
+    [XmppTag(typeof(Namespace), typeof(Shopping))]
+    public class Shopping : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="shopping"/> class.
-        /// </summary>
-        public shopping() : base(Namespace.shopping)
+        public Shopping() : base(Namespace.Shopping)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="shopping"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public shopping(XElement other) : base(other)
+        public Shopping(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The skiing.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(skiing))]
-    public class skiing : Tag
+    [XmppTag(typeof(Namespace), typeof(Skiing))]
+    public class Skiing : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="skiing"/> class.
-        /// </summary>
-        public skiing() : base(Namespace.skiing)
+        public Skiing() : base(Namespace.Skiing)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="skiing"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public skiing(XElement other) : base(other)
+        public Skiing(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The sleeping.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(sleeping))]
-    public class sleeping : Tag
+    [XmppTag(typeof(Namespace), typeof(Sleeping))]
+    public class Sleeping : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="sleeping"/> class.
-        /// </summary>
-        public sleeping() : base(Namespace.sleeping)
+        public Sleeping() : base(Namespace.Sleeping)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="sleeping"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public sleeping(XElement other) : base(other)
+        public Sleeping(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The socializing.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(socializing))]
-    public class socializing : Tag
+    [XmppTag(typeof(Namespace), typeof(Socializing))]
+    public class Socializing : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="socializing"/> class.
-        /// </summary>
-        public socializing() : base(Namespace.socializing)
+        public Socializing() : base(Namespace.Socializing)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="socializing"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public socializing(XElement other) : base(other)
+        public Socializing(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The studying.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(studying))]
-    public class studying : Tag
+    [XmppTag(typeof(Namespace), typeof(Studying))]
+    public class Studying : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="studying"/> class.
-        /// </summary>
-        public studying() : base(Namespace.studying)
+        public Studying() : base(Namespace.Studying)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="studying"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public studying(XElement other) : base(other)
+        public Studying(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The sunbathing.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(sunbathing))]
-    public class sunbathing : Tag
+    [XmppTag(typeof(Namespace), typeof(Sunbathing))]
+    public class Sunbathing : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="sunbathing"/> class.
-        /// </summary>
-        public sunbathing() : base(Namespace.sunbathing)
+        public Sunbathing() : base(Namespace.Sunbathing)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="sunbathing"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public sunbathing(XElement other) : base(other)
+        public Sunbathing(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The swimming.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(swimming))]
-    public class swimming : Tag
+    [XmppTag(typeof(Namespace), typeof(Swimming))]
+    public class Swimming : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="swimming"/> class.
-        /// </summary>
-        public swimming() : base(Namespace.swimming)
+        public Swimming() : base(Namespace.Swimming)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="swimming"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public swimming(XElement other) : base(other)
+        public Swimming(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The taking_a_bath.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(taking_a_bath))]
-    public class taking_a_bath : Tag
+    [XmppTag(typeof(Namespace), typeof(TakingABath))]
+    public class TakingABath : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="taking_a_bath"/> class.
-        /// </summary>
-        public taking_a_bath() : base(Namespace.taking_a_bath)
+        public TakingABath() : base(Namespace.TakingABath)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="taking_a_bath"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public taking_a_bath(XElement other) : base(other)
+        public TakingABath(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The taking_a_shower.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(taking_a_shower))]
-    public class taking_a_shower : Tag
+    [XmppTag(typeof(Namespace), typeof(TakingAShower))]
+    public class TakingAShower : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="taking_a_shower"/> class.
-        /// </summary>
-        public taking_a_shower() : base(Namespace.taking_a_shower)
+        public TakingAShower() : base(Namespace.TakingAShower)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="taking_a_shower"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public taking_a_shower(XElement other) : base(other)
+        public TakingAShower(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The walking.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(walking))]
-    public class walking : Tag
+    [XmppTag(typeof(Namespace), typeof(Walking))]
+    public class Walking : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="walking"/> class.
-        /// </summary>
-        public walking() : base(Namespace.walking)
+        public Walking() : base(Namespace.Walking)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="walking"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public walking(XElement other) : base(other)
+        public Walking(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The walking_the_dog.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(walking_the_dog))]
-    public class walking_the_dog : Tag
+    [XmppTag(typeof(Namespace), typeof(WalkingTheDog))]
+    public class WalkingTheDog : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="walking_the_dog"/> class.
-        /// </summary>
-        public walking_the_dog() : base(Namespace.walking_the_dog)
+        public WalkingTheDog() : base(Namespace.WalkingTheDog)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="walking_the_dog"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public walking_the_dog(XElement other) : base(other)
+        public WalkingTheDog(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The watching_tv.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(watching_tv))]
-    public class watching_tv : Tag
+    [XmppTag(typeof(Namespace), typeof(WatchingTv))]
+    public class WatchingTv : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="watching_tv"/> class.
-        /// </summary>
-        public watching_tv() : base(Namespace.watching_tv)
+        public WatchingTv() : base(Namespace.WatchingTv)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="watching_tv"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public watching_tv(XElement other) : base(other)
+        public WatchingTv(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The watching_a_movie.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(watching_a_movie))]
-    public class watching_a_movie : Tag
+    [XmppTag(typeof(Namespace), typeof(WatchingAMovie))]
+    public class WatchingAMovie : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="watching_a_movie"/> class.
-        /// </summary>
-        public watching_a_movie() : base(Namespace.watching_a_movie)
+        public WatchingAMovie() : base(Namespace.WatchingAMovie)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="watching_a_movie"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public watching_a_movie(XElement other) : base(other)
+        public WatchingAMovie(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The working_out.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(working_out))]
-    public class working_out : Tag
+    [XmppTag(typeof(Namespace), typeof(WorkingOut))]
+    public class WorkingOut : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="working_out"/> class.
-        /// </summary>
-        public working_out() : base(Namespace.working_out)
+        public WorkingOut() : base(Namespace.WorkingOut)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="working_out"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public working_out(XElement other) : base(other)
+        public WorkingOut(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The writing.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(writing))]
-    public class writing : Tag
+    [XmppTag(typeof(Namespace), typeof(Writing))]
+    public class Writing : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="writing"/> class.
-        /// </summary>
-        public writing() : base(Namespace.writing)
+        public Writing() : base(Namespace.Writing)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="writing"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public writing(XElement other) : base(other)
+        public Writing(XElement other) : base(other)
         {
         }
     }

@@ -53,31 +53,31 @@ namespace XMPP.Tags.Jabber.Client
         {
         }
 
-        public string From
+        public string FromAttr
         {
             get { return (string)GetAttributeValue("from"); }
             set { SetAttributeValue("from", value); }
         }
 
-        public string To
+        public string ToAttr
         {
             get { return (string)GetAttributeValue("to"); }
             set { SetAttributeValue("to", value); }
         }
 
-        public TypeEnum Type
+        public TypeEnum TypeAttr
         {
             get { return GetAttributeEnum<TypeEnum>("type"); }
             set { SetAttributeEnum<TypeEnum>("type", value); }
         }
 
-        public string Id
+        public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
             set { SetAttributeValue("id", value); }
         }
 
-        public string Lang
+        public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
             set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
@@ -120,7 +120,7 @@ namespace XMPP.Tags.Jabber.Client
         {
         }
 
-        public string Lang
+        public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
             set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
@@ -138,7 +138,7 @@ namespace XMPP.Tags.Jabber.Client
         {
         }
 
-        public string Lang
+        public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
             set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
@@ -181,39 +181,39 @@ namespace XMPP.Tags.Jabber.Client
 
         public Presence() : base(Namespace.Presence)
         {
-            Id = NextId();
+            IdAttr = NextId();
         }
 
         public Presence(XElement other) : base(other)
         {
-            Id = NextId();
+            IdAttr = NextId();
         }
 
-        public string From
+        public string FromAttr
         {
             get { return (string)GetAttributeValue("from"); }
             set { SetAttributeValue("from", value); }
         }
 
-        public string To
+        public string ToAttr
         {
             get { return (string)GetAttributeValue("to"); }
             set { SetAttributeValue("to", value); }
         }
 
-        public TypeEnum Type
+        public TypeEnum TypeAttr
         {
             get { return GetAttributeEnum<TypeEnum>("type"); }
             set { SetAttributeEnum<TypeEnum>("type", value); }
         }
 
-        public string Id
+        public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
             set { SetAttributeValue("id", value); }
         }
 
-        public string Lang
+        public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
             set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
@@ -262,7 +262,7 @@ namespace XMPP.Tags.Jabber.Client
 
         public new ValueEnum Value
         {
-            get { return (ValueEnum) Enum.Parse(typeof(ValueEnum), base.Value, true); }
+            get { return (ValueEnum)Enum.Parse(typeof(ValueEnum), base.Value, true); }
             set { base.Value = value.ToString(); }
         }
     }
@@ -278,7 +278,7 @@ namespace XMPP.Tags.Jabber.Client
         {
         }
 
-        public string Lang
+        public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
             set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
@@ -337,31 +337,31 @@ namespace XMPP.Tags.Jabber.Client
         {
         }
 
-        public string From
+        public string FromAttr
         {
-            get { return (string) GetAttributeValue("from"); }
+            get { return (string)GetAttributeValue("from"); }
             set { SetAttributeValue("from", value); }
         }
 
-        public string To
+        public string ToAttr
         {
             get { return (string)GetAttributeValue("to"); }
             set { SetAttributeValue("to", value); }
         }
 
-        public TypeEnum Type
+        public TypeEnum TypeAttr
         {
             get { return GetAttributeEnum<TypeEnum>("type"); }
             set { SetAttributeEnum<TypeEnum>("type", value); }
         }
 
-        public string Id
+        public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
             set { SetAttributeValue("id", value); }
         }
 
-        public string Lang
+        public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
             set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
@@ -399,13 +399,13 @@ namespace XMPP.Tags.Jabber.Client
         {
         }
 
-        public string By
+        public string ByAttr
         {
             get { return (string)GetAttributeValue("by"); }
             set { SetAttributeValue("by", value); }
         }
 
-        public TypeEnum Type
+        public TypeEnum TypeAttr
         {
             get { return GetAttributeEnum<TypeEnum>("type"); }
             set { SetAttributeEnum<TypeEnum>("type", value); }

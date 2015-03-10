@@ -13,93 +13,46 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.Security.Cryptography.Core;
-using XMPP.Ñommon;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;
+using XMPP.Ñommon;
 
 namespace XMPP.SASL
 {
-    /// <summary>
-    /// The m d 5 processor.
-    /// </summary>
-    public class MD5Processor : SASLProcessor
+    public class Md5Processor : SaslProcessor
     {
-        /// <summary>
-        /// The _csv.
-        /// </summary>
-        private readonly Regex _csv = new Regex(@"(?<tag>[^=]+)=(?:(?<data>[^,""]+)|(?:""(?<data>[^""]*)"")),?", 
+        private readonly Regex _csv = new Regex(
+            @"(?<tag>[^=]+)=(?:(?<data>[^,""]+)|(?:""(?<data>[^""]*)"")),?",
             RegexOptions.ExplicitCapture);
 
-        /// <summary>
-        /// The _enc.
-        /// </summary>
         private readonly Encoding _enc = Encoding.UTF8;
 
-        /// <summary>
-        /// The _md 5.
-        /// </summary>
         private readonly HashAlgorithmProvider _md5 = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Md5);
 
-        /// <summary>
-        /// The _cnonce.
-        /// </summary>
         private string _cnonce;
 
-        /// <summary>
-        /// The _digest uri.
-        /// </summary>
         private string _digestUri;
 
-        /// <summary>
-        /// The _nc.
-        /// </summary>
         private int _nc;
 
-        /// <summary>
-        /// The _nc string.
-        /// </summary>
         private string _ncString;
 
-        /// <summary>
-        /// The _response hash.
-        /// </summary>
         private string _responseHash;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MD5Processor"/> class.
-        /// </summary>
-        /// <param name="manager">
-        /// The manager.
-        /// </param>
-        public MD5Processor(Manager manager) : base(manager)
+        public Md5Processor(Manager manager) : base(manager)
         {
             _nc = 0;
         }
 
-        /// <summary>
-        /// The initialize.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="Tag"/>.
-        /// </returns>
         public override Tag Initialize()
         {
             base.Initialize();
 
             var tag = new Auth();
-            tag.Mechanism = MechanismType.DigestMd5;
+            tag.MechanismAttr = MechanismType.DigestMd5;
             return tag;
         }
 
-        /// <summary>
-        /// The step.
-        /// </summary>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Tag"/>.
-        /// </returns>
         public override Tag Step(Tag tag)
         {
             if (tag.Name.LocalName == "success")
@@ -107,10 +60,8 @@ namespace XMPP.SASL
                 Tag succ = tag;
                 PopulateDirectives(succ);
 #if DEBUG
-				Manager.Events.LogMessage(this, LogType.Debug, "rspauth = {0}", this["rspauth"]);
+                Manager.Events.LogMessage(this, LogType.Debug, "rspauth = {0}", this["rspauth"]);
 #endif
-
-
                 return succ;
             }
 
@@ -119,7 +70,7 @@ namespace XMPP.SASL
 
             Tag chall = tag;
 #if DEBUG
-			Manager.Events.LogMessage(this, LogType.Debug, _enc.GetString(tag.Bytes, 0, tag.Bytes.Length));
+            Manager.Events.LogMessage(this, LogType.Debug, _enc.GetString(tag.Bytes, 0, tag.Bytes.Length));
 #endif
             PopulateDirectives(chall);
             Tag res = new Response();
@@ -132,12 +83,6 @@ namespace XMPP.SASL
             return res;
         }
 
-        /// <summary>
-        /// The populate directives.
-        /// </summary>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
         private void PopulateDirectives(Tag tag)
         {
             MatchCollection col = _csv.Matches(_enc.GetString(tag.Bytes, 0, tag.Bytes.Length));
@@ -152,12 +97,6 @@ namespace XMPP.SASL
                 _digestUri = "xmpp/" + Id.Server;
         }
 
-        /// <summary>
-        /// The generate response.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="byte[]"/>.
-        /// </returns>
         private byte[] GenerateResponse()
         {
             var sb = new StringBuilder();
@@ -194,9 +133,6 @@ namespace XMPP.SASL
             return _enc.GetBytes(temp);
         }
 
-        /// <summary>
-        /// The generate response hash.
-        /// </summary>
         private void GenerateResponseHash()
         {
             var ae = new UTF8Encoding();

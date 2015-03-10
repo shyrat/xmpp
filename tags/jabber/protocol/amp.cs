@@ -12,256 +12,137 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.Protocol.amp
+namespace XMPP.Tags.Jabber.Protocol.Amp
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "http://jabber.org/protocol/amp";
+        public const string Name = "http://jabber.org/protocol/amp";
 
-        /// <summary>
-        /// The amp.
-        /// </summary>
-        public static XName amp = XName.Get("amp", Name);
-
-        /// <summary>
-        /// The invalid_rules.
-        /// </summary>
-        public static XName invalid_rules = XName.Get("invalid-rules", Name);
-
-        /// <summary>
-        /// The unsupported_actions.
-        /// </summary>
-        public static XName unsupported_actions = XName.Get("unsupported-actions", Name);
-
-        /// <summary>
-        /// The unsupported_conditions.
-        /// </summary>
-        public static XName unsupported_conditions = XName.Get("unsupported-conditions", Name);
-
-        /// <summary>
-        /// The rule.
-        /// </summary>
-        public static XName rule = XName.Get("rule", Name);
+        public static readonly XName Amp = XName.Get("amp", Name);
+        public static readonly XName InvalidRules = XName.Get("invalid-rules", Name);
+        public static readonly XName UnsupportedActions = XName.Get("unsupported-actions", Name);
+        public static readonly XName UnsupportedConditions = XName.Get("unsupported-conditions", Name);
+        public static readonly XName Rule = XName.Get("rule", Name);
     }
 
-    /// <summary>
-    /// The amp.
-    /// </summary>
     [XmppTag(typeof(Namespace), typeof(amp))]
     public class amp : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="amp"/> class.
-        /// </summary>
-        public amp() : base(Namespace.amp)
+        public amp() : base(Namespace.Amp)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="amp"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
         public amp(XElement other) : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the rule elements.
-        /// </summary>
-        public IEnumerable<rule> ruleElements
+        public IEnumerable<Rule> RuleElements
         {
-            get { return Elements<rule>(Namespace.rule); }
+            get { return Elements<Rule>(Namespace.Rule); }
         }
 
-        /// <summary>
-        /// Gets or sets the from.
-        /// </summary>
-        public string from
+        public string FromAttr
         {
-            get { return (string) GetAttributeValue("from"); }
+            get { return (string)GetAttributeValue("from"); }
             set { SetAttributeValue("from", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the per_hop.
-        /// </summary>
-        public string per_hop
+        public string PerHopAttr
         {
-            get { return (string) GetAttributeValue("per_hop"); }
+            get { return (string)GetAttributeValue("per_hop"); }
             set { SetAttributeValue("per_hop", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the status.
-        /// </summary>
-        public string status
+        public string StatusAttr
         {
-            get { return (string) GetAttributeValue("status"); }
+            get { return (string)GetAttributeValue("status"); }
             set { SetAttributeValue("status", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the to.
-        /// </summary>
-        public string to
+        public string ToAttr
         {
-            get { return (string) GetAttributeValue("to"); }
+            get { return (string)GetAttributeValue("to"); }
             set { SetAttributeValue("to", value); }
         }
     }
 
-
-    /// <summary>
-    /// The invalid_rules.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(invalid_rules))]
-    public class invalid_rules : Tag
+    [XmppTag(typeof(Namespace), typeof(InvalidRules))]
+    public class InvalidRules : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="invalid_rules"/> class.
-        /// </summary>
-        public invalid_rules() : base(Namespace.invalid_rules)
+        public InvalidRules() : base(Namespace.InvalidRules)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="invalid_rules"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public invalid_rules(XElement other) : base(other)
+        public InvalidRules(XElement other) : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the rule elements.
-        /// </summary>
-        public IEnumerable<rule> ruleElements
+        public IEnumerable<Rule> RuleElements
         {
-            get { return Elements<rule>(Namespace.rule); }
+            get { return Elements<Rule>(Namespace.Rule); }
         }
     }
 
-    /// <summary>
-    /// The unsupported_actions.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(unsupported_actions))]
-    public class unsupported_actions : Tag
+    [XmppTag(typeof(Namespace), typeof(UnsupportedActions))]
+    public class UnsupportedActions : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="unsupported_actions"/> class.
-        /// </summary>
-        public unsupported_actions() : base(Namespace.unsupported_actions)
+        public UnsupportedActions() : base(Namespace.UnsupportedActions)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="unsupported_actions"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public unsupported_actions(XElement other) : base(other)
+        public UnsupportedActions(XElement other) : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the rule elements.
-        /// </summary>
-        public IEnumerable<rule> ruleElements
+        public IEnumerable<Rule> RuleElements
         {
-            get { return Elements<rule>(Namespace.rule); }
+            get { return Elements<Rule>(Namespace.Rule); }
         }
     }
 
-    /// <summary>
-    /// The unsupported_conditions.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(unsupported_conditions))]
-    public class unsupported_conditions : Tag
+    [XmppTag(typeof(Namespace), typeof(UnsupportedConditions))]
+    public class UnsupportedConditions : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="unsupported_conditions"/> class.
-        /// </summary>
-        public unsupported_conditions() : base(Namespace.unsupported_conditions)
+        public UnsupportedConditions() : base(Namespace.UnsupportedConditions)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="unsupported_conditions"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public unsupported_conditions(XElement other) : base(other)
+        public UnsupportedConditions(XElement other) : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the rule elements.
-        /// </summary>
-        public IEnumerable<rule> ruleElements
+        public IEnumerable<Rule> RuleElements
         {
-            get { return Elements<rule>(Namespace.rule); }
+            get { return Elements<Rule>(Namespace.Rule); }
         }
     }
 
-    /// <summary>
-    /// The rule.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(rule))]
-    public class rule : Tag
+    [XmppTag(typeof(Namespace), typeof(Rule))]
+    public class Rule : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="rule"/> class.
-        /// </summary>
-        public rule() : base(Namespace.rule)
+        public Rule() : base(Namespace.Rule)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="rule"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public rule(XElement other) : base(other)
+        public Rule(XElement other) : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the action.
-        /// </summary>
-        public string action
+        public string ActionAttr
         {
-            get { return (string) GetAttributeValue("action"); }
+            get { return (string)GetAttributeValue("action"); }
             set { SetAttributeValue("action", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the condition.
-        /// </summary>
-        public string condition
+        public string Condition
         {
-            get { return (string) GetAttributeValue("condition"); }
+            get { return (string)GetAttributeValue("condition"); }
             set { SetAttributeValue("condition", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        public string value
+        public string ValueAttr
         {
-            get { return (string) GetAttributeValue("value"); }
+            get { return (string)GetAttributeValue("value"); }
             set { SetAttributeValue("value", value); }
         }
     }

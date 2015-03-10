@@ -19,7 +19,6 @@ namespace XMPP.Tags.VCardTemp.X.Update
         public const string Name = "vcard-temp:x:update";
 
         public static readonly XName X = XName.Get("x", Name);
-
         public static readonly XName Photo = XName.Get("photo", Name);
     }
 

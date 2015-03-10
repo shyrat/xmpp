@@ -34,15 +34,15 @@ namespace XMPP.Tags.Jabber.X.delay
         {
         }
 
-        public string From
+        public string FromAttr
         {
             get { return (string) GetAttributeValue("from"); }
             set { SetAttributeValue("from", value); }
         }
 
-        public string Stamp
+        public string StampAttr
         {
-            get { return (string) GetAttributeValue("stamp"); }
+            get { return (string)GetAttributeValue("stamp"); }
             set { SetAttributeValue("stamp", value); }
         }
     }

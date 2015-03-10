@@ -31,25 +31,25 @@ namespace XMPP.Tags.Jabber.Protocol.Caps
         {
         }
 
-        public string Ext
+        public string ExtAttr
         {
             get { return (string)GetAttributeValue("ext"); }
             set { SetAttributeValue("ext", value); }
         }
 
-        public string Hash
+        public string HashAttr
         {
             get { return (string)GetAttributeValue("hash"); }
             set { SetAttributeValue("hash", value); }
         }
 
-        public string Node
+        public string NodeAttr
         {
             get { return (string)GetAttributeValue("node"); }
             set { SetAttributeValue("node", value); }
         }
 
-        public string Ver
+        public string VerAttr
         {
             get { return (string)GetAttributeValue("ver"); }
             set { SetAttributeValue("ver", value); }

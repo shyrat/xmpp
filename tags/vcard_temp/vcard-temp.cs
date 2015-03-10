@@ -18,7 +18,6 @@ namespace XMPP.Tags.VCardTemp
         public const string Name = "vcard-temp";
 
         public static readonly XName Iq = XName.Get("iq", Name);
-
         public static readonly XName VCard = XName.Get("vCard", Name);
     }
 

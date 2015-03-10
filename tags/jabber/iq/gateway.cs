@@ -2,18 +2,15 @@
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.iq.gateway
+namespace XMPP.Tags.Jabber.Iq.Gateway
 {
     public class Namespace
     {
         public const string Name = "jabber:iq:gateway";
 
         public static readonly XName Query = XName.Get("query", Name);
-
         public static readonly XName Desc = XName.Get("desc", Name);
-
         public static readonly XName Prompt = XName.Get("prompt", Name);
-
         public static readonly XName Jid = XName.Get("jid", Name);
     }
 

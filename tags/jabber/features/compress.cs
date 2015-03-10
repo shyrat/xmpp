@@ -18,17 +18,15 @@ namespace XMPP.Tags.Jabber.Reatures.Compress
     {
         public const string Name = "http://jabber.org/features/compress";
 
-        public static XName compression = XName.Get("compression", Name);
-
-        public static XName method = XName.Get("method", Name);
-
-        public static XName compress = XName.Get("compress", Name);
+        public static readonly XName Compression = XName.Get("compression", Name);
+        public static readonly XName Method = XName.Get("method", Name);
+        public static readonly XName Compress = XName.Get("compress", Name);
     }
 
     [XmppTag(typeof(Namespace), typeof(Compression))]
     public class Compression : Tag
     {
-        public Compression() : base(Namespace.compression)
+        public Compression() : base(Namespace.Compression)
         {
         }
 
@@ -38,7 +36,7 @@ namespace XMPP.Tags.Jabber.Reatures.Compress
 
         public IEnumerable<Method> MethodElements
         {
-            get { return Elements<Method>(Namespace.method); }
+            get { return Elements<Method>(Namespace.Method); }
         }
 
         public string[] Methods
@@ -57,7 +55,7 @@ namespace XMPP.Tags.Jabber.Reatures.Compress
     [XmppTag(typeof(Namespace), typeof(Method))]
     public class Method : Tag
     {
-        public Method() : base(Namespace.method)
+        public Method() : base(Namespace.Method)
         {
         }
 

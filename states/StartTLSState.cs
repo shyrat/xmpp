@@ -13,9 +13,9 @@ using XMPP.Ñommon;
 
 namespace XMPP.States
 {
-    public class StartTLSState : IState
+    public class StartTlsState : IState
     {
-        public StartTLSState(Manager manager) : base(manager)
+        public StartTlsState(Manager manager) : base(manager)
         {
         }
 

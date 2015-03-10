@@ -68,31 +68,31 @@ namespace XMPP.Tags.Xmpp.Avatar.Metadata
             set { SetAttributeValue("bytes", value); }
         }
 
-        public string Height
+        public string HeightAttr
         {
             get { return (string)GetAttributeValue("height"); }
             set { SetAttributeValue("height", value); }
         }
 
-        public string Id
+        public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
             set { SetAttributeValue("id", value); }
         }
 
-        public string Type
+        public string TypeAttr
         {
             get { return (string)GetAttributeValue("type"); }
             set { SetAttributeValue("type", value); }
         }
 
-        public string Url
+        public string UrlAttr
         {
             get { return (string)GetAttributeValue("url"); }
             set { SetAttributeValue("url", value); }
         }
 
-        public string Width
+        public string WidthAttr
         {
             get { return (string)GetAttributeValue("width"); }
             set { SetAttributeValue("width", value); }

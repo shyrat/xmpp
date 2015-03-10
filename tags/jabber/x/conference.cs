@@ -31,31 +31,31 @@ namespace XMPP.Tags.Jabber.X.Conference
         {
         }
 
-        public string Continue
+        public string ContinueAttr
         {
             get { return (string)GetAttributeValue("continue"); }
             set { SetAttributeValue("continue", value); }
         }
 
-        public string Jid
+        public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
             set { SetAttributeValue("jid", value); }
         }
 
-        public string Password
+        public string PasswordAttr
         {
             get { return (string)GetAttributeValue("password"); }
             set { SetAttributeValue("password", value); }
         }
 
-        public string Reason
+        public string ReasonAttr
         {
             get { return (string)GetAttributeValue("reason"); }
             set { SetAttributeValue("reason", value); }
         }
 
-        public string Thread
+        public string ThreadAttr
         {
             get { return (string)GetAttributeValue("thread"); }
             set { SetAttributeValue("thread", value); }

@@ -34,7 +34,7 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXitems
         {
         }
 
-        public string Node
+        public string NodeAttr
         {
             get { return (string)GetAttributeValue("node"); }
             set { SetAttributeValue("node", value); }
@@ -57,9 +57,9 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXitems
         {
         }
 
-        public string Jid
+        public string JidAttr
         {
-            get { return (string) GetAttributeValue("jid"); }
+            get { return (string)GetAttributeValue("jid"); }
             set
             {
                 if (value.Length < 8 || value.Length > 3071)
@@ -71,13 +71,13 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXitems
             }
         }
 
-        public string Name
+        public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
             set { SetAttributeValue("name", value); }
         }
 
-        public string Node
+        public string NodeAttr
         {
             get { return (string)GetAttributeValue("node"); }
             set { SetAttributeValue("node", value); }

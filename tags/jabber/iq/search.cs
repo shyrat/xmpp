@@ -1,24 +1,18 @@
 ﻿using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.iq.search
+namespace XMPP.Tags.Jabber.Iq.Search
 {
     public class Namespace
     {
         public const string Name = "jabber:iq:search";
 
         public static readonly XName Query = XName.Get("query", Name);
-
         public static readonly XName Instructions = XName.Get("instructions", Name);
-
         public static readonly XName First = XName.Get("first", Name);
-
         public static readonly XName Last = XName.Get("last", Name);
-
         public static readonly XName Nick = XName.Get("nick", Name);
-
         public static readonly XName Email = XName.Get("email", Name);
-
         public static readonly XName Item = XName.Get("item", Name);
     }
 

@@ -2,28 +2,20 @@
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.iq.privacy
+namespace XMPP.Tags.Jabber.Iq.Privacy
 {
     public class Namespace
     {
         public const string Name = "jabber:iq:privacy";
 
         public static readonly XName Query = XName.Get("query", Name);
-
         public static readonly XName Active = XName.Get("active", Name);
-
         public static readonly XName Default = XName.Get("default", Name);
-
         public static readonly XName List = XName.Get("list", Name);
-
         public static readonly XName Item = XName.Get("item", Name);
-
         public static readonly XName Iq = XName.Get("iq", Name);
-
         public static readonly XName Message = XName.Get("message", Name);
-
         public static readonly XName PresenceIn = XName.Get("presence-in", Name);
-
         public static readonly XName PresenceOut = XName.Get("presence-out", Name);
     }
 
@@ -50,9 +42,9 @@ namespace XMPP.Tags.Jabber.iq.privacy
             get { return Elements<Default>(Namespace.Default); }
         }
 
-        public IEnumerable<list> ListElements
+        public IEnumerable<List> ListElements
         {
-            get { return Elements<list>(Namespace.List); }
+            get { return Elements<List>(Namespace.List); }
         }
     }
 
@@ -69,7 +61,7 @@ namespace XMPP.Tags.Jabber.iq.privacy
         {
         }
 
-        public string name
+        public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
             set { SetAttributeValue("name", value); }
@@ -89,27 +81,27 @@ namespace XMPP.Tags.Jabber.iq.privacy
         {
         }
 
-        public string name
+        public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
             set { SetAttributeValue("name", value); }
         }
     }
 
-    [XmppTag(typeof(Namespace), typeof(list))]
-    public class list : Tag
+    [XmppTag(typeof(Namespace), typeof(List))]
+    public class List : Tag
     {
-        public list()
+        public List()
             : base(Namespace.List)
         {
         }
 
-        public list(XElement other)
+        public List(XElement other)
             : base(other)
         {
         }
 
-        public string name
+        public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
             set { SetAttributeValue("name", value); }
@@ -149,25 +141,25 @@ namespace XMPP.Tags.Jabber.iq.privacy
         {
         }
 
-        public ActionEnum Seconds
+        public ActionEnum SecondsAttr
         {
             get { return GetAttributeEnum<ActionEnum>("action"); }
             set { SetAttributeEnum<ActionEnum>("action", value); }
         }
 
-        public string Order
+        public string OrderAttr
         {
             get { return (string)GetAttributeValue("order"); }
             set { SetAttributeValue("order", value); }
         }
 
-        public TypeEnum Type
+        public TypeEnum TypeAttr
         {
             get { return GetAttributeEnum<TypeEnum>("type"); }
             set { SetAttributeEnum<TypeEnum>("type", value); }
         }
 
-        public string value
+        public string ValueAttr
         {
             get { return (string)GetAttributeValue("value"); }
             set { SetAttributeValue("value", value); }

@@ -94,7 +94,7 @@ namespace XMPP.Ñommon
         /// <summary>
         /// Gets or sets the sasl processor.
         /// </summary>
-        public SASLProcessor SaslProcessor { get; set; }
+        public SaslProcessor SaslProcessor { get; set; }
 
         /// <summary>
         /// Gets the transport.

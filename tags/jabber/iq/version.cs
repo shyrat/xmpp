@@ -2,18 +2,15 @@
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.iq.version
+namespace XMPP.Tags.Jabber.Iq.Version
 {
     public class Namespace
     {
         public const string Name = "jabber:iq:version";
 
         public static readonly XName Query = XName.Get("query", Name);
-
         public static readonly XName name = XName.Get("name", Name);
-
         public static readonly XName Version = XName.Get("version", Name);
-
         public static readonly XName Os = XName.Get("os", Name);
     }
 

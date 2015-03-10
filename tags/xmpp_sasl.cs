@@ -146,9 +146,9 @@ namespace XMPP.Tags.XmppSasl
         {
         }
 
-        public MechanismType Mechanism
+        public MechanismType MechanismAttr
         {
-            get { return XmppSasl.Mechanism.ToType((string) GetAttributeValue("mechanism")); }
+            get { return Mechanism.ToType((string)GetAttributeValue("mechanism")); }
             set { SetAttributeValue("mechanism", XmppSasl.Mechanism.ToString(value)); }
         }
     }
@@ -308,7 +308,7 @@ namespace XMPP.Tags.XmppSasl
         {
         }
 
-        public string Lang
+        public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
             set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }

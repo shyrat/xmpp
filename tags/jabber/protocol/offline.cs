@@ -58,19 +58,19 @@ namespace XMPP.Tags.Jabber.Protocol.Offline
         {
         }
 
-        public string Jid
+        public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
             set { SetAttributeValue("jid", value); }
         }
 
-        public string Node
+        public string NodeAttr
         {
             get { return (string)GetAttributeValue("node"); }
             set { SetAttributeValue("node", value); }
         }
 
-        public ActionEnum Action
+        public ActionEnum ActionAttr
         {
             get { return GetAttributeEnum<ActionEnum>("action"); }
             set { SetAttributeEnum<ActionEnum>("action", value); }

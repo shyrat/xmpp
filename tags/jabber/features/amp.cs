@@ -17,13 +17,13 @@ namespace XMPP.Tags.Jabber.Reatures.Amp
     {
         public const string Name = "http://jabber.org/features/amp";
 
-        public static XName amp = XName.Get("amp", Name);
+        public static readonly XName Amp = XName.Get("amp", Name);
     }
 
     [XmppTag(typeof(Namespace), typeof(Amp))]
     public class Amp : Tag
     {
-        public Amp() : base(Namespace.amp)
+        public Amp() : base(Namespace.Amp)
         {
         }
 

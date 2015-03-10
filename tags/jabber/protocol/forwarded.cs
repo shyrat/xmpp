@@ -12,7 +12,7 @@ using System.Xml.Linq;
 using XMPP.Registries;
 using XMPP.Tags.Jabber.Client;
 
-namespace XMPP.Tags.Jabber.Protocol.forwarded
+namespace XMPP.Tags.Jabber.Protocol.Forwarded
 {
     public class Namespace
     {
@@ -42,9 +42,9 @@ namespace XMPP.Tags.Jabber.Protocol.forwarded
             get { return Element<Presence>(Client.Namespace.Presence); }
         }
 
-        public Iq IqElement
+        public Client.Iq IqElement
         {
-            get { return Element<Iq>(Client.Namespace.Iq); }
+            get { return Element<Client.Iq>(Client.Namespace.Iq); }
         }
     }
 }

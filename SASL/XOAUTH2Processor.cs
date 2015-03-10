@@ -11,36 +11,19 @@
 using System;
 using System.Text;
 using System.Xml.Linq;
-using XMPP.Ñommon;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;
+using XMPP.Ñommon;
 
 namespace XMPP.SASL
 {
-    /// <summary>
-    /// The xoaut h 2 processor.
-    /// </summary>
-    public class XOAUTH2Processor : SASLProcessor
+    public class XOAuth2Processor : SaslProcessor
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="XOAUTH2Processor"/> class.
-        /// </summary>
-        /// <param name="manager">
-        /// The manager.
-        /// </param>
-        public XOAUTH2Processor(Manager manager) : base(manager)
+        public XOAuth2Processor(Manager manager)
+            : base(manager)
         {
         }
 
-        /// <summary>
-        /// The step.
-        /// </summary>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Tag"/>.
-        /// </returns>
         public override Tag Step(Tag tag)
         {
             if (tag.Name.LocalName == "success")
@@ -53,12 +36,6 @@ namespace XMPP.SASL
             return tag;
         }
 
-        /// <summary>
-        /// The initialize.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="Tag"/>.
-        /// </returns>
         public override Tag Initialize()
         {
 #if DEBUG
@@ -70,7 +47,7 @@ namespace XMPP.SASL
 
             var authtag = new Auth();
 
-            authtag.Mechanism = MechanismType.Xoauth2;
+            authtag.MechanismAttr = MechanismType.Xoauth2;
 
             XNamespace auth = "http://www.google.com/talk/protocol/auth";
             authtag.Add(new XAttribute(XNamespace.Xmlns + "auth", "http://www.google.com/talk/protocol/auth"));

@@ -11,324 +11,154 @@
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.Protocol.archive
+namespace XMPP.Tags.Jabber.Protocol.Archive
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
         public const string Name = "urn:xmpp:mam:tmp";
 
-        /// <summary>
-        /// The query.
-        /// </summary>
-        public static XName query = XName.Get("query", Name);
-
-        /// <summary>
-        /// The with.
-        /// </summary>
-        public static XName with = XName.Get("with", Name);
-
-        /// <summary>
-        /// The start.
-        /// </summary>
-        public static XName start = XName.Get("start", Name);
-
-        /// <summary>
-        /// The end.
-        /// </summary>
-        public static XName end = XName.Get("end", Name);
-
-        /// <summary>
-        /// The result.
-        /// </summary>
-        public static XName result = XName.Get("result", Name);
-
-        /// <summary>
-        /// The prefs.
-        /// </summary>
-        public static XName prefs = XName.Get("prefs", Name);
-
-        /// <summary>
-        /// The always.
-        /// </summary>
-        public static XName always = XName.Get("always", Name);
-
-        /// <summary>
-        /// The never.
-        /// </summary>
-        public static XName never = XName.Get("never", Name);
-
-        /// <summary>
-        /// The jid.
-        /// </summary>
-        public static XName jid = XName.Get("jid", Name);
+        public static readonly XName Query = XName.Get("query", Name);
+        public static readonly XName With = XName.Get("with", Name);
+        public static readonly XName Start = XName.Get("start", Name);
+        public static readonly XName End = XName.Get("end", Name);
+        public static readonly XName Result = XName.Get("result", Name);
+        public static readonly XName Prefs = XName.Get("prefs", Name);
+        public static readonly XName Always = XName.Get("always", Name);
+        public static readonly XName Never = XName.Get("never", Name);
+        public static readonly XName Jid = XName.Get("jid", Name);
     }
 
-    /// <summary>
-    /// The query.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(query))]
-    public class query : Tag
+    [XmppTag(typeof(Namespace), typeof(Query))]
+    public class Query : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        public query() : base(Namespace.query)
+        public Query() : base(Namespace.Query)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="query"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public query(XElement other) : base(other)
+        public Query(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The with.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(with))]
-    public class with : Tag
+    [XmppTag(typeof(Namespace), typeof(With))]
+    public class With : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="with"/> class.
-        /// </summary>
-        public with() : base(Namespace.with)
+        public With() : base(Namespace.With)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="with"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public with(XElement other) : base(other)
+        public With(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The start.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(start))]
-    public class start : Tag
+    [XmppTag(typeof(Namespace), typeof(Start))]
+    public class Start : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="start"/> class.
-        /// </summary>
-        public start() : base(Namespace.start)
+        public Start() : base(Namespace.Start)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="start"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public start(XElement other) : base(other)
+        public Start(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The end.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(end))]
-    public class end : Tag
+    [XmppTag(typeof(Namespace), typeof(End))]
+    public class End : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="end"/> class.
-        /// </summary>
-        public end() : base(Namespace.end)
+        public End() : base(Namespace.End)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="end"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public end(XElement other) : base(other)
+        public End(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The result.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(result))]
-    public class result : Tag
+    [XmppTag(typeof(Namespace), typeof(Result))]
+    public class Result : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="result"/> class.
-        /// </summary>
-        public result() : base(Namespace.result)
+        public Result() : base(Namespace.Result)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="result"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public result(XElement other) : base(other)
+        public Result(XElement other) : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the queryid.
-        /// </summary>
-        public string queryid
+        public string QueryidAttr
         {
-            get { return (string) GetAttributeValue("queryid"); }
+            get { return (string)GetAttributeValue("queryid"); }
             set { SetAttributeValue("queryid", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        public string id
+        public string IdAttr
         {
-            get { return (string) GetAttributeValue("id"); }
+            get { return (string)GetAttributeValue("id"); }
             set { SetAttributeValue("id", value); }
         }
     }
 
-    /// <summary>
-    /// The prefs.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(prefs))]
-    public class prefs : Tag
+    [XmppTag(typeof(Namespace), typeof(Prefs))]
+    public class Prefs : Tag
     {
-        /// <summary>
-        /// The default enum.
-        /// </summary>
-        public enum defaultEnum
+        public enum DefaultEnum
         {
-            /// <summary>
-            /// The always.
-            /// </summary>
             always, 
-
-            /// <summary>
-            /// The never.
-            /// </summary>
             never, 
-
-            /// <summary>
-            /// The roster.
-            /// </summary>
             roster
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="prefs"/> class.
-        /// </summary>
-        public prefs() : base(Namespace.prefs)
+        public Prefs() : base(Namespace.Prefs)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="prefs"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public prefs(XElement other) : base(other)
+        public Prefs(XElement other) : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the default.
-        /// </summary>
-        public defaultEnum @default
+        public DefaultEnum DefaultAttr
         {
-            get { return GetAttributeEnum<defaultEnum>("default"); }
-            set { SetAttributeEnum<defaultEnum>("default", value); }
+            get { return GetAttributeEnum<DefaultEnum>("default"); }
+            set { SetAttributeEnum<DefaultEnum>("default", value); }
         }
     }
 
-    /// <summary>
-    /// The always.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(always))]
-    public class always : Tag
+    [XmppTag(typeof(Namespace), typeof(Always))]
+    public class Always : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="always"/> class.
-        /// </summary>
-        public always() : base(Namespace.always)
+        public Always() : base(Namespace.Always)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="always"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public always(XElement other) : base(other)
+        public Always(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The never.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(never))]
-    public class never : Tag
+    [XmppTag(typeof(Namespace), typeof(Never))]
+    public class Never : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="never"/> class.
-        /// </summary>
-        public never() : base(Namespace.never)
+        public Never() : base(Namespace.Never)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="never"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public never(XElement other) : base(other)
+        public Never(XElement other) : base(other)
         {
         }
     }
 
-    /// <summary>
-    /// The jid.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(jid))]
-    public class jid : Tag
+    [XmppTag(typeof(Namespace), typeof(Jid))]
+    public class Jid : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="jid"/> class.
-        /// </summary>
-        public jid() : base(Namespace.jid)
+        public Jid()
+            : base(Namespace.Jid)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="jid"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public jid(XElement other) : base(other)
+        public Jid(XElement other)
+            : base(other)
         {
         }
     }

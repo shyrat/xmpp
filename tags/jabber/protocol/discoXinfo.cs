@@ -35,7 +35,7 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
         {
         }
 
-        public string Node
+        public string NodeAttr
         {
             get { return (string)GetAttributeValue("node"); }
             set { SetAttributeValue("node", value); }
@@ -63,7 +63,7 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
         {
         }
 
-        public string Category
+        public string CategoryAttr
         {
             get { return (string)GetAttributeValue("category"); }
             set
@@ -77,15 +77,15 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
             }
         }
 
-        public string Name
+        public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
             set { SetAttributeValue("name", value); }
         }
 
-        public string Type
+        public string TypeAttr
         {
-            get { return (string) GetAttributeValue("type"); }
+            get { return (string)GetAttributeValue("type"); }
             set
             {
                 if (value.Length < 1)
@@ -109,7 +109,7 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
         {
         }
 
-        public string Var
+        public string VarAttr
         {
             get { return (string)GetAttributeValue("var"); }
             set { SetAttributeValue("var", value); }

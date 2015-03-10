@@ -12,176 +12,89 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.Protocol.address
+namespace XMPP.Tags.Jabber.Protocol.Address
 {
-    /// <summary>
-    /// The namespace.
-    /// </summary>
     public class Namespace
     {
-        /// <summary>
-        /// The name.
-        /// </summary>
-        public static string Name = "http://jabber.org/protocol/address";
+        public const string Name = "http://jabber.org/protocol/address";
 
-        /// <summary>
-        /// The addresses.
-        /// </summary>
-        public static XName addresses = XName.Get("addresses", Name);
-
-        /// <summary>
-        /// The address.
-        /// </summary>
-        public static XName address = XName.Get("address", Name);
+        public static readonly XName Addresses = XName.Get("addresses", Name);
+        public static readonly XName Address = XName.Get("address", Name);
     }
 
-    /// <summary>
-    /// The addresses.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(addresses))]
-    public class addresses : Tag
+    [XmppTag(typeof(Namespace), typeof(Addresses))]
+    public class Addresses : Tag
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="addresses"/> class.
-        /// </summary>
-        public addresses() : base(Namespace.addresses)
+        public Addresses() : base(Namespace.Addresses)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="addresses"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public addresses(XElement other) : base(other)
+        public Addresses(XElement other) : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets the address elements.
-        /// </summary>
-        public IEnumerable<address> addressElements
+        public IEnumerable<Address> AddressElements
         {
-            get { return Elements<address>(Namespace.address); }
+            get { return Elements<Address>(Namespace.Address); }
         }
     }
 
-    /// <summary>
-    /// The address.
-    /// </summary>
-    [XmppTag(typeof(Namespace), typeof(address))]
-    public class address : Tag
+    [XmppTag(typeof(Namespace), typeof(Address))]
+    public class Address : Tag
     {
-        /// <summary>
-        /// The type enum.
-        /// </summary>
-        public enum typeEnum
+        public enum TypeEnum
         {
-            /// <summary>
-            /// The none.
-            /// </summary>
-            none, 
-
-            /// <summary>
-            /// The bcc.
-            /// </summary>
-            bcc, 
-
-            /// <summary>
-            /// The cc.
-            /// </summary>
-            cc, 
-
-            /// <summary>
-            /// The noreply.
-            /// </summary>
-            noreply, 
-
-            /// <summary>
-            /// The replyroom.
-            /// </summary>
-            replyroom, 
-
-            /// <summary>
-            /// The replyto.
-            /// </summary>
-            replyto, 
-
-            /// <summary>
-            /// The to.
-            /// </summary>
+            none,
+            bcc,
+            cc,
+            noreply,
+            replyroom,
+            replyto,
             to
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="address"/> class.
-        /// </summary>
-        public address() : base(Namespace.address)
+        public Address() : base(Namespace.Address)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="address"/> class.
-        /// </summary>
-        /// <param name="other">
-        /// The other.
-        /// </param>
-        public address(XElement other) : base(other)
+        public Address(XElement other)
+            : base(other)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the delivered.
-        /// </summary>
-        public string delivered
+        public string DeliveredAttr
         {
-            get { return (string) GetAttributeValue("delivered"); }
+            get { return (string)GetAttributeValue("delivered"); }
             set { SetAttributeValue("delivered", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the desc.
-        /// </summary>
-        public string desc
+        public string DescAttr
         {
-            get { return (string) GetAttributeValue("desc"); }
+            get { return (string)GetAttributeValue("desc"); }
             set { SetAttributeValue("desc", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the jid.
-        /// </summary>
-        public string jid
+        public string JidAttr
         {
-            get { return (string) GetAttributeValue("jid"); }
+            get { return (string)GetAttributeValue("jid"); }
             set { SetAttributeValue("jid", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the node.
-        /// </summary>
-        public string node
+        public string NodeAttr
         {
-            get { return (string) GetAttributeValue("node"); }
+            get { return (string)GetAttributeValue("node"); }
             set { SetAttributeValue("node", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the type.
-        /// </summary>
-        public typeEnum type
+        public TypeEnum TypeAttr
         {
-            get { return GetAttributeEnum<typeEnum>("type"); }
-            set { SetAttributeEnum<typeEnum>("type", value); }
+            get { return GetAttributeEnum<TypeEnum>("type"); }
+            set { SetAttributeEnum<TypeEnum>("type", value); }
         }
 
-        /// <summary>
-        /// Gets or sets the uri.
-        /// </summary>
-        public string uri
+        public string UriAttr
         {
-            get { return (string) GetAttributeValue("uri"); }
+            get { return (string)GetAttributeValue("uri"); }
             set { SetAttributeValue("uri", value); }
         }
     }

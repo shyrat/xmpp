@@ -28,7 +28,7 @@ namespace XMPP.States
             if (data == null)
             {
                 var bindMsg = new Bind();
-                var iqMsg = new Iq { Id = Tag.NextId() };
+                var iqMsg = new Iq { IdAttr = Tag.NextId() };
 
                 if (Manager.Settings.Id.Resource != null)
                 {
@@ -37,7 +37,7 @@ namespace XMPP.States
                     bindMsg.Add(res);
                 }
 
-                iqMsg.Type = Iq.TypeEnum.set;
+                iqMsg.TypeAttr = Iq.TypeEnum.set;
                 iqMsg.Add(bindMsg);
 
                 Manager.Connection.Send(iqMsg);
@@ -48,7 +48,7 @@ namespace XMPP.States
                 Bind bind = null;
                 if (iq != null)
                 {
-                    if (iq.Type == Iq.TypeEnum.error)
+                    if (iq.TypeAttr == Iq.TypeEnum.error)
                     {
                         Error e = iq.ErrorElements.First();
                         if (e != null)

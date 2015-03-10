@@ -2,16 +2,14 @@
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.iq.roster
+namespace XMPP.Tags.Jabber.Iq.Roster
 {
     public class Namespace
     {
         public const string Name = "jabber:iq:roster";
 
         public static readonly XName Query = XName.Get("query", Name);
-
         public static readonly XName Item = XName.Get("item", Name);
-
         public static readonly XName Group = XName.Get("group", Name);
     }
 
@@ -68,31 +66,31 @@ namespace XMPP.Tags.Jabber.iq.roster
         {
         }
 
-        public string Approved
+        public string ApprovedAttr
         {
             get { return (string)GetAttributeValue("approved"); }
             set { SetAttributeValue("approved", value); }
         }
 
-        public AskEnum Ask
+        public AskEnum AskAttr
         {
             get { return GetAttributeEnum<AskEnum>("ask"); }
             set { SetAttributeEnum<AskEnum>("ask", value); }
         }
 
-        public string Jid
+        public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
             set { SetAttributeValue("jid", value); }
         }
 
-        public string name
+        public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
             set { SetAttributeValue("name", value); }
         }
 
-        public SubscriptionEnum Subscription
+        public SubscriptionEnum SubscriptionAttr
         {
             get { return GetAttributeEnum<SubscriptionEnum>("subscription"); }
             set { SetAttributeEnum<SubscriptionEnum>("subscription", value); }

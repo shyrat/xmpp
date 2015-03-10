@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.iq.last
+namespace XMPP.Tags.Jabber.Iq.Last
 {
     public class Namespace
     {
@@ -23,7 +23,7 @@ namespace XMPP.Tags.Jabber.iq.last
         {
         }
 
-        public string Seconds
+        public string SecondsList
         {
             get { return (string)GetAttributeValue("seconds"); }
             set { SetAttributeValue("seconds", value); }
