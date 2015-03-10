@@ -61,13 +61,13 @@ namespace XMPP.Tags.Jabber.Protocol.Offline
         public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
-            set { SetAttributeValue("jid", value); }
+            set { InnerElement.SetAttributeValue("jid", value); }
         }
 
         public string NodeAttr
         {
             get { return (string)GetAttributeValue("node"); }
-            set { SetAttributeValue("node", value); }
+            set { InnerElement.SetAttributeValue("node", value); }
         }
 
         public ActionEnum ActionAttr

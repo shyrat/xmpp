@@ -146,7 +146,7 @@ namespace XMPP.Tags.Jabber.Iq.Search
         public string Jid
         {
             get { return (string)GetAttributeValue("jid"); }
-            set { SetAttributeValue("jid", value); }
+            set { InnerElement.SetAttributeValue("jid", value); }
         }
 
         public First First

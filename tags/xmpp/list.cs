@@ -19,25 +19,25 @@ namespace XMPP.Tags.Xmpp.Archive
         public string EndAttr
         {
             get { return (string)GetAttributeValue("end"); }
-            set { SetAttributeValue("end", value); }
+            set { InnerElement.SetAttributeValue("end", value); }
         }
 
         public string ExactmatchAttr
         {
             get { return (string)GetAttributeValue("exactmatch"); }
-            set { SetAttributeValue("exactmatch", value); }
+            set { InnerElement.SetAttributeValue("exactmatch", value); }
         }
 
         public string StartAttr
         {
             get { return (string)GetAttributeValue("start"); }
-            set { SetAttributeValue("start", value); }
+            set { InnerElement.SetAttributeValue("start", value); }
         }
 
         public string WithAttr
         {
             get { return (string)GetAttributeValue("with"); }
-            set { SetAttributeValue("with", value); }
+            set { InnerElement.SetAttributeValue("with", value); }
         }
 
         public IEnumerable<Chat> ChatElements

@@ -29,7 +29,7 @@ namespace XMPP.Tags.Jabber.Iq.Roster
         public string Ver
         {
             get { return (string)GetAttributeValue("ver"); }
-            set { SetAttributeValue("ver", value); }
+            set { InnerElement.SetAttributeValue("ver", value); }
         }
 
         public IEnumerable<Item> ItemElements
@@ -69,7 +69,7 @@ namespace XMPP.Tags.Jabber.Iq.Roster
         public string ApprovedAttr
         {
             get { return (string)GetAttributeValue("approved"); }
-            set { SetAttributeValue("approved", value); }
+            set { InnerElement.SetAttributeValue("approved", value); }
         }
 
         public AskEnum AskAttr
@@ -81,13 +81,13 @@ namespace XMPP.Tags.Jabber.Iq.Roster
         public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
-            set { SetAttributeValue("jid", value); }
+            set { InnerElement.SetAttributeValue("jid", value); }
         }
 
         public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
-            set { SetAttributeValue("name", value); }
+            set { InnerElement.SetAttributeValue("name", value); }
         }
 
         public SubscriptionEnum SubscriptionAttr

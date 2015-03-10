@@ -53,19 +53,19 @@ namespace XMPP.Tags.Jabber.Protocol.AmpXerrors
         public string ActionAttr
         {
             get { return (string)GetAttributeValue("action"); }
-            set { SetAttributeValue("action", value); }
+            set { InnerElement.SetAttributeValue("action", value); }
         }
 
         public string ConditionAttr
         {
             get { return (string)GetAttributeValue("condition"); }
-            set { SetAttributeValue("condition", value); }
+            set { InnerElement.SetAttributeValue("condition", value); }
         }
 
         public string ValueAttr
         {
             get { return (string)GetAttributeValue("value"); }
-            set { SetAttributeValue("value", value); }
+            set { InnerElement.SetAttributeValue("value", value); }
         }
     }
 }

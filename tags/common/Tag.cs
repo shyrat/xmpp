@@ -22,22 +22,26 @@ using XMPP.Tags.Streams;
 
 namespace XMPP.Tags
 {
-    public class Tag : XElement
+    public class Tag
     {
         private static int _packetCounter;
 
-        protected Tag(XName identity) : base(identity)
+        protected Tag(XName identity)
         {
+            InnerElement = new XElement(identity);
         }
 
-        protected Tag(XElement other) : base(other)
+        protected Tag(XElement other)
         {
+            InnerElement = new XElement(other);
         }
+
+        protected XElement InnerElement { get; private set; }
 
         public byte[] Bytes
         {
-            get { return System.Convert.FromBase64String(Value); }
-            set { Value = System.Convert.ToBase64String(value); }
+            get { return System.Convert.FromBase64String(InnerElement.Value); }
+            set { InnerElement.Value = System.Convert.ToBase64String(value); }
         }
 
         public static string NextId()
@@ -52,9 +56,12 @@ namespace XMPP.Tags
 
         public object GetAttributeValue(XName name)
         {
-            XAttribute attr = Attribute(name);
+            XAttribute attr = InnerElement.Attribute(name);
             if (attr != null)
+            {
                 return attr.Value;
+            }
+
             return default(object);
         }
 
@@ -108,7 +115,7 @@ namespace XMPP.Tags
 
         public T GetAttributeEnum<T>(XName name)
         {
-            var attr = (string) GetAttributeValue(name);
+            var attr = (string)GetAttributeValue(name);
             if (attr != null)
             {
                 Type enumType = typeof(T);
@@ -120,11 +127,11 @@ namespace XMPP.Tags
                             .SingleOrDefault();
                     if (enumMember != null && enumMember.Value == attr)
                     {
-                        return (T) Enum.Parse(enumType, item);
+                        return (T)Enum.Parse(enumType, item);
                     }
                 }
 
-                return (T) Enum.Parse(typeof(T), attr, true);
+                return (T)Enum.Parse(typeof(T), attr, true);
             }
 
             return default(T);
@@ -143,8 +150,7 @@ namespace XMPP.Tags
                 throw new InvalidOperationException();
             }
 
-            IDictionary<Type, CustomAttributeData> customAttributes =
-                member.CustomAttributes.ToDictionary(c => c.AttributeType);
+            IDictionary<Type, CustomAttributeData> customAttributes = member.CustomAttributes.ToDictionary(c => c.AttributeType);
 
             CustomAttributeData enumMemberAttribute;
             if (customAttributes.TryGetValue(typeof(EnumMemberAttribute), out enumMemberAttribute))
@@ -155,102 +161,102 @@ namespace XMPP.Tags
                 CustomAttributeNamedArgument arg;
                 if (args.TryGetValue("Value", out arg))
                 {
-                    SetAttributeValue(name, arg.TypedValue.Value);
+                    InnerElement.SetAttributeValue(name, arg.TypedValue.Value);
                     return;
                 }
             }
 
-            SetAttributeValue(name, ((T) value).ToString());
+            InnerElement.SetAttributeValue(name, ((T)value).ToString());
         }
 
-        public new IEnumerable<Tag> Descendants()
+        public IEnumerable<Tag> Descendants()
         {
             return Descendants<Tag>();
         }
 
-        public IEnumerable<T> Descendants<T>() where T : XElement
+        public IEnumerable<T> Descendants<T>() where T : Tag
         {
-            return base.Descendants().Select(descendant => Convert<T>(descendant));
+            return InnerElement.Descendants().Select(descendant => Convert<T>(descendant));
         }
 
-        public new IEnumerable<Tag> Descendants(XName name)
+        public IEnumerable<Tag> Descendants(XName name)
         {
             return Descendants<Tag>(name);
         }
 
-        public IEnumerable<T> Descendants<T>(XName name) where T : XElement
+        public IEnumerable<T> Descendants<T>(XName name) where T : Tag
         {
-            return base.Descendants(name).Select(descendant => Convert<T>(descendant));
+            return InnerElement.Descendants(name).Select(descendant => Convert<T>(descendant));
         }
 
-        public new Tag Element(XName name)
+        public Tag Element(XName name)
         {
             return Element<Tag>(name);
         }
 
-        public T Element<T>(XName name) where T : XElement
+        public T Element<T>(XName name) where T : Tag
         {
-            return Convert<T>(base.Element(name));
+            return Convert<T>(InnerElement.Element(name));
         }
 
-        public new IEnumerable<XElement> Elements()
+        public IEnumerable<XElement> Elements()
         {
-            return Elements<Tag>();
+            return InnerElement.Elements();
         }
 
-        public IEnumerable<T> Elements<T>() where T : XElement
+        public IEnumerable<T> Elements<T>() where T : Tag
         {
-            return base.Elements().Select(element => Convert<T>(element));
+            return InnerElement.Elements().Select(element => Convert<T>(element));
         }
 
-        public new IEnumerable<Tag> Elements(XName name)
+        public IEnumerable<Tag> Elements(XName name)
         {
             return Elements<Tag>(name);
         }
 
-        public IEnumerable<T> Elements<T>(XName name) where T : XElement
+        public IEnumerable<T> Elements<T>(XName name) where T : Tag
         {
-            return base.Elements(name).Select(element => Convert<T>(element));
+            return InnerElement.Elements(name).Select(element => Convert<T>(element));
         }
 
-        public new IEnumerable<Tag> AncestorsAndSelf()
+        public IEnumerable<Tag> AncestorsAndSelf()
         {
             return AncestorsAndSelf<Tag>();
         }
 
-        public IEnumerable<T> AncestorsAndSelf<T>() where T : XElement
+        public IEnumerable<T> AncestorsAndSelf<T>() where T : Tag
         {
-            return base.AncestorsAndSelf().Select(ancestor => Convert<T>(ancestor));
+            return InnerElement.AncestorsAndSelf().Select(ancestor => Convert<T>(ancestor));
         }
 
-        public new IEnumerable<Tag> AncestorsAndSelf(XName name)
+        public IEnumerable<Tag> AncestorsAndSelf(XName name)
         {
             return AncestorsAndSelf<Tag>(name);
         }
 
-        public IEnumerable<T> AncestorsAndSelf<T>(XName name) where T : XElement
+        public IEnumerable<T> AncestorsAndSelf<T>(XName name) where T : Tag
         {
-            return base.AncestorsAndSelf(name).Select(ancestor => Convert<T>(ancestor));
+            return InnerElement.AncestorsAndSelf(name).Select(ancestor => Convert<T>(ancestor));
         }
 
-        public new IEnumerable<Tag> DescendantsAndSelf()
+        public IEnumerable<Tag> DescendantsAndSelf()
         {
             return DescendantsAndSelf<Tag>();
         }
 
-        public IEnumerable<T> DescendantsAndSelf<T>() where T : XElement
+        public IEnumerable<T> DescendantsAndSelf<T>() where T : Tag
         {
-            return base.DescendantsAndSelf().Select(descendant => Convert<T>(descendant));
+            return InnerElement.DescendantsAndSelf().Select(descendant => Convert<T>(descendant));
         }
 
-        public new IEnumerable<Tag> DescendantsAndSelf(XName name)
+        public IEnumerable<Tag> DescendantsAndSelf(XName name)
         {
             return DescendantsAndSelf<Tag>(name);
         }
 
-        public IEnumerable<T> DescendantsAndSelf<T>(XName name) where T : XElement
+        public IEnumerable<T> DescendantsAndSelf<T>(XName name) where T : Tag
         {
-            return base.DescendantsAndSelf(name).Select(descendant => Convert<T>(descendant));
+            return InnerElement.DescendantsAndSelf(name).Select(descendant => Convert<T>(descendant));
         }
 
         public ConstructorInfo GetConstructor(Type type)
@@ -283,14 +289,19 @@ namespace XMPP.Tags
             return results.FirstOrDefault();
         }
 
-        private TReturn Convert<TReturn>(XElement element) where TReturn : XElement
+        private TReturn Convert<TReturn>(XElement element) where TReturn : Tag
         {
             if (element == null)
+            {
                 return default(TReturn);
+            }
 
-            ConstructorInfo ctor = GetConstructor(typeof(TReturn), new[] {typeof(XElement)});
+            ConstructorInfo ctor = GetConstructor(typeof(TReturn), new[] { typeof(XElement) });
             if (ctor != null)
-                return (TReturn) ctor.Invoke(new object[] {element});
+            {
+                return (TReturn)ctor.Invoke(new object[] { element });
+            }
+
             return default(TReturn);
         }
 
@@ -308,6 +319,11 @@ namespace XMPP.Tags
             return tag;
         }
 
+        public static explicit operator XElement(Tag tag)
+        {
+            return tag.InnerElement;
+        }
+
         public static Tag Get(string xml)
         {
             try
@@ -319,7 +335,7 @@ namespace XMPP.Tags
                 xmlReader.MoveToContent();
                 while (xmlReader.ReadState != ReadState.EndOfFile)
                 {
-                    document.Add(ReadFrom(xmlReader));
+                    document.Add(XNode.ReadFrom(xmlReader));
                 }
 
                 FixNs(document.Root);

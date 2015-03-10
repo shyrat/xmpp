@@ -44,25 +44,25 @@ namespace XMPP.Tags.Jabber.Protocol.Amp
         public string FromAttr
         {
             get { return (string)GetAttributeValue("from"); }
-            set { SetAttributeValue("from", value); }
+            set { InnerElement.SetAttributeValue("from", value); }
         }
 
         public string PerHopAttr
         {
             get { return (string)GetAttributeValue("per_hop"); }
-            set { SetAttributeValue("per_hop", value); }
+            set { InnerElement.SetAttributeValue("per_hop", value); }
         }
 
         public string StatusAttr
         {
             get { return (string)GetAttributeValue("status"); }
-            set { SetAttributeValue("status", value); }
+            set { InnerElement.SetAttributeValue("status", value); }
         }
 
         public string ToAttr
         {
             get { return (string)GetAttributeValue("to"); }
-            set { SetAttributeValue("to", value); }
+            set { InnerElement.SetAttributeValue("to", value); }
         }
     }
 
@@ -131,19 +131,19 @@ namespace XMPP.Tags.Jabber.Protocol.Amp
         public string ActionAttr
         {
             get { return (string)GetAttributeValue("action"); }
-            set { SetAttributeValue("action", value); }
+            set { InnerElement.SetAttributeValue("action", value); }
         }
 
         public string Condition
         {
             get { return (string)GetAttributeValue("condition"); }
-            set { SetAttributeValue("condition", value); }
+            set { InnerElement.SetAttributeValue("condition", value); }
         }
 
         public string ValueAttr
         {
             get { return (string)GetAttributeValue("value"); }
-            set { SetAttributeValue("value", value); }
+            set { InnerElement.SetAttributeValue("value", value); }
         }
     }
 }

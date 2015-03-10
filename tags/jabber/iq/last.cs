@@ -26,7 +26,7 @@ namespace XMPP.Tags.Jabber.Iq.Last
         public string SecondsList
         {
             get { return (string)GetAttributeValue("seconds"); }
-            set { SetAttributeValue("seconds", value); }
+            set { InnerElement.SetAttributeValue("seconds", value); }
         }
     }
 }

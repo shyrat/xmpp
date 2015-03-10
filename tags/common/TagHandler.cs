@@ -36,7 +36,7 @@ namespace XMPP.Tags
                 foreach (ParameterInfo parameterInfo in method.GetParameters())
                 {
                     if (parameterInfo.ParameterType == tagType)
-                        return (TReturn) method.Invoke(this, new object[] {tag});
+                        return (TReturn)method.Invoke(this, new object[] { tag });
                 }
             }
 

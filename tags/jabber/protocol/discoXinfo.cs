@@ -38,7 +38,7 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
         public string NodeAttr
         {
             get { return (string)GetAttributeValue("node"); }
-            set { SetAttributeValue("node", value); }
+            set { InnerElement.SetAttributeValue("node", value); }
         }
 
         public IEnumerable<Identity> IdentityElements
@@ -73,14 +73,14 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
                     throw new Exception("Text out of range");
                 }
 
-                SetAttributeValue("category", value);
+                InnerElement.SetAttributeValue("category", value);
             }
         }
 
         public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
-            set { SetAttributeValue("name", value); }
+            set { InnerElement.SetAttributeValue("name", value); }
         }
 
         public string TypeAttr
@@ -93,7 +93,7 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
                     throw new Exception("Text out of range");
                 }
 
-                SetAttributeValue("type", value);
+                InnerElement.SetAttributeValue("type", value);
             }
         }
     }
@@ -112,7 +112,7 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
         public string VarAttr
         {
             get { return (string)GetAttributeValue("var"); }
-            set { SetAttributeValue("var", value); }
+            set { InnerElement.SetAttributeValue("var", value); }
         }
     }
 }

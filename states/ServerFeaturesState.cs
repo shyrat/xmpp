@@ -41,7 +41,7 @@ namespace XMPP.States
                     Manager.Events.Error(
                         this,
                         ErrorType.XmppVersionNotSupported,
-                        ErrorPolicyType.Deactivate, 
+                        ErrorPolicyType.Deactivate,
                         "Expecting stream:features from 1.x server");
 
                     return;
@@ -54,12 +54,12 @@ namespace XMPP.States
                 var error = data as Error;
                 string message = string.Empty;
 
-                if (error.HasElements)
+                if (((XElement)error).HasElements)
                 {
                     var text = error.Element<Text>(Namespace.Text);
                     if (text != null)
                     {
-                        message = text.Value;
+                        message = ((XElement)text).Value;
                     }
                     else if (error.Elements().Any())
                     {
@@ -168,16 +168,16 @@ namespace XMPP.States
 #endif
 
                     // Do we have a stream for any of the compressions supported by the server?
-                    foreach (string algorithm in
-                        features.Compression.Methods.Where(Static.CompressionRegistry.SupportsAlgorithm))
+                    foreach (string algorithm in features.Compression.Methods.Where(Static.CompressionRegistry.SupportsAlgorithm))
                     {
 #if DEBUG
                         Manager.Events.LogMessage(this, LogType.Debug, "Using {0} for compression", algorithm);
 #endif
-                        var c = new Compress();
                         var m = new Method { Value = Manager.CompressionAlgorithm = algorithm };
 
-                        c.Add(m);
+                        var c = new Compress();
+                        ((XElement)c).Add(m);
+
                         Manager.Connection.Send(c);
                         Manager.State = new CompressedState(Manager);
                         return;

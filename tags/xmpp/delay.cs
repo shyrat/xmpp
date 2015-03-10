@@ -35,13 +35,13 @@ namespace XMPP.Tags.Xmpp.Delay
         public string From
         {
             get { return (string)GetAttributeValue("from"); }
-            set { SetAttributeValue("from", value); }
+            set { InnerElement.SetAttributeValue("from", value); }
         }
 
         public string Stamp
         {
             get { return (string)GetAttributeValue("stamp"); }
-            set { SetAttributeValue("stamp", value); }
+            set { InnerElement.SetAttributeValue("stamp", value); }
         }
     }
 }

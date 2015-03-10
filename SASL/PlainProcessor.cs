@@ -10,6 +10,7 @@
 
 using System;
 using System.Text;
+using System.Xml.Linq;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;
 using XMPP.Ñommon;
@@ -24,7 +25,7 @@ namespace XMPP.SASL
 
         public override Tag Step(Tag tag)
         {
-            if (tag.Name.LocalName == "success")
+            if (((XElement)tag).Name.LocalName == "success")
             {
 #if DEBUG
                 Manager.Events.LogMessage(this, LogType.Debug, "Plan login successful");

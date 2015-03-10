@@ -36,14 +36,14 @@ namespace XMPP.Tags.Jabber.X.delay
 
         public string FromAttr
         {
-            get { return (string) GetAttributeValue("from"); }
-            set { SetAttributeValue("from", value); }
+            get { return (string)GetAttributeValue("from"); }
+            set { InnerElement.SetAttributeValue("from", value); }
         }
 
         public string StampAttr
         {
             get { return (string)GetAttributeValue("stamp"); }
-            set { SetAttributeValue("stamp", value); }
+            set { InnerElement.SetAttributeValue("stamp", value); }
         }
     }
 }

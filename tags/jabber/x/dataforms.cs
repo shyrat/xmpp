@@ -144,12 +144,12 @@ namespace XMPP.Tags.Jabber.X.Dataforms
         {
         }
 
-        public XElement Desc
+        public Desc Desc
         {
             get { return Element<Desc>(Namespace.Desc); }
         }
 
-        public XElement Required
+        public Required Required
         {
             get { return Element<Required>(Namespace.Required); }
         }
@@ -167,7 +167,7 @@ namespace XMPP.Tags.Jabber.X.Dataforms
         public string LabelAttr
         {
             get { return (string)GetAttributeValue("label"); }
-            set { SetAttributeValue("label", value); }
+            set { InnerElement.SetAttributeValue("label", value); }
         }
 
         public typeEnum TypeAttr
@@ -179,7 +179,7 @@ namespace XMPP.Tags.Jabber.X.Dataforms
         public string VarAttr
         {
             get { return (string)GetAttributeValue("var"); }
-            set { SetAttributeValue("var", value); }
+            set { InnerElement.SetAttributeValue("var", value); }
         }
     }
 
@@ -221,7 +221,7 @@ namespace XMPP.Tags.Jabber.X.Dataforms
         public string LabelAttr
         {
             get { return (string)GetAttributeValue("label"); }
-            set { SetAttributeValue("label", value); }
+            set { InnerElement.SetAttributeValue("label", value); }
         }
     }
 

@@ -113,7 +113,7 @@ namespace XMPP.Ñommon
         {
             Transport = transport;
 
-            Connection = transport == Transport.Socket ? new Connection(this) as IConnection : new BoSH(this) as IConnection;
+            Connection = transport == Transport.Socket ? new Connection(this) as IConnection : new BoSh(this) as IConnection;
             Parser = new Parser(this);
             State = new ClosedState(this);
 

@@ -28,7 +28,7 @@ namespace XMPP.Tags.Jabber.Iq.Oob
         public string SidAttr
         {
             get { return (string)GetAttributeValue("sid"); }
-            set { SetAttributeValue("sid", value); }
+            set { InnerElement.SetAttributeValue("sid", value); }
         }
     }
 

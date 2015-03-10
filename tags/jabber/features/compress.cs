@@ -62,6 +62,12 @@ namespace XMPP.Tags.Jabber.Reatures.Compress
         public Method(XElement other) : base(other)
         {
         }
+
+        public string Value
+        {
+            get { return InnerElement.Value; }
+            set { InnerElement.Value = value; }
+        }
     }
 }
 

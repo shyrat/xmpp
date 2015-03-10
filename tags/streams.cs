@@ -42,37 +42,37 @@ namespace XMPP.Tags.Streams
         public string FromAttr
         {
             get { return (string)GetAttributeValue("from"); }
-            set { SetAttributeValue("from", value); }
+            set { InnerElement.SetAttributeValue("from", value); }
         }
 
         public string ToAttr
         {
             get { return (string)GetAttributeValue("to"); }
-            set { SetAttributeValue("to", value); }
+            set { InnerElement.SetAttributeValue("to", value); }
         }
 
         public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
-            set { SetAttributeValue("id", value); }
+            set { InnerElement.SetAttributeValue("id", value); }
         }
 
         public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
         }
 
         public string VersionAttr
         {
             get { return (string)GetAttributeValue("version"); }
-            set { SetAttributeValue("version", value); }
+            set { InnerElement.SetAttributeValue("version", value); }
         }
 
         public string XmlnsAttr
         {
             get { return (string)GetAttributeValue("xmlns"); }
-            set { SetAttributeValue("xmlns", value); }
+            set { InnerElement.SetAttributeValue("xmlns", value); }
         }
 
         public Features Features
@@ -105,17 +105,17 @@ namespace XMPP.Tags.Streams
             get
             {
                 var sb = new StringBuilder("<");
-                sb.Append(Name.LocalName);
+                sb.Append(InnerElement.Name.LocalName);
                 sb.Append(":");
-                sb.Append(Name.LocalName);
+                sb.Append(InnerElement.Name.LocalName);
                 sb.Append(" xmlns");
                 sb.Append(":");
-                sb.Append(Name.LocalName);
+                sb.Append(InnerElement.Name.LocalName);
                 sb.Append("=\'");
-                sb.Append(Name.NamespaceName);
+                sb.Append(InnerElement.Name.NamespaceName);
                 sb.Append("\'");
 
-                foreach (XAttribute attr in Attributes())
+                foreach (XAttribute attr in InnerElement.Attributes())
                 {
                     sb.Append(" ");
                     sb.Append(attr.Name.LocalName);

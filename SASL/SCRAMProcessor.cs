@@ -11,6 +11,7 @@
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Xml.Linq;
 using Gnu.Inet.Encoding;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
@@ -73,7 +74,7 @@ namespace XMPP.SASL
 
         public override Tag Step(Tag tag)
         {
-            switch (tag.Name.LocalName)
+            switch (((XElement)tag).Name.LocalName)
             {
                 case "challenge":
                 {

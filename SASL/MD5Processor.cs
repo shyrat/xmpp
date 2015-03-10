@@ -12,6 +12,7 @@ using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Windows.Security.Cryptography.Core;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;
@@ -48,14 +49,12 @@ namespace XMPP.SASL
         {
             base.Initialize();
 
-            var tag = new Auth();
-            tag.MechanismAttr = MechanismType.DigestMd5;
-            return tag;
+            return new Auth { MechanismAttr = MechanismType.DigestMd5 };
         }
 
         public override Tag Step(Tag tag)
         {
-            if (tag.Name.LocalName == "success")
+            if (((XElement)tag).Name.LocalName == "success")
             {
                 Tag succ = tag;
                 PopulateDirectives(succ);
@@ -65,7 +64,7 @@ namespace XMPP.SASL
                 return succ;
             }
 
-            if (tag.Name.LocalName == "failure")
+            if (((XElement)tag).Name.LocalName == "failure")
                 return tag;
 
             Tag chall = tag;

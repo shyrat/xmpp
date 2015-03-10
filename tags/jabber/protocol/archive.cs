@@ -90,13 +90,13 @@ namespace XMPP.Tags.Jabber.Protocol.Archive
         public string QueryidAttr
         {
             get { return (string)GetAttributeValue("queryid"); }
-            set { SetAttributeValue("queryid", value); }
+            set { InnerElement.SetAttributeValue("queryid", value); }
         }
 
         public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
-            set { SetAttributeValue("id", value); }
+            set { InnerElement.SetAttributeValue("id", value); }
         }
     }
 

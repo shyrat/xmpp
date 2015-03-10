@@ -9,6 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Linq;
+using System.Xml.Linq;
 using XMPP.Tags;
 using XMPP.Tags.Jabber.Client;
 using XMPP.Tags.XmppBind;
@@ -27,25 +28,26 @@ namespace XMPP.States
         {
             if (data == null)
             {
-                var bindMsg = new Bind();
-                var iqMsg = new Iq { IdAttr = Tag.NextId() };
+                var bind = new Bind();
+                var iq = new Iq { IdAttr = Tag.NextId() };
 
                 if (Manager.Settings.Id.Resource != null)
                 {
                     Tag res = new Resource();
-                    res.Value = Manager.Settings.Id.Resource;
-                    bindMsg.Add(res);
+                    ((XElement)res).Value = Manager.Settings.Id.Resource;
+                    ((XElement)bind).Add(res);
                 }
 
-                iqMsg.TypeAttr = Iq.TypeEnum.set;
-                iqMsg.Add(bindMsg);
+                iq.TypeAttr = Iq.TypeEnum.set;
+                ((XElement)iq).Add(bind);
 
-                Manager.Connection.Send(iqMsg);
+                Manager.Connection.Send(iq);
             }
             else
             {
-                var iq = data as Iq;
                 Bind bind = null;
+
+                var iq = data as Iq;
                 if (iq != null)
                 {
                     if (iq.TypeAttr == Iq.TypeEnum.error)
@@ -53,7 +55,7 @@ namespace XMPP.States
                         Error e = iq.ErrorElements.First();
                         if (e != null)
                         {
-                            Manager.Events.Error(this, ErrorType.BindingToResourceFailed, ErrorPolicyType.Deactivate, e.Value);
+                            Manager.Events.Error(this, ErrorType.BindingToResourceFailed, ErrorPolicyType.Deactivate, ((XElement)e).Value);
                         }
                     }
 
@@ -64,7 +66,7 @@ namespace XMPP.States
                 {
                     Tags.XmppBind.Jid jid = bind.Jid;
                     if (jid != null)
-                        Manager.Settings.Id = jid.JID;
+                        Manager.Settings.Id = jid.Value;
                 }
 
 #if DEBUG

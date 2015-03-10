@@ -26,7 +26,7 @@ namespace XMPP.SASL
 
         public override Tag Step(Tag tag)
         {
-            if (tag.Name.LocalName == "success")
+            if (((XElement)tag).Name.LocalName == "success")
             {
 #if DEBUG
                 Manager.Events.LogMessage(this, LogType.Debug, "Plan login successful");
@@ -39,28 +39,24 @@ namespace XMPP.SASL
         public override Tag Initialize()
         {
 #if DEBUG
-			Manager.Events.LogMessage(this, LogType.Debug, "Initializing XOAUTH2 Processor");
-			Manager.Events.LogMessage(this, LogType.Debug, "ID User: {0}", Manager.Settings.Id);
+            Manager.Events.LogMessage(this, LogType.Debug, "Initializing XOAUTH2 Processor");
+            Manager.Events.LogMessage(this, LogType.Debug, "ID User: {0}", Manager.Settings.Id);
 #endif
 
-            string token = string.Empty;
-
-            var authtag = new Auth();
-
-            authtag.MechanismAttr = MechanismType.Xoauth2;
-
             XNamespace auth = "http://www.google.com/talk/protocol/auth";
-            authtag.Add(new XAttribute(XNamespace.Xmlns + "auth", "http://www.google.com/talk/protocol/auth"));
-            authtag.Add(new XAttribute(auth + "service", "oauth2"));
+
+            var authtag = new Auth { MechanismAttr = MechanismType.Xoauth2 };
+            ((XElement)authtag).Add(new XAttribute(XNamespace.Xmlns + "auth", auth));
+            ((XElement)authtag).Add(new XAttribute(auth + "service", "oauth2"));
 
             var sb = new StringBuilder();
 
-            sb.Append((char) 0);
+            sb.Append((char)0);
             sb.Append(Manager.Settings.Id);
-            sb.Append((char) 0);
-            sb.Append(token);
+            sb.Append((char)0);
+            sb.Append(string.Empty);
 
-            authtag.Value = Convert.ToBase64String(Encoding.UTF8.GetBytes(sb.ToString()));
+            ((XElement)authtag).Value = Convert.ToBase64String(Encoding.UTF8.GetBytes(sb.ToString()));
 
             return authtag;
         }

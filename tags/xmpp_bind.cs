@@ -63,9 +63,9 @@ namespace XMPP.Tags.XmppBind
         {
         }
 
-        public new string Value
+        public string Value
         {
-            get { return base.Value; }
+            get { return InnerElement.Value; }
             set
             {
                 if (value.Length < 8 || value.Length > 3071)
@@ -73,15 +73,15 @@ namespace XMPP.Tags.XmppBind
                     throw new Exception("Text out of range");
                 }
 
-                base.Value = value;
+                InnerElement.Value = value;
             }
         }
 
-        public XMPP.Jid JID
+        /*public XMPP.Jid JID
         {
             get { return new XMPP.Jid(base.Value); }
             set { base.Value = value.ToString(); }
-        }
+        }*/
     }
 
     [XmppTag(typeof(Namespace), typeof(Resource))]
@@ -95,9 +95,9 @@ namespace XMPP.Tags.XmppBind
         {
         }
 
-        public new string Value
+        public string Value
         {
-            get { return base.Value; }
+            get { return InnerElement.Value; }
             set
             {
                 if (value.Length < 1 || value.Length > 1023)
@@ -105,7 +105,7 @@ namespace XMPP.Tags.XmppBind
                     throw new Exception("Text out of range");
                 }
 
-                base.Value = value;
+                InnerElement.Value = value;
             }
         }
     }

@@ -28,118 +28,38 @@ using Namespace = XMPP.Tags.Streams.Namespace;
 
 namespace XMPP.Сommon
 {
-    /// <summary>
-    /// The bo sh.
-    /// </summary>
-    public class BoSH : IConnection
+    public class BoSh : IConnection
     {
-        /// <summary>
-        /// The start rid.
-        /// </summary>
         private const int StartRid = 1000000;
-
-        /// <summary>
-        /// The end rid.
-        /// </summary>
         private const int EndRid = 99999999;
-
-        /// <summary>
-        /// The hold.
-        /// </summary>
         private const int Hold = 1;
-
-        /// <summary>
-        /// The wait.
-        /// </summary>
         private const int Wait = 60;
-
-        /// <summary>
-        /// The _manager.
-        /// </summary>
         private readonly Manager _manager;
 
-        /// <summary>
-        /// The _can fetch.
-        /// </summary>
         private AutoResetEvent _canFetch;
-
-        /// <summary>
-        /// The _client.
-        /// </summary>
         private HttpClient _client;
-
-        /// <summary>
-        /// The _connection error.
-        /// </summary>
         private ManualResetEventSlim _connectionError;
-
-        /// <summary>
-        /// The _connections counter.
-        /// </summary>
         private SemaphoreSlim _connectionsCounter;
-
-        /// <summary>
-        /// The _disconnecting.
-        /// </summary>
         private ManualResetEventSlim _disconnecting;
-
-        /// <summary>
-        /// The _polling task.
-        /// </summary>
         private Task _pollingTask;
-
-        /// <summary>
-        /// The _requests.
-        /// </summary>
         private int? _requests;
-
-        /// <summary>
-        /// The _rid.
-        /// </summary>
         private long _rid;
-
-        /// <summary>
-        /// The _sid.
-        /// </summary>
         private string _sid;
-
-        /// <summary>
-        /// The _tags.
-        /// </summary>
         private ConcurrentQueue<XElement> _tags;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BoSH"/> class.
-        /// </summary>
-        /// <param name="manager">
-        /// The manager.
-        /// </param>
-        public BoSH(Manager manager)
+        public BoSh(Manager manager)
         {
             _manager = manager;
         }
 
-        /// <summary>
-        ///     Gets a value indicating whether is connected.
-        /// </summary>
         public bool IsConnected { get; private set; }
 
-        /// <summary>
-        ///     Gets the hostname.
-        /// </summary>
         public string Hostname
         {
             get { return _manager.Settings.Hostname; }
         }
 
-        /// <summary>
-        ///     Gets or sets a value indicating whether is ssl enabled.
-        /// </summary>
         public bool IsSSLEnabled { get; set; }
 
-        /// <summary>
-        /// The connect.
-        /// </summary>
         public void Connect()
         {
             if (IsConnected)
@@ -155,9 +75,6 @@ namespace XMPP.Сommon
             SendSessionCreationRequest();
         }
 
-        /// <summary>
-        /// The disconnect.
-        /// </summary>
         public void Disconnect()
         {
             if (!IsConnected)
@@ -183,80 +100,41 @@ namespace XMPP.Сommon
             _manager.Events.Disconnected(this);
         }
 
-        /// <summary>
-        /// The send.
-        /// </summary>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
         public void Send(Tag tag)
         {
             Task.Run(() => Flush(tag));
         }
 
-        /// <summary>
-        /// The send.
-        /// </summary>
-        /// <param name="message">
-        /// The message.
-        /// </param>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
         public void Send(string message)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// The enable ssl.
-        /// </summary>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
         public void EnableSSL()
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// The enable compression.
-        /// </summary>
-        /// <param name="algorithm">
-        /// The algorithm.
-        /// </param>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
         public void EnableCompression(string algorithm)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// The dispose.
-        /// </summary>
         public void Dispose()
         {
             CleanupState();
         }
 
-        /// <summary>
-        /// The restart.
-        /// </summary>
         public void Restart()
         {
             SendRestartRequest();
         }
 
-        /// <summary>
-        /// The start polling.
-        /// </summary>
         public void StartPolling()
         {
             _pollingTask = StartPollingInternal();
         }
 
-        /// <summary>
-        /// The init.
-        /// </summary>
         private void Init()
         {
             _client = new HttpClient();
@@ -268,15 +146,6 @@ namespace XMPP.Сommon
             _rid = new Random().Next(StartRid, EndRid);
         }
 
-        /// <summary>
-        /// The remove comments.
-        /// </summary>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
-        /// <returns>
-        /// The <see cref="XElement"/>.
-        /// </returns>
         private XElement RemoveComments(Tag tag)
         {
             var copy = new XElement(tag);
@@ -291,18 +160,6 @@ namespace XMPP.Сommon
             return copy;
         }
 
-        /// <summary>
-        /// The connection error.
-        /// </summary>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="policy">
-        /// The policy.
-        /// </param>
-        /// <param name="cause">
-        /// The cause.
-        /// </param>
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
         {
             if (_disconnecting.IsSet)

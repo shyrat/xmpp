@@ -65,37 +65,37 @@ namespace XMPP.Tags.Xmpp.Avatar.Metadata
         public string BytesAttr
         {
             get { return (string)GetAttributeValue("bytes"); }
-            set { SetAttributeValue("bytes", value); }
+            set { InnerElement.SetAttributeValue("bytes", value); }
         }
 
         public string HeightAttr
         {
             get { return (string)GetAttributeValue("height"); }
-            set { SetAttributeValue("height", value); }
+            set { InnerElement.SetAttributeValue("height", value); }
         }
 
         public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
-            set { SetAttributeValue("id", value); }
+            set { InnerElement.SetAttributeValue("id", value); }
         }
 
         public string TypeAttr
         {
             get { return (string)GetAttributeValue("type"); }
-            set { SetAttributeValue("type", value); }
+            set { InnerElement.SetAttributeValue("type", value); }
         }
 
         public string UrlAttr
         {
             get { return (string)GetAttributeValue("url"); }
-            set { SetAttributeValue("url", value); }
+            set { InnerElement.SetAttributeValue("url", value); }
         }
 
         public string WidthAttr
         {
             get { return (string)GetAttributeValue("width"); }
-            set { SetAttributeValue("width", value); }
+            set { InnerElement.SetAttributeValue("width", value); }
         }
     }
 

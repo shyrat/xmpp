@@ -64,7 +64,7 @@ namespace XMPP.Tags.Jabber.Iq.Privacy
         public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
-            set { SetAttributeValue("name", value); }
+            set { InnerElement.SetAttributeValue("name", value); }
         }
     }
 
@@ -84,7 +84,7 @@ namespace XMPP.Tags.Jabber.Iq.Privacy
         public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
-            set { SetAttributeValue("name", value); }
+            set { InnerElement.SetAttributeValue("name", value); }
         }
     }
 
@@ -104,7 +104,7 @@ namespace XMPP.Tags.Jabber.Iq.Privacy
         public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
-            set { SetAttributeValue("name", value); }
+            set { InnerElement.SetAttributeValue("name", value); }
         }
 
         public IEnumerable<Item> ItemElements
@@ -150,7 +150,7 @@ namespace XMPP.Tags.Jabber.Iq.Privacy
         public string OrderAttr
         {
             get { return (string)GetAttributeValue("order"); }
-            set { SetAttributeValue("order", value); }
+            set { InnerElement.SetAttributeValue("order", value); }
         }
 
         public TypeEnum TypeAttr
@@ -162,7 +162,7 @@ namespace XMPP.Tags.Jabber.Iq.Privacy
         public string ValueAttr
         {
             get { return (string)GetAttributeValue("value"); }
-            set { SetAttributeValue("value", value); }
+            set { InnerElement.SetAttributeValue("value", value); }
         }
 
         public IEnumerable<Iq> IqElements

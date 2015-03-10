@@ -8,6 +8,7 @@
 // 
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Xml.Linq;
 using XMPP.Tags;
 using XMPP.Tags.Jabber.Client;
 using XMPP.Tags.XmppSession;
@@ -25,13 +26,15 @@ namespace XMPP.States
         {
             if (data == null)
             {
-                var iq = new Iq { IdAttr = Tag.NextId() };
-                Tag session = new Session();
+                var iq = new Iq
+                {
+                    IdAttr = Tag.NextId(),
+                    FromAttr = Manager.Settings.Id,
+                    ToAttr = Manager.Settings.Id.Server,
+                    TypeAttr = Iq.TypeEnum.set
+                };
 
-                iq.FromAttr = Manager.Settings.Id;
-                iq.ToAttr = Manager.Settings.Id.Server;
-                iq.TypeAttr = Iq.TypeEnum.set;
-                iq.Add(session);
+                ((XElement)iq).Add(new Session());
 
                 Manager.Connection.Send(iq);
             }
@@ -39,7 +42,7 @@ namespace XMPP.States
             {
                 if (Manager.Transport == Transport.Bosh)
                 {
-                    (Manager.Connection as BoSH).StartPolling();
+                    (Manager.Connection as BoSh).StartPolling();
                 }
 
                 Manager.State = new RunningState(Manager);

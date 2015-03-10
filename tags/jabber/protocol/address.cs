@@ -65,25 +65,25 @@ namespace XMPP.Tags.Jabber.Protocol.Address
         public string DeliveredAttr
         {
             get { return (string)GetAttributeValue("delivered"); }
-            set { SetAttributeValue("delivered", value); }
+            set { InnerElement.SetAttributeValue("delivered", value); }
         }
 
         public string DescAttr
         {
             get { return (string)GetAttributeValue("desc"); }
-            set { SetAttributeValue("desc", value); }
+            set { InnerElement.SetAttributeValue("desc", value); }
         }
 
         public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
-            set { SetAttributeValue("jid", value); }
+            set { InnerElement.SetAttributeValue("jid", value); }
         }
 
         public string NodeAttr
         {
             get { return (string)GetAttributeValue("node"); }
-            set { SetAttributeValue("node", value); }
+            set { InnerElement.SetAttributeValue("node", value); }
         }
 
         public TypeEnum TypeAttr
@@ -95,7 +95,7 @@ namespace XMPP.Tags.Jabber.Protocol.Address
         public string UriAttr
         {
             get { return (string)GetAttributeValue("uri"); }
-            set { SetAttributeValue("uri", value); }
+            set { InnerElement.SetAttributeValue("uri", value); }
         }
     }
 }

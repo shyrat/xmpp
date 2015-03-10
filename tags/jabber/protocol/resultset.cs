@@ -89,7 +89,7 @@ namespace XMPP.Tags.Jabber.Protocol.Resultset
         public int? IndexAttr
         {
             get { return GetAttributeValueAsInt("index"); }
-            set { SetAttributeValue("index", value); }
+            set { InnerElement.SetAttributeValue("index", value); }
         }
     }
 

@@ -8,6 +8,7 @@
 // 
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Xml.Linq;
 using XMPP.Tags;
 using XMPP.Ñommon;
 
@@ -21,7 +22,7 @@ namespace XMPP.States
 
         public override void Execute(Tag data = null)
         {
-            if (data != null && data.Name.LocalName != "compressed")
+            if (data != null && ((XElement)data).Name.LocalName != "compressed")
                 return;
 
 #if DEBUG

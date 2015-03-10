@@ -55,7 +55,7 @@ namespace XMPP.Tags.Xmpp.Archive
         public string SaveAttr
         {
             get { return (string)GetAttributeValue("save"); }
-            set { SetAttributeValue("save", value); }
+            set { InnerElement.SetAttributeValue("save", value); }
         }
     }
 
@@ -73,25 +73,25 @@ namespace XMPP.Tags.Xmpp.Archive
         public string ExactmatchAttr
         {
             get { return (string)GetAttributeValue("exactmatch"); }
-            set { SetAttributeValue("exactmatch", value); }
+            set { InnerElement.SetAttributeValue("exactmatch", value); }
         }
 
         public string StartAttr
         {
             get { return (string)GetAttributeValue("start"); }
-            set { SetAttributeValue("start", value); }
+            set { InnerElement.SetAttributeValue("start", value); }
         }
 
         public string WithAttr
         {
             get { return (string)GetAttributeValue("with"); }
-            set { SetAttributeValue("with", value); }
+            set { InnerElement.SetAttributeValue("with", value); }
         }
 
         public string VersionAttr
         {
-            get { return (string) GetAttributeValue("version"); }
-            set { SetAttributeValue("version", value); }
+            get { return (string)GetAttributeValue("version"); }
+            set { InnerElement.SetAttributeValue("version", value); }
         }
     }
 
@@ -109,31 +109,31 @@ namespace XMPP.Tags.Xmpp.Archive
         public string StartAttr
         {
             get { return (string)GetAttributeValue("start"); }
-            set { SetAttributeValue("start", value); }
+            set { InnerElement.SetAttributeValue("start", value); }
         }
 
         public string SubjectAttr
         {
             get { return (string)GetAttributeValue("subject"); }
-            set { SetAttributeValue("subject", value); }
+            set { InnerElement.SetAttributeValue("subject", value); }
         }
 
         public string ThreadAttr
         {
             get { return (string)GetAttributeValue("thread"); }
-            set { SetAttributeValue("thread", value); }
+            set { InnerElement.SetAttributeValue("thread", value); }
         }
 
         public string VersionAttr
         {
             get { return (string)GetAttributeValue("version"); }
-            set { SetAttributeValue("version", value); }
+            set { InnerElement.SetAttributeValue("version", value); }
         }
 
         public string WithAttr
         {
             get { return (string)GetAttributeValue("with"); }
-            set { SetAttributeValue("with", value); }
+            set { InnerElement.SetAttributeValue("with", value); }
         }
 
         public From From
@@ -203,13 +203,13 @@ namespace XMPP.Tags.Xmpp.Archive
         public string ExpireAttr
         {
             get { return (string)GetAttributeValue("expire"); }
-            set { SetAttributeValue("expire", value); }
+            set { InnerElement.SetAttributeValue("expire", value); }
         }
 
         public string UnsetAttr
         {
             get { return (string)GetAttributeValue("unset"); }
-            set { SetAttributeValue("unset", value); }
+            set { InnerElement.SetAttributeValue("unset", value); }
         }
 
         public OtrEnum OtrAttr
@@ -259,19 +259,19 @@ namespace XMPP.Tags.Xmpp.Archive
         public string ExactmatchAttr
         {
             get { return (string)GetAttributeValue("exactmatch"); }
-            set { SetAttributeValue("exactmatch", value); }
+            set { InnerElement.SetAttributeValue("exactmatch", value); }
         }
 
         public string ExpireAttr
         {
             get { return (string)GetAttributeValue("expire"); }
-            set { SetAttributeValue("expire", value); }
+            set { InnerElement.SetAttributeValue("expire", value); }
         }
 
         public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
-            set { SetAttributeValue("jid", value); }
+            set { InnerElement.SetAttributeValue("jid", value); }
         }
 
         public OtrEnum OtrAttr
@@ -309,7 +309,7 @@ namespace XMPP.Tags.Xmpp.Archive
         public string TypeAttr
         {
             get { return (string)GetAttributeValue("type"); }
-            set { SetAttributeValue("type", value); }
+            set { InnerElement.SetAttributeValue("type", value); }
         }
 
         public UseEnum UseAttr
@@ -333,7 +333,7 @@ namespace XMPP.Tags.Xmpp.Archive
         public string StartAttr
         {
             get { return (string)GetAttributeValue("start"); }
-            set { SetAttributeValue("start", value); }
+            set { InnerElement.SetAttributeValue("start", value); }
         }
 
         public IEnumerable<Changed> ChangedElements
@@ -361,7 +361,7 @@ namespace XMPP.Tags.Xmpp.Archive
         public string UtcAttr
         {
             get { return (string)GetAttributeValue("utc"); }
-            set { SetAttributeValue("utc", value); }
+            set { InnerElement.SetAttributeValue("utc", value); }
         }
     }
 
@@ -429,31 +429,31 @@ namespace XMPP.Tags.Xmpp.Archive
         public string EndAttr
         {
             get { return (string)GetAttributeValue("end"); }
-            set { SetAttributeValue("end", value); }
+            set { InnerElement.SetAttributeValue("end", value); }
         }
 
         public string ExactMatchAttr
         {
             get { return (string)GetAttributeValue("exactmatch"); }
-            set { SetAttributeValue("exactmatch", value); }
+            set { InnerElement.SetAttributeValue("exactmatch", value); }
         }
 
         public string OpenAttr
         {
             get { return (string)GetAttributeValue("open"); }
-            set { SetAttributeValue("open", value); }
+            set { InnerElement.SetAttributeValue("open", value); }
         }
 
         public string StartAttr
         {
             get { return (string)GetAttributeValue("start"); }
-            set { SetAttributeValue("start", value); }
+            set { InnerElement.SetAttributeValue("start", value); }
         }
 
         public string WithAttr
         {
             get { return (string)GetAttributeValue("with"); }
-            set { SetAttributeValue("with", value); }
+            set { InnerElement.SetAttributeValue("with", value); }
         }
     }
 
@@ -471,25 +471,25 @@ namespace XMPP.Tags.Xmpp.Archive
         public string ExactMatchAttr
         {
             get { return (string)GetAttributeValue("exactmatch"); }
-            set { SetAttributeValue("exactmatch", value); }
+            set { InnerElement.SetAttributeValue("exactmatch", value); }
         }
 
         public string StartAttr
         {
             get { return (string)GetAttributeValue("start"); }
-            set { SetAttributeValue("start", value); }
+            set { InnerElement.SetAttributeValue("start", value); }
         }
 
         public string WithAttr
         {
             get { return (string)GetAttributeValue("with"); }
-            set { SetAttributeValue("with", value); }
+            set { InnerElement.SetAttributeValue("with", value); }
         }
 
         public string VersionAttr
         {
             get { return (string)GetAttributeValue("version"); }
-            set { SetAttributeValue("version", value); }
+            set { InnerElement.SetAttributeValue("version", value); }
         }
     }
 
@@ -507,19 +507,19 @@ namespace XMPP.Tags.Xmpp.Archive
         public string ExactMatchAttr
         {
             get { return (string)GetAttributeValue("exactmatch"); }
-            set { SetAttributeValue("exactmatch", value); }
+            set { InnerElement.SetAttributeValue("exactmatch", value); }
         }
 
         public string StartAttr
         {
             get { return (string)GetAttributeValue("start"); }
-            set { SetAttributeValue("start", value); }
+            set { InnerElement.SetAttributeValue("start", value); }
         }
 
         public string WithAttr
         {
             get { return (string)GetAttributeValue("with"); }
-            set { SetAttributeValue("with", value); }
+            set { InnerElement.SetAttributeValue("with", value); }
         }
     }
 
@@ -554,25 +554,25 @@ namespace XMPP.Tags.Xmpp.Archive
         public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
-            set { SetAttributeValue("jid", value); }
+            set { InnerElement.SetAttributeValue("jid", value); }
         }
 
         public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
-            set { SetAttributeValue("name", value); }
+            set { InnerElement.SetAttributeValue("name", value); }
         }
 
         public string SecsAttr
         {
             get { return (string)GetAttributeValue("secs"); }
-            set { SetAttributeValue("secs", value); }
+            set { InnerElement.SetAttributeValue("secs", value); }
         }
 
         public string UtcAttr
         {
             get { return (string)GetAttributeValue("utc"); }
-            set { SetAttributeValue("utc", value); }
+            set { InnerElement.SetAttributeValue("utc", value); }
         }
 
         public IEnumerable<Body> BodyElements
@@ -595,13 +595,13 @@ namespace XMPP.Tags.Xmpp.Archive
         public string StartAttr
         {
             get { return (string)GetAttributeValue("start"); }
-            set { SetAttributeValue("start", value); }
+            set { InnerElement.SetAttributeValue("start", value); }
         }
 
         public string WithAttr
         {
             get { return (string)GetAttributeValue("with"); }
-            set { SetAttributeValue("with", value); }
+            set { InnerElement.SetAttributeValue("with", value); }
         }
     }
 
@@ -619,13 +619,13 @@ namespace XMPP.Tags.Xmpp.Archive
         public string StartAttr
         {
             get { return (string)GetAttributeValue("start"); }
-            set { SetAttributeValue("start", value); }
+            set { InnerElement.SetAttributeValue("start", value); }
         }
 
         public string WithAttr
         {
             get { return (string)GetAttributeValue("with"); }
-            set { SetAttributeValue("with", value); }
+            set { InnerElement.SetAttributeValue("with", value); }
         }
     }
 
@@ -643,25 +643,25 @@ namespace XMPP.Tags.Xmpp.Archive
         public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
-            set { SetAttributeValue("jid", value); }
+            set { InnerElement.SetAttributeValue("jid", value); }
         }
 
         public string NameAttr
         {
             get { return (string)GetAttributeValue("name"); }
-            set { SetAttributeValue("name", value); }
+            set { InnerElement.SetAttributeValue("name", value); }
         }
 
         public string SecsAttr
         {
             get { return (string)GetAttributeValue("secs"); }
-            set { SetAttributeValue("secs", value); }
+            set { InnerElement.SetAttributeValue("secs", value); }
         }
 
         public string UtcAttr
         {
             get { return (string)GetAttributeValue("utc"); }
-            set { SetAttributeValue("utc", value); }
+            set { InnerElement.SetAttributeValue("utc", value); }
         }
 
         public IEnumerable<Body> BodyElements

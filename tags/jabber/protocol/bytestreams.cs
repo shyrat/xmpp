@@ -60,13 +60,13 @@ namespace XMPP.Tags.Jabber.Protocol.ByteStreams
         public string DstAddrAttr
         {
             get { return (string)GetAttributeValue("dstaddr"); }
-            set { SetAttributeValue("dstaddr", value); }
+            set { InnerElement.SetAttributeValue("dstaddr", value); }
         }
 
         public string SidAttr
         {
             get { return (string)GetAttributeValue("sid"); }
-            set { SetAttributeValue("sid", value); }
+            set { InnerElement.SetAttributeValue("sid", value); }
         }
 
         public ModeEnum ModeAttr
@@ -90,19 +90,19 @@ namespace XMPP.Tags.Jabber.Protocol.ByteStreams
         public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
-            set { SetAttributeValue("jid", value); }
+            set { InnerElement.SetAttributeValue("jid", value); }
         }
 
         public string HostAttr
         {
             get { return (string)GetAttributeValue("host"); }
-            set { SetAttributeValue("host", value); }
+            set { InnerElement.SetAttributeValue("host", value); }
         }
 
         public string PortAttr
         {
             get { return (string)GetAttributeValue("port"); }
-            set { SetAttributeValue("port", value); }
+            set { InnerElement.SetAttributeValue("port", value); }
         }
     }
 
@@ -120,7 +120,7 @@ namespace XMPP.Tags.Jabber.Protocol.ByteStreams
         public string JidAttr
         {
             get { return (string)GetAttributeValue("jid"); }
-            set { SetAttributeValue("jid", value); }
+            set { InnerElement.SetAttributeValue("jid", value); }
         }
     }
 
@@ -138,7 +138,7 @@ namespace XMPP.Tags.Jabber.Protocol.ByteStreams
         public string DstAddrAttr
         {
             get { return (string)GetAttributeValue("dstaddr"); }
-            set { SetAttributeValue("dstaddr", value); }
+            set { InnerElement.SetAttributeValue("dstaddr", value); }
         }
     }
 

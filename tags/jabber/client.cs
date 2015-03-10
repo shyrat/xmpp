@@ -56,13 +56,13 @@ namespace XMPP.Tags.Jabber.Client
         public string FromAttr
         {
             get { return (string)GetAttributeValue("from"); }
-            set { SetAttributeValue("from", value); }
+            set { InnerElement.SetAttributeValue("from", value); }
         }
 
         public string ToAttr
         {
             get { return (string)GetAttributeValue("to"); }
-            set { SetAttributeValue("to", value); }
+            set { InnerElement.SetAttributeValue("to", value); }
         }
 
         public TypeEnum TypeAttr
@@ -74,13 +74,13 @@ namespace XMPP.Tags.Jabber.Client
         public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
-            set { SetAttributeValue("id", value); }
+            set { InnerElement.SetAttributeValue("id", value); }
         }
 
         public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
         }
 
         public IEnumerable<Body> BodyElements
@@ -123,7 +123,13 @@ namespace XMPP.Tags.Jabber.Client
         public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+        }
+
+        public string Value
+        {
+            get { return InnerElement.Value; }
+            set { InnerElement.Value = value; }
         }
     }
 
@@ -141,7 +147,7 @@ namespace XMPP.Tags.Jabber.Client
         public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
         }
     }
 
@@ -160,7 +166,7 @@ namespace XMPP.Tags.Jabber.Client
         public string ParentAttr
         {
             get { return (string)GetAttributeValue("parent"); }
-            set { SetAttributeValue("parent", value); }
+            set { InnerElement.SetAttributeValue("parent", value); }
         }
     }
 
@@ -192,13 +198,13 @@ namespace XMPP.Tags.Jabber.Client
         public string FromAttr
         {
             get { return (string)GetAttributeValue("from"); }
-            set { SetAttributeValue("from", value); }
+            set { InnerElement.SetAttributeValue("from", value); }
         }
 
         public string ToAttr
         {
             get { return (string)GetAttributeValue("to"); }
-            set { SetAttributeValue("to", value); }
+            set { InnerElement.SetAttributeValue("to", value); }
         }
 
         public TypeEnum TypeAttr
@@ -210,13 +216,13 @@ namespace XMPP.Tags.Jabber.Client
         public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
-            set { SetAttributeValue("id", value); }
+            set { InnerElement.SetAttributeValue("id", value); }
         }
 
         public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
         }
 
         public IEnumerable<Show> ShowElements
@@ -260,10 +266,10 @@ namespace XMPP.Tags.Jabber.Client
         {
         }
 
-        public new ValueEnum Value
+        public ValueEnum Value
         {
-            get { return (ValueEnum)Enum.Parse(typeof(ValueEnum), base.Value, true); }
-            set { base.Value = value.ToString(); }
+            get { return (ValueEnum)Enum.Parse(typeof(ValueEnum), InnerElement.Value, true); }
+            set { InnerElement.Value = value.ToString(); }
         }
     }
 
@@ -281,12 +287,12 @@ namespace XMPP.Tags.Jabber.Client
         public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
         }
 
-        public new string Value
+        public string Value
         {
-            get { return base.Value; }
+            get { return InnerElement.Value; }
             set
             {
                 if (value.Length < 1 || value.Length > 1024)
@@ -294,7 +300,7 @@ namespace XMPP.Tags.Jabber.Client
                     throw new Exception("Text out of range");
                 }
 
-                base.Value = value;
+                InnerElement.Value = value;
             }
         }
     }
@@ -310,10 +316,10 @@ namespace XMPP.Tags.Jabber.Client
         {
         }
 
-        public new int Value
+        public int Value
         {
-            get { return Convert.ToInt32(base.Value); }
-            set { base.Value = value.ToString(); }
+            get { return Convert.ToInt32(InnerElement.Value); }
+            set { InnerElement.Value = value.ToString(); }
         }
     }
 
@@ -340,13 +346,13 @@ namespace XMPP.Tags.Jabber.Client
         public string FromAttr
         {
             get { return (string)GetAttributeValue("from"); }
-            set { SetAttributeValue("from", value); }
+            set { InnerElement.SetAttributeValue("from", value); }
         }
 
         public string ToAttr
         {
             get { return (string)GetAttributeValue("to"); }
-            set { SetAttributeValue("to", value); }
+            set { InnerElement.SetAttributeValue("to", value); }
         }
 
         public TypeEnum TypeAttr
@@ -358,13 +364,13 @@ namespace XMPP.Tags.Jabber.Client
         public string IdAttr
         {
             get { return (string)GetAttributeValue("id"); }
-            set { SetAttributeValue("id", value); }
+            set { InnerElement.SetAttributeValue("id", value); }
         }
 
         public string LangAttr
         {
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
         }
 
         public IEnumerable<Error> ErrorElements
@@ -402,7 +408,7 @@ namespace XMPP.Tags.Jabber.Client
         public string ByAttr
         {
             get { return (string)GetAttributeValue("by"); }
-            set { SetAttributeValue("by", value); }
+            set { InnerElement.SetAttributeValue("by", value); }
         }
 
         public TypeEnum TypeAttr

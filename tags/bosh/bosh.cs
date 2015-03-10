@@ -35,79 +35,79 @@ namespace XMPP.Tags.Bosh
         public int? Wait
         {
             get { return GetAttributeValueAsInt("wait"); }
-            set { SetAttributeValue("wait", value); }
+            set { InnerElement.SetAttributeValue("wait", value); }
         }
 
         public int? Inactivity
         {
             get { return GetAttributeValueAsInt("inactivity"); }
-            set { SetAttributeValue("inactivity", value); }
+            set { InnerElement.SetAttributeValue("inactivity", value); }
         }
 
         public int? Polling
         {
             get { return GetAttributeValueAsInt("polling"); }
-            set { SetAttributeValue("polling", value); }
+            set { InnerElement.SetAttributeValue("polling", value); }
         }
 
         public int? Requests
         {
             get { return GetAttributeValueAsInt("requests"); }
-            set { SetAttributeValue("requests", value); }
+            set { InnerElement.SetAttributeValue("requests", value); }
         }
 
         public int? Hold
         {
             get { return GetAttributeValueAsInt("hold"); }
-            set { SetAttributeValue("hold", value); }
+            set { InnerElement.SetAttributeValue("hold", value); }
         }
 
         public string Sid
         {
             get { return (string) GetAttributeValue("sid"); }
-            set { SetAttributeValue("sid", value); }
+            set { InnerElement.SetAttributeValue("sid", value); }
         }
 
         public long? Rid
         {
             get { return GetAttributeValueAsLong("rid"); }
-            set { SetAttributeValue("rid", value); }
+            set { InnerElement.SetAttributeValue("rid", value); }
         }
 
         public string From
         {
             get { return (string)GetAttributeValue("from"); }
-            set { SetAttributeValue("from", value); }
+            set { InnerElement.SetAttributeValue("from", value); }
         }
 
         public string To
         {
             get { return (string)GetAttributeValue("to"); }
-            set { SetAttributeValue("to", value); }
+            set { InnerElement.SetAttributeValue("to", value); }
         }
 
         public string Type
         {
             get { return (string)GetAttributeValue("type"); }
-            set { SetAttributeValue("type", value); }
+            set { InnerElement.SetAttributeValue("type", value); }
         }
 
         public bool? Restart
         {
             get { return GetAttributeValueAsBool(XName.Get("restart", Namespace.Xmpp)); }
-            set { SetAttributeValue(XName.Get("restart", Namespace.Xmpp), value); }
+            set { InnerElement.SetAttributeValue(XName.Get("restart", Namespace.Xmpp), value); }
         }
 
         public string Version
         {
-            get { return (string) GetAttributeValue(XName.Get("version", Namespace.Xmpp)); }
-            set { SetAttributeValue(XName.Get("version", Namespace.Xmpp), value); }
+            get { return (string)GetAttributeValue(XName.Get("version", Namespace.Xmpp)); }
+            set { InnerElement.SetAttributeValue(XName.Get("version", Namespace.Xmpp), value); }
         }
 
         public string Lang
         {
-            get { return (string) GetAttributeValue("lang"); }
-            set { SetAttributeValue("lang", value); }
+            get { return (string)GetAttributeValue("lang"); }
+            set { InnerElement.SetAttributeValue("lang", value); }
         }
     }
 }

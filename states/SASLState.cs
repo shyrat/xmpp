@@ -9,6 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Linq;
+using System.Xml.Linq;
 using XMPP.SASL;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;
@@ -28,7 +29,7 @@ namespace XMPP.States
             Manager.Events.LogMessage(this, LogType.Debug, "Processing next SASL step");
 #endif
             Tag res = Manager.SaslProcessor.Step(data);
-            switch (res.Name.LocalName)
+            switch (((XElement)res).Name.LocalName)
             {
                 case "success":
                 {
@@ -44,7 +45,7 @@ namespace XMPP.States
                     }
                     else
                     {
-                        (Manager.Connection as BoSH).Restart();
+                        (Manager.Connection as BoSh).Restart();
                     }
 
                     break;
@@ -66,10 +67,13 @@ namespace XMPP.States
                     if (Manager.SaslProcessor is XOAuth2Processor)
                         type = ErrorType.Oauth2AuthError;
 
-                    var failure = data as Failure;
                     string text = string.Empty;
-                    if (failure.TextElements.Any())
+
+                    var failure = data as Failure;
+                    if (null != failure && failure.TextElements.Any())
+                    {
                         text = failure.TextElements.First().Value;
+                    }
 
                     Manager.Events.Error(this, type, ErrorPolicyType.Deactivate, text);
 
