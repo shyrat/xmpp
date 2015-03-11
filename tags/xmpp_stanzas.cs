@@ -347,6 +347,11 @@ namespace XMPP.Tags.XmppStanzas
             get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
             set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
         }
+
+        public string Value
+        {
+            get { return InnerElement.Value; }
+        }
     }
 }
 

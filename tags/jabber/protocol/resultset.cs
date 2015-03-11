@@ -127,6 +127,12 @@ namespace XMPP.Tags.Jabber.Protocol.Resultset
         public Max(XElement other) : base(other)
         {
         }
+
+        public int Value
+        {
+            get { return int.Parse(InnerElement.Value); }
+            set { InnerElement.Value = value.ToString(); }
+        }
     }
 }
 

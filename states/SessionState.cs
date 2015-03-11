@@ -9,6 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Xml.Linq;
+using XMPP.Common;
 using XMPP.Tags;
 using XMPP.Tags.Jabber.Client;
 using XMPP.Tags.XmppSession;
@@ -42,7 +43,7 @@ namespace XMPP.States
             {
                 if (Manager.Transport == Transport.Bosh)
                 {
-                    (Manager.Connection as BoSh).StartPolling();
+                    (Manager.Connection as Bosh).StartPolling();
                 }
 
                 Manager.State = new RunningState(Manager);

@@ -167,6 +167,7 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA
     <Compile Include="registries\Static.cs" />
     <Compile Include="SASL\XOAUTH2Processor.cs" />
     <Compile Include="tags\bosh\bosh.cs" />
+    <Compile Include="tags\common\Extensions.cs" />
     <Compile Include="tags\jabber\features\amp.cs" />
     <Compile Include="tags\jabber\iq\auth.cs" />
     <Compile Include="tags\jabber\iq\gateway.cs" />

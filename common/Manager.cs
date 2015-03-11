@@ -10,6 +10,7 @@
 
 using System;
 using System.Threading;
+using XMPP.Common;
 using XMPP.SASL;
 using XMPP.States;
 
@@ -103,17 +104,11 @@ namespace XMPP.Ñommon
 
         #endregion
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Manager"/> class.
-        /// </summary>
-        /// <param name="transport">
-        /// The transport.
-        /// </param>
         public Manager(Transport transport)
         {
             Transport = transport;
 
-            Connection = transport == Transport.Socket ? new Connection(this) as IConnection : new BoSh(this) as IConnection;
+            Connection = transport == Transport.Socket ? new Connection(this) as IConnection : new Bosh(this) as IConnection;
             Parser = new Parser(this);
             State = new ClosedState(this);
 
@@ -125,15 +120,6 @@ namespace XMPP.Ñommon
 
         #region eventhandler
 
-        /// <summary>
-        /// The on connect.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void OnConnect(object sender, EventArgs e)
         {
             // We need an XID and Password to connect to the server.
@@ -155,15 +141,6 @@ namespace XMPP.Ñommon
             }
         }
 
-        /// <summary>
-        /// The on disconnect.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void OnDisconnect(object sender, EventArgs e)
         {
             if (State.GetType() != typeof(DisconnectState))
@@ -173,29 +150,11 @@ namespace XMPP.Ñommon
             }
         }
 
-        /// <summary>
-        /// The on new tag.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         private void OnNewTag(object sender, TagEventArgs e)
         {
             State.Execute(e.tag);
         }
 
-        /// <summary>
-        /// The on error.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         private void OnError(object sender, ErrorEventArgs e)
         {
 #if DEBUG

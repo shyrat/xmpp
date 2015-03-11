@@ -10,6 +10,7 @@
 
 using System.Linq;
 using System.Xml.Linq;
+using XMPP.Common;
 using XMPP.SASL;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;
@@ -45,7 +46,7 @@ namespace XMPP.States
                     }
                     else
                     {
-                        (Manager.Connection as BoSh).Restart();
+                        (Manager.Connection as Bosh).Restart();
                     }
 
                     break;

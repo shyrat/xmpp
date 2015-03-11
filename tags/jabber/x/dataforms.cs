@@ -30,8 +30,8 @@ namespace XMPP.Tags.Jabber.X.Dataforms
         public static readonly XName Required = XName.Get("required", Name);
     }
 
-    [XmppTag(typeof(Namespace), typeof(x))]
-    public class x : Tag
+    [XmppTag(typeof(Namespace), typeof(X))]
+    public class X : Tag
     {
         public enum TypeEnum
         {
@@ -41,11 +41,11 @@ namespace XMPP.Tags.Jabber.X.Dataforms
             submit
         }
 
-        public x() : base(Namespace.X)
+        public X() : base(Namespace.X)
         {
         }
 
-        public x(XElement other) : base(other)
+        public X(XElement other) : base(other)
         {
         }
 
@@ -115,7 +115,7 @@ namespace XMPP.Tags.Jabber.X.Dataforms
     [XmppTag(typeof(Namespace), typeof(Field))]
     public class Field : Tag
     {
-        public enum typeEnum
+        public enum TypeEnum
         {
             boolean,
             @fixed,
@@ -170,16 +170,22 @@ namespace XMPP.Tags.Jabber.X.Dataforms
             set { InnerElement.SetAttributeValue("label", value); }
         }
 
-        public typeEnum TypeAttr
+        public TypeEnum TypeAttr
         {
-            get { return GetAttributeEnum<typeEnum>("type"); }
-            set { SetAttributeEnum<typeEnum>("type", value); }
+            get { return GetAttributeEnum<TypeEnum>("type"); }
+            set { SetAttributeEnum<TypeEnum>("type", value); }
         }
 
         public string VarAttr
         {
             get { return (string)GetAttributeValue("var"); }
             set { InnerElement.SetAttributeValue("var", value); }
+        }
+
+        public string Value
+        {
+            get { return InnerElement.Value; }
+            set { InnerElement.Value = value; }
         }
     }
 

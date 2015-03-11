@@ -50,6 +50,12 @@ namespace XMPP.Tags.Jabber.Protocol.Archive
         public With(XElement other) : base(other)
         {
         }
+
+        public string Value
+        {
+            get { return InnerElement.Value; }
+            set { InnerElement.Value = value; }
+        }
     }
 
     [XmppTag(typeof(Namespace), typeof(Start))]

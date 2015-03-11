@@ -90,6 +90,12 @@ namespace XMPP.Tags.Jabber.Iq.Roster
             set { InnerElement.SetAttributeValue("name", value); }
         }
 
+        public string CompanyAttr
+        {
+            get { return (string)GetAttributeValue("company"); }
+            set { InnerElement.SetAttributeValue("company", value); }
+        }
+
         public SubscriptionEnum SubscriptionAttr
         {
             get { return GetAttributeEnum<SubscriptionEnum>("subscription"); }
@@ -113,6 +119,12 @@ namespace XMPP.Tags.Jabber.Iq.Roster
         public Group(XElement other)
             : base(other)
         {
+        }
+
+        public string Value
+        {
+            get { return InnerElement.Value; }
+            set { InnerElement.Value = value; }
         }
     }
 }

@@ -1,21 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Bosh.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The bo sh.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-
-using System;
+﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
@@ -23,41 +9,51 @@ using Windows.Web.Http.Headers;
 using XMPP.States;
 using XMPP.Tags;
 using XMPP.Tags.Bosh;
-using XMPP.Tags.Streams;
-using Namespace = XMPP.Tags.Streams.Namespace;
+using XMPP.Сommon;
 
-namespace XMPP.Сommon
+namespace XMPP.Common
 {
-    public class BoSh : IConnection
+    public class Bosh : IConnection
     {
-        private const int StartRid = 1000000;
-        private const int EndRid = 99999999;
-        private const int Hold = 1;
-        private const int Wait = 60;
-        private readonly Manager _manager;
-
-        private AutoResetEvent _canFetch;
-        private HttpClient _client;
-        private ManualResetEventSlim _connectionError;
-        private SemaphoreSlim _connectionsCounter;
-        private ManualResetEventSlim _disconnecting;
-        private Task _pollingTask;
-        private int? _requests;
-        private long _rid;
-        private string _sid;
-        private ConcurrentQueue<XElement> _tags;
-        public BoSh(Manager manager)
+        public Bosh(Manager manager)
         {
             _manager = manager;
         }
 
-        public bool IsConnected { get; private set; }
+        /// <summary>
+        /// Gets a value indicating whether is connected.
+        /// </summary>
+        public bool IsConnected
+        {
+            get
+            {
+                return _isConnected.IsSet;
+            }
 
+            private set
+            {
+                if (value)
+                {
+                    _isConnected.Set();
+                }
+                else
+                {
+                    _isConnected.Reset();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the hostname.
+        /// </summary>
         public string Hostname
         {
             get { return _manager.Settings.Hostname; }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether is ssl enabled.
+        /// </summary>
         public bool IsSSLEnabled { get; set; }
 
         public void Connect()
@@ -100,6 +96,16 @@ namespace XMPP.Сommon
             _manager.Events.Disconnected(this);
         }
 
+        public void Restart()
+        {
+            SendRestartRequest();
+        }
+
+        public void StartPolling()
+        {
+            _pollingTask = StartPollingInternal();
+        }
+
         public void Send(Tag tag)
         {
             Task.Run(() => Flush(tag));
@@ -125,16 +131,6 @@ namespace XMPP.Сommon
             CleanupState();
         }
 
-        public void Restart()
-        {
-            SendRestartRequest();
-        }
-
-        public void StartPolling()
-        {
-            _pollingTask = StartPollingInternal();
-        }
-
         private void Init()
         {
             _client = new HttpClient();
@@ -142,42 +138,35 @@ namespace XMPP.Сommon
             _disconnecting = new ManualResetEventSlim(false);
             _connectionError = new ManualResetEventSlim(false);
             _canFetch = new AutoResetEvent(true);
-            _tags = new ConcurrentQueue<XElement>();
+            _tagQueue = new ConcurrentQueue<XElement>();
             _rid = new Random().Next(StartRid, EndRid);
         }
 
-        private XElement RemoveComments(Tag tag)
-        {
-            var copy = new XElement(tag);
-            IEnumerable<XNode> comments = copy.DescendantNodesAndSelf()
-                .Where(node => node.NodeType == XmlNodeType.Comment);
-
-            while (comments.Any())
-            {
-                comments.First().Remove();
-            }
-
-            return copy;
-        }
-
-        private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
+        private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause, Body body)
         {
             if (_disconnecting.IsSet)
             {
                 return;
             }
 
-            if (!_connectionError.IsSet)
+            if (string.IsNullOrEmpty(body.SidAttr) || Interlocked.Increment(ref _retryCounter) >= MaxRetry)
             {
-                _connectionError.Set();
+                if (!_connectionError.IsSet)
+                {
+                    _connectionError.Set();
 
-                _manager.Events.Error(this, type, policy, cause);
+                    _manager.Events.Error(this, type, policy, cause);
+                }
+            }
+            else
+            {
+                foreach (var item in body.Elements())
+                {
+                    _tagQueue.Enqueue(item);
+                }
             }
         }
 
-        /// <summary>
-        /// The cleanup state.
-        /// </summary>
         private void CleanupState()
         {
             IsConnected = false;
@@ -189,97 +178,89 @@ namespace XMPP.Сommon
             }
         }
 
-        /// <summary>
-        /// The send restart request.
-        /// </summary>
         private void SendRestartRequest()
         {
             var body = new Body
             {
-                Sid = _sid, 
-                Rid = Interlocked.Increment(ref _rid), 
-                Restart = true, 
-                To = _manager.Settings.Id.Server
+                SidAttr = _sid,
+                RidAttr = Interlocked.Increment(ref _rid),
+                RestartAttr = true,
+                ToAttr = _manager.Settings.Id.Server
             };
 
-            Body resp = SendRequest(body);
+            var resp = SendRequest(body);
             if (null != resp)
             {
-                var payload = resp.Element<Features>(Namespace.Features);
+                var payload = resp.Element<Tags.Streams.Features>(Tags.Streams.Namespace.Features);
 
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
             }
         }
 
-        /// <summary>
-        /// The send request.
-        /// </summary>
-        /// <param name="body">
-        /// The body.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Body"/>.
-        /// </returns>
         private Body SendRequest(Body body)
         {
-            _manager.Events.Chunk(this, new ChunkLogEventArgs(body, ChunkDirection.Outgoing));
-
             var req = new HttpRequestMessage
             {
-                RequestUri = new Uri(_manager.Settings.Hostname), 
-                Method = new HttpMethod("POST"), 
-                Content = new HttpStringContent(body, UnicodeEncoding.Utf8), 
+                RequestUri = new Uri(_manager.Settings.Hostname),
+                Method = new HttpMethod("POST"),
+                Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
             };
 
             req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")
             {
-                CharSet = "utf-8", 
+                CharSet = "utf-8",
             };
 
             try
             {
-                HttpResponseMessage resp = _client.SendRequestAsync(req).AsTask().Result;
+                var resp = _client.SendRequestAsync(req).AsTask().Result;
 
                 if (resp.IsSuccessStatusCode)
                 {
-                    string data = resp.Content.ReadAsStringAsync().AsTask().Result;
+                    var data = resp.Content.ReadAsStringAsync().AsTask().Result;
 
-                    _manager.Events.Chunk(this, new ChunkLogEventArgs(data, ChunkDirection.Incomming));
+                    Interlocked.Exchange(ref _retryCounter, 0);
 
                     return Tag.Get(data) as Body;
                 }
 
-                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, 
-                    string.Format("Connection error:\r\nStatus: {0}\r\nReason Phrase: {1}", resp.StatusCode, 
-                        resp.ReasonPhrase));
+                ConnectionError(
+                    ErrorType.ConnectToServerFailed,
+                    ErrorPolicyType.Reconnect,
+                    string.Format(
+                        "Connection error: Status: {0} Reason Phrase: {1}",
+                        resp.StatusCode,
+                        resp.ReasonPhrase),
+                    body);
             }
             catch (AggregateException e)
             {
                 if (!(e.InnerException is TaskCanceledException))
                 {
-                    ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, e.Message);
+                    ConnectionError(
+                        ErrorType.ConnectToServerFailed,
+                        ErrorPolicyType.Reconnect,
+                        e.Message,
+                        body);
                 }
             }
 
             return null;
         }
 
-        /// <summary>
-        /// The send session creation request.
-        /// </summary>
         private void SendSessionCreationRequest()
         {
             var body = new Body
             {
-                Rid = _rid, 
-                Wait = Wait, 
-                Hold = Hold, 
-                From = _manager.Settings.Id.Bare, 
-                To = _manager.Settings.Id.Server
+                RidAttr = _rid,
+                WaitAttr = Wait,
+                HoldAttr = Hold,
+                FromAttr = _manager.Settings.Id.Bare,
+                ToAttr = _manager.Settings.Id.Server
             };
 
-            Body resp = SendRequest(body);
+            var resp = SendRequest(body);
 
             if (null != resp)
             {
@@ -287,28 +268,25 @@ namespace XMPP.Сommon
 
                 _manager.Events.Connected(this);
 
-                _sid = resp.Sid;
-                _requests = resp.Requests;
+                _sid = resp.SidAttr;
+                _requests = resp.RequestsAttr;
 
                 _connectionsCounter = new SemaphoreSlim(_requests.Value, _requests.Value);
 
-                var payload = resp.Element<Features>(Namespace.Features);
+                var payload = resp.Element<Tags.Streams.Features>(Tags.Streams.Namespace.Features);
 
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
             }
         }
 
-        /// <summary>
-        /// The send session termination request.
-        /// </summary>
         private void SendSessionTerminationRequest()
         {
             var body = new Body
             {
-                Sid = _sid, 
-                Rid = Interlocked.Increment(ref _rid), 
-                Type = "terminate"
+                SidAttr = _sid,
+                RidAttr = Interlocked.Increment(ref _rid),
+                TypeAttr = "terminate"
             };
 
             CombineBody(body);
@@ -316,25 +294,16 @@ namespace XMPP.Сommon
             SendRequest(body);
         }
 
-        /// <summary>
-        /// The flush.
-        /// </summary>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
         private void Flush(Tag tag = null)
         {
             if (null != tag)
             {
-                _tags.Enqueue(RemoveComments(tag));
+                _tagQueue.Enqueue((XElement)tag);
             }
 
             FlushInternal();
         }
 
-        /// <summary>
-        /// The flush internal.
-        /// </summary>
         private void FlushInternal()
         {
             if (_disconnecting.IsSet || _connectionError.IsSet)
@@ -348,11 +317,11 @@ namespace XMPP.Сommon
                 {
                     _canFetch.WaitOne();
 
-                    Body body = CombineBody();
+                    var body = CombineBody();
 
                     _canFetch.Set();
 
-                    Body resp = SendRequest(body);
+                    var resp = SendRequest(body);
 
                     ExtractBody(resp);
                 }
@@ -360,7 +329,7 @@ namespace XMPP.Сommon
                 {
                     _connectionsCounter.Release();
 
-                    if (!_tags.IsEmpty)
+                    if (!_tagQueue.IsEmpty)
                     {
                         Task.Run(() => Flush());
                     }
@@ -368,22 +337,16 @@ namespace XMPP.Сommon
             }
         }
 
-        /// <summary>
-        /// The combine body.
-        /// </summary>
-        /// <param name="body">
-        /// The body.
-        /// </param>
         private void CombineBody(Body body)
         {
             int counter = _manager.Settings.QueryCount;
 
-            while (!_tags.IsEmpty)
+            while (!_tagQueue.IsEmpty)
             {
                 XElement tag;
-                if (_tags.TryDequeue(out tag))
+                if (_tagQueue.TryDequeue(out tag))
                 {
-                    body.Add(tag);
+                    ((XElement)body).Add(tag);
                     if (--counter == 0)
                     {
                         break;
@@ -392,20 +355,14 @@ namespace XMPP.Сommon
             }
         }
 
-        /// <summary>
-        /// The combine body.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="Body"/>.
-        /// </returns>
         private Body CombineBody()
         {
             var body = new Body
             {
-                Sid = _sid, 
-                Rid = Interlocked.Increment(ref _rid), 
-                From = _manager.Settings.Id, 
-                To = _manager.Settings.Id.Server
+                SidAttr = _sid,
+                RidAttr = Interlocked.Increment(ref _rid),
+                FromAttr = _manager.Settings.Id,
+                ToAttr = _manager.Settings.Id.Server
             };
 
             CombineBody(body);
@@ -413,29 +370,17 @@ namespace XMPP.Сommon
             return body;
         }
 
-        /// <summary>
-        /// The extract body.
-        /// </summary>
-        /// <param name="resp">
-        /// The resp.
-        /// </param>
         private void ExtractBody(Body resp)
         {
             if (null != resp)
             {
-                foreach (XElement element in resp.Elements<XElement>())
+                foreach (var element in resp.Elements())
                 {
                     _manager.Events.NewTag(this, Tag.Get(element));
                 }
             }
         }
 
-        /// <summary>
-        /// The start polling internal.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
         private Task StartPollingInternal()
         {
             return Task.Run(() =>
@@ -447,17 +392,39 @@ namespace XMPP.Сommon
                         return;
                     }
 
-                    if (_connectionsCounter.CurrentCount == _requests)
+                    if (_connectionsCounter.CurrentCount == _requests) //no active requests
                     {
-// no active requests
                         Task.Run(() => FlushInternal());
                     }
 
                     Task.Delay(TimeSpan.FromMilliseconds(10)).Wait();
-                }
-
-                ;
+                };
             });
         }
+
+        private readonly Manager _manager;
+
+        private string _sid;
+        private long _rid;
+        private int? _requests;
+
+        private long _retryCounter;
+
+        private HttpClient _client;
+        private SemaphoreSlim _connectionsCounter;
+        private ManualResetEventSlim _connectionError;
+        private ManualResetEventSlim _disconnecting;
+        private AutoResetEvent _canFetch;
+        private ConcurrentQueue<XElement> _tagQueue;
+        private Task _pollingTask;
+
+        private readonly ManualResetEventSlim _isConnected = new ManualResetEventSlim(false);
+
+        private const int StartRid = 1000000;
+        private const int EndRid = 99999999;
+        private const int Hold = 1;
+        private const int Wait = 60;
+
+        private const long MaxRetry = 3;
     }
 }
