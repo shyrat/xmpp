@@ -12,7 +12,7 @@ namespace XMPP.Tags.Jabber.Protocol.xhtml_im
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/xhtml-im";
+        public const string XmlNamespace = "http://jabber.org/protocol/xhtml-im";
     }
 }
 

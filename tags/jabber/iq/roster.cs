@@ -6,11 +6,11 @@ namespace XMPP.Tags.Jabber.Iq.Roster
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:roster";
+        public const string XmlNamespace = "jabber:iq:roster";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Item = XName.Get("item", Name);
-        public static readonly XName Group = XName.Get("group", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Item = XName.Get("item", XmlNamespace);
+        public static readonly XName Group = XName.Get("group", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

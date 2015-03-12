@@ -2,33 +2,33 @@
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.Iq.register
+namespace XMPP.Tags.Jabber.Iq.Register
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:register";
+        public const string XmlNamespace = "jabber:iq:register";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Registered = XName.Get("registered", Name);
-        public static readonly XName Instruction = XName.Get("instruction", Name);
-        public static readonly XName Username = XName.Get("username", Name);
-        public static readonly XName Nick = XName.Get("nick", Name);
-        public static readonly XName Password = XName.Get("password", Name);
-        public static readonly XName name = XName.Get("name", Name);
-        public static readonly XName First = XName.Get("first", Name);
-        public static readonly XName Last = XName.Get("last", Name);
-        public static readonly XName Email = XName.Get("email", Name);
-        public static readonly XName Address = XName.Get("address", Name);
-        public static readonly XName City = XName.Get("city", Name);
-        public static readonly XName State = XName.Get("state", Name);
-        public static readonly XName Zip = XName.Get("zip", Name);
-        public static readonly XName Phone = XName.Get("phone", Name);
-        public static readonly XName Url = XName.Get("url", Name);
-        public static readonly XName Date = XName.Get("date", Name);
-        public static readonly XName Misc = XName.Get("misc", Name);
-        public static readonly XName Text = XName.Get("text", Name);
-        public static readonly XName Key = XName.Get("key", Name);
-        public static readonly XName Remove = XName.Get("remove", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Registered = XName.Get("registered", XmlNamespace);
+        public static readonly XName Instruction = XName.Get("instruction", XmlNamespace);
+        public static readonly XName Username = XName.Get("username", XmlNamespace);
+        public static readonly XName Nick = XName.Get("nick", XmlNamespace);
+        public static readonly XName Password = XName.Get("password", XmlNamespace);
+        public static readonly XName Name = XName.Get("name", XmlNamespace);
+        public static readonly XName First = XName.Get("first", XmlNamespace);
+        public static readonly XName Last = XName.Get("last", XmlNamespace);
+        public static readonly XName Email = XName.Get("email", XmlNamespace);
+        public static readonly XName Address = XName.Get("address", XmlNamespace);
+        public static readonly XName City = XName.Get("city", XmlNamespace);
+        public static readonly XName State = XName.Get("state", XmlNamespace);
+        public static readonly XName Zip = XName.Get("zip", XmlNamespace);
+        public static readonly XName Phone = XName.Get("phone", XmlNamespace);
+        public static readonly XName Url = XName.Get("url", XmlNamespace);
+        public static readonly XName Date = XName.Get("date", XmlNamespace);
+        public static readonly XName Misc = XName.Get("misc", XmlNamespace);
+        public static readonly XName Text = XName.Get("text", XmlNamespace);
+        public static readonly XName Key = XName.Get("key", XmlNamespace);
+        public static readonly XName Remove = XName.Get("remove", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]
@@ -71,7 +71,7 @@ namespace XMPP.Tags.Jabber.Iq.register
 
         public IEnumerable<Name> NameElements
         {
-            get { return Elements<Name>(Namespace.name); }
+            get { return Elements<Name>(Namespace.Name); }
         }
 
         public IEnumerable<First> FirstElements
@@ -219,7 +219,7 @@ namespace XMPP.Tags.Jabber.Iq.register
     public class Name : Tag
     {
         public Name()
-            : base(Namespace.name)
+            : base(Namespace.Name)
         {
         }
 

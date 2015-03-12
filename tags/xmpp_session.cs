@@ -6,11 +6,11 @@ namespace XMPP.Tags.XmppSession
 {
     public class Namespace
     {
-        public const string Name = "urn:ietf:params:xml:ns:xmpp-session";
+        public const string XmlNamespace = "urn:ietf:params:xml:ns:xmpp-session";
 
-        public static readonly XName Session = XName.Get("session", Name);
-        public static readonly XName Required = XName.Get("required", Name);
-        public static readonly XName Optional = XName.Get("optional", Name);
+        public static readonly XName Session = XName.Get("session", XmlNamespace);
+        public static readonly XName Required = XName.Get("required", XmlNamespace);
+        public static readonly XName Optional = XName.Get("optional", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Session))]

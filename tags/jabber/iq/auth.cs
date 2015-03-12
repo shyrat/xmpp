@@ -6,13 +6,13 @@ namespace XMPP.Tags.Jabber.Iq.Auth
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:auth";
+        public const string XmlNamespace = "jabber:iq:auth";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Username = XName.Get("username", Name);
-        public static readonly XName Password = XName.Get("password", Name);
-        public static readonly XName Digest = XName.Get("digest", Name);
-        public static readonly XName Resource = XName.Get("resource", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Username = XName.Get("username", XmlNamespace);
+        public static readonly XName Password = XName.Get("password", XmlNamespace);
+        public static readonly XName Digest = XName.Get("digest", XmlNamespace);
+        public static readonly XName Resource = XName.Get("resource", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

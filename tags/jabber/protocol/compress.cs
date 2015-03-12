@@ -16,15 +16,15 @@ namespace XMPP.Tags.Jabber.Protocol.Compress
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/compress";
+        public const string XmlNamespace = "http://jabber.org/protocol/compress";
 
-        public static readonly XName Compress = XName.Get("compress", Name);
-        public static readonly XName Method = XName.Get("method", Name);
-        public static readonly XName Compressed = XName.Get("compressed", Name);
-        public static readonly XName Failure = XName.Get("failure", Name);
-        public static readonly XName SetupFailed = XName.Get("setup-failed", Name);
-        public static readonly XName ProcessingFailed = XName.Get("processing-failed", Name);
-        public static readonly XName UnsupportedMethod = XName.Get("unsupported-method", Name);
+        public static readonly XName Compress = XName.Get("compress", XmlNamespace);
+        public static readonly XName Method = XName.Get("method", XmlNamespace);
+        public static readonly XName Compressed = XName.Get("compressed", XmlNamespace);
+        public static readonly XName Failure = XName.Get("failure", XmlNamespace);
+        public static readonly XName SetupFailed = XName.Get("setup-failed", XmlNamespace);
+        public static readonly XName ProcessingFailed = XName.Get("processing-failed", XmlNamespace);
+        public static readonly XName UnsupportedMethod = XName.Get("unsupported-method", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Compress))]

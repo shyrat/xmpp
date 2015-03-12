@@ -15,22 +15,22 @@ namespace XMPP.Tags.Jabber.X.delay
 {
     public class Namespace
     {
-        public const string Name = "jabber:x:delay";
+        public const string XmlNamespace = "jabber:x:delay";
 
-        public static readonly XName X = XName.Get("x", Name);
+        public static readonly XName X = XName.Get("x", XmlNamespace);
     }
 
     /// <summary>
     /// The x.
     /// </summary>
-    [XmppTag(typeof(Namespace), typeof(x))]
-    public class x : Tag
+    [XmppTag(typeof(Namespace), typeof(X))]
+    public class X : Tag
     {
-        public x() : base(Namespace.X)
+        public X() : base(Namespace.X)
         {
         }
 
-        public x(XElement other) : base(other)
+        public X(XElement other) : base(other)
         {
         }
 

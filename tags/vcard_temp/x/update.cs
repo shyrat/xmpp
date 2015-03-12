@@ -16,10 +16,10 @@ namespace XMPP.Tags.VCardTemp.X.Update
 {
     public class Namespace
     {
-        public const string Name = "vcard-temp:x:update";
+        public const string XmlNamespace = "vcard-temp:x:update";
 
-        public static readonly XName X = XName.Get("x", Name);
-        public static readonly XName Photo = XName.Get("photo", Name);
+        public static readonly XName X = XName.Get("x", XmlNamespace);
+        public static readonly XName Photo = XName.Get("photo", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(X))]

@@ -21,11 +21,11 @@ namespace XMPP.Tags.Streams
 {
     public class Namespace
     {
-        public const string Name = "http://etherx.jabber.org/streams";
+        public const string XmlNamespace = "http://etherx.jabber.org/streams";
 
-        public static readonly XName Features = XName.Get("features", Name);
-        public static readonly XName Stream = XName.Get("stream", Name);
-        public static readonly XName Error = XName.Get("error", Name);
+        public static readonly XName Features = XName.Get("features", XmlNamespace);
+        public static readonly XName Stream = XName.Get("stream", XmlNamespace);
+        public static readonly XName Error = XName.Get("error", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Stream))]
@@ -59,8 +59,8 @@ namespace XMPP.Tags.Streams
 
         public string LangAttr
         {
-            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace)); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace), value); }
         }
 
         public string VersionAttr

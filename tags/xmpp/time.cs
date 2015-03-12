@@ -16,11 +16,11 @@ namespace XMPP.Tags.Xmpp.Time
 {
     public class Namespace
     {
-        public const string Name = "urn:xmpp:time";
+        public const string XmlNamespace = "urn:xmpp:time";
 
-        public static readonly XName Time = XName.Get("time", Name);
-        public static readonly XName Tzo = XName.Get("tzo", Name);
-        public static readonly XName Utc = XName.Get("utc", Name);
+        public static readonly XName Time = XName.Get("time", XmlNamespace);
+        public static readonly XName Tzo = XName.Get("tzo", XmlNamespace);
+        public static readonly XName Utc = XName.Get("utc", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Time))]

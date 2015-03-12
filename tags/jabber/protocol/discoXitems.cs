@@ -17,10 +17,10 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXitems
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/disco#items";
+        public const string XmlNamespace = "http://jabber.org/protocol/disco#items";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Item = XName.Get("item", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Item = XName.Get("item", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

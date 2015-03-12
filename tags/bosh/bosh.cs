@@ -14,10 +14,10 @@ namespace XMPP.Tags.Bosh
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/httpbind";
+        public const string XmlNamespace = "http://jabber.org/protocol/httpbind";
         public const string Xmpp = "urn:xmpp:xbosh";
 
-        public static XName Body = XName.Get("body", Name);
+        public static XName Body = XName.Get("body", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Body))]

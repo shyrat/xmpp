@@ -16,10 +16,10 @@ namespace XMPP.Tags.Jabber.Protocol.Offline
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/offline";
+        public const string XmlNamespace = "http://jabber.org/protocol/offline";
 
-        public static readonly XName Offline = XName.Get("offline", Name);
-        public static readonly XName Item = XName.Get("item", Name);
+        public static readonly XName Offline = XName.Get("offline", XmlNamespace);
+        public static readonly XName Item = XName.Get("item", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Offline))]

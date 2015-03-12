@@ -6,17 +6,17 @@ namespace XMPP.Tags.Jabber.Iq.Privacy
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:privacy";
+        public const string XmlNamespace = "jabber:iq:privacy";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Active = XName.Get("active", Name);
-        public static readonly XName Default = XName.Get("default", Name);
-        public static readonly XName List = XName.Get("list", Name);
-        public static readonly XName Item = XName.Get("item", Name);
-        public static readonly XName Iq = XName.Get("iq", Name);
-        public static readonly XName Message = XName.Get("message", Name);
-        public static readonly XName PresenceIn = XName.Get("presence-in", Name);
-        public static readonly XName PresenceOut = XName.Get("presence-out", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Active = XName.Get("active", XmlNamespace);
+        public static readonly XName Default = XName.Get("default", XmlNamespace);
+        public static readonly XName List = XName.Get("list", XmlNamespace);
+        public static readonly XName Item = XName.Get("item", XmlNamespace);
+        public static readonly XName Iq = XName.Get("iq", XmlNamespace);
+        public static readonly XName Message = XName.Get("message", XmlNamespace);
+        public static readonly XName PresenceIn = XName.Get("presence-in", XmlNamespace);
+        public static readonly XName PresenceOut = XName.Get("presence-out", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

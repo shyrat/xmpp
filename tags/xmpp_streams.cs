@@ -5,34 +5,34 @@ namespace XMPP.Tags.XmppStreams
 {
     public class Namespace
     {
-        public const string Name = "urn:ietf:params:xml:ns:xmpp-streams";
+        public const string XmlNamespace = "urn:ietf:params:xml:ns:xmpp-streams";
 
-        public static readonly XName BadFormat = XName.Get("bad-format", Name);
-        public static readonly XName BadNamespacePrefix = XName.Get("bad-namespace-prefix", Name);
-        public static readonly XName Conflict = XName.Get("conflict", Name);
-        public static readonly XName ConnectionTimeout = XName.Get("connection-timeout", Name);
-        public static readonly XName HostGone = XName.Get("host-gone", Name);
-        public static readonly XName HostUnknown = XName.Get("host-unknown", Name);
-        public static readonly XName ImproperAddressing = XName.Get("improper-addressing", Name);
-        public static readonly XName InternalServerError = XName.Get("internal-server-error", Name);
-        public static readonly XName InvalidFrom = XName.Get("invalid-from", Name);
-        public static readonly XName InvalidId = XName.Get("invalid-id", Name);
-        public static readonly XName InvalidNamespace = XName.Get("invalid-namespace", Name);
-        public static readonly XName InvalidXml = XName.Get("invalid-xml", Name);
-        public static readonly XName NotAuthorized = XName.Get("not-authorized", Name);
-        public static readonly XName PolicyViolation = XName.Get("policy-violation", Name);
-        public static readonly XName RemoteConnectionFailed = XName.Get("remote-connection-failed", Name);
-        public static readonly XName Reset = XName.Get("reset", Name);
-        public static readonly XName ResourceConstraint = XName.Get("resource-constraint", Name);
-        public static readonly XName RestrictedXml = XName.Get("restricted-xml", Name);
-        public static readonly XName SeeOtherHost = XName.Get("see-other-host", Name);
-        public static readonly XName SystemShutdown = XName.Get("system-shutdown", Name);
-        public static readonly XName UndefinedCondition = XName.Get("undefined-condition", Name);
-        public static readonly XName UnsupportedEncoding = XName.Get("unsupported-encoding", Name);
-        public static readonly XName UnsupportedStanzaType = XName.Get("unsupported-stanza-type", Name);
-        public static readonly XName UnsupportedVersion = XName.Get("unsupported-version", Name);
-        public static readonly XName XmlNotWellFormed = XName.Get("xml-not-well-formed", Name);
-        public static readonly XName Text = XName.Get("text", Name);
+        public static readonly XName BadFormat = XName.Get("bad-format", XmlNamespace);
+        public static readonly XName BadNamespacePrefix = XName.Get("bad-namespace-prefix", XmlNamespace);
+        public static readonly XName Conflict = XName.Get("conflict", XmlNamespace);
+        public static readonly XName ConnectionTimeout = XName.Get("connection-timeout", XmlNamespace);
+        public static readonly XName HostGone = XName.Get("host-gone", XmlNamespace);
+        public static readonly XName HostUnknown = XName.Get("host-unknown", XmlNamespace);
+        public static readonly XName ImproperAddressing = XName.Get("improper-addressing", XmlNamespace);
+        public static readonly XName InternalServerError = XName.Get("internal-server-error", XmlNamespace);
+        public static readonly XName InvalidFrom = XName.Get("invalid-from", XmlNamespace);
+        public static readonly XName InvalidId = XName.Get("invalid-id", XmlNamespace);
+        public static readonly XName InvalidNamespace = XName.Get("invalid-namespace", XmlNamespace);
+        public static readonly XName InvalidXml = XName.Get("invalid-xml", XmlNamespace);
+        public static readonly XName NotAuthorized = XName.Get("not-authorized", XmlNamespace);
+        public static readonly XName PolicyViolation = XName.Get("policy-violation", XmlNamespace);
+        public static readonly XName RemoteConnectionFailed = XName.Get("remote-connection-failed", XmlNamespace);
+        public static readonly XName Reset = XName.Get("reset", XmlNamespace);
+        public static readonly XName ResourceConstraint = XName.Get("resource-constraint", XmlNamespace);
+        public static readonly XName RestrictedXml = XName.Get("restricted-xml", XmlNamespace);
+        public static readonly XName SeeOtherHost = XName.Get("see-other-host", XmlNamespace);
+        public static readonly XName SystemShutdown = XName.Get("system-shutdown", XmlNamespace);
+        public static readonly XName UndefinedCondition = XName.Get("undefined-condition", XmlNamespace);
+        public static readonly XName UnsupportedEncoding = XName.Get("unsupported-encoding", XmlNamespace);
+        public static readonly XName UnsupportedStanzaType = XName.Get("unsupported-stanza-type", XmlNamespace);
+        public static readonly XName UnsupportedVersion = XName.Get("unsupported-version", XmlNamespace);
+        public static readonly XName XmlNotWellFormed = XName.Get("xml-not-well-formed", XmlNamespace);
+        public static readonly XName Text = XName.Get("text", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(BadFormat))]

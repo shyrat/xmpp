@@ -41,8 +41,8 @@ namespace XMPP.Registries
                 if (_nsManager == null)
                 {
                     _nsManager = new XmlNamespaceManager(new NameTable());
-                    _nsManager.AddNamespace(string.Empty, Namespace.Name);
-                    _nsManager.AddNamespace("stream", Tags.Streams.Namespace.Name);
+                    _nsManager.AddNamespace(string.Empty, Namespace.XmlNamespace);
+                    _nsManager.AddNamespace("stream", Tags.Streams.Namespace.XmlNamespace);
                 }
 
                 return _nsManager;

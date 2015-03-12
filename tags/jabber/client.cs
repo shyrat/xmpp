@@ -18,18 +18,18 @@ namespace XMPP.Tags.Jabber.Client
 {
     public class Namespace
     {
-        public const string Name = "jabber:client";
+        public const string XmlNamespace = "jabber:client";
 
-        public static readonly XName Message = XName.Get("message", Name);
-        public static readonly XName Iq = XName.Get("iq", Name);
-        public static readonly XName Presence = XName.Get("presence", Name);
-        public static readonly XName Priority = XName.Get("priority", Name);
-        public static readonly XName Show = XName.Get("show", Name);
-        public static readonly XName Status = XName.Get("status", Name);
-        public static readonly XName Body = XName.Get("body", Name);
-        public static readonly XName Subject = XName.Get("subject", Name);
-        public static readonly XName Thread = XName.Get("thread", Name);
-        public static readonly XName Error = XName.Get("error", Name);
+        public static readonly XName Message = XName.Get("message", XmlNamespace);
+        public static readonly XName Iq = XName.Get("iq", XmlNamespace);
+        public static readonly XName Presence = XName.Get("presence", XmlNamespace);
+        public static readonly XName Priority = XName.Get("priority", XmlNamespace);
+        public static readonly XName Show = XName.Get("show", XmlNamespace);
+        public static readonly XName Status = XName.Get("status", XmlNamespace);
+        public static readonly XName Body = XName.Get("body", XmlNamespace);
+        public static readonly XName Subject = XName.Get("subject", XmlNamespace);
+        public static readonly XName Thread = XName.Get("thread", XmlNamespace);
+        public static readonly XName Error = XName.Get("error", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Message))]
@@ -79,8 +79,8 @@ namespace XMPP.Tags.Jabber.Client
 
         public string LangAttr
         {
-            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace)); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace), value); }
         }
 
         public IEnumerable<Body> BodyElements
@@ -122,8 +122,8 @@ namespace XMPP.Tags.Jabber.Client
 
         public string LangAttr
         {
-            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace)); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace), value); }
         }
 
         public string Value
@@ -146,8 +146,8 @@ namespace XMPP.Tags.Jabber.Client
 
         public string LangAttr
         {
-            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace)); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace), value); }
         }
     }
 
@@ -221,8 +221,8 @@ namespace XMPP.Tags.Jabber.Client
 
         public string LangAttr
         {
-            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace)); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace), value); }
         }
 
         public IEnumerable<Show> ShowElements
@@ -286,8 +286,8 @@ namespace XMPP.Tags.Jabber.Client
 
         public string LangAttr
         {
-            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace)); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace), value); }
         }
 
         public string Value
@@ -369,8 +369,8 @@ namespace XMPP.Tags.Jabber.Client
 
         public string LangAttr
         {
-            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace)); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace), value); }
         }
 
         public IEnumerable<Error> ErrorElements

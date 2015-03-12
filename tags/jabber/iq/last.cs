@@ -5,9 +5,9 @@ namespace XMPP.Tags.Jabber.Iq.Last
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:last";
+        public const string XmlNamespace = "jabber:iq:last";
 
-        public static readonly XName Query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

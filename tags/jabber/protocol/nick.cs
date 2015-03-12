@@ -15,9 +15,9 @@ namespace XMPP.Tags.Jabber.Protocol.Nick
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/nick";
+        public const string XmlNamespace = "http://jabber.org/protocol/nick";
 
-        public static readonly XName Nick = XName.Get("nick", Name);
+        public static readonly XName Nick = XName.Get("nick", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Nick))]

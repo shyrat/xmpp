@@ -6,13 +6,13 @@ namespace XMPP.Tags.XmppTls
 {
     public class Namespace
     {
-        public const string Name = "urn:ietf:params:xml:ns:xmpp-tls";
+        public const string XmlNamespace = "urn:ietf:params:xml:ns:xmpp-tls";
 
-        public static readonly XName StartTls = XName.Get("starttls", Name);
-        public static readonly XName Proceed = XName.Get("proceed", Name);
-        public static readonly XName Failure = XName.Get("failure", Name);
-        public static readonly XName Required = XName.Get("required", Name);
-        public static readonly XName Optional = XName.Get("optional", Name);
+        public static readonly XName StartTls = XName.Get("starttls", XmlNamespace);
+        public static readonly XName Proceed = XName.Get("proceed", XmlNamespace);
+        public static readonly XName Failure = XName.Get("failure", XmlNamespace);
+        public static readonly XName Required = XName.Get("required", XmlNamespace);
+        public static readonly XName Optional = XName.Get("optional", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(StartTls))]

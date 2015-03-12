@@ -15,12 +15,12 @@ namespace XMPP.Tags.Xmpp.Avatar.Metadata
 {
     public class Namespace
     {
-        public const string Name = "urn:xmpp:avatar:metadata";
+        public const string XmlNamespace = "urn:xmpp:avatar:metadata";
 
-        public static readonly XName Metadata = XName.Get("metadata", Name);
-        public static readonly XName Info = XName.Get("info", Name);
-        public static readonly XName Pointer = XName.Get("pointer", Name);
-        public static readonly XName Stop = XName.Get("stop", Name);
+        public static readonly XName Metadata = XName.Get("metadata", XmlNamespace);
+        public static readonly XName Info = XName.Get("info", XmlNamespace);
+        public static readonly XName Pointer = XName.Get("pointer", XmlNamespace);
+        public static readonly XName Stop = XName.Get("stop", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Metadata))]

@@ -15,17 +15,17 @@ namespace XMPP.Tags.Jabber.Protocol.Archive
 {
     public class Namespace
     {
-        public const string Name = "urn:xmpp:mam:tmp";
+        public const string XmlNamespace = "urn:xmpp:mam:tmp";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName With = XName.Get("with", Name);
-        public static readonly XName Start = XName.Get("start", Name);
-        public static readonly XName End = XName.Get("end", Name);
-        public static readonly XName Result = XName.Get("result", Name);
-        public static readonly XName Prefs = XName.Get("prefs", Name);
-        public static readonly XName Always = XName.Get("always", Name);
-        public static readonly XName Never = XName.Get("never", Name);
-        public static readonly XName Jid = XName.Get("jid", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName With = XName.Get("with", XmlNamespace);
+        public static readonly XName Start = XName.Get("start", XmlNamespace);
+        public static readonly XName End = XName.Get("end", XmlNamespace);
+        public static readonly XName Result = XName.Get("result", XmlNamespace);
+        public static readonly XName Prefs = XName.Get("prefs", XmlNamespace);
+        public static readonly XName Always = XName.Get("always", XmlNamespace);
+        public static readonly XName Never = XName.Get("never", XmlNamespace);
+        public static readonly XName Jid = XName.Get("jid", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

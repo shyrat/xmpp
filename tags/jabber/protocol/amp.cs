@@ -16,23 +16,24 @@ namespace XMPP.Tags.Jabber.Protocol.Amp
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/amp";
+        public const string XmlNamespace = "http://jabber.org/protocol/amp";
 
-        public static readonly XName Amp = XName.Get("amp", Name);
-        public static readonly XName InvalidRules = XName.Get("invalid-rules", Name);
-        public static readonly XName UnsupportedActions = XName.Get("unsupported-actions", Name);
-        public static readonly XName UnsupportedConditions = XName.Get("unsupported-conditions", Name);
-        public static readonly XName Rule = XName.Get("rule", Name);
+        public static readonly XName Amp = XName.Get("amp", XmlNamespace);
+        public static readonly XName InvalidRules = XName.Get("invalid-rules", XmlNamespace);
+        public static readonly XName UnsupportedActions = XName.Get("unsupported-actions", XmlNamespace);
+        public static readonly XName UnsupportedConditions = XName.Get("unsupported-conditions", XmlNamespace);
+        public static readonly XName Rule = XName.Get("rule", XmlNamespace);
     }
 
-    [XmppTag(typeof(Namespace), typeof(amp))]
-    public class amp : Tag
+    [XmppTag(typeof(Namespace), typeof(Amp))]
+    public class Amp : Tag
     {
-        public amp() : base(Namespace.Amp)
+        public Amp() : base(Namespace.Amp)
         {
         }
 
-        public amp(XElement other) : base(other)
+        public Amp(XElement other)
+            : base(other)
         {
         }
 

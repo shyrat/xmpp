@@ -16,13 +16,13 @@ namespace XMPP.Tags.XmppBind
 {
     public class Namespace
     {
-        public const string Name = "urn:ietf:params:xml:ns:xmpp-bind";
+        public const string XmlNamespace = "urn:ietf:params:xml:ns:xmpp-bind";
 
-        public static readonly XName Bind = XName.Get("bind", Name);
-        public static readonly XName Jid = XName.Get("jid", Name);
-        public static readonly XName Resource = XName.Get("resource", Name);
-        public static readonly XName Required = XName.Get("required", Name);
-        public static readonly XName Optional = XName.Get("optional", Name);
+        public static readonly XName Bind = XName.Get("bind", XmlNamespace);
+        public static readonly XName Jid = XName.Get("jid", XmlNamespace);
+        public static readonly XName Resource = XName.Get("resource", XmlNamespace);
+        public static readonly XName Required = XName.Get("required", XmlNamespace);
+        public static readonly XName Optional = XName.Get("optional", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Bind))]

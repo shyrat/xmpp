@@ -5,9 +5,9 @@ namespace XMPP.Tags.Jabber.Iq.private_
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:private";
+        public const string XmlNamespace = "jabber:iq:private";
 
-        public static readonly XName Query = XName.Get("query", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

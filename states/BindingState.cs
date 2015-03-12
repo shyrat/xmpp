@@ -10,6 +10,7 @@
 
 using System.Linq;
 using System.Xml.Linq;
+using XMPP.Extensions;
 using XMPP.Tags;
 using XMPP.Tags.Jabber.Client;
 using XMPP.Tags.XmppBind;
@@ -35,11 +36,11 @@ namespace XMPP.States
                 {
                     Tag res = new Resource();
                     ((XElement)res).Value = Manager.Settings.Id.Resource;
-                    ((XElement)bind).Add(res);
+                    bind.Add(res);
                 }
 
                 iq.TypeAttr = Iq.TypeEnum.set;
-                ((XElement)iq).Add(bind);
+                iq.Add(bind);
 
                 Manager.Connection.Send(iq);
             }

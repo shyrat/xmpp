@@ -15,9 +15,9 @@ namespace XMPP.Tags.Xmpp.Avatar.Data
 {
     public class Namespace
     {
-        public const string Name = "urn:xmpp:avatar:data";
+        public const string XmlNamespace = "urn:xmpp:avatar:data";
 
-        public static readonly XName Data = XName.Get("data", Name);
+        public static readonly XName Data = XName.Get("data", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Data))]

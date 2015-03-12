@@ -17,32 +17,32 @@ namespace XMPP.Tags.XmppSasl
 {
     public class Namespace
     {
-        public const string Name = "urn:ietf:params:xml:ns:xmpp-sasl";
+        public const string XmlNamespace = "urn:ietf:params:xml:ns:xmpp-sasl";
 
-        public static readonly XName Mechanisms = XName.Get("mechanisms", Name);
-        public static readonly XName Mechanism = XName.Get("mechanism", Name);
-        public static readonly XName Abort = XName.Get("abort", Name);
-        public static readonly XName Auth = XName.Get("auth", Name);
-        public static readonly XName Challenge = XName.Get("challenge", Name);
-        public static readonly XName Response = XName.Get("response", Name);
-        public static readonly XName Success = XName.Get("success", Name);
-        public static readonly XName Failure = XName.Get("failure", Name);
-        public static readonly XName Text = XName.Get("text", Name);
-        public static readonly XName BadProtocol = XName.Get("bad-protocol", Name);
-        public static readonly XName MalformedRequest = XName.Get("malformed-request", Name);
-        public static readonly XName Aborted = XName.Get("aborted", Name);
-        public static readonly XName AccountDisabled = XName.Get("account-disabled", Name);
-        public static readonly XName CredentialsExpired = XName.Get("credentials-expired", Name);
-        public static readonly XName EncryptionRequired = XName.Get("encryption-required", Name);
-        public static readonly XName IncorrectEncoding = XName.Get("incorrect-encoding", Name);
-        public static readonly XName InvalidAuthzid = XName.Get("invalid-authzid", Name);
-        public static readonly XName InvalidMechanism = XName.Get("invalid-mechanism", Name);
-        public static readonly XName MechanismTooWeak = XName.Get("mechanism-too-weak", Name);
-        public static readonly XName NotAuthorized = XName.Get("not-authorized", Name);
-        public static readonly XName TemporaryAuthFailure = XName.Get("temporary-auth-failure", Name);
-        public static readonly XName TransitionNeeded = XName.Get("transition-needed", Name);
-        public static readonly XName Required = XName.Get("required", Name);
-        public static readonly XName Optional = XName.Get("optional", Name);
+        public static readonly XName Mechanisms = XName.Get("mechanisms", XmlNamespace);
+        public static readonly XName Mechanism = XName.Get("mechanism", XmlNamespace);
+        public static readonly XName Abort = XName.Get("abort", XmlNamespace);
+        public static readonly XName Auth = XName.Get("auth", XmlNamespace);
+        public static readonly XName Challenge = XName.Get("challenge", XmlNamespace);
+        public static readonly XName Response = XName.Get("response", XmlNamespace);
+        public static readonly XName Success = XName.Get("success", XmlNamespace);
+        public static readonly XName Failure = XName.Get("failure", XmlNamespace);
+        public static readonly XName Text = XName.Get("text", XmlNamespace);
+        public static readonly XName BadProtocol = XName.Get("bad-protocol", XmlNamespace);
+        public static readonly XName MalformedRequest = XName.Get("malformed-request", XmlNamespace);
+        public static readonly XName Aborted = XName.Get("aborted", XmlNamespace);
+        public static readonly XName AccountDisabled = XName.Get("account-disabled", XmlNamespace);
+        public static readonly XName CredentialsExpired = XName.Get("credentials-expired", XmlNamespace);
+        public static readonly XName EncryptionRequired = XName.Get("encryption-required", XmlNamespace);
+        public static readonly XName IncorrectEncoding = XName.Get("incorrect-encoding", XmlNamespace);
+        public static readonly XName InvalidAuthzid = XName.Get("invalid-authzid", XmlNamespace);
+        public static readonly XName InvalidMechanism = XName.Get("invalid-mechanism", XmlNamespace);
+        public static readonly XName MechanismTooWeak = XName.Get("mechanism-too-weak", XmlNamespace);
+        public static readonly XName NotAuthorized = XName.Get("not-authorized", XmlNamespace);
+        public static readonly XName TemporaryAuthFailure = XName.Get("temporary-auth-failure", XmlNamespace);
+        public static readonly XName TransitionNeeded = XName.Get("transition-needed", XmlNamespace);
+        public static readonly XName Required = XName.Get("required", XmlNamespace);
+        public static readonly XName Optional = XName.Get("optional", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Mechanisms))]
@@ -322,8 +322,8 @@ namespace XMPP.Tags.XmppSasl
 
         public string LangAttr
         {
-            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace)); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace), value); }
         }
 
         public string Value

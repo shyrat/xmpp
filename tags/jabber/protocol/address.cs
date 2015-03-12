@@ -16,10 +16,10 @@ namespace XMPP.Tags.Jabber.Protocol.Address
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/address";
+        public const string XmlNamespace = "http://jabber.org/protocol/address";
 
-        public static readonly XName Addresses = XName.Get("addresses", Name);
-        public static readonly XName Address = XName.Get("address", Name);
+        public static readonly XName Addresses = XName.Get("addresses", XmlNamespace);
+        public static readonly XName Address = XName.Get("address", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Addresses))]

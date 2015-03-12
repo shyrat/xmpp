@@ -5,15 +5,15 @@ namespace XMPP.Tags.Jabber.Iq.Search
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:search";
+        public const string XmlNamespace = "jabber:iq:search";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Instructions = XName.Get("instructions", Name);
-        public static readonly XName First = XName.Get("first", Name);
-        public static readonly XName Last = XName.Get("last", Name);
-        public static readonly XName Nick = XName.Get("nick", Name);
-        public static readonly XName Email = XName.Get("email", Name);
-        public static readonly XName Item = XName.Get("item", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Instructions = XName.Get("instructions", XmlNamespace);
+        public static readonly XName First = XName.Get("first", XmlNamespace);
+        public static readonly XName Last = XName.Get("last", XmlNamespace);
+        public static readonly XName Nick = XName.Get("nick", XmlNamespace);
+        public static readonly XName Email = XName.Get("email", XmlNamespace);
+        public static readonly XName Item = XName.Get("item", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

@@ -15,9 +15,9 @@ namespace XMPP.Tags.Xmpp.Ping
 {
     public class Namespace
     {
-        public const string Name = "urn:xmpp:ping";
+        public const string XmlNamespace = "urn:xmpp:ping";
 
-        public static readonly XName Ping = XName.Get("ping", Name);
+        public static readonly XName Ping = XName.Get("ping", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Ping))]

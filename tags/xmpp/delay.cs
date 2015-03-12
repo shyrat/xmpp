@@ -15,9 +15,9 @@ namespace XMPP.Tags.Xmpp.Delay
 {
     public class Namespace
     {
-        public const string Name = "urn:xmpp:delay";
+        public const string XmlNamespace = "urn:xmpp:delay";
 
-        public static readonly XName Delay = XName.Get("delay", Name);
+        public static readonly XName Delay = XName.Get("delay", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Delay))]

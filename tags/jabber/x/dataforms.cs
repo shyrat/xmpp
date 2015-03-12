@@ -17,17 +17,17 @@ namespace XMPP.Tags.Jabber.X.Dataforms
 {
     public class Namespace
     {
-        public const string Name = "jabber:x:data";
+        public const string XmlNamespace = "jabber:x:data";
 
-        public static readonly XName X = XName.Get("x", Name);
-        public static readonly XName Title = XName.Get("title", Name);
-        public static readonly XName Item = XName.Get("item", Name);
-        public static readonly XName Reported = XName.Get("reported", Name);
-        public static readonly XName Field = XName.Get("field", Name);
-        public static readonly XName Desc = XName.Get("desc", Name);
-        public static readonly XName Value = XName.Get("value", Name);
-        public static readonly XName Option = XName.Get("option", Name);
-        public static readonly XName Required = XName.Get("required", Name);
+        public static readonly XName X = XName.Get("x", XmlNamespace);
+        public static readonly XName Title = XName.Get("title", XmlNamespace);
+        public static readonly XName Item = XName.Get("item", XmlNamespace);
+        public static readonly XName Reported = XName.Get("reported", XmlNamespace);
+        public static readonly XName Field = XName.Get("field", XmlNamespace);
+        public static readonly XName Desc = XName.Get("desc", XmlNamespace);
+        public static readonly XName Value = XName.Get("value", XmlNamespace);
+        public static readonly XName Option = XName.Get("option", XmlNamespace);
+        public static readonly XName Required = XName.Get("required", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(X))]
@@ -210,6 +210,17 @@ namespace XMPP.Tags.Jabber.X.Dataforms
 
         public Value(XElement other) : base(other)
         {
+        }
+
+        public Value(string value)
+            : base(Namespace.Value)
+        {
+            InnerElement.Value = value;
+        }
+
+        public string GetValue()
+        {
+            return InnerElement.Value;
         }
     }
 

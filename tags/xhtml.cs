@@ -15,6 +15,6 @@ namespace XMPP.Tags.Xhtml
         /// <summary>
         /// The name.
         /// </summary>
-        public const string Name = "http://www.w3.org/1999/xhtml";
+        public const string XmlNamespace = "http://www.w3.org/1999/xhtml";
     }
 }

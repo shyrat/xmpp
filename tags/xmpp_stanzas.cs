@@ -26,32 +26,32 @@ namespace XMPP.Tags.XmppStanzas
 {
     public class Namespace
     {
-        public const string Name = "urn:ietf:params:xml:ns:xmpp-stanzas";
+        public const string XmlNamespace = "urn:ietf:params:xml:ns:xmpp-stanzas";
 
-        public static readonly XName BadRequest = XName.Get("bad-request", Name);
-        public static readonly XName Conflict = XName.Get("conflict", Name);
-        public static readonly XName FeatureNotImplemented = XName.Get("feature-not-implemented", Name);
-        public static readonly XName Forbidden = XName.Get("forbidden", Name);
-        public static readonly XName Gone = XName.Get("gone", Name);
-        public static readonly XName InternalServerError = XName.Get("internal-server-error", Name);
-        public static readonly XName ItemNotFound = XName.Get("item-not-found", Name);
-        public static readonly XName JidMalformed = XName.Get("jid-malformed", Name);
-        public static readonly XName NotAcceptable = XName.Get("not-acceptable", Name);
-        public static readonly XName NotAuthorized = XName.Get("not-authorized", Name);
-        public static readonly XName NotAllowed = XName.Get("not-allowed", Name);
-        public static readonly XName PaymentRequired = XName.Get("payment-required", Name);
-        public static readonly XName PolicyViolation = XName.Get("policy-violation", Name);
-        public static readonly XName RecipientUnavailable = XName.Get("recipient-unavailable", Name);
-        public static readonly XName Redirect = XName.Get("redirect", Name);
-        public static readonly XName RegistrationRequired = XName.Get("registration-required", Name);
-        public static readonly XName RemoteServerNotFound = XName.Get("remote-server-not-found", Name);
-        public static readonly XName RemoteServerTimeout = XName.Get("remote-server-timeout", Name);
-        public static readonly XName ResourceConstraint = XName.Get("resource-constraint", Name);
-        public static readonly XName ServiceUnavailable = XName.Get("service-unavailable", Name);
-        public static readonly XName SubscriptionRequired = XName.Get("subscription-required", Name);
-        public static readonly XName UndefinedCondition = XName.Get("undefined-condition", Name);
-        public static readonly XName UnexpectedRequest = XName.Get("unexpected-request", Name);
-        public static readonly XName Text = XName.Get("text", Name);
+        public static readonly XName BadRequest = XName.Get("bad-request", XmlNamespace);
+        public static readonly XName Conflict = XName.Get("conflict", XmlNamespace);
+        public static readonly XName FeatureNotImplemented = XName.Get("feature-not-implemented", XmlNamespace);
+        public static readonly XName Forbidden = XName.Get("forbidden", XmlNamespace);
+        public static readonly XName Gone = XName.Get("gone", XmlNamespace);
+        public static readonly XName InternalServerError = XName.Get("internal-server-error", XmlNamespace);
+        public static readonly XName ItemNotFound = XName.Get("item-not-found", XmlNamespace);
+        public static readonly XName JidMalformed = XName.Get("jid-malformed", XmlNamespace);
+        public static readonly XName NotAcceptable = XName.Get("not-acceptable", XmlNamespace);
+        public static readonly XName NotAuthorized = XName.Get("not-authorized", XmlNamespace);
+        public static readonly XName NotAllowed = XName.Get("not-allowed", XmlNamespace);
+        public static readonly XName PaymentRequired = XName.Get("payment-required", XmlNamespace);
+        public static readonly XName PolicyViolation = XName.Get("policy-violation", XmlNamespace);
+        public static readonly XName RecipientUnavailable = XName.Get("recipient-unavailable", XmlNamespace);
+        public static readonly XName Redirect = XName.Get("redirect", XmlNamespace);
+        public static readonly XName RegistrationRequired = XName.Get("registration-required", XmlNamespace);
+        public static readonly XName RemoteServerNotFound = XName.Get("remote-server-not-found", XmlNamespace);
+        public static readonly XName RemoteServerTimeout = XName.Get("remote-server-timeout", XmlNamespace);
+        public static readonly XName ResourceConstraint = XName.Get("resource-constraint", XmlNamespace);
+        public static readonly XName ServiceUnavailable = XName.Get("service-unavailable", XmlNamespace);
+        public static readonly XName SubscriptionRequired = XName.Get("subscription-required", XmlNamespace);
+        public static readonly XName UndefinedCondition = XName.Get("undefined-condition", XmlNamespace);
+        public static readonly XName UnexpectedRequest = XName.Get("unexpected-request", XmlNamespace);
+        public static readonly XName Text = XName.Get("text", XmlNamespace);
     }
 
 
@@ -344,8 +344,8 @@ namespace XMPP.Tags.XmppStanzas
 
         public string LangAttr
         {
-            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.Name)); }
-            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.Name), value); }
+            get { return (string)GetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace)); }
+            set { InnerElement.SetAttributeValue(XName.Get("lang", Xml.Namespace.XmlNamespace), value); }
         }
 
         public string Value

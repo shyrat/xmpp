@@ -15,13 +15,13 @@ namespace XMPP.Tags.Jabber.Protocol.ByteStreams
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/bytestreams";
+        public const string XmlNamespace = "http://jabber.org/protocol/bytestreams";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Streamhost = XName.Get("streamhost", Name);
-        public static readonly XName StreamhostUsed = XName.Get("streamhost-used", Name);
-        public static readonly XName Udpsuccess = XName.Get("udpsuccess", Name);
-        public static readonly XName Activate = XName.Get("activate", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Streamhost = XName.Get("streamhost", XmlNamespace);
+        public static readonly XName StreamhostUsed = XName.Get("streamhost-used", XmlNamespace);
+        public static readonly XName Udpsuccess = XName.Get("udpsuccess", XmlNamespace);
+        public static readonly XName Activate = XName.Get("activate", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

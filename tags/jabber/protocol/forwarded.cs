@@ -16,9 +16,9 @@ namespace XMPP.Tags.Jabber.Protocol.Forwarded
 {
     public class Namespace
     {
-        public const string Name = "urn:xmpp:forward:0";
+        public const string XmlNamespace = "urn:xmpp:forward:0";
 
-        public static readonly XName Forwarded = XName.Get("forwarded", Name);
+        public static readonly XName Forwarded = XName.Get("forwarded", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Forwarded))]

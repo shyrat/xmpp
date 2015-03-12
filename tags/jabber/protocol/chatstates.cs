@@ -15,13 +15,13 @@ namespace XMPP.Tags.Jabber.Protocol.Chatstates
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/chatstates";
+        public const string XmlNamespace = "http://jabber.org/protocol/chatstates";
 
-        public static readonly XName Active = XName.Get("active", Name);
-        public static readonly XName Composing = XName.Get("composing", Name);
-        public static readonly XName Gone = XName.Get("gone", Name);
-        public static readonly XName Inactive = XName.Get("inactive", Name);
-        public static readonly XName Paused = XName.Get("paused", Name);
+        public static readonly XName Active = XName.Get("active", XmlNamespace);
+        public static readonly XName Composing = XName.Get("composing", XmlNamespace);
+        public static readonly XName Gone = XName.Get("gone", XmlNamespace);
+        public static readonly XName Inactive = XName.Get("inactive", XmlNamespace);
+        public static readonly XName Paused = XName.Get("paused", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Active))]

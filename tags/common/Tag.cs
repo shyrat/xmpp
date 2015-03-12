@@ -51,7 +51,7 @@ namespace XMPP.Tags
 
         public static implicit operator string(Tag tag)
         {
-            return tag.ToString();
+            return tag.InnerElement.ToString();
         }
 
         public object GetAttributeValue(XName name)
@@ -364,7 +364,7 @@ namespace XMPP.Tags
             else if (e.Name.LocalName == "iq" ||
                      e.Name.LocalName == "presence" ||
                      e.Name.LocalName == "message" ||
-                     (e.Name.LocalName == "error" && e.Name.NamespaceName != Namespace.Name) ||
+                     (e.Name.LocalName == "error" && e.Name.NamespaceName != Namespace.XmlNamespace) ||
                      e.Name.LocalName == "body" ||
                      e.Name.LocalName == "show")
             {

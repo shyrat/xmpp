@@ -6,12 +6,12 @@ namespace XMPP.Tags.Jabber.Iq.Version
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:version";
+        public const string XmlNamespace = "jabber:iq:version";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName name = XName.Get("name", Name);
-        public static readonly XName Version = XName.Get("version", Name);
-        public static readonly XName Os = XName.Get("os", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Name = XName.Get("name", XmlNamespace);
+        public static readonly XName Version = XName.Get("version", XmlNamespace);
+        public static readonly XName Os = XName.Get("os", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]
@@ -29,7 +29,7 @@ namespace XMPP.Tags.Jabber.Iq.Version
 
         public IEnumerable<Name> NameElements
         {
-            get { return Elements<Name>(Namespace.name); }
+            get { return Elements<Name>(Namespace.Name); }
         }
 
         public IEnumerable<Version> VersionElements
@@ -47,7 +47,7 @@ namespace XMPP.Tags.Jabber.Iq.Version
     public class Name : Tag
     {
         public Name()
-            : base(Namespace.name)
+            : base(Namespace.Name)
         {
         }
 

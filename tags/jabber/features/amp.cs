@@ -15,9 +15,9 @@ namespace XMPP.Tags.Jabber.Reatures.Amp
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/features/amp";
+        public const string XmlNamespace = "http://jabber.org/features/amp";
 
-        public static readonly XName Amp = XName.Get("amp", Name);
+        public static readonly XName Amp = XName.Get("amp", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Amp))]

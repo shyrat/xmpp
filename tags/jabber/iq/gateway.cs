@@ -6,12 +6,12 @@ namespace XMPP.Tags.Jabber.Iq.Gateway
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:gateway";
+        public const string XmlNamespace = "jabber:iq:gateway";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Desc = XName.Get("desc", Name);
-        public static readonly XName Prompt = XName.Get("prompt", Name);
-        public static readonly XName Jid = XName.Get("jid", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Desc = XName.Get("desc", XmlNamespace);
+        public static readonly XName Prompt = XName.Get("prompt", XmlNamespace);
+        public static readonly XName Jid = XName.Get("jid", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]
@@ -27,9 +27,9 @@ namespace XMPP.Tags.Jabber.Iq.Gateway
         {
         }
 
-        public jid Jid
+        public Jid Jid
         {
-            get { return Element<jid>(Namespace.Jid); }
+            get { return Element<Jid>(Namespace.Jid); }
         }
 
         public IEnumerable<Desc> DescElements
@@ -72,15 +72,15 @@ namespace XMPP.Tags.Jabber.Iq.Gateway
         }
     }
 
-    [XmppTag(typeof(Namespace), typeof(jid))]
-    public class jid : Tag
+    [XmppTag(typeof(Namespace), typeof(Jid))]
+    public class Jid : Tag
     {
-        public jid()
+        public Jid()
             : base(Namespace.Jid)
         {
         }
 
-        public jid(XElement other)
+        public Jid(XElement other)
             : base(other)
         {
         }

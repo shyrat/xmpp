@@ -15,11 +15,11 @@ namespace XMPP.Tags.Xmpp.Features.Rosterver
 {
     public class Namespace
     {
-        public const string Name = "urn:xmpp:features:rosterver";
+        public const string XmlNamespace = "urn:xmpp:features:rosterver";
 
-        public static readonly XName Ver = XName.Get("ver", Name);
-        public static readonly XName Required = XName.Get("required", Name);
-        public static readonly XName Optional = XName.Get("optional", Name);
+        public static readonly XName Ver = XName.Get("ver", XmlNamespace);
+        public static readonly XName Required = XName.Get("required", XmlNamespace);
+        public static readonly XName Optional = XName.Get("optional", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Ver))]

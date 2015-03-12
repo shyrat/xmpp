@@ -16,10 +16,10 @@ namespace XMPP.Tags.Jabber.Protocol.AmpXerrors
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/amp#errors";
+        public const string XmlNamespace = "http://jabber.org/protocol/amp#errors";
 
-        public static readonly XName FailedRules = XName.Get("failed-rules", Name);
-        public static readonly XName Rule = XName.Get("rule", Name);
+        public static readonly XName FailedRules = XName.Get("failed-rules", XmlNamespace);
+        public static readonly XName Rule = XName.Get("rule", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(FailedRules))]

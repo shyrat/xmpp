@@ -16,29 +16,29 @@ namespace XMPP.Tags.Xmpp.Archive
 {
     public class Namespace
     {
-        public const string Name = "urn:xmpp:archive";
+        public const string XmlNamespace = "urn:xmpp:archive";
 
-        public static readonly XName Auto = XName.Get("auto", Name);
-        public static readonly XName Changed = XName.Get("changed", Name);
-        public static readonly XName Chat = XName.Get("chat", Name);
-        public static readonly XName Body = XName.Get("body", Name);
-        public static readonly XName Default = XName.Get("default", Name);
-        public static readonly XName Feature = XName.Get("feature", Name);
-        public static readonly XName Item = XName.Get("item", Name);
-        public static readonly XName List = XName.Get("list", Name);
-        public static readonly XName Method = XName.Get("method", Name);
-        public static readonly XName Modified = XName.Get("modified", Name);
-        public static readonly XName Removed = XName.Get("removed", Name);
-        public static readonly XName Note = XName.Get("note", Name);
-        public static readonly XName Pref = XName.Get("pref", Name);
-        public static readonly XName Itemremove = XName.Get("itemremove", Name);
-        public static readonly XName Remove = XName.Get("remove", Name);
-        public static readonly XName Retrieve = XName.Get("retrieve", Name);
-        public static readonly XName Save = XName.Get("save", Name);
-        public static readonly XName From = XName.Get("from", Name);
-        public static readonly XName Next = XName.Get("next", Name);
-        public static readonly XName Previous = XName.Get("previous", Name);
-        public static readonly XName To = XName.Get("to", Name);
+        public static readonly XName Auto = XName.Get("auto", XmlNamespace);
+        public static readonly XName Changed = XName.Get("changed", XmlNamespace);
+        public static readonly XName Chat = XName.Get("chat", XmlNamespace);
+        public static readonly XName Body = XName.Get("body", XmlNamespace);
+        public static readonly XName Default = XName.Get("default", XmlNamespace);
+        public static readonly XName Feature = XName.Get("feature", XmlNamespace);
+        public static readonly XName Item = XName.Get("item", XmlNamespace);
+        public static readonly XName List = XName.Get("list", XmlNamespace);
+        public static readonly XName Method = XName.Get("method", XmlNamespace);
+        public static readonly XName Modified = XName.Get("modified", XmlNamespace);
+        public static readonly XName Removed = XName.Get("removed", XmlNamespace);
+        public static readonly XName Note = XName.Get("note", XmlNamespace);
+        public static readonly XName Pref = XName.Get("pref", XmlNamespace);
+        public static readonly XName ItemRemove = XName.Get("itemremove", XmlNamespace);
+        public static readonly XName Remove = XName.Get("remove", XmlNamespace);
+        public static readonly XName Retrieve = XName.Get("retrieve", XmlNamespace);
+        public static readonly XName Save = XName.Get("save", XmlNamespace);
+        public static readonly XName From = XName.Get("from", XmlNamespace);
+        public static readonly XName Next = XName.Get("next", XmlNamespace);
+        public static readonly XName Previous = XName.Get("previous", XmlNamespace);
+        public static readonly XName To = XName.Get("to", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Auto))]
@@ -400,7 +400,7 @@ namespace XMPP.Tags.Xmpp.Archive
     [XmppTag(typeof(Namespace), typeof(ItemRemove))]
     public class ItemRemove : Tag
     {
-        public ItemRemove() : base(Namespace.Itemremove)
+        public ItemRemove() : base(Namespace.ItemRemove)
         {
         }
 

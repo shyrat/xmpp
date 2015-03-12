@@ -12,6 +12,6 @@ namespace XMPP.Tags.Xml
 {
     public class Namespace
     {
-        public const string Name = "http://www.w3.org/XML/1998/namespace";
+        public const string XmlNamespace = "http://www.w3.org/XML/1998/namespace";
     }
 }

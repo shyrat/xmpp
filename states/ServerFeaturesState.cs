@@ -10,6 +10,7 @@
 
 using System.Linq;
 using System.Xml.Linq;
+using XMPP.Extensions;
 using XMPP.Registries;
 using XMPP.SASL;
 using XMPP.Tags;
@@ -54,7 +55,7 @@ namespace XMPP.States
                 var error = data as Error;
                 string message = string.Empty;
 
-                if (((XElement)error).HasElements)
+                if (error.HasElements())
                 {
                     var text = error.Element<Text>(Namespace.Text);
                     if (text != null)
@@ -176,7 +177,7 @@ namespace XMPP.States
                         var m = new Method { Value = Manager.CompressionAlgorithm = algorithm };
 
                         var c = new Compress();
-                        ((XElement)c).Add(m);
+                        c.Add(m);
 
                         Manager.Connection.Send(c);
                         Manager.State = new CompressedState(Manager);

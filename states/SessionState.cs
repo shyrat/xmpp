@@ -8,8 +8,8 @@
 // 
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Xml.Linq;
 using XMPP.Common;
+using XMPP.Extensions;
 using XMPP.Tags;
 using XMPP.Tags.Jabber.Client;
 using XMPP.Tags.XmppSession;
@@ -35,7 +35,7 @@ namespace XMPP.States
                     TypeAttr = Iq.TypeEnum.set
                 };
 
-                ((XElement)iq).Add(new Session());
+                iq.Add(new Session());
 
                 Manager.Connection.Send(iq);
             }

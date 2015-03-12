@@ -16,11 +16,11 @@ namespace XMPP.Tags.Jabber.Reatures.Compress
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/features/compress";
+        public const string XmlNamespace = "http://jabber.org/features/compress";
 
-        public static readonly XName Compression = XName.Get("compression", Name);
-        public static readonly XName Method = XName.Get("method", Name);
-        public static readonly XName Compress = XName.Get("compress", Name);
+        public static readonly XName Compression = XName.Get("compression", XmlNamespace);
+        public static readonly XName Method = XName.Get("method", XmlNamespace);
+        public static readonly XName Compress = XName.Get("compress", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Compression))]

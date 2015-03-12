@@ -15,16 +15,16 @@ namespace XMPP.Tags.Jabber.Protocol.Resultset
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/rsm";
+        public const string XmlNamespace = "http://jabber.org/protocol/rsm";
 
-        public static readonly XName Set = XName.Get("set", Name);
-        public static readonly XName After = XName.Get("after", Name);
-        public static readonly XName Before = XName.Get("before", Name);
-        public static readonly XName Count = XName.Get("count", Name);
-        public static readonly XName First = XName.Get("first", Name);
-        public static readonly XName Index = XName.Get("index", Name);
-        public static readonly XName Last = XName.Get("last", Name);
-        public static readonly XName Max = XName.Get("max", Name);
+        public static readonly XName Set = XName.Get("set", XmlNamespace);
+        public static readonly XName After = XName.Get("after", XmlNamespace);
+        public static readonly XName Before = XName.Get("before", XmlNamespace);
+        public static readonly XName Count = XName.Get("count", XmlNamespace);
+        public static readonly XName First = XName.Get("first", XmlNamespace);
+        public static readonly XName Index = XName.Get("index", XmlNamespace);
+        public static readonly XName Last = XName.Get("last", XmlNamespace);
+        public static readonly XName Max = XName.Get("max", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Set))]

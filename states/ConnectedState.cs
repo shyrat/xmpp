@@ -27,7 +27,7 @@ namespace XMPP.States
             {
                 VersionAttr = "1.0",
                 ToAttr = Manager.Settings.Id.Server,
-                XmlnsAttr = Namespace.Name,
+                XmlnsAttr = Namespace.XmlNamespace,
                 LangAttr = "en"
             };
 

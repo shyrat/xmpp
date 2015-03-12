@@ -5,11 +5,11 @@ namespace XMPP.Tags.Jabber.Iq.Oob
 {
     public class Namespace
     {
-        public const string Name = "jabber:iq:oob";
+        public const string XmlNamespace = "jabber:iq:oob";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Desc = XName.Get("desc", Name);
-        public static readonly XName Url = XName.Get("url", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Desc = XName.Get("desc", XmlNamespace);
+        public static readonly XName Url = XName.Get("url", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

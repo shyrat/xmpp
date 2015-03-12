@@ -17,11 +17,11 @@ namespace XMPP.Tags.Jabber.Protocol.DiscoXinfo
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/disco#info";
+        public const string XmlNamespace = "http://jabber.org/protocol/disco#info";
 
-        public static readonly XName Query = XName.Get("query", Name);
-        public static readonly XName Identity = XName.Get("identity", Name);
-        public static readonly XName Feature = XName.Get("feature", Name);
+        public static readonly XName Query = XName.Get("query", XmlNamespace);
+        public static readonly XName Identity = XName.Get("identity", XmlNamespace);
+        public static readonly XName Feature = XName.Get("feature", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]

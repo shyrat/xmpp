@@ -15,9 +15,9 @@ namespace XMPP.Tags.Jabber.Protocol.Caps
 {
     public class Namespace
     {
-        public const string Name = "http://jabber.org/protocol/caps";
+        public const string XmlNamespace = "http://jabber.org/protocol/caps";
 
-        public static readonly XName C = XName.Get("c", Name);
+        public static readonly XName C = XName.Get("c", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(C))]
