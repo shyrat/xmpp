@@ -170,11 +170,12 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA
     <Compile Include="tags\common\Extensions.cs" />
     <Compile Include="tags\jabber\features\amp.cs" />
     <Compile Include="tags\jabber\iq\auth.cs" />
+    <Compile Include="tags\jabber\iq\Bookmarks.cs" />
     <Compile Include="tags\jabber\iq\gateway.cs" />
     <Compile Include="tags\jabber\iq\last.cs" />
     <Compile Include="tags\jabber\iq\oob.cs" />
     <Compile Include="tags\jabber\iq\privacy.cs" />
-    <Compile Include="tags\jabber\iq\private_.cs" />
+    <Compile Include="tags\jabber\iq\private.cs" />
     <Compile Include="tags\jabber\iq\register.cs" />
     <Compile Include="tags\jabber\iq\roster.cs" />
     <Compile Include="tags\jabber\iq\search.cs" />

@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.Iq.private_
+namespace XMPP.Tags.Jabber.Iq.Private
 {
     public class Namespace
     {
