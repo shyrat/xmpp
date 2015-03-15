@@ -74,7 +74,7 @@ namespace XMPP.common
 
         public void Disconnect()
         {
-            if (!IsConnected)
+            if (_disconnecting.IsSet)
             {
                 return;
             }
