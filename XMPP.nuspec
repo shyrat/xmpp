@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>XMPP</id>
-    <version>0.7.0.12</version>
+    <version>0.7.0.13</version>
     <title>XMPP Library</title>
     <authors>Dieter Lunn,Paul Freund,Dmitry Chabanin</authors>
     <owners>Dmitry Chabanin</owners>
