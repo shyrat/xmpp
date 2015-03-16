@@ -215,53 +215,55 @@ namespace XMPP.common
 
         private body SendRequest(body body)
         {
-            var req = new HttpRequestMessage
+            using (var req = new HttpRequestMessage
+                            {
+                                RequestUri = new Uri(_manager.Settings.Hostname),
+                                Method = new HttpMethod("POST"),
+                                Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
+                            })
             {
-                RequestUri = new Uri(_manager.Settings.Hostname),
-                Method = new HttpMethod("POST"),
-                Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
-            };
-
-            req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")
-            {
-                CharSet = "utf-8",
-            };
-
-            try
-            {
-                var resp = _client.SendRequestAsync(req).AsTask().Result;
-
-                if (resp.IsSuccessStatusCode)
+                req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")
                 {
-                    var data = resp.Content.ReadAsStringAsync().AsTask().Result;
+                    CharSet = "utf-8",
+                };
 
-                    Interlocked.Exchange(ref _retryCounter, 0);
+                try
+                {
+                    using (var resp = _client.SendRequestAsync(req).AsTask().Result)
+                    {
+                        if (resp.IsSuccessStatusCode)
+                        {
+                            var data = resp.Content.ReadAsStringAsync().AsTask().Result;
 
-                    return Tag.Get(data) as body;
+                            Interlocked.Exchange(ref _retryCounter, 0);
+
+                            return Tag.Get(data) as body;
+                        }
+
+                        ConnectionError(
+                            ErrorType.ConnectToServerFailed,
+                            ErrorPolicyType.Reconnect,
+                            string.Format(
+                                "Connection error: Status: {0} Reason Phrase: {1}",
+                                resp.StatusCode,
+                                resp.ReasonPhrase),
+                            body);
+                    }
+                }
+                catch (AggregateException e)
+                {
+                    if (!(e.InnerException is TaskCanceledException))
+                    {
+                        ConnectionError(
+                            ErrorType.ConnectToServerFailed,
+                            ErrorPolicyType.Reconnect,
+                            e.Message,
+                            body);
+                    }
                 }
 
-                ConnectionError(
-                    ErrorType.ConnectToServerFailed,
-                    ErrorPolicyType.Reconnect,
-                    string.Format(
-                        "Connection error: Status: {0} Reason Phrase: {1}",
-                        resp.StatusCode,
-                        resp.ReasonPhrase),
-                    body);
+                return null;
             }
-            catch (AggregateException e)
-            {
-                if (!(e.InnerException is TaskCanceledException))
-                {
-                    ConnectionError(
-                        ErrorType.ConnectToServerFailed,
-                        ErrorPolicyType.Reconnect,
-                        e.Message,
-                        body);
-                }
-            }
-
-            return null;
         }
 
         private void SendSessionCreationRequest()
