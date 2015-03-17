@@ -17,7 +17,7 @@ namespace XMPP.Tags.Bosh
         public const string XmlNamespace = "http://jabber.org/protocol/httpbind";
         public const string Xmpp = "urn:xmpp:xbosh";
 
-        public static XName Body = XName.Get("body", XmlNamespace);
+        public static readonly XName Body = XName.Get("body", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Body))]

@@ -170,7 +170,7 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA
     <Compile Include="tags\common\Extensions.cs" />
     <Compile Include="tags\jabber\features\amp.cs" />
     <Compile Include="tags\jabber\iq\auth.cs" />
-    <Compile Include="tags\jabber\iq\Bookmarks.cs" />
+    <Compile Include="tags\jabber\protocol\bookmarks.cs" />
     <Compile Include="tags\jabber\iq\gateway.cs" />
     <Compile Include="tags\jabber\iq\last.cs" />
     <Compile Include="tags\jabber\iq\oob.cs" />
@@ -200,6 +200,8 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA
     <Compile Include="tags\jabber\x\dataforms.cs" />
     <Compile Include="tags\jabber\x\delay.cs" />
     <Compile Include="tags\common\TagHandler.cs" />
+    <Compile Include="tags\muc\muc.cs" />
+    <Compile Include="tags\muc\muc_user.cs" />
     <Compile Include="tags\vcard_temp\vcard-temp.cs" />
     <Compile Include="tags\vcard_temp\x\update.cs" />
     <Compile Include="tags\jabber\client.cs" />

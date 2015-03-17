@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using XMPP.Registries;
 
-namespace XMPP.Tags.Jabber.Iq.Bookmarks
+namespace XMPP.Tags.Jabber.Protocol.Bookmarks
 {
     public class Namespace
     {
