@@ -201,6 +201,8 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA
     <Compile Include="tags\jabber\x\delay.cs" />
     <Compile Include="tags\common\TagHandler.cs" />
     <Compile Include="tags\muc\muc.cs" />
+    <Compile Include="tags\muc\muc_admin.cs" />
+    <Compile Include="tags\muc\muc_owner.cs" />
     <Compile Include="tags\muc\muc_user.cs" />
     <Compile Include="tags\vcard_temp\vcard-temp.cs" />
     <Compile Include="tags\vcard_temp\x\update.cs" />

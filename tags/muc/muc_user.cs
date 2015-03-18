@@ -9,7 +9,6 @@ namespace XMPP.Tags.Muc.User
         public const string XmlNamespace = "http://jabber.org/protocol/muc#user";
 
         public static readonly XName X = XName.Get("x", XmlNamespace);
-
         public static readonly XName Decline = XName.Get("decline", XmlNamespace);
         public static readonly XName Reason = XName.Get("reason", XmlNamespace);
         public static readonly XName Destroy = XName.Get("destroy", XmlNamespace);
@@ -80,13 +79,13 @@ namespace XMPP.Tags.Muc.User
 
         public string FromAttr
         {
-            get { return (string) GetAttributeValue("from"); }
+            get { return (string)GetAttributeValue("from"); }
             set { InnerElement.SetAttributeValue("from", value); }
         }
 
         public string ToAttr
         {
-            get { return (string) GetAttributeValue("to"); }
+            get { return (string)GetAttributeValue("to"); }
             set { InnerElement.SetAttributeValue("to", value); }
         }
     }
@@ -111,7 +110,7 @@ namespace XMPP.Tags.Muc.User
 
         public string JidAttr
         {
-            get { return (string) GetAttributeValue("jid"); }
+            get { return (string)GetAttributeValue("jid"); }
             set { InnerElement.SetAttributeValue("jid", value); }
         }
     }
@@ -147,7 +146,7 @@ namespace XMPP.Tags.Muc.User
         }
     }
 
-    [XmppTag(typeof (Namespace), typeof (Status))]
+    [XmppTag(typeof(Namespace), typeof(Status))]
     public class Status : Tag
     {
         public Status()
@@ -323,7 +322,6 @@ namespace XMPP.Tags.Muc.User
         }
     }
 }
-
 
 /*
 <?xml version='1.0' encoding='UTF-8'?>
