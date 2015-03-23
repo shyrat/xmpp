@@ -27,7 +27,7 @@ namespace XMPP.Tags.Muc.Admin
         {
         }
 
-        public IEnumerable<Item> ActorElements
+        public IEnumerable<Item> ItemElements
         {
             get { return Elements<Item>(Namespace.Item); }
         }

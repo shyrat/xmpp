@@ -366,7 +366,8 @@ namespace XMPP.Tags
                      e.Name.LocalName == "message" ||
                      (e.Name.LocalName == "error" && e.Name.NamespaceName != Namespace.XmlNamespace) ||
                      e.Name.LocalName == "body" ||
-                     e.Name.LocalName == "show")
+                     e.Name.LocalName == "show" ||
+                     e.Name.LocalName == "subject")
             {
                 e.Name = XName.Get(e.Name.LocalName, "jabber:client");
 
