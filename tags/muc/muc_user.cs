@@ -159,10 +159,10 @@ namespace XMPP.Tags.Muc.User
         {
         }
 
-        public int? StatusAttr
+        public int? CodeAttr
         {
-            get { return GetAttributeValueAsInt("status"); }
-            set { InnerElement.SetAttributeValue("status", value); }
+            get { return GetAttributeValueAsInt("code"); }
+            set { InnerElement.SetAttributeValue("code", value); }
         }
     }
 
