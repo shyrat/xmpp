@@ -8,6 +8,8 @@
 // 
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using XMPP.Registries;
 
@@ -17,8 +19,11 @@ namespace XMPP.Tags.VCardTemp
     {
         public const string XmlNamespace = "vcard-temp";
 
-        public static readonly XName Iq = XName.Get("iq", XmlNamespace);
         public static readonly XName VCard = XName.Get("vCard", XmlNamespace);
+        public static readonly XName Fn = XName.Get("FN", XmlNamespace);
+        public static readonly XName Org = XName.Get("ORG", XmlNamespace);
+        public static readonly XName OrgName = XName.Get("ORGNAME", XmlNamespace);
+        public static readonly XName OrgUnit = XName.Get("ORGUNIT", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(VCard))]
@@ -30,6 +35,98 @@ namespace XMPP.Tags.VCardTemp
 
         public VCard(XElement other) : base(other)
         {
+        }
+
+        public Fn Fn
+        {
+            get { return Elements<Fn>(Namespace.Fn).FirstOrDefault(); }
+        }
+
+        public Org Org
+        {
+            get { return Elements<Org>(Namespace.Org).FirstOrDefault(); }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Fn))]
+    public class Fn : Tag
+    {
+        public Fn() : base(Namespace.Fn)
+        {
+        }
+
+        public Fn(XElement other) : base(other)
+        {
+        }
+
+        public string Value
+        {
+            get { return InnerElement.Value; }
+            set { InnerElement.Value = value; }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Org))]
+    public class Org : Tag
+    {
+        public Org()
+            : base(Namespace.Org)
+        {
+        }
+
+        public Org(XElement other)
+            : base(other)
+        {
+        }
+
+        public IEnumerable<OrgName> OrgName
+        {
+            get { return Elements<OrgName>(Namespace.OrgName); }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(OrgName))]
+    public class OrgName : Tag
+    {
+        public OrgName()
+            : base(Namespace.OrgName)
+        {
+        }
+
+        public OrgName(XElement other)
+            : base(other)
+        {
+        }
+
+        public IEnumerable<OrgUnit> OrgUnit
+        {
+            get { return Elements<OrgUnit>(Namespace.OrgUnit); }
+        }
+
+        public string Value
+        {
+            get { return InnerElement.Value; }
+            set { InnerElement.Value = value; }
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(OrgUnit))]
+    public class OrgUnit : Tag
+    {
+        public OrgUnit()
+            : base(Namespace.OrgUnit)
+        {
+        }
+
+        public OrgUnit(XElement other)
+            : base(other)
+        {
+        }
+
+        public string Value
+        {
+            get { return InnerElement.Value; }
+            set { InnerElement.Value = value; }
         }
     }
 }
