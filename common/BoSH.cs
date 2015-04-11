@@ -6,12 +6,12 @@ using System.Xml.Linq;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
 using Windows.Web.Http.Headers;
+using XMPP.Extensions;
 using XMPP.States;
 using XMPP.Tags;
 using XMPP.Tags.Bosh;
-using XMPP.Сommon;
 
-namespace XMPP.Common
+namespace XMPP.Сommon
 {
     public class Bosh : IConnection
     {
@@ -20,9 +20,6 @@ namespace XMPP.Common
             _manager = manager;
         }
 
-        /// <summary>
-        /// Gets a value indicating whether is connected.
-        /// </summary>
         public bool IsConnected
         {
             get
@@ -43,17 +40,11 @@ namespace XMPP.Common
             }
         }
 
-        /// <summary>
-        /// Gets the hostname.
-        /// </summary>
         public string Hostname
         {
             get { return _manager.Settings.Hostname; }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether is ssl enabled.
-        /// </summary>
         public bool IsSSLEnabled { get; set; }
 
         public void Connect()
@@ -73,7 +64,7 @@ namespace XMPP.Common
 
         public void Disconnect()
         {
-            if (!IsConnected)
+            if (_disconnecting.IsSet)
             {
                 return;
             }
@@ -200,53 +191,55 @@ namespace XMPP.Common
 
         private Body SendRequest(Body body)
         {
-            var req = new HttpRequestMessage
+            using (var req = new HttpRequestMessage
             {
                 RequestUri = new Uri(_manager.Settings.Hostname),
                 Method = new HttpMethod("POST"),
                 Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
-            };
-
-            req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")
+            })
             {
-                CharSet = "utf-8",
-            };
-
-            try
-            {
-                var resp = _client.SendRequestAsync(req).AsTask().Result;
-
-                if (resp.IsSuccessStatusCode)
+                req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")
                 {
-                    var data = resp.Content.ReadAsStringAsync().AsTask().Result;
+                    CharSet = "utf-8",
+                };
 
-                    Interlocked.Exchange(ref _retryCounter, 0);
+                try
+                {
+                    using (var resp = _client.SendRequestAsync(req).AsTask().Result)
+                    {
+                        if (resp.IsSuccessStatusCode)
+                        {
+                            var data = resp.Content.ReadAsStringAsync().AsTask().Result;
 
-                    return Tag.Get(data) as Body;
+                            Interlocked.Exchange(ref _retryCounter, 0);
+
+                            return Tag.Get(data) as Body;
+                        }
+
+                        ConnectionError(
+                            ErrorType.ConnectToServerFailed,
+                            ErrorPolicyType.Reconnect,
+                            string.Format(
+                                "Connection error: Status: {0} Reason Phrase: {1}",
+                                resp.StatusCode,
+                                resp.ReasonPhrase),
+                            body);
+                    }
+                }
+                catch (AggregateException e)
+                {
+                    if (!(e.InnerException is TaskCanceledException))
+                    {
+                        ConnectionError(
+                            ErrorType.ConnectToServerFailed,
+                            ErrorPolicyType.Reconnect,
+                            e.Message,
+                            body);
+                    }
                 }
 
-                ConnectionError(
-                    ErrorType.ConnectToServerFailed,
-                    ErrorPolicyType.Reconnect,
-                    string.Format(
-                        "Connection error: Status: {0} Reason Phrase: {1}",
-                        resp.StatusCode,
-                        resp.ReasonPhrase),
-                    body);
+                return null;
             }
-            catch (AggregateException e)
-            {
-                if (!(e.InnerException is TaskCanceledException))
-                {
-                    ConnectionError(
-                        ErrorType.ConnectToServerFailed,
-                        ErrorPolicyType.Reconnect,
-                        e.Message,
-                        body);
-                }
-            }
-
-            return null;
         }
 
         private void SendSessionCreationRequest()
@@ -317,7 +310,7 @@ namespace XMPP.Common
                 {
                     _canFetch.WaitOne();
 
-                    var body = CombineBody();
+                    Body body = CombineBody();
 
                     _canFetch.Set();
 
@@ -346,7 +339,7 @@ namespace XMPP.Common
                 XElement tag;
                 if (_tagQueue.TryDequeue(out tag))
                 {
-                    ((XElement)body).Add(tag);
+                    body.Add(tag);
                     if (--counter == 0)
                     {
                         break;

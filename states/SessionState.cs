@@ -8,7 +8,6 @@
 // 
 // --------------------------------------------------------------------------------------------------------------------
 
-using XMPP.Common;
 using XMPP.Extensions;
 using XMPP.Tags;
 using XMPP.Tags.Jabber.Client;

@@ -10,7 +10,6 @@
 
 using System.Linq;
 using System.Xml.Linq;
-using XMPP.Common;
 using XMPP.SASL;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;

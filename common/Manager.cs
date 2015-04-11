@@ -10,7 +10,6 @@
 
 using System;
 using System.Threading;
-using XMPP.Common;
 using XMPP.SASL;
 using XMPP.States;
 
