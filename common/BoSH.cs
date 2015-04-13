@@ -208,10 +208,10 @@ namespace XMPP.Сommon
         private Body SendRequest(Body body)
         {
             using (var req = new HttpRequestMessage
-            {
-                RequestUri = new Uri(_manager.Settings.Hostname),
-                Method = new HttpMethod("POST"),
-                Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
+                            {
+                                RequestUri = new Uri(_manager.Settings.Hostname),
+                                Method = new HttpMethod("POST"),
+                                Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
             })
             {
                 req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")

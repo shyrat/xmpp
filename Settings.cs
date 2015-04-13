@@ -50,7 +50,6 @@ namespace XMPP.Сommon
         public int Port = 5222;
 
         public int QueryCount = 50;
-
         public bool SSL = false;
 
         public bool UseKeepAlive = false;
