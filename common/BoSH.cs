@@ -212,7 +212,7 @@ namespace XMPP.Сommon
                                 RequestUri = new Uri(_manager.Settings.Hostname),
                                 Method = new HttpMethod("POST"),
                                 Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
-            })
+                            })
             {
                 req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")
                 {
