@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>XMPP</id>
-    <version>0.7.0.13</version>
+    <version>0.7.0.14</version>
     <title>XMPP Library</title>
     <authors>Dieter Lunn,Paul Freund,Dmitry Chabanin</authors>
     <owners>Dmitry Chabanin</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/DmitryChabanin/xmpp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>C# XMPP Core and IM Implementation</description>
-    <releaseNotes>Bug fixing</releaseNotes>
+    <releaseNotes>XEP-0045: Multi-User Chat, Bug fixing</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>XMPP BOSH</tags>
   </metadata>
