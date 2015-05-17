@@ -46,15 +46,17 @@ namespace XMPP.States
             }
             else
             {
+                Manager.State = new RunningState(Manager);
+
+                Manager.Events.Ready(this);
+
+                var presence = new Presence();
+                Manager.Connection.Send(presence);
+
                 if (Manager.Transport == Transport.Bosh)
                 {
                     (Manager.Connection as Bosh).StartPolling();
                 }
-
-                Manager.State = new RunningState(Manager);
-
-                var presence = new Presence();
-                Manager.Connection.Send(presence);
             }
         }
     }

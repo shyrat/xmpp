@@ -24,7 +24,6 @@ namespace XMPP.States
         public RunningState(Manager manager) : base(manager)
         {
             Manager.Events.OnSend += OnSend;
-            Manager.Events.Ready(this);
         }
 
         public override void Dispose()
