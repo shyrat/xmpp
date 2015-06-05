@@ -206,7 +206,7 @@ namespace XMPP
         /// <summary>
         /// The incomming.
         /// </summary>
-        Incomming, 
+        Incomming,
 
         /// <summary>
         /// The outgoing.
@@ -289,7 +289,8 @@ namespace XMPP.Сommon
         /// <param name="direction">
         /// The direction.
         /// </param>
-        public ChunkLogEventArgs(string message, ChunkDirection direction) : base(message, LogType.Info)
+        public ChunkLogEventArgs(string message, ChunkDirection direction)
+            : base(message, LogType.Info)
         {
             Direction = direction;
         }
@@ -393,7 +394,8 @@ namespace XMPP.Сommon
         /// </param>
         public void Connect(object sender, EventArgs e = default(EventArgs))
         {
-            if (OnConnect != null) OnConnect(sender, e);
+            var handler = OnConnect;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -427,7 +429,8 @@ namespace XMPP.Сommon
         /// </param>
         public void Disconnect(object sender, EventArgs e = default(EventArgs))
         {
-            if (OnDisconnect != null) OnDisconnect(sender, e);
+            var handler = OnDisconnect;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -475,7 +478,8 @@ namespace XMPP.Сommon
         /// </param>
         public void Send(object sender, TagEventArgs e)
         {
-            if (OnSend != null) OnSend(sender, e);
+            var handler = OnSend;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -527,7 +531,8 @@ namespace XMPP.Сommon
         /// </param>
         public void NewTag(object sender, TagEventArgs e)
         {
-            if (OnNewTag != null) OnNewTag(sender, e);
+            var handler = OnNewTag;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -575,7 +580,8 @@ namespace XMPP.Сommon
         /// </param>
         public void Receive(object sender, TagEventArgs e)
         {
-            if (OnReceive != null) OnReceive(sender, e);
+            var handler = OnReceive;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -616,8 +622,7 @@ namespace XMPP.Сommon
         /// <param name="parameters">
         /// The parameters.
         /// </param>
-        public void Error(object sender, ErrorType type, ErrorPolicyType policy, string format, 
-            params object[] parameters)
+        public void Error(object sender, ErrorType type, ErrorPolicyType policy, string format, params object[] parameters)
         {
             Error(sender, type, policy, string.Format(format, parameters));
         }
@@ -653,7 +658,8 @@ namespace XMPP.Сommon
         /// </param>
         public void Error(object sender, ErrorEventArgs e)
         {
-            if (OnError != null) OnError(sender, e);
+            var handler = OnError;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -724,7 +730,8 @@ namespace XMPP.Сommon
         /// </param>
         public void LogMessage(object sender, LogEventArgs e)
         {
-            if (OnLogMessage != null) OnLogMessage(sender, e);
+            var handler = OnLogMessage;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -758,7 +765,8 @@ namespace XMPP.Сommon
         /// </param>
         public void Chunk(object sender, ChunkLogEventArgs e = default(ChunkLogEventArgs))
         {
-            if (OnChunk != null) OnChunk(sender, e);
+            var handler = OnChunk;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -792,7 +800,8 @@ namespace XMPP.Сommon
         /// </param>
         public void Ready(object sender, EventArgs e = default(EventArgs))
         {
-            if (OnReady != null) OnReady(sender, e);
+            var handler = OnReady;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -840,7 +849,8 @@ namespace XMPP.Сommon
         /// </param>
         public void ResourceBound(object sender, ResourceBoundEventArgs e)
         {
-            if (OnResourceBound != null) OnResourceBound(sender, e);
+            var handler = OnResourceBound;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -874,7 +884,8 @@ namespace XMPP.Сommon
         /// </param>
         public void Connected(object sender, EventArgs e = default(EventArgs))
         {
-            if (OnConnected != null) OnConnected(sender, e);
+            var handler = OnConnected;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion
@@ -908,7 +919,8 @@ namespace XMPP.Сommon
         /// </param>
         public void Disconnected(object sender, EventArgs e = default(EventArgs))
         {
-            if (OnDisconnected != null) OnDisconnected(sender, e);
+            var handler = OnDisconnected;
+            if (handler != null) handler(sender, e);
         }
 
         #endregion

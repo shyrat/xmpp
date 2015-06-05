@@ -90,17 +90,21 @@ namespace XMPP.Сommon
             if (null != _pollingTask)
             {
                 _pollingTask.Wait();
-                _pollingTask = null;
             }
 
             if (!_connectionError.IsSet)
             {
                 SendSessionTerminationRequest();
             }
-
-            CleanupState();
+            else
+            {
+                _client.Dispose();
+                _client = null;
+            }
 
             _manager.Events.Disconnected(this);
+
+            IsConnected = false;
         }
 
         public void Restart()
@@ -135,11 +139,13 @@ namespace XMPP.Сommon
 
         public void Dispose()
         {
-            CleanupState();
+            Cleanup();
         }
 
         private void Init()
         {
+            Cleanup();
+
             _client = new HttpClient();
 
             _disconnecting = new ManualResetEventSlim(false);
@@ -162,7 +168,7 @@ namespace XMPP.Сommon
                 {
                     _connectionError.Set();
 
-                    _manager.Events.Error(this, type, policy, cause);
+                    Task.Run(() => _manager.Events.Error(this, type, policy, cause));
                 }
             }
             else
@@ -171,18 +177,45 @@ namespace XMPP.Сommon
                 {
                     _tagQueue.Enqueue(item);
                 }
+
+                Task.Run(() => FlushInternal());
             }
         }
 
-        private void CleanupState()
+        private void Cleanup()
         {
-            IsConnected = false;
-
             if (null != _client)
             {
                 _client.Dispose();
                 _client = null;
             }
+
+            if (null != _connectionsCounter)
+            {
+                _connectionsCounter.Dispose();
+                _connectionsCounter = null;
+            }
+
+            if (null != _connectionError)
+            {
+                _connectionError.Dispose();
+                _connectionError = null;
+            }
+
+            if (null != _disconnecting)
+            {
+                _disconnecting.Dispose();
+                _disconnecting = null;
+            }
+
+            if (null != _canFetch)
+            {
+                _canFetch.Dispose();
+                _canFetch = null;
+            }
+
+            _tagQueue = null;
+            _pollingTask = null;
         }
 
         private void SendRestartRequest()
@@ -208,11 +241,11 @@ namespace XMPP.Сommon
         private Body SendRequest(Body body)
         {
             using (var req = new HttpRequestMessage
-                            {
-                                RequestUri = new Uri(_manager.Settings.Hostname),
-                                Method = new HttpMethod("POST"),
-                                Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
-                            })
+            {
+                RequestUri = new Uri(_manager.Settings.Hostname),
+                Method = new HttpMethod("POST"),
+                Content = new HttpStringContent(body, UnicodeEncoding.Utf8),
+            })
             {
                 req.Content.Headers.ContentType = new HttpMediaTypeHeaderValue("text/xml")
                 {
@@ -337,11 +370,6 @@ namespace XMPP.Сommon
                 finally
                 {
                     _connectionsCounter.Release();
-
-                    if (!_tagQueue.IsEmpty)
-                    {
-                        Task.Run(() => Flush());
-                    }
                 }
             }
         }

@@ -32,6 +32,7 @@ namespace XMPP.Tags.Jabber.Protocol.Archive
         public static readonly XName Always = XName.Get("always", XmlNamespace);
         public static readonly XName Never = XName.Get("never", XmlNamespace);
         public static readonly XName Jid = XName.Get("jid", XmlNamespace);
+        public static readonly XName Fin = XName.Get("fin", XmlNamespace);
     }
 
     [XmppTag(typeof(Namespace), typeof(Query))]
@@ -172,6 +173,26 @@ namespace XMPP.Tags.Jabber.Protocol.Archive
         public Jid(XElement other)
             : base(other)
         {
+        }
+    }
+
+    [XmppTag(typeof(Namespace), typeof(Fin))]
+    public class Fin : Tag
+    {
+        public Fin()
+            : base(Namespace.Fin)
+        {
+        }
+
+        public Fin(XElement other)
+            : base(other)
+        {
+        }
+
+        public bool? CompleteAttr
+        {
+            get { return GetAttributeValueAsBool("complete"); }
+            set { InnerElement.SetAttributeValue("complete", value); }
         }
     }
 }
