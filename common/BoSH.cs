@@ -1,4 +1,4 @@
-﻿// Copyright © 2006 - 2012 Dieter Lunn
+﻿﻿// Copyright © 2006 - 2012 Dieter Lunn
 // Modified 2012 Paul Freund ( freund.paul@lvl3.org )
 //
 // This library is free software; you can redistribute it and/or modify it under
@@ -90,21 +90,17 @@ namespace XMPP.Сommon
             if (null != _pollingTask)
             {
                 _pollingTask.Wait();
+                _pollingTask = null;
             }
 
             if (!_connectionError.IsSet)
             {
                 SendSessionTerminationRequest();
             }
-            else
-            {
-                _client.Dispose();
-                _client = null;
-            }
+
+            CleanupState();
 
             _manager.Events.Disconnected(this);
-
-            IsConnected = false;
         }
 
         public void Restart()
@@ -139,13 +135,11 @@ namespace XMPP.Сommon
 
         public void Dispose()
         {
-            Cleanup();
+            CleanupState();
         }
 
         private void Init()
         {
-            Cleanup();
-
             _client = new HttpClient();
 
             _disconnecting = new ManualResetEventSlim(false);
@@ -168,7 +162,7 @@ namespace XMPP.Сommon
                 {
                     _connectionError.Set();
 
-                    Task.Run(() => _manager.Events.Error(this, type, policy, cause));
+                    _manager.Events.Error(this, type, policy, cause);
                 }
             }
             else
@@ -177,45 +171,18 @@ namespace XMPP.Сommon
                 {
                     _tagQueue.Enqueue(item);
                 }
-
-                Task.Run(() => FlushInternal());
             }
         }
 
-        private void Cleanup()
+        private void CleanupState()
         {
+            IsConnected = false;
+
             if (null != _client)
             {
                 _client.Dispose();
                 _client = null;
             }
-
-            if (null != _connectionsCounter)
-            {
-                _connectionsCounter.Dispose();
-                _connectionsCounter = null;
-            }
-
-            if (null != _connectionError)
-            {
-                _connectionError.Dispose();
-                _connectionError = null;
-            }
-
-            if (null != _disconnecting)
-            {
-                _disconnecting.Dispose();
-                _disconnecting = null;
-            }
-
-            if (null != _canFetch)
-            {
-                _canFetch.Dispose();
-                _canFetch = null;
-            }
-
-            _tagQueue = null;
-            _pollingTask = null;
         }
 
         private void SendRestartRequest()
@@ -370,6 +337,11 @@ namespace XMPP.Сommon
                 finally
                 {
                     _connectionsCounter.Release();
+
+                    if (!_tagQueue.IsEmpty)
+                    {
+                        Task.Run(() => Flush());
+                    }
                 }
             }
         }
