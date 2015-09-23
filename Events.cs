@@ -215,7 +215,7 @@ namespace XMPP
     }
 }
 
-namespace XMPP.Сommon
+namespace XMPP.Common
 {
     /// <summary>
     /// The tag event args.

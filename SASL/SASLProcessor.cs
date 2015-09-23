@@ -20,7 +20,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using Windows.Security.Cryptography;
 using XMPP.Tags;
-using XMPP.Ñommon;
+using XMPP.Common;
 
 namespace XMPP.SASL
 {

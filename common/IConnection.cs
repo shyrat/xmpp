@@ -17,7 +17,7 @@
 using System;
 using XMPP.Tags;
 
-namespace XMPP.Сommon
+namespace XMPP.Common
 {
     /// <summary>
     /// The Connection interface.

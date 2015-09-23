@@ -22,7 +22,7 @@ using System.Xml.Linq;
 using Windows.Security.Cryptography.Core;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;
-using XMPP.Ñommon;
+using XMPP.Common;
 
 namespace XMPP.SASL
 {

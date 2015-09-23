@@ -31,7 +31,7 @@ namespace XMPP
     }
 }
 
-namespace XMPP.Сommon
+namespace XMPP.Common
 {
     public class Settings
     {

@@ -15,7 +15,7 @@
 // Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using XMPP.Tags;
-using XMPP.Ñommon;
+using XMPP.Common;
 
 namespace XMPP.States
 {

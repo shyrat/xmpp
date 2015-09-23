@@ -29,7 +29,7 @@ using System.Threading;
 using XMPP.SASL;
 using XMPP.States;
 
-namespace XMPP.Ñommon
+namespace XMPP.Common
 {
     /// <summary>
     /// The manager.

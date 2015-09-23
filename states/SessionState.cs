@@ -18,7 +18,7 @@ using XMPP.Extensions;
 using XMPP.Tags;
 using XMPP.Tags.Jabber.Client;
 using XMPP.Tags.XmppSession;
-using XMPP.Ñommon;
+using XMPP.Common;
 
 namespace XMPP.States
 {

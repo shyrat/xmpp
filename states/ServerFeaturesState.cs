@@ -24,7 +24,7 @@ using XMPP.Tags.Jabber.Protocol.Compress;
 using XMPP.Tags.Streams;
 using XMPP.Tags.XmppSasl;
 using XMPP.Tags.XmppTls;
-using XMPP.Ñommon;
+using XMPP.Common;
 using Namespace = XMPP.Tags.XmppStreams.Namespace;
 using Text = XMPP.Tags.XmppStreams.Text;
 

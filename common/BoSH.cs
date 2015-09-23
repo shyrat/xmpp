@@ -27,7 +27,7 @@ using XMPP.States;
 using XMPP.Tags;
 using XMPP.Tags.Bosh;
 
-namespace XMPP.Сommon
+namespace XMPP.Common
 {
     public class Bosh : IConnection
     {

@@ -16,7 +16,7 @@
 
 using XMPP.Tags;
 using XMPP.Tags.Streams;
-using XMPP.Ñommon;
+using XMPP.Common;
 using Namespace = XMPP.Tags.Jabber.Client.Namespace;
 
 namespace XMPP.States

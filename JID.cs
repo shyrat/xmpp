@@ -71,13 +71,13 @@ namespace XMPP
         public string Server
         {
             get { return _server; }
-            set { _server = (value == null) ? null : Stringprep.NamePrep(value); }
+            set { _server = (value == null) ? string.Empty : Stringprep.NamePrep(value); }
         }
 
         public string Resource
         {
             get { return _resource; }
-            set { _resource = (value == null) ? null : Stringprep.ResourcePrep(value); }
+            set { _resource = (value == null) ? string.Empty : Stringprep.ResourcePrep(value); }
         }
 
         #endregion

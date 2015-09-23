@@ -19,7 +19,7 @@ using System.Xml.Linq;
 using XMPP.SASL;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;
-using XMPP.Ñommon;
+using XMPP.Common;
 
 namespace XMPP.States
 {

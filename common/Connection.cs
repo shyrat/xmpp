@@ -31,7 +31,7 @@ using XMPP.States;
 using XMPP.Tags;
 using Buffer = Windows.Storage.Streams.Buffer;
 
-namespace XMPP.Ñommon
+namespace XMPP.Common
 {
     #region helper
 

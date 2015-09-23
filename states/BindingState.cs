@@ -20,7 +20,7 @@ using XMPP.Extensions;
 using XMPP.Tags;
 using XMPP.Tags.Jabber.Client;
 using XMPP.Tags.XmppBind;
-using XMPP.Ñommon;
+using XMPP.Common;
 using Namespace = XMPP.Tags.XmppBind.Namespace;
 
 namespace XMPP.States

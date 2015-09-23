@@ -19,7 +19,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using XMPP.Tags;
-using XMPP.Ñommon;
+using XMPP.Common;
 
 namespace XMPP
 {

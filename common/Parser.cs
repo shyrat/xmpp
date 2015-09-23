@@ -17,7 +17,7 @@
 using XMPP.States;
 using XMPP.Tags;
 
-namespace XMPP.Ñommon
+namespace XMPP.Common
 {
     /// <summary>
     /// The parser.

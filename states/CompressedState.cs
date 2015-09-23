@@ -16,7 +16,7 @@
 
 using System.Xml.Linq;
 using XMPP.Tags;
-using XMPP.Ñommon;
+using XMPP.Common;
 
 namespace XMPP.States
 {

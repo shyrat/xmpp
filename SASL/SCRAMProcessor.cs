@@ -24,7 +24,7 @@ using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 using XMPP.Tags;
 using XMPP.Tags.XmppSasl;
-using XMPP.Сommon;
+using XMPP.Common;
 
 namespace XMPP.SASL
 {
