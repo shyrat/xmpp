@@ -98,6 +98,12 @@ namespace XMPP.Tags.Bosh
             set { InnerElement.SetAttributeValue("type", value); }
         }
 
+        public string ConditionAttr
+        {
+            get { return (string)GetAttributeValue("condition"); }
+            set { InnerElement.SetAttributeValue("condition", value); }
+        }
+
         public bool? RestartAttr
         {
             get { return GetAttributeValueAsBool(XName.Get("restart", Namespace.Xmpp)); }

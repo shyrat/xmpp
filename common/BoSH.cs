@@ -40,18 +40,18 @@ namespace XMPP.Common
         {
             get
             {
-                return _isConnected.IsSet;
+                return Interlocked.Read(ref _connected) == 1L;
             }
 
             private set
             {
                 if (value)
                 {
-                    _isConnected.Set();
+                    Interlocked.Exchange(ref _connected, 1L);
                 }
                 else
                 {
-                    _isConnected.Reset();
+                    Interlocked.Exchange(ref _connected, 0L);
                 }
             }
         }
@@ -65,10 +65,10 @@ namespace XMPP.Common
 
         public void Connect()
         {
-            if (IsConnected)
+            if (Interlocked.CompareExchange(ref _connecting, 1L, 0L) == 1L)
             {
 #if DEBUG
-                _manager.Events.LogMessage(this, LogType.Warn, "Already connected");
+                _manager.Events.LogMessage(this, LogType.Warn, "Already connected or connecting in progress");
 #endif
                 return;
             }
@@ -80,12 +80,10 @@ namespace XMPP.Common
 
         public void Disconnect()
         {
-            if (_disconnecting.IsSet)
+            if (Interlocked.CompareExchange(ref _disconnecting, 1L, 0L) == 1L)
             {
                 return;
             }
-
-            _disconnecting.Set();
 
             if (null != _pollingTask)
             {
@@ -93,7 +91,7 @@ namespace XMPP.Common
                 _pollingTask = null;
             }
 
-            if (!_connectionError.IsSet)
+            if (Interlocked.Read(ref _connectionError) == 0L)
             {
                 SendSessionTerminationRequest();
             }
@@ -142,8 +140,9 @@ namespace XMPP.Common
         {
             _client = new HttpClient();
 
-            _disconnecting = new ManualResetEventSlim(false);
-            _connectionError = new ManualResetEventSlim(false);
+            _retryCounter = 0;
+            _disconnecting = 0;
+            _connectionError = 0;
             _canFetch = new AutoResetEvent(true);
             _tagQueue = new ConcurrentQueue<XElement>();
             _rid = new Random().Next(StartRid, EndRid);
@@ -151,17 +150,15 @@ namespace XMPP.Common
 
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause, Body body)
         {
-            if (_disconnecting.IsSet)
+            if (Interlocked.Read(ref _disconnecting) == 1L)
             {
                 return;
             }
 
             if (string.IsNullOrEmpty(body.SidAttr) || Interlocked.Increment(ref _retryCounter) >= MaxRetry)
             {
-                if (!_connectionError.IsSet)
+                if (Interlocked.CompareExchange(ref _connectionError, 1L, 0L) == 0L)
                 {
-                    _connectionError.Set();
-
                     _manager.Events.Error(this, type, policy, cause);
                 }
             }
@@ -176,13 +173,21 @@ namespace XMPP.Common
 
         private void CleanupState()
         {
-            IsConnected = false;
-
             if (null != _client)
             {
                 _client.Dispose();
                 _client = null;
             }
+
+            if (null != _canFetch)
+            {
+                _canFetch.Dispose();
+                _canFetch = null;
+            }
+
+            IsConnected = false;
+
+            Interlocked.Exchange(ref _connecting, 0L);
         }
 
         private void SendRestartRequest()
@@ -227,9 +232,28 @@ namespace XMPP.Common
                         {
                             var data = resp.Content.ReadAsStringAsync().AsTask().Result;
 
+                            var respBody = Tag.Get(data) as Body;
+                            if (null != respBody && respBody.TypeAttr == "terminate")
+                            {
+                                if (Interlocked.Read(ref _disconnecting) == 1L)
+                                {
+                                    return null;
+                                }
+
+                                if (Interlocked.CompareExchange(ref _connectionError, 1L, 0L) == 0L)
+                                {
+                                    _manager.Events.Error(this,
+                                        ErrorType.ConnectToServerFailed,
+                                        ErrorPolicyType.Reconnect,
+                                        string.Format("Session was terminated. Reason: {0}", respBody.ConditionAttr));
+                                }
+
+                                return null;
+                            }
+
                             Interlocked.Exchange(ref _retryCounter, 0);
 
-                            return Tag.Get(data) as Body;
+                            return respBody;
                         }
 
                         ConnectionError(
@@ -313,9 +337,9 @@ namespace XMPP.Common
             FlushInternal();
         }
 
-        private void FlushInternal()
+        private void FlushInternal(bool isPooling = false)
         {
-            if (_disconnecting.IsSet || _connectionError.IsSet)
+            if (Interlocked.Read(ref _disconnecting) == 1L || Interlocked.Read(ref _connectionError) == 1L)
             {
                 return;
             }
@@ -330,9 +354,12 @@ namespace XMPP.Common
 
                     _canFetch.Set();
 
-                    var resp = SendRequest(body);
+                    if (isPooling || body.HasElements())
+                    {
+                        var resp = SendRequest(body);
 
-                    ExtractBody(resp);
+                        ExtractBody(resp);
+                    }
                 }
                 finally
                 {
@@ -396,17 +423,17 @@ namespace XMPP.Common
             {
                 while (true)
                 {
-                    if (_disconnecting.IsSet || _connectionError.IsSet)
+                    if (Interlocked.Read(ref _disconnecting) == 1L || Interlocked.Read(ref _connectionError) == 1L)
                     {
                         return;
                     }
 
                     if (_connectionsCounter.CurrentCount == _requests) //no active requests
                     {
-                        Task.Run(() => FlushInternal());
+                        Task.Run(() => FlushInternal(true));
                     }
 
-                    Task.Delay(TimeSpan.FromMilliseconds(10)).Wait();
+                    Task.Delay(TimeSpan.FromMilliseconds(10d)).Wait();
                 };
             });
         }
@@ -421,13 +448,14 @@ namespace XMPP.Common
 
         private HttpClient _client;
         private SemaphoreSlim _connectionsCounter;
-        private ManualResetEventSlim _connectionError;
-        private ManualResetEventSlim _disconnecting;
         private AutoResetEvent _canFetch;
         private ConcurrentQueue<XElement> _tagQueue;
         private Task _pollingTask;
 
-        private readonly ManualResetEventSlim _isConnected = new ManualResetEventSlim(false);
+        private long _connectionError;
+        private long _connecting;
+        private long _connected;
+        private long _disconnecting;
 
         private const int StartRid = 1000000;
         private const int EndRid = 99999999;
