@@ -75,7 +75,12 @@ namespace XMPP.Common
 
             Init();
 
-            SendSessionCreationRequest();
+            if(!SendSessionCreationRequest())
+            {
+                CleanupState();
+
+                _manager.Events.Disconnected(this);
+            }
         }
 
         public void Disconnect()
@@ -144,6 +149,8 @@ namespace XMPP.Common
             _disconnecting = 0;
             _connectionError = 0;
             _tagQueue = new ConcurrentQueue<XElement>();
+            _sid = null;
+            _requests = null;
             _rid = new Random().Next(StartRid, EndRid);
         }
 
@@ -235,7 +242,8 @@ namespace XMPP.Common
 
                                 if (Interlocked.CompareExchange(ref _connectionError, 1L, 0L) == 0L)
                                 {
-                                    _manager.Events.Error(this,
+                                    _manager.Events.Error(
+                                        this,
                                         ErrorType.ConnectToServerFailed,
                                         ErrorPolicyType.Reconnect,
                                         string.Format("Session was terminated. Reason: {0}", respBody.ConditionAttr));
@@ -275,7 +283,7 @@ namespace XMPP.Common
             }
         }
 
-        private void SendSessionCreationRequest()
+        private bool SendSessionCreationRequest()
         {
             var body = new Body
             {
@@ -303,7 +311,11 @@ namespace XMPP.Common
 
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
+
+                return true;
             }
+
+            return false;
         }
 
         private void SendSessionTerminationRequest()
@@ -351,7 +363,14 @@ namespace XMPP.Common
                 {
                     _connectionsCounter.Release();
 
-                    if (!_tagQueue.IsEmpty)
+                    if (Interlocked.Read(ref _disconnecting) == 1L || Interlocked.Read(ref _connectionError) == 1L)
+                    {
+                        if(_connectionsCounter.CurrentCount == _requests)
+                        {
+                            _connectionsCounter.Dispose();
+                        }
+                    }
+                    else if (!_tagQueue.IsEmpty)
                     {
                         Task.Run(() => Flush());
                     }
