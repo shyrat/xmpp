@@ -143,7 +143,6 @@ namespace XMPP.Common
             _retryCounter = 0;
             _disconnecting = 0;
             _connectionError = 0;
-            _canFetch = new AutoResetEvent(true);
             _tagQueue = new ConcurrentQueue<XElement>();
             _rid = new Random().Next(StartRid, EndRid);
         }
@@ -177,12 +176,6 @@ namespace XMPP.Common
             {
                 _client.Dispose();
                 _client = null;
-            }
-
-            if (null != _canFetch)
-            {
-                _canFetch.Dispose();
-                _canFetch = null;
             }
 
             IsConnected = false;
@@ -337,7 +330,7 @@ namespace XMPP.Common
             FlushInternal();
         }
 
-        private void FlushInternal(bool isPooling = false)
+        private void FlushInternal()
         {
             if (Interlocked.Read(ref _disconnecting) == 1L || Interlocked.Read(ref _connectionError) == 1L)
             {
@@ -348,18 +341,11 @@ namespace XMPP.Common
             {
                 try
                 {
-                    _canFetch.WaitOne();
+                    var body = CombineBody();
 
-                    Body body = CombineBody();
+                    var resp = SendRequest(body);
 
-                    _canFetch.Set();
-
-                    if (isPooling || body.HasElements())
-                    {
-                        var resp = SendRequest(body);
-
-                        ExtractBody(resp);
-                    }
+                    ExtractBody(resp);
                 }
                 finally
                 {
@@ -375,17 +361,20 @@ namespace XMPP.Common
 
         private void CombineBody(Body body)
         {
-            int counter = _manager.Settings.QueryCount;
-
-            while (!_tagQueue.IsEmpty)
+            lock (_fetchSync)
             {
-                XElement tag;
-                if (_tagQueue.TryDequeue(out tag))
+                int counter = _manager.Settings.QueryCount;
+
+                while (!_tagQueue.IsEmpty)
                 {
-                    body.Add(tag);
-                    if (--counter == 0)
+                    XElement tag;
+                    if (_tagQueue.TryDequeue(out tag))
                     {
-                        break;
+                        body.Add(tag);
+                        if (--counter == 0)
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -430,7 +419,7 @@ namespace XMPP.Common
 
                     if (_connectionsCounter.CurrentCount == _requests) //no active requests
                     {
-                        Task.Run(() => FlushInternal(true));
+                        Task.Run(() => FlushInternal());
                     }
 
                     Task.Delay(TimeSpan.FromMilliseconds(10d)).Wait();
@@ -448,9 +437,10 @@ namespace XMPP.Common
 
         private HttpClient _client;
         private SemaphoreSlim _connectionsCounter;
-        private AutoResetEvent _canFetch;
         private ConcurrentQueue<XElement> _tagQueue;
         private Task _pollingTask;
+
+        private readonly object _fetchSync = new object();
 
         private long _connectionError;
         private long _connecting;
