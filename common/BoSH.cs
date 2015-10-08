@@ -25,7 +25,8 @@ using Windows.Web.Http.Headers;
 using XMPP.Extensions;
 using XMPP.States;
 using XMPP.Tags;
-using XMPP.Tags.Bosh;
+using XMPP.Tags.Jabber.Client;
+using Body = XMPP.Tags.Bosh.Body;
 
 namespace XMPP.Common
 {
@@ -75,18 +76,24 @@ namespace XMPP.Common
 
             Init();
 
-            if(!SendSessionCreationRequest())
-            {
-                CleanupState();
-
-                _manager.Events.Disconnected(this);
-            }
+            SendSessionCreationRequest();
         }
 
         public void Disconnect()
         {
+            if (Interlocked.Read(ref _connecting) == 0L)
+            {
+#if DEBUG
+                _manager.Events.LogMessage(this, LogType.Warn, "Don't connected");
+#endif
+                return;
+            }
+
             if (Interlocked.CompareExchange(ref _disconnecting, 1L, 0L) == 1L)
             {
+#if DEBUG
+                _manager.Events.LogMessage(this, LogType.Warn, "Already disconnected or disconnecting in progress");
+#endif
                 return;
             }
 
@@ -102,8 +109,6 @@ namespace XMPP.Common
             }
 
             CleanupState();
-
-            _manager.Events.Disconnected(this);
         }
 
         public void Restart()
@@ -145,9 +150,10 @@ namespace XMPP.Common
         {
             _client = new HttpClient();
 
-            _retryCounter = 0;
-            _disconnecting = 0;
-            _connectionError = 0;
+            Interlocked.Exchange(ref _retryCounter, 0);
+            Interlocked.Exchange(ref _disconnecting, 0);
+            Interlocked.Exchange(ref _connectionError, 0);
+
             _tagQueue = new ConcurrentQueue<XElement>();
             _sid = null;
             _requests = null;
@@ -168,13 +174,13 @@ namespace XMPP.Common
                     _manager.Events.Error(this, type, policy, cause);
                 }
             }
-            else
+            /*else
             {
                 foreach (var item in body.Elements())
                 {
                     _tagQueue.Enqueue(item);
                 }
-            }
+            }*/
         }
 
         private void CleanupState()
@@ -283,10 +289,11 @@ namespace XMPP.Common
             }
         }
 
-        private bool SendSessionCreationRequest()
+        private void SendSessionCreationRequest()
         {
             var body = new Body
             {
+                VerAttr = "1.6",
                 RidAttr = _rid,
                 WaitAttr = Wait,
                 HoldAttr = Hold,
@@ -311,11 +318,7 @@ namespace XMPP.Common
 
                 _manager.State = new ServerFeaturesState(_manager);
                 _manager.State.Execute(payload);
-
-                return true;
             }
-
-            return false;
         }
 
         private void SendSessionTerminationRequest()
@@ -327,7 +330,9 @@ namespace XMPP.Common
                 TypeAttr = "terminate"
             };
 
-            CombineBody(body);
+            //CombineBody(body);
+
+            body.Add(new Presence { TypeAttr = Presence.TypeEnum.unavailable });
 
             SendRequest(body);
         }

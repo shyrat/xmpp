@@ -44,6 +44,12 @@ namespace XMPP.Tags.Bosh
             set { InnerElement.SetAttributeValue("wait", value); }
         }
 
+        public string VerAttr
+        {
+            get { return (string)GetAttributeValue("ver"); }
+            set { InnerElement.SetAttributeValue("ver", value); }
+        }
+
         public int? InactivityAttr
         {
             get { return GetAttributeValueAsInt("inactivity"); }

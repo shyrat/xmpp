@@ -218,8 +218,6 @@ namespace XMPP.Common
 #endif
 
             CleanupState();
-
-            _manager.Events.Disconnected(this);
         }
 
         private void SocketSend(string message, bool synchronized = false)

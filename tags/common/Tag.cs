@@ -379,9 +379,9 @@ namespace XMPP.Tags
 
                 if (e.HasElements)
                 {
-                    foreach (XElement chield in e.Descendants())
+                    foreach (XElement child in e.Descendants())
                     {
-                        FixNs(chield);
+                        FixNs(child);
                     }
                 }
             }

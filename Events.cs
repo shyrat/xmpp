@@ -217,22 +217,10 @@ namespace XMPP
 
 namespace XMPP.Common
 {
-    /// <summary>
-    /// The tag event args.
-    /// </summary>
     public class TagEventArgs : EventArgs
     {
-        /// <summary>
-        /// The tag.
-        /// </summary>
         public Tag tag;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TagEventArgs"/> class.
-        /// </summary>
-        /// <param name="tag_">
-        /// The tag_.
-        /// </param>
         public TagEventArgs(Tag tag_)
         {
             tag = tag_;
@@ -367,31 +355,10 @@ namespace XMPP.Common
 
         #region Connect
 
-        /// <summary>
-        /// The internal connect.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void InternalConnect(object sender, EventArgs e);
 
-        /// <summary>
-        /// The on connect.
-        /// </summary>
         public event InternalConnect OnConnect;
 
-        /// <summary>
-        /// The connect.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void Connect(object sender, EventArgs e = default(EventArgs))
         {
             var handler = OnConnect;
@@ -402,31 +369,10 @@ namespace XMPP.Common
 
         #region Disconnect
 
-        /// <summary>
-        /// The internal disconnect.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void InternalDisconnect(object sender, EventArgs e);
 
-        /// <summary>
-        /// The on disconnect.
-        /// </summary>
         public event InternalDisconnect OnDisconnect;
 
-        /// <summary>
-        /// The disconnect.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void Disconnect(object sender, EventArgs e = default(EventArgs))
         {
             var handler = OnDisconnect;
@@ -437,45 +383,15 @@ namespace XMPP.Common
 
         #region Send
 
-        /// <summary>
-        /// The internal send.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void InternalSend(object sender, TagEventArgs e);
 
-        /// <summary>
-        /// The on send.
-        /// </summary>
         public event InternalSend OnSend;
 
-        /// <summary>
-        /// The send.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
         public void Send(object sender, Tag tag)
         {
             Send(sender, new TagEventArgs(tag));
         }
 
-        /// <summary>
-        /// The send.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void Send(object sender, TagEventArgs e)
         {
             var handler = OnSend;
@@ -490,45 +406,15 @@ namespace XMPP.Common
 
         #region NewTag
 
-        /// <summary>
-        /// The external new tag.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void ExternalNewTag(object sender, TagEventArgs e);
 
-        /// <summary>
-        /// The on new tag.
-        /// </summary>
         public event ExternalNewTag OnNewTag;
 
-        /// <summary>
-        /// The new tag.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
         public void NewTag(object sender, Tag tag)
         {
             NewTag(sender, new TagEventArgs(tag));
         }
 
-        /// <summary>
-        /// The new tag.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void NewTag(object sender, TagEventArgs e)
         {
             var handler = OnNewTag;
@@ -539,45 +425,15 @@ namespace XMPP.Common
 
         #region Receive
 
-        /// <summary>
-        /// The external receive.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void ExternalReceive(object sender, TagEventArgs e);
 
-        /// <summary>
-        /// The on receive.
-        /// </summary>
         public event ExternalReceive OnReceive;
 
-        /// <summary>
-        /// The receive.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="tag">
-        /// The tag.
-        /// </param>
         public void Receive(object sender, Tag tag)
         {
             Receive(sender, new TagEventArgs(tag));
         }
 
-        /// <summary>
-        /// The receive.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void Receive(object sender, TagEventArgs e)
         {
             var handler = OnReceive;
@@ -588,74 +444,20 @@ namespace XMPP.Common
 
         #region Error
 
-        /// <summary>
-        /// The external error.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void ExternalError(object sender, ErrorEventArgs e);
 
-        /// <summary>
-        /// The on error.
-        /// </summary>
         public event ExternalError OnError;
 
-        /// <summary>
-        /// The error.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="policy">
-        /// The policy.
-        /// </param>
-        /// <param name="format">
-        /// The format.
-        /// </param>
-        /// <param name="parameters">
-        /// The parameters.
-        /// </param>
         public void Error(object sender, ErrorType type, ErrorPolicyType policy, string format, params object[] parameters)
         {
             Error(sender, type, policy, string.Format(format, parameters));
         }
 
-        /// <summary>
-        /// The error.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="policy">
-        /// The policy.
-        /// </param>
-        /// <param name="message">
-        /// The message.
-        /// </param>
         public void Error(object sender, ErrorType type, ErrorPolicyType policy, string message = "")
         {
             Error(sender, new ErrorEventArgs(message, type, policy));
         }
 
-        /// <summary>
-        /// The error.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void Error(object sender, ErrorEventArgs e)
         {
             var handler = OnError;
@@ -666,68 +468,20 @@ namespace XMPP.Common
 
         #region LogMessage
 
-        /// <summary>
-        /// The external log message.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void ExternalLogMessage(object sender, LogEventArgs e);
 
-        /// <summary>
-        /// The on log message.
-        /// </summary>
         public event ExternalLogMessage OnLogMessage;
 
-        /// <summary>
-        /// The log message.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="format">
-        /// The format.
-        /// </param>
-        /// <param name="parameters">
-        /// The parameters.
-        /// </param>
         public void LogMessage(object sender, LogType type, string format, params object[] parameters)
         {
             LogMessage(sender, type, string.Format(format, parameters));
         }
 
-        /// <summary>
-        /// The log message.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="message">
-        /// The message.
-        /// </param>
         public void LogMessage(object sender, LogType type, string message)
         {
             LogMessage(sender, new LogEventArgs(message, type));
         }
 
-        /// <summary>
-        /// The log message.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void LogMessage(object sender, LogEventArgs e)
         {
             var handler = OnLogMessage;
@@ -736,68 +490,12 @@ namespace XMPP.Common
 
         #endregion
 
-        #region Trace stream
-
-        /// <summary>
-        /// The external chunk.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        public delegate void ExternalChunk(object sender, ChunkLogEventArgs e);
-
-        /// <summary>
-        /// The on chunk.
-        /// </summary>
-        public event ExternalChunk OnChunk;
-
-        /// <summary>
-        /// The chunk.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        public void Chunk(object sender, ChunkLogEventArgs e = default(ChunkLogEventArgs))
-        {
-            var handler = OnChunk;
-            if (handler != null) handler(sender, e);
-        }
-
-        #endregion
-
         #region Ready
 
-        /// <summary>
-        /// The external ready.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void ExternalReady(object sender, EventArgs e);
 
-        /// <summary>
-        /// The on ready.
-        /// </summary>
         public event ExternalReady OnReady;
 
-        /// <summary>
-        /// The ready.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void Ready(object sender, EventArgs e = default(EventArgs))
         {
             var handler = OnReady;
@@ -808,45 +506,15 @@ namespace XMPP.Common
 
         #region ResourceBound
 
-        /// <summary>
-        /// The external resource bound.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void ExternalResourceBound(object sender, ResourceBoundEventArgs e);
 
-        /// <summary>
-        /// The on resource bound.
-        /// </summary>
         public event ExternalResourceBound OnResourceBound;
 
-        /// <summary>
-        /// The resource bound.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="jid">
-        /// The jid.
-        /// </param>
         public void ResourceBound(object sender, string jid)
         {
             ResourceBound(this, new ResourceBoundEventArgs(jid));
         }
 
-        /// <summary>
-        /// The resource bound.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void ResourceBound(object sender, ResourceBoundEventArgs e)
         {
             var handler = OnResourceBound;
@@ -857,31 +525,10 @@ namespace XMPP.Common
 
         #region Connected
 
-        /// <summary>
-        /// The external connected.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void ExternalConnected(object sender, EventArgs e);
 
-        /// <summary>
-        /// The on connected.
-        /// </summary>
         public event ExternalConnected OnConnected;
 
-        /// <summary>
-        /// The connected.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void Connected(object sender, EventArgs e = default(EventArgs))
         {
             var handler = OnConnected;
@@ -892,31 +539,10 @@ namespace XMPP.Common
 
         #region Disconnected
 
-        /// <summary>
-        /// The external disconnected.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public delegate void ExternalDisconnected(object sender, EventArgs e);
 
-        /// <summary>
-        /// The on disconnected.
-        /// </summary>
         public event ExternalDisconnected OnDisconnected;
 
-        /// <summary>
-        /// The disconnected.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         public void Disconnected(object sender, EventArgs e = default(EventArgs))
         {
             var handler = OnDisconnected;

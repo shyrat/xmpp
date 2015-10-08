@@ -14,6 +14,7 @@
 // with this library; if not, write to the Free Software Foundation, Inc., 59
 // Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+using System;
 using XMPP.Tags;
 using XMPP.Common;
 
@@ -27,11 +28,18 @@ namespace XMPP.States
 
         public override void Execute(Tag data = null)
         {
-            Manager.Connection.Disconnect();
-            Manager.Parser.Clear();
+            try
+            {
+                Manager.Connection.Disconnect();
+                Manager.Parser.Clear();
 
-            Manager.State = new ClosedState(Manager);
-            Manager.State.Execute();
+                Manager.State = new ClosedState(Manager);
+                Manager.State.Execute();
+            }
+            finally
+            {
+                Manager.Events.Disconnected(this);
+            }
         }
     }
 }

@@ -117,12 +117,6 @@ namespace XMPP
             remove { _manager.Events.OnReceive -= value; }
         }
 
-        public event Events.ExternalChunk OnChunk
-        {
-            add { _manager.Events.OnChunk += value; }
-            remove { _manager.Events.OnChunk -= value; }
-        }
-
         #endregion
 
         #region Actions
