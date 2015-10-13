@@ -162,7 +162,7 @@ namespace XMPP.Common
             _cancelationTokens.Clear();
         }
 
-        private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause, Body body)
+        private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause)
         {
             if (Interlocked.Read(ref _disconnecting) == 1L)
             {
@@ -229,8 +229,7 @@ namespace XMPP.Common
             {
                 var payload = resp.Element<Tags.Streams.Features>(Tags.Streams.Namespace.Features);
 
-                _manager.State = new ServerFeaturesState(_manager);
-                _manager.State.Execute(payload);
+                _manager.SetAndExecState(new ServerFeaturesState(_manager), data:payload);
             }
         }
 
@@ -252,7 +251,7 @@ namespace XMPP.Common
 
                 try
                 {
-                    lock(_cancelationTokensSync)
+                    lock (_cancelationTokensSync)
                     {
                         _cancelationTokens.Add(cts = new CancellationTokenSource());
                     }
@@ -272,8 +271,7 @@ namespace XMPP.Common
                                 ConnectionError(
                                     ErrorType.ConnectToServerFailed,
                                     ErrorPolicyType.Reconnect,
-                                    string.Format("Invalid response: {0}.", data),
-                                    null);
+                                    string.Format("Invalid response: {0}.", data));
 
                                 return null;
                             }
@@ -283,8 +281,7 @@ namespace XMPP.Common
                                 ConnectionError(
                                     ErrorType.ConnectToServerFailed,
                                     ErrorPolicyType.Reconnect,
-                                    string.Format("Session was terminated. Reason: {0}", respBody.ConditionAttr),
-                                    body);
+                                    string.Format("Session was terminated. Reason: {0}", respBody.ConditionAttr));
 
                                 return null;
                             }
@@ -298,28 +295,19 @@ namespace XMPP.Common
                             string.Format(
                                 "Connection error: Status: {0}, Reason Phrase: {1}",
                                 resp.StatusCode,
-                                resp.ReasonPhrase),
-                            body);
+                                resp.ReasonPhrase));
 
                         return null;
                     }
                 }
                 catch(AggregateException e)
                 {
-                    const int WININET_E_CANNOT_CONNECT = unchecked((int)0x80072EFD);
-
                     if (!(e.InnerException is TaskCanceledException))
                     {
-                        if (e.InnerException.HResult == WININET_E_CANNOT_CONNECT) //WININET_E_CANNOT_CONNECT (0x80072EFD)
-                        {
-                            return SendRequest(body);
-                        }
-
                         ConnectionError(
                             ErrorType.ConnectToServerFailed,
                             ErrorPolicyType.Reconnect,
-                            e.ToString(),
-                            body);
+                            e.ToString());
                     }
 
                     return null;
@@ -329,8 +317,7 @@ namespace XMPP.Common
                     ConnectionError(
                             ErrorType.ConnectToServerFailed,
                             ErrorPolicyType.Reconnect,
-                            string.Format("Enexpected exception {0}", e),
-                            body);
+                            e.ToString());
 
                     return null;
                 }
@@ -338,8 +325,11 @@ namespace XMPP.Common
                 {
                     lock(_cancelationTokensSync)
                     {
-                        _cancelationTokens.Remove(cts);
-                        cts.Dispose();
+                        if (null != cts)
+                        {
+                            _cancelationTokens.Remove(cts);
+                            cts.Dispose();
+                        }
                     }
                 }
             }
@@ -371,8 +361,7 @@ namespace XMPP.Common
 
                 var payload = resp.Element<Tags.Streams.Features>(Tags.Streams.Namespace.Features);
 
-                _manager.State = new ServerFeaturesState(_manager);
-                _manager.State.Execute(payload);
+                _manager.SetAndExecState(new ServerFeaturesState(_manager), data:payload);
             }
         }
 

@@ -28,6 +28,7 @@ using System;
 using System.Threading;
 using XMPP.SASL;
 using XMPP.States;
+using XMPP.Tags;
 
 namespace XMPP.Common
 {
@@ -47,34 +48,11 @@ namespace XMPP.Common
 
         private IState _state;
 
-        private readonly object _syncObj = new object();
-
-        public IState State
-        {
-            get
-            {
-                lock (_syncObj)
-                {
-                    return _state;
-                }
-            }
-            set
-            {
-                lock (_syncObj)
-                {
-                    if (null != _state)
-                    {
-                        _state.Dispose();
-                    }
-
-                    _state = value;
-                }
-            }
-        }
+        private readonly object _stateSyncObj = new object();
 
         public bool IsConnected
         {
-            get { return Connection.IsConnected; }
+            get { return State.GetType() != typeof(ClosedState);}
         }
 
         public bool IsAuthenticated { get; set; }
@@ -95,7 +73,7 @@ namespace XMPP.Common
 
             Connection = transport == Transport.Socket ? new Connection(this) as IConnection : new Bosh(this) as IConnection;
             Parser = new Parser(this);
-            State = new ClosedState(this);
+            SetAndExecState(new ClosedState(this));
 
             Events.OnNewTag += OnNewTag;
             Events.OnError += OnError;
@@ -104,6 +82,37 @@ namespace XMPP.Common
         }
 
         #region eventhandler
+
+        public IState State
+        {
+            get { return _state; }
+        }
+
+        public void SetAndExecState(IState state, bool execute = true, Tag data = null)
+        {
+            lock (_stateSyncObj)
+            {
+                if (null != _state)
+                {
+                    _state.Dispose();
+                }
+
+                _state = state;
+
+                if (execute)
+                {
+                    _state.Execute(data);
+                }
+            }
+        }
+
+        public void ExecCurrentState(Tag data = null)
+        {
+            lock (_stateSyncObj)
+            {
+                _state.Execute(data);
+            }
+        }
 
         public void OnConnect(object sender, EventArgs e)
         {
@@ -121,8 +130,7 @@ namespace XMPP.Common
 #endif
 
                 // Set the current state to connecting and start the process.
-                State = new ConnectingState(this);
-                State.Execute();
+                SetAndExecState(new ConnectingState(this));
             }
         }
 
@@ -137,14 +145,13 @@ namespace XMPP.Common
 
             if (type != typeof(DisconnectState))
             {
-                State = new DisconnectState(this);
-                State.Execute();
+                SetAndExecState(new DisconnectState(this));
             }
         }
 
         private void OnNewTag(object sender, TagEventArgs e)
         {
-            State.Execute(e.tag);
+            ExecCurrentState(e.tag);
         }
 
         private void OnError(object sender, ErrorEventArgs e)

@@ -34,8 +34,7 @@ namespace XMPP.States
             }
 
             Manager.Connection.EnableSSL();
-            Manager.State = new ConnectedState(Manager);
-            Manager.State.Execute();
+            Manager.SetAndExecState(new ConnectedState(Manager));
         }
     }
 }

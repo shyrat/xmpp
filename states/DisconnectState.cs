@@ -28,18 +28,12 @@ namespace XMPP.States
 
         public override void Execute(Tag data = null)
         {
-            try
-            {
-                Manager.Connection.Disconnect();
-                Manager.Parser.Clear();
+            Manager.Connection.Disconnect();
+            Manager.Parser.Clear();
 
-                Manager.State = new ClosedState(Manager);
-                Manager.State.Execute();
-            }
-            finally
-            {
-                Manager.Events.Disconnected(this);
-            }
+            Manager.Events.Disconnected(this);
+
+            Manager.SetAndExecState(new ClosedState(Manager));
         }
     }
 }

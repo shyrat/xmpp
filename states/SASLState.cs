@@ -46,8 +46,7 @@ namespace XMPP.States
 
                     if (Manager.Transport == Transport.Socket)
                     {
-                        Manager.State = new ConnectedState(Manager);
-                        Manager.State.Execute();
+                        Manager.SetAndExecState(new ConnectedState(Manager));
                     }
                     else
                     {
