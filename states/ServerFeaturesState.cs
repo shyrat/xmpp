@@ -197,6 +197,14 @@ namespace XMPP.States
                 Manager.State = new BindingState(Manager);
                 Manager.State.Execute();
             }
+            else
+            {
+                Manager.Events.Error(
+                    this,
+                    ErrorType.ServerError,
+                    ErrorPolicyType.Reconnect,
+                    "Features not found");
+            }
         }
     }
 }

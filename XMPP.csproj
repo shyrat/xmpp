@@ -148,7 +148,6 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA
     <Compile Include="compression\sharpziplib\Checksums\CRC32.cs" />
     <Compile Include="compression\sharpziplib\Checksums\IChecksum.cs" />
     <Compile Include="compression\sharpziplib\Checksums\StrangeCRC.cs" />
-    <Compile Include="compression\sharpziplib\Properties\AssemblyInfo.cs" />
     <Compile Include="compression\sharpziplib\SharpZipBaseException.cs" />
     <Compile Include="compression\sharpziplib\Zip\Compression\Deflater.cs" />
     <Compile Include="compression\sharpziplib\Zip\Compression\DeflaterConstants.cs" />
