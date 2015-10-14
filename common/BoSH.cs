@@ -207,43 +207,6 @@ namespace XMPP.Common
             Task.Run(() => _manager.Events.Error(this, type, policy, cause));
         }
 
-        private void CleanupState()
-        {
-            lock (_cancelationTokensSync)
-            {
-                foreach(var item in _cancelationTokens)
-                {
-                    item.Cancel();
-                }
-            }
-
-            if (null != _client)
-            {
-                _client.Dispose();
-                _client = null;
-            }
-
-            if (null != _connectionsCounter)
-            {
-                while (true)
-                {
-                    if (_connectionsCounter.CurrentCount == _requests) //no active requests
-                    {
-                        break;
-                    }
-
-                    Task.Delay(TimeSpan.FromMilliseconds(10d)).Wait();
-                };
-
-                _connectionsCounter.Dispose();
-                _connectionsCounter = null;
-            }
-
-            IsConnected = false;
-
-            Interlocked.Exchange(ref _connecting, 0L);
-        }
-
         private void SendRestartRequest()
         {
             var body = new Body

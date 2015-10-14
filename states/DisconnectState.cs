@@ -31,9 +31,9 @@ namespace XMPP.States
             Manager.Connection.Disconnect();
             Manager.Parser.Clear();
 
-            Manager.Events.Disconnected(this);
-
             Manager.SetAndExecState(new ClosedState(Manager));
+
+            Manager.Events.Disconnected(this);
         }
     }
 }

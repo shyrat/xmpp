@@ -92,12 +92,14 @@ namespace XMPP.Common
         {
             lock (_stateSyncObj)
             {
-                if (null != _state)
-                {
-                    _state.Dispose();
-                }
+                var prevState = _state;
 
                 _state = state;
+
+                if (null != prevState)
+                {
+                    prevState.Dispose();
+                }
 
                 if (execute)
                 {
@@ -125,10 +127,17 @@ namespace XMPP.Common
                 Events.Error(this, ErrorType.MissingHost, ErrorPolicyType.Deactivate);
             else
             {
+                var type = State.GetType();
+                if (type == typeof(DisconnectState))
+                {
+#if DEBUG
+                    Events.LogMessage(this, LogType.Info, "Cannot to connect, disconnecting in progress.");
+#endif
+                    return;
+                }
 #if DEBUG
                 Events.LogMessage(this, LogType.Info, "Connecting to {0}", Connection.Hostname);
 #endif
-
                 // Set the current state to connecting and start the process.
                 SetAndExecState(new ConnectingState(this));
             }
@@ -137,16 +146,12 @@ namespace XMPP.Common
         public void OnDisconnect(object sender, EventArgs e)
         {
             var type = State.GetType();
-
-            if (type == typeof(ClosedState))
+            if (type == typeof(ClosedState) || type == typeof(DisconnectState))
             {
                 return;
             }
 
-            if (type != typeof(DisconnectState))
-            {
-                SetAndExecState(new DisconnectState(this));
-            }
+            SetAndExecState(new DisconnectState(this));
         }
 
         private void OnNewTag(object sender, TagEventArgs e)
