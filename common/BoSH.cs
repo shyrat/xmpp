@@ -98,18 +98,50 @@ namespace XMPP.Common
                 return;
             }
 
+            if (Interlocked.Read(ref _connectionError) == 0L)
+            {
+                SendSessionTerminationRequest();
+            }
+
+            lock (_cancelationTokensSync)
+            {
+                foreach (var item in _cancelationTokens)
+                {
+                    item.Cancel();
+                }
+            }
+
+            if (null != _connectionsCounter) // wait all requests are done
+            {
+                while (true)
+                {
+                    if (_connectionsCounter.CurrentCount == _requests)
+                    {
+                        break;
+                    }
+
+                    Task.Delay(TimeSpan.FromMilliseconds(10d)).Wait();
+                };
+
+                _connectionsCounter.Dispose();
+                _connectionsCounter = null;
+            }
+
+            if (null != _client)
+            {
+                _client.Dispose();
+                _client = null;
+            }
+
             if (null != _pollingTask)
             {
                 _pollingTask.Wait();
                 _pollingTask = null;
             }
 
-            if (Interlocked.Read(ref _connectionError) == 0L)
-            {
-                SendSessionTerminationRequest();
-            }
+            IsConnected = false;
 
-            CleanupState();
+            Interlocked.Exchange(ref _connecting, 0L);
         }
 
         public void Restart()
@@ -158,8 +190,6 @@ namespace XMPP.Common
             _sid = null;
             _requests = null;
             _rid = new Random().Next(StartRid, EndRid);
-
-            _cancelationTokens.Clear();
         }
 
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause)
@@ -256,13 +286,15 @@ namespace XMPP.Common
                         _cancelationTokens.Add(cts = new CancellationTokenSource());
                     }
 
-                    cts.CancelAfter(TimeSpan.FromSeconds(Wait * 1.5));
+                    cts.CancelAfter(TimeSpan.FromSeconds(Wait + 5));
 
-                    using (var resp = _client.SendRequestAsync(req, HttpCompletionOption.ResponseContentRead).AsTask(cts.Token).Result)
+                    var token = cts.Token;
+
+                    using (var resp = _client.SendRequestAsync(req, HttpCompletionOption.ResponseContentRead).AsTask(token).Result)
                     {
                         if (resp.IsSuccessStatusCode)
                         {
-                            var data = resp.Content.ReadAsStringAsync().AsTask().Result;
+                            var data = resp.Content.ReadAsStringAsync().AsTask(token).Result;
 
                             var respBody = Tag.Get(data) as Body;
 
