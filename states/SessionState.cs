@@ -46,12 +46,11 @@ namespace XMPP.States
             }
             else
             {
-                Manager.State = new RunningState(Manager);
+                Manager.SetAndExecState(new RunningState(Manager), false);
 
                 Manager.Events.Ready(this);
 
-                var presence = new Presence();
-                Manager.Connection.Send(presence);
+                Manager.Connection.Send(new Presence());
 
                 if (Manager.Transport == Transport.Bosh)
                 {

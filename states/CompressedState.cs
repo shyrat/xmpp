@@ -36,8 +36,7 @@ namespace XMPP.States
 #endif
             Manager.Connection.EnableCompression(Manager.CompressionAlgorithm);
             Manager.IsCompressed = true;
-            Manager.State = new ConnectedState(Manager);
-            Manager.State.Execute();
+            Manager.SetAndExecState(new ConnectedState(Manager));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace XMPP.States
             };
 
             Manager.Connection.Send("<?xml version='1.0' encoding='UTF-8'?>" + stream.StartTag);
-            Manager.State = new ServerFeaturesState(Manager);
+            Manager.SetAndExecState(new ServerFeaturesState(Manager), false);
         }
     }
 }

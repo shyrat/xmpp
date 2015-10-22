@@ -1,4 +1,4 @@
-﻿﻿// Copyright © 2006 - 2012 Dieter Lunn
+﻿// Copyright © 2006 - 2012 Dieter Lunn
 // Modified 2012 Paul Freund ( freund.paul@lvl3.org )
 //
 // This library is free software; you can redistribute it and/or modify it under
@@ -15,7 +15,9 @@
 // Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -97,18 +99,50 @@ namespace XMPP.Common
                 return;
             }
 
+            if (Interlocked.Read(ref _connectionError) == 0L)
+            {
+                SendSessionTerminationRequest();
+            }
+
+            lock (_cancelationTokensSync)
+            {
+                foreach (var item in _cancelationTokens)
+                {
+                    item.Cancel();
+                }
+            }
+
+            if (null != _connectionsCounter) // wait all requests are done
+            {
+                while (true)
+                {
+                    if (_connectionsCounter.CurrentCount == _requests)
+                    {
+                        break;
+                    }
+
+                    Task.Delay(TimeSpan.FromMilliseconds(10d)).Wait();
+                };
+
+                _connectionsCounter.Dispose();
+                _connectionsCounter = null;
+            }
+
+            if (null != _client)
+            {
+                _client.Dispose();
+                _client = null;
+            }
+
             if (null != _pollingTask)
             {
                 _pollingTask.Wait();
                 _pollingTask = null;
             }
 
-            if (Interlocked.Read(ref _connectionError) == 0L)
-            {
-                SendSessionTerminationRequest();
-            }
+            IsConnected = false;
 
-            CleanupState();
+            Interlocked.Exchange(ref _connecting, 0L);
         }
 
         public void Restart()
@@ -143,14 +177,13 @@ namespace XMPP.Common
 
         public void Dispose()
         {
-            CleanupState();
+            Disconnect();
         }
 
         private void Init()
         {
             _client = new HttpClient();
 
-            Interlocked.Exchange(ref _retryCounter, 0);
             Interlocked.Exchange(ref _disconnecting, 0);
             Interlocked.Exchange(ref _connectionError, 0);
 
@@ -160,40 +193,19 @@ namespace XMPP.Common
             _rid = new Random().Next(StartRid, EndRid);
         }
 
-        private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause, Body body)
+        private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause)
         {
             if (Interlocked.Read(ref _disconnecting) == 1L)
             {
                 return;
             }
 
-            if (string.IsNullOrEmpty(body.SidAttr) || Interlocked.Increment(ref _retryCounter) >= MaxRetry)
+            if (Interlocked.CompareExchange(ref _connectionError, 1L, 0L) == 1L)
             {
-                if (Interlocked.CompareExchange(ref _connectionError, 1L, 0L) == 0L)
-                {
-                    _manager.Events.Error(this, type, policy, cause);
-                }
-            }
-            /*else
-            {
-                foreach (var item in body.Elements())
-                {
-                    _tagQueue.Enqueue(item);
-                }
-            }*/
-        }
-
-        private void CleanupState()
-        {
-            if (null != _client)
-            {
-                _client.Dispose();
-                _client = null;
+                return;
             }
 
-            IsConnected = false;
-
-            Interlocked.Exchange(ref _connecting, 0L);
+            Task.Run(() => _manager.Events.Error(this, type, policy, cause));
         }
 
         private void SendRestartRequest()
@@ -211,8 +223,7 @@ namespace XMPP.Common
             {
                 var payload = resp.Element<Tags.Streams.Features>(Tags.Streams.Namespace.Features);
 
-                _manager.State = new ServerFeaturesState(_manager);
-                _manager.State.Execute(payload);
+                _manager.SetAndExecState(new ServerFeaturesState(_manager), data: payload);
             }
         }
 
@@ -230,35 +241,44 @@ namespace XMPP.Common
                     CharSet = "utf-8",
                 };
 
+                CancellationTokenSource cts = null;
+
                 try
                 {
-                    using (var resp = _client.SendRequestAsync(req).AsTask().Result)
+                    lock (_cancelationTokensSync)
+                    {
+                        _cancelationTokens.Add(cts = new CancellationTokenSource());
+                    }
+
+                    var token = cts.Token;
+
+                    using (var resp = _client.SendRequestAsync(req, HttpCompletionOption.ResponseContentRead).AsTask(token).Result)
                     {
                         if (resp.IsSuccessStatusCode)
                         {
-                            var data = resp.Content.ReadAsStringAsync().AsTask().Result;
+                            var data = resp.Content.ReadAsStringAsync().AsTask(token).Result;
 
                             var respBody = Tag.Get(data) as Body;
-                            if (null != respBody && respBody.TypeAttr == "terminate")
-                            {
-                                if (Interlocked.Read(ref _disconnecting) == 1L)
-                                {
-                                    return null;
-                                }
 
-                                if (Interlocked.CompareExchange(ref _connectionError, 1L, 0L) == 0L)
-                                {
-                                    _manager.Events.Error(
-                                        this,
-                                        ErrorType.ConnectToServerFailed,
-                                        ErrorPolicyType.Reconnect,
-                                        string.Format("Session was terminated. Reason: {0}", respBody.ConditionAttr));
-                                }
+                            if (null == respBody)
+                            {
+                                ConnectionError(
+                                    ErrorType.ConnectToServerFailed,
+                                    ErrorPolicyType.Reconnect,
+                                    string.Format("Invalid response: {0}.", data));
 
                                 return null;
                             }
 
-                            Interlocked.Exchange(ref _retryCounter, 0);
+                            if (respBody.TypeAttr == "terminate")
+                            {
+                                ConnectionError(
+                                    ErrorType.ConnectToServerFailed,
+                                    ErrorPolicyType.Reconnect,
+                                    string.Format("Session was terminated. Reason: {0}", respBody.ConditionAttr));
+
+                                return null;
+                            }
 
                             return respBody;
                         }
@@ -267,10 +287,11 @@ namespace XMPP.Common
                             ErrorType.ConnectToServerFailed,
                             ErrorPolicyType.Reconnect,
                             string.Format(
-                                "Connection error: Status: {0} Reason Phrase: {1}",
+                                "Connection error: Status: {0}, Reason Phrase: {1}",
                                 resp.StatusCode,
-                                resp.ReasonPhrase),
-                            body);
+                                resp.ReasonPhrase));
+
+                        return null;
                     }
                 }
                 catch (AggregateException e)
@@ -280,12 +301,31 @@ namespace XMPP.Common
                         ConnectionError(
                             ErrorType.ConnectToServerFailed,
                             ErrorPolicyType.Reconnect,
-                            e.Message,
-                            body);
+                            e.ToString());
+                    }
+
+                    return null;
+                }
+                catch (Exception e)
+                {
+                    ConnectionError(
+                            ErrorType.ConnectToServerFailed,
+                            ErrorPolicyType.Reconnect,
+                            e.ToString());
+
+                    return null;
+                }
+                finally
+                {
+                    lock (_cancelationTokensSync)
+                    {
+                        if (null != cts)
+                        {
+                            _cancelationTokens.Remove(cts);
+                            cts.Dispose();
+                        }
                     }
                 }
-
-                return null;
             }
         }
 
@@ -306,7 +346,6 @@ namespace XMPP.Common
             if (null != resp)
             {
                 IsConnected = true;
-
                 _manager.Events.Connected(this);
 
                 _sid = resp.SidAttr;
@@ -316,8 +355,7 @@ namespace XMPP.Common
 
                 var payload = resp.Element<Tags.Streams.Features>(Tags.Streams.Namespace.Features);
 
-                _manager.State = new ServerFeaturesState(_manager);
-                _manager.State.Execute(payload);
+                _manager.SetAndExecState(new ServerFeaturesState(_manager), data: payload);
             }
         }
 
@@ -330,7 +368,7 @@ namespace XMPP.Common
                 TypeAttr = "terminate"
             };
 
-            //CombineBody(body);
+            CombineBody(body);
 
             body.Add(new Presence { TypeAttr = Presence.TypeEnum.unavailable });
 
@@ -368,14 +406,7 @@ namespace XMPP.Common
                 {
                     _connectionsCounter.Release();
 
-                    if (Interlocked.Read(ref _disconnecting) == 1L || Interlocked.Read(ref _connectionError) == 1L)
-                    {
-                        if(_connectionsCounter.CurrentCount == _requests)
-                        {
-                            _connectionsCounter.Dispose();
-                        }
-                    }
-                    else if (!_tagQueue.IsEmpty)
+                    if (!_tagQueue.IsEmpty)
                     {
                         Task.Run(() => Flush());
                     }
@@ -421,12 +452,15 @@ namespace XMPP.Common
 
         private void ExtractBody(Body resp)
         {
-            if (null != resp)
+            if (null != resp && resp.Elements().Any())
             {
-                foreach (var element in resp.Elements())
+                Task.Run(() =>
                 {
-                    _manager.Events.NewTag(this, Tag.Get(element));
-                }
+                    foreach (var element in resp.Elements())
+                    {
+                        _manager.Events.NewTag(this, Tag.Get(element));
+                    }
+                });
             }
         }
 
@@ -446,7 +480,7 @@ namespace XMPP.Common
                         Task.Run(() => FlushInternal());
                     }
 
-                    Task.Delay(TimeSpan.FromMilliseconds(10d)).Wait();
+                    Task.Delay(TimeSpan.FromMilliseconds(500d)).Wait();
                 };
             });
         }
@@ -457,14 +491,13 @@ namespace XMPP.Common
         private long _rid;
         private int? _requests;
 
-        private long _retryCounter;
-
         private HttpClient _client;
         private SemaphoreSlim _connectionsCounter;
         private ConcurrentQueue<XElement> _tagQueue;
         private Task _pollingTask;
 
         private readonly object _fetchSync = new object();
+        private readonly object _cancelationTokensSync = new object();
 
         private long _connectionError;
         private long _connecting;
@@ -476,6 +509,6 @@ namespace XMPP.Common
         private const int Hold = 1;
         private const int Wait = 60;
 
-        private const long MaxRetry = 3;
+        private readonly List<CancellationTokenSource> _cancelationTokens = new List<CancellationTokenSource>();
     }
 }

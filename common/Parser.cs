@@ -58,7 +58,9 @@ namespace XMPP.Common
         /// </param>
         public void Parse(string message)
         {
-            if (_manager.State is ClosedState || _manager.State is DisconnectState)
+            var state = _manager.State;
+
+            if (state is ClosedState || state is DisconnectState)
                 return;
 
             Enqueue(message);
@@ -91,7 +93,7 @@ namespace XMPP.Common
                 }
                 else
                 {
-                    if (_manager.State.GetType() == typeof(RunningState))
+                    if (state is RunningState)
                         _manager.Events.Error(this, ErrorType.InvalidXmlFragment, ErrorPolicyType.Informative, "Parsing a fragment failed");
                     else
                         _manager.Events.Error(this, ErrorType.InvalidXmlFragment, ErrorPolicyType.Reconnect, "Parsing a fragment failed in a critical situation");

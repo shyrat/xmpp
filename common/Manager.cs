@@ -28,6 +28,7 @@ using System;
 using System.Threading;
 using XMPP.SASL;
 using XMPP.States;
+using XMPP.Tags;
 
 namespace XMPP.Common
 {
@@ -47,34 +48,11 @@ namespace XMPP.Common
 
         private IState _state;
 
-        private readonly object _syncObj = new object();
-
-        public IState State
-        {
-            get
-            {
-                lock (_syncObj)
-                {
-                    return _state;
-                }
-            }
-            set
-            {
-                lock (_syncObj)
-                {
-                    if (null != _state)
-                    {
-                        _state.Dispose();
-                    }
-
-                    _state = value;
-                }
-            }
-        }
+        private readonly object _stateSyncObj = new object();
 
         public bool IsConnected
         {
-            get { return Connection.IsConnected; }
+            get { return !(State is ClosedState); }
         }
 
         public bool IsAuthenticated { get; set; }
@@ -95,7 +73,7 @@ namespace XMPP.Common
 
             Connection = transport == Transport.Socket ? new Connection(this) as IConnection : new Bosh(this) as IConnection;
             Parser = new Parser(this);
-            State = new ClosedState(this);
+            SetAndExecState(new ClosedState(this));
 
             Events.OnNewTag += OnNewTag;
             Events.OnError += OnError;
@@ -104,6 +82,39 @@ namespace XMPP.Common
         }
 
         #region eventhandler
+
+        public IState State
+        {
+            get { return _state; }
+        }
+
+        public void SetAndExecState(IState state, bool execute = true, Tag data = null)
+        {
+            lock (_stateSyncObj)
+            {
+                var prevState = _state;
+
+                _state = state;
+
+                if (null != prevState)
+                {
+                    prevState.Dispose();
+                }
+
+                if (execute)
+                {
+                    _state.Execute(data);
+                }
+            }
+        }
+
+        public void ExecCurrentState(Tag data = null)
+        {
+            lock (_stateSyncObj)
+            {
+                _state.Execute(data);
+            }
+        }
 
         public void OnConnect(object sender, EventArgs e)
         {
@@ -116,35 +127,59 @@ namespace XMPP.Common
                 Events.Error(this, ErrorType.MissingHost, ErrorPolicyType.Deactivate);
             else
             {
+                var state = State;
+
+                if (state is DisconnectState)
+                {
+#if DEBUG
+                    Events.LogMessage(this, LogType.Info, "Cannot to connect, disconnecting in progress.");
+#endif
+                    return;
+                }
+
+                if (!(state is ClosedState))
+                {
+#if DEBUG
+                    Events.LogMessage(this, LogType.Info, "Connected or connecting in progress.");
+#endif
+                    return;
+                }
+
 #if DEBUG
                 Events.LogMessage(this, LogType.Info, "Connecting to {0}", Connection.Hostname);
 #endif
-
                 // Set the current state to connecting and start the process.
-                State = new ConnectingState(this);
-                State.Execute();
+                SetAndExecState(new ConnectingState(this));
             }
         }
 
         public void OnDisconnect(object sender, EventArgs e)
         {
-            var type = State.GetType();
+            var state = State;
 
-            if (type == typeof(ClosedState))
+            if (state is ClosedState)
             {
+#if DEBUG
+                Events.LogMessage(this, LogType.Info, "Disconnected.");
+#endif
+                Events.Disconnected(this);
                 return;
             }
 
-            if (type != typeof(DisconnectState))
+            if (state is DisconnectState)
             {
-                State = new DisconnectState(this);
-                State.Execute();
+#if DEBUG
+                Events.LogMessage(this, LogType.Info, "Disconnecting in progress.");
+#endif
+                return;
             }
+
+            SetAndExecState(new DisconnectState(this));
         }
 
         private void OnNewTag(object sender, TagEventArgs e)
         {
-            State.Execute(e.tag);
+            ExecCurrentState(e.tag);
         }
 
         private void OnError(object sender, ErrorEventArgs e)

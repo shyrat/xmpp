@@ -88,9 +88,9 @@ namespace XMPP.States
             {
                 if (features.StartTls != null && Manager.Settings.SSL)
                 {
-                    Manager.State = new StartTlsState(Manager);
-                    var tls = new StartTls();
-                    Manager.Connection.Send(tls);
+                    Manager.SetAndExecState(new StartTlsState(Manager), false);
+
+                    Manager.Connection.Send(new StartTls());
                     return;
                 }
 
@@ -159,7 +159,7 @@ namespace XMPP.States
 #if DEBUG
                     Manager.Events.LogMessage(this, LogType.Debug, "Sending auth with mechanism type");
 #endif
-                    Manager.State = new SaslState(Manager);
+                    Manager.SetAndExecState(new SaslState(Manager), false);
 
                     Manager.Connection.Send(Manager.SaslProcessor.Initialize());
 
@@ -186,7 +186,7 @@ namespace XMPP.States
                         c.Add(m);
 
                         Manager.Connection.Send(c);
-                        Manager.State = new CompressedState(Manager);
+                        Manager.SetAndExecState(new CompressedState(Manager), false);
                         return;
                     }
                 }
@@ -194,8 +194,15 @@ namespace XMPP.States
 #if DEBUG
                 Manager.Events.LogMessage(this, LogType.Debug, "Authenticated");
 #endif
-                Manager.State = new BindingState(Manager);
-                Manager.State.Execute();
+                Manager.SetAndExecState(new BindingState(Manager));
+            }
+            else
+            {
+                Manager.Events.Error(
+                    this,
+                    ErrorType.ServerError,
+                    ErrorPolicyType.Reconnect,
+                    "Features not found");
             }
         }
     }

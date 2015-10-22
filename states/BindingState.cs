@@ -82,8 +82,7 @@ namespace XMPP.States
                 Manager.Events.Receive(this, data);
                 Manager.Events.ResourceBound(this, Manager.Settings.Id.ToString());
 
-                Manager.State = new SessionState(Manager);
-                Manager.State.Execute();
+                Manager.SetAndExecState(new SessionState(Manager));
             }
         }
     }

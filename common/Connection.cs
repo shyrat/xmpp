@@ -372,8 +372,7 @@ namespace XMPP.Common
                 // Start receiving data
                 SocketRead();
 
-                _manager.State = new ConnectedState(_manager);
-                _manager.State.Execute();
+                _manager.SetAndExecState(new ConnectedState(_manager));
             }
             else if (status == AsyncStatus.Error)
             {
