@@ -86,7 +86,7 @@ namespace XMPP.Common
             if (Interlocked.Read(ref _connecting) == 0L)
             {
 #if DEBUG
-                _manager.Events.LogMessage(this, LogType.Warn, "Don't connected");
+                _manager.Events.LogMessage(this, LogType.Warn, "Not connected");
 #endif
                 return;
             }
@@ -104,18 +104,18 @@ namespace XMPP.Common
                 SendSessionTerminationRequest();
             }
 
-            lock (_cancelationTokensSync)
-            {
-                foreach (var item in _cancelationTokens)
-                {
-                    item.Cancel();
-                }
-            }
-
             if (null != _connectionsCounter) // wait all requests are done
             {
                 while (true)
                 {
+                    lock (_cancelationTokensSync)
+                    {
+                        foreach (var item in _cancelationTokens)
+                        {
+                            item.Cancel();
+                        }
+                    }
+
                     if (_connectionsCounter.CurrentCount == _requests)
                     {
                         break;
@@ -252,7 +252,7 @@ namespace XMPP.Common
 
                     var token = cts.Token;
 
-                    using (var resp = _client.SendRequestAsync(req, HttpCompletionOption.ResponseContentRead).AsTask(token).Result)
+                    using (var resp = _client.SendRequestAsync(req).AsTask(token).Result)
                     {
                         if (resp.IsSuccessStatusCode)
                         {
@@ -272,10 +272,13 @@ namespace XMPP.Common
 
                             if (respBody.TypeAttr == "terminate")
                             {
-                                ConnectionError(
-                                    ErrorType.ConnectToServerFailed,
-                                    ErrorPolicyType.Reconnect,
-                                    string.Format("Session was terminated. Reason: {0}", respBody.ConditionAttr));
+                                if (Interlocked.Read(ref _disconnecting) == 0)
+                                {
+                                    ConnectionError(
+                                        ErrorType.ConnectToServerFailed,
+                                        ErrorPolicyType.Reconnect,
+                                        string.Format("Session was terminated. Reason: {0}", respBody.ConditionAttr));
+                                }
 
                                 return null;
                             }
@@ -368,8 +371,6 @@ namespace XMPP.Common
                 TypeAttr = "terminate"
             };
 
-            CombineBody(body);
-
             body.Add(new Presence { TypeAttr = Presence.TypeEnum.unavailable });
 
             SendRequest(body);
@@ -458,6 +459,11 @@ namespace XMPP.Common
                 {
                     foreach (var element in resp.Elements())
                     {
+                        if (Interlocked.Read(ref _disconnecting) == 1L || Interlocked.Read(ref _connectionError) == 1L)
+                        {
+                            return;
+                        }
+
                         _manager.Events.NewTag(this, Tag.Get(element));
                     }
                 });
