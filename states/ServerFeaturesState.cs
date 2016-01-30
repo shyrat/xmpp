@@ -35,7 +35,7 @@ namespace XMPP.states
             if (data is tags.streams.stream)
 			{
                 tags.streams.stream stream = data as tags.streams.stream;
-                if (!stream.version.StartsWith("1."))
+                if (stream.version != null && !stream.version.StartsWith("1."))
 				{
                     Manager.Events.Error(this, ErrorType.XMPPVersionNotSupported, ErrorPolicyType.Deactivate, "Expecting stream:features from 1.x server");
 					return;
