@@ -73,6 +73,12 @@ namespace XMPP.common
         virtual protected void Dispose(bool managed)
         {
             _elevateMutex.Dispose();
+
+            if (_cancelSocketConnect != null)
+            {
+                _cancelSocketConnect.Dispose();
+                _cancelSocketConnect = null;
+            }
         }
 
         #region properties
@@ -98,7 +104,8 @@ namespace XMPP.common
 
         private readonly StreamSocket _socket = new StreamSocket();
 
-        IAsyncAction _socketConnector = null;
+        Task _socketConnector = null;
+        CancellationTokenSource _cancelSocketConnect = null;
         IAsyncAction _socketElevator = null;
         IAsyncOperationWithProgress<IBuffer, UInt32> _socketReader = null;
         IAsyncOperationWithProgress<UInt32, UInt32> _socketWriter = null;
@@ -161,7 +168,7 @@ namespace XMPP.common
                 return;
             }
 
-            if (_socketConnector != null && _socketConnector.Status == AsyncStatus.Started)
+            if (_socketConnector != null && !_socketConnector.IsCompleted)
             {
 #if DEBUG
                 _manager.Events.LogMessage(this, LogType.Warn, "Already connecting");
@@ -183,9 +190,11 @@ namespace XMPP.common
 
             _socket.Control.KeepAlive = false;
 
+            _cancelSocketConnect = new CancellationTokenSource();
+
             var protection = _manager.Settings.OldSSL ? SocketProtectionLevel.SslAllowNullEncryption : SocketProtectionLevel.PlainSocket;
-            _socketConnector = _socket.ConnectAsync(_hostname, _manager.Settings.Port.ToString(), protection);
-            _socketConnector.Completed = OnSocketConnectorCompleted;
+            _socketConnector = _socket.ConnectAsync(_hostname, _manager.Settings.Port.ToString(), protection).AsTask(_cancelSocketConnect.Token);
+            _socketConnector.ContinueWith(OnSocketConnectorCompleted);
         }
 
         private void SocketDisconnect()
@@ -202,6 +211,7 @@ namespace XMPP.common
 #endif
 
             CleanupState();
+            _socket.Dispose();
 
             _manager.Events.Disconnected(this);
         }
@@ -310,17 +320,23 @@ namespace XMPP.common
 
             _manager.Parser.Clear();
 
-            if (_socketConnector != null) _socketConnector.Cancel();
+            if (_cancelSocketConnect != null)
+            {
+                _cancelSocketConnect.Cancel();
+                _cancelSocketConnect.Dispose();
+                _cancelSocketConnect = null;
+                _socketConnector = null;
+            }
+
             if (_socketElevator != null) _socketElevator.Cancel();
             if (_socketReader != null) _socketReader.Cancel();
             if (_socketWriter != null) _socketWriter.Cancel();
-
-            _socket.Dispose();
         }
 
         private void ConnectionError(ErrorType type, ErrorPolicyType policy, string cause = "")
         {
             CleanupState();
+            _socket.Dispose();
             _manager.Events.Error(this, type, policy, cause);
         }
 
@@ -334,9 +350,9 @@ namespace XMPP.common
 
         #region events
 
-        private void OnSocketConnectorCompleted(IAsyncAction action, AsyncStatus status)
+        private void OnSocketConnectorCompleted(Task connectTask)
         {
-            if (status == AsyncStatus.Completed)
+            if (connectTask.Status == TaskStatus.RanToCompletion)
             {
                 IsConnected = true;
 
@@ -360,9 +376,9 @@ namespace XMPP.common
                 _manager.State = new ConnectedState(_manager);
                 _manager.State.Execute();
             }
-            else if (status == AsyncStatus.Error )
+            else if (connectTask.Status == TaskStatus.Faulted)
             {
-                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, action.ErrorCode.Message);
+                ConnectionError(ErrorType.ConnectToServerFailed, ErrorPolicyType.Reconnect, connectTask.Exception.Message);
             }
         }
 
