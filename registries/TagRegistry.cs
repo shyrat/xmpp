@@ -22,7 +22,6 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using XMPP.tags;
-using XMPP.tags.bosh;
 
 namespace XMPP.registries
 {
@@ -49,49 +48,49 @@ namespace XMPP.registries
         }
     }
 
-	public class TagRegistry
-	{
-		public TagRegistry()
-		{
+    public class TagRegistry
+    {
+        public TagRegistry()
+        {
             AddAssembly(typeof(Client).GetTypeInfo().Assembly);
-		}
+        }
 
         private Dictionary<XName, Type> RegisteredItems = new Dictionary<XName, Type>();
 
-		public void AddAssembly(Assembly ass)
-		{
-			var tags = GetAttributes<XMPPTagAttribute>(ass);
-			foreach (var tag in tags)
-			{
-				RegisteredItems.Add(tag.Name, tag.Type);
-			}
-		}
+        public void AddAssembly(Assembly ass)
+        {
+            var tags = GetAttributes<XMPPTagAttribute>(ass);
+            foreach (var tag in tags)
+            {
+                RegisteredItems.Add(tag.Name, tag.Type);
+            }
+        }
 
         public XName GetName(Type type)
         {
-            if( RegisteredItems.ContainsValue(type) )
+            if (RegisteredItems.ContainsValue(type))
             {
-                foreach( KeyValuePair<XName, Type> element in RegisteredItems )
+                foreach (KeyValuePair<XName, Type> element in RegisteredItems)
                 {
-                    if( element.Value == type)
+                    if (element.Value == type)
                         return element.Key;
                 }
             }
             return null;
         }
 
-		public Tag GetTag(string name, string ns)
-		{
-			return GetTag(XName.Get(name, ns));
-		}
+        public Tag GetTag(string name, string ns)
+        {
+            return GetTag(XName.Get(name, ns));
+        }
 
-		public Tag GetTag(XName name)
-		{
-			try
-			{
-				Type type;
+        public Tag GetTag(XName name)
+        {
+            try
+            {
+                Type type;
                 if (RegisteredItems.TryGetValue(name, out type))
-				{
+                {
                     // Try doc and qname constructor
                     ConstructorInfo ctorName = GetConstructor(type, new Type[] { name.GetType() });
                     if (ctorName != null)
@@ -101,15 +100,15 @@ namespace XMPP.registries
                     ConstructorInfo ctorDefault = GetConstructor(type, new Type[] { });
                     if (ctorDefault != null)
                         return ctorDefault.Invoke(new object[] { }) as Tag;
-				}
+                }
 
-				return null;
-			}
-			catch
-			{
                 return null;
-			}
-		}
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         public Tag GetTag(XElement element)
         {
@@ -138,12 +137,12 @@ namespace XMPP.registries
             }
         }
 
-        protected TE[] GetAttributes<TE>(Assembly ass)
+        protected TE[] GetAttributes<TE>(Assembly ass) where TE : Attribute
         {
             var returns = new List<TE>();
             foreach (var type in ass.DefinedTypes)
             {
-                IEnumerable<TE> attributes = (IEnumerable<TE>)type.GetCustomAttributes(typeof(TE), false);
+                var attributes = type.GetCustomAttributes(typeof(TE), false);
 
                 foreach (var attribute in attributes)
                 {
@@ -184,5 +183,5 @@ namespace XMPP.registries
             return results.FirstOrDefault();
         }
 
-	}
+    }
 }
