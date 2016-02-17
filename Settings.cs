@@ -35,7 +35,7 @@ namespace XMPP
 
 namespace XMPP.common
 {
-	public class Settings
+    public class Settings
     {
         public string Account;
         public JID Id;
@@ -43,13 +43,14 @@ namespace XMPP.common
         public string Hostname;
         public int Port = 5222;
 
-        public MechanismType AuthenticationTypes = MechanismType.Default; 
+        public MechanismType AuthenticationTypes = MechanismType.Default;
         public bool SSL = false;
         public bool OldSSL = false;
+        public bool AllowSelfSignedCertificates = false;
 
         public bool UseKeepAlive = false;
         public int KeepAliveTime = 60;
 
-	    public int QueryCount = 50;
+        public int QueryCount = 50;
     }
 }
