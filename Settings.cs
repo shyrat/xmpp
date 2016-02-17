@@ -46,7 +46,7 @@ namespace XMPP.common
         public MechanismType AuthenticationTypes = MechanismType.Default;
         public bool SSL = false;
         public bool OldSSL = false;
-        public bool AllowSelfSignedCertificates = false;
+        public bool AllowUntrustedCertificates = false;
 
         public bool UseKeepAlive = false;
         public int KeepAliveTime = 60;

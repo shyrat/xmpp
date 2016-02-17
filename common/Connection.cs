@@ -195,7 +195,7 @@ namespace XMPP.common
 
             var protection = _manager.Settings.OldSSL ? SocketProtectionLevel.SslAllowNullEncryption : SocketProtectionLevel.PlainSocket;
 
-            if (_manager.Settings.AllowSelfSignedCertificates)
+            if (_manager.Settings.AllowUntrustedCertificates)
             {          //SUPPORT TO SELFSIGNED CERTIFICATES
                 try
                 {
