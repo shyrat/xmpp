@@ -2,7 +2,7 @@
 using XMPP.registries;
 using XMPP.tags.jabber.client;
 
-namespace XMPP.tags.urn.xmpp.receipts
+namespace XMPP.tags.xmpp.receipts
 {
     public class Namespace
     {
