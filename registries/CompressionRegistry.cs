@@ -46,65 +46,65 @@ namespace XMPP.registries
         }
     }
 
-	public class CompressionRegistry
-	{
-		public CompressionRegistry()
-		{
-		}
+    public class CompressionRegistry
+    {
+        public CompressionRegistry()
+        {
+        }
 
         protected Dictionary<string, Type> RegisteredItems = new Dictionary<string, Type>();
 
-		public void AddCompression(Assembly a)
-		{		
-			var tags = GetAttributes<CompressionAttribute>(a);
-			foreach (var tag in tags)
-			{
-				RegisteredItems.Add(tag.Algorithm, tag.ClassType);
-			}			
-		}
+        public void AddCompression(Assembly a)
+        {
+            var tags = GetAttributes<CompressionAttribute>(a);
+            foreach (var tag in tags)
+            {
+                RegisteredItems.Add(tag.Algorithm, tag.ClassType);
+            }
+        }
 
-		public ICompression GetCompression(string algorithm)
-		{
-			ICompression stream = null;
-			try
-			{
-				Type t;
-				if (RegisteredItems.TryGetValue(algorithm, out t))
-				{				
-					stream = (ICompression)Activator.CreateInstance(t);
-				}
-				else
-				{
-					return null;
-				}
-			}
-			catch (Exception)
-			{
+        public ICompression GetCompression(string algorithm)
+        {
+            ICompression stream = null;
+            try
+            {
+                Type t;
+                if (RegisteredItems.TryGetValue(algorithm, out t))
+                {
+                    stream = (ICompression)Activator.CreateInstance(t);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
                 return null;
-			}
+            }
 
             return stream;
-		}
+        }
 
-		public bool SupportsAlgorithm(string algorithm)
-		{
-			return RegisteredItems.ContainsKey(algorithm);
-		}
+        public bool SupportsAlgorithm(string algorithm)
+        {
+            return RegisteredItems.ContainsKey(algorithm);
+        }
 
-		public bool AlgorithmsAvailable
-		{
-			get
-			{
-				return RegisteredItems.Count >= 1;
-			}
-		}
+        public bool AlgorithmsAvailable
+        {
+            get
+            {
+                return RegisteredItems.Count >= 1;
+            }
+        }
 
-        protected TE[] GetAttributes<TE>(Assembly ass)
+        protected TE[] GetAttributes<TE>(Assembly ass) where TE : Attribute
         {
             var returns = new List<TE>();
             foreach (var type in ass.DefinedTypes)
             {
-                IEnumerable<TE> attributes = (IEnumerable<TE>)type.GetCustomAttributes(typeof(TE), false);
+                var attributes = type.GetCustomAttributes(typeof(TE), false);
 
                 foreach (var attribute in attributes)
                 {
@@ -114,5 +114,5 @@ namespace XMPP.registries
 
             return returns.ToArray();
         }
-	}
+    }
 }

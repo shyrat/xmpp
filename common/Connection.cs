@@ -17,6 +17,7 @@
 //Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 using System;
+using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -193,6 +194,19 @@ namespace XMPP.common
             _cancelSocketConnect = new CancellationTokenSource();
 
             var protection = _manager.Settings.OldSSL ? SocketProtectionLevel.SslAllowNullEncryption : SocketProtectionLevel.PlainSocket;
+
+            if (_manager.Settings.AllowUntrustedCertificates)
+            {          //SUPPORT TO SELFSIGNED CERTIFICATES
+                try
+                {
+                    //in Silverlight, IgnorableServerCertificateErrors is not exposed as property, so we access it by reflection
+                    var ingorableErrors = (System.Collections.Generic.IList<Windows.Security.Cryptography.Certificates.ChainValidationResult>)_socket
+                        .Control.GetType().GetTypeInfo().GetDeclaredProperty("IgnorableServerCertificateErrors").GetValue(_socket.Control);
+                    ingorableErrors.Add(Windows.Security.Cryptography.Certificates.ChainValidationResult.Untrusted);
+                }
+                catch { }
+            }
+
             _socketConnector = _socket.ConnectAsync(_hostname, _manager.Settings.Port.ToString(), protection).AsTask(_cancelSocketConnect.Token);
             _socketConnector.ContinueWith(OnSocketConnectorCompleted);
         }

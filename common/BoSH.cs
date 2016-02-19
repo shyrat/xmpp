@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +10,7 @@ using XMPP.tags.bosh;
 using Windows.Web.Http;
 using Windows.Storage.Streams;
 using Windows.Web.Http.Headers;
+using System.Threading.Tasks.Dataflow.Internal.Collections;
 
 namespace XMPP.common
 {
