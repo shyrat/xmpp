@@ -52,5 +52,8 @@ namespace XMPP.common
         public int KeepAliveTime = 60;
 
         public int QueryCount = 50;
+
+        //XEP-0184
+        public bool AutoAck = false;
     }
 }

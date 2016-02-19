@@ -16,6 +16,7 @@
 //with this library; if not, write to the Free Software Foundation, Inc., 59
 //Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+using System.Linq;
 using XMPP.common;
 using XMPP.tags;
 namespace XMPP.states
@@ -42,6 +43,16 @@ namespace XMPP.states
         {
             if (data != null)
                 Manager.Events.Receive(this, data);
+
+            if (Manager.Settings.AutoAck && data is tags.jabber.client.message)
+            {
+                var req = data.Elements().FirstOrDefault(e => e.Name.LocalName == "request");
+                if (req != null && req.Name.NamespaceName == tags.jabber.features.received.Namespace.Name)
+                {
+                    Manager.State = new AckState(Manager);
+                    Manager.State.Execute(data);
+                }
+            }
         }
     }
 }

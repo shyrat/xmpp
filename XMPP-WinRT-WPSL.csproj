@@ -93,6 +93,7 @@
     <Compile Include="SASL\SCRAMProcessor.cs" />
     <Compile Include="SASL\XOAUTH2Processor.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="states\AckState.cs" />
     <Compile Include="states\BindingState.cs" />
     <Compile Include="states\ClosedState.cs" />
     <Compile Include="states\CompressedState.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="tags\jabber\x\conference.cs" />
     <Compile Include="tags\jabber\x\dataforms.cs" />
     <Compile Include="tags\jabber\x\delay.cs" />
+    <Compile Include="tags\received.cs" />
     <Compile Include="tags\streams.cs" />
     <Compile Include="tags\vcard_temp\vcard-temp.cs" />
     <Compile Include="tags\vcard_temp\x\update.cs" />
