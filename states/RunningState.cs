@@ -47,7 +47,7 @@ namespace XMPP.states
             if (Manager.Settings.AutoAck && data is tags.jabber.client.message)
             {
                 var req = data.Elements().FirstOrDefault(e => e.Name.LocalName == "request");
-                if (req != null && req.Name.NamespaceName == tags.jabber.features.received.Namespace.Name)
+                if (req != null && req.Name.NamespaceName == XMPP.tags.urn.xmpp.receipts.Namespace.Name)
                 {
                     Manager.State = new AckState(Manager);
                     Manager.State.Execute(data);

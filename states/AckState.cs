@@ -1,7 +1,7 @@
 ﻿using XMPP.common;
 using XMPP.tags;
 using XMPP.tags.jabber.client;
-using XMPP.tags.jabber.features.received;
+using XMPP.tags.urn.xmpp.receipts;
 
 namespace XMPP.states
 {

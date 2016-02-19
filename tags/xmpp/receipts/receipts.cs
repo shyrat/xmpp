@@ -1,12 +1,14 @@
 ﻿using System.Xml.Linq;
 using XMPP.registries;
+using XMPP.tags.jabber.client;
 
-namespace XMPP.tags.jabber.features.received
+namespace XMPP.tags.urn.xmpp.receipts
 {
     public class Namespace
     {
         public static string Name = "urn:xmpp:receipts";
         public static XName received = XName.Get("received", Name);
+        public static XName request = XName.Get("request", Name);
     }
 
     [XMPPTag(typeof(Namespace), typeof(received))]
@@ -16,6 +18,27 @@ namespace XMPP.tags.jabber.features.received
         public received(XElement other) : base(other) { }
 
         public string id { get { return (string)GetAttributeValue("id"); } set { SetAttributeValue("id", value); } }
+
+        //utility
+        internal static message GetReciptMessage(message toAck)
+        {
+            var ackMessage = new message()
+            {
+                to = toAck.from,
+                from = toAck.to
+            };
+
+            ackMessage.Add(new received() { id = toAck.id });
+
+            return ackMessage;
+        }
+    }
+
+    [XMPPTag(typeof(Namespace), typeof(request))]
+    public class request : Tag
+    {
+        public request() : base(Namespace.request) { }
+        public request(XElement other) : base(other) { }
     }
 }
 

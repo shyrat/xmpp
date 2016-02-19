@@ -142,7 +142,7 @@
     <Compile Include="tags\jabber\x\conference.cs" />
     <Compile Include="tags\jabber\x\dataforms.cs" />
     <Compile Include="tags\jabber\x\delay.cs" />
-    <Compile Include="tags\received.cs" />
+    <Compile Include="tags\xmpp\receipts\receipts.cs" />
     <Compile Include="tags\streams.cs" />
     <Compile Include="tags\vcard_temp\vcard-temp.cs" />
     <Compile Include="tags\vcard_temp\x\update.cs" />
